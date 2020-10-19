@@ -272,6 +272,24 @@
             <url>https://www.apache.org/licenses/LICENSE-2.0</url>
         </license>
     </licenses>
+    
+    <developers>
+ <developer>
+ <id>alebarled</id>
+ <name>Barranco</name>
+ <email>alebarled@alum.us.es</email>
+ <url>http://nourl.com</url>
+ <roles>
+ <role>leader</role>
+ </roles>
+ <properties>
+ <picUrl>
+https://www.centroxogo.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/3/3/336s5144.jpg
+</picUrl>
+ </properties>
+ </developer>
+ </developers>
+    
 
 
 
