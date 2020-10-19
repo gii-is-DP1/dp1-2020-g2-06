@@ -305,9 +305,37 @@ https://www.centroxogo.com/media/catalog/product/cache/1/image/9df78eab33525d08d
 			</picUrl>
  			</properties>
  		</developer>
+ 		
+ 		<developer>
+ 			<id>vicgragil</id>
+ 			<name>Victor</name>
+ 			<email>vicgragil@alum.es.com</email>
+ 			<url>https://www.twitch.tv/vistoalpiste</url>
+ 			<roles>
+ 				<role>leader</role>
+ 			</roles>
+ 			<properties>
+ 			<picUrl>
+ 				https://www.informatica.us.es/docs/imagen-etsii/logo-ETSII-Color.png
+			</picUrl>
+ 			</properties>
+ 		</developer>
+ 		
+ 		<developer>
+			<id>davbrican</id>
+			<name>David</name>
+			<email>davbrican@alum.us.es</email>
+			<url>https://www.youtube.com/user/daviiprobeticoo55</url>
+			<roles>
+				<role>leader</role>
+			</roles>
+			<properties>
+				<picUrl>
+					https://static.wixstatic.com/media/eea1c9_39d35ff69aaa4812b0c0248800364d9c.png/v1/fill/w_600,h_320,al_c,lg_1,q_85/eea1c9_39d35ff69aaa4812b0c0248800364d9c.webp
+				</picUrl>
+			</properties>
+		</developer>
+		
  </developers>
     
-
-
-
 </project>
