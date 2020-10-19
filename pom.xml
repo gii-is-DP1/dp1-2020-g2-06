@@ -13,6 +13,24 @@
         <version>2.2.4.RELEASE</version>
     </parent>
     <name>petclinic</name>
+    
+    <developers>
+ 		<developer>
+ 			<id>juaostrub</id>
+ 			<name>Juanra</name>
+ 			<email>juaostrub@us.es.com</email>
+ 			<url>http://www.tmht.com/juaostrub</url>
+ 			<roles>
+ 				<role>leader</role>
+ 			</roles>
+ 			<properties>
+ 			<picUrl>
+ 				https://estaticos.elperiodico.com/resources/jpg/3/3/pennywise-1567521501133.jpg
+			</picUrl>
+ 			</properties>
+ 		</developer>
+ <!-- More developers ...-->
+	</developers>
 
     <properties>
 
