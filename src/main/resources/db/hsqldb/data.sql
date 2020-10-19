@@ -14,6 +14,9 @@ INSERT INTO authorities(id,username,authority) VALUES (4,'jesapaort','owner');
 INSERT INTO users(username,password,enabled)VALUES('juanrauvu', 'passjuanra', TRUE)
 INSERT INTO authorities(id,username,authority) VALUES (5,'juanracat','owner');
 
+INSERT INTO users(username,password,enabled)VALUES('alebarled', 'passalebarled', TRUE)
+INSERT INTO authorities(id,username,authority) VALUES (6,'alebarled','owner');
+
 
 INSERT INTO vets VALUES (1, 'James', 'Carter');
 INSERT INTO vets VALUES (2, 'Helen', 'Leary');
