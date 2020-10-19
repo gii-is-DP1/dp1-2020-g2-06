@@ -305,9 +305,21 @@ https://www.centroxogo.com/media/catalog/product/cache/1/image/9df78eab33525d08d
 			</picUrl>
  			</properties>
  		</developer>
+ 		
+ 		<developer>
+ 			<id>vicgragil</id>
+ 			<name>Victor</name>
+ 			<email>vicgragil@alum.es.com</email>
+ 			<url>https://www.twitch.tv/vistoalpiste</url>
+ 			<roles>
+ 				<role>leader</role>
+ 			</roles>
+ 			<properties>
+ 			<picUrl>
+ 				https://www.informatica.us.es/docs/imagen-etsii/logo-ETSII-Color.png
+			</picUrl>
+ 			</properties>
+ 		</developer>
  </developers>
     
-
-
-
 </project>
