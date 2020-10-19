@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.springframework.samples</groupId>
-    <artifactId>spring-petclinic</artifactId>
+    <artifactId>G2-06</artifactId>
     <version>2.2.0.BUILD-SNAPSHOT</version>
 
     <parent>
@@ -12,25 +12,11 @@
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.2.4.RELEASE</version>
     </parent>
-    <name>petclinic</name>
-    
-    <developers>
- 		<developer>
- 			<id>juaostrub</id>
- 			<name>Juanra</name>
- 			<email>juaostrub@us.es.com</email>
- 			<url>http://www.tmht.com/juaostrub</url>
- 			<roles>
- 				<role>leader</role>
- 			</roles>
- 			<properties>
- 			<picUrl>
- 				https://estaticos.elperiodico.com/resources/jpg/3/3/pennywise-1567521501133.jpg
-			</picUrl>
- 			</properties>
- 		</developer>
- <!-- More developers ...-->
-	</developers>
+
+    <name>G2-06(provisional)</name>
+
+
+
 
     <properties>
 
@@ -50,22 +36,6 @@
 
     </properties>
 
-	<developers>
-		<developer>
-			<id>jesapaort</id>
-			<name>Jesus</name>
-			<email>jesapaort@alum.us.es</email>
-			<url>http://www.tmht.com/leo</url>
-			<roles>
-				<role>leader</role>
-			</roles>
-			<properties>
-				<picUrl>
-					https://www.uco.es/investigacion/proyectos/SEBASENet/images/Logo_US.png
-				</picUrl>
-			</properties>
-		</developer>
-    
 
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
@@ -290,7 +260,7 @@
         </license>
     </licenses>
     
-    <developers>
+ <developers>
  <developer>
  <id>alebarled</id>
  <name>Barranco</name>
@@ -305,6 +275,36 @@ https://www.centroxogo.com/media/catalog/product/cache/1/image/9df78eab33525d08d
 </picUrl>
  </properties>
  </developer>
+ 
+ <developer>
+			<id>jesapaort</id>
+			<name>Jesus</name>
+			<email>jesapaort@alum.us.es</email>
+			<url>http://www.tmht.com/leo</url>
+			<roles>
+				<role>leader</role>
+			</roles>
+			<properties>
+				<picUrl>
+					https://www.uco.es/investigacion/proyectos/SEBASENet/images/Logo_US.png
+				</picUrl>
+			</properties>
+		</developer>
+		
+		<developer>
+ 			<id>juaostrub</id>
+ 			<name>Juanra</name>
+ 			<email>juaostrub@us.es.com</email>
+ 			<url>http://www.tmht.com/juaostrub</url>
+ 			<roles>
+ 				<role>leader</role>
+ 			</roles>
+ 			<properties>
+ 			<picUrl>
+ 				https://estaticos.elperiodico.com/resources/jpg/3/3/pennywise-1567521501133.jpg
+			</picUrl>
+ 			</properties>
+ 		</developer>
  </developers>
     
 
