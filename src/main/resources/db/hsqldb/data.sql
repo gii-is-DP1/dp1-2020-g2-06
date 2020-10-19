@@ -62,3 +62,8 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02',
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03', 'neutered');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
 
+--Todo lo que tiene que crearse cada uno:
+INSERT INTO users(username,password,enabled) VALUES ('vicgragil','elp3p3',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (4,'vicgragil','owner');
+INSERT INTO owners VALUES (11, 'Victor', 'Granero', 'c.Monza 56', 'Montequinto', '684017682', 'vicgragil');
+INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (14, 'Garfild', '2018-08-10', 1, 11);
