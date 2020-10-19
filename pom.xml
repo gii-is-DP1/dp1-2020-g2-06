@@ -32,6 +32,23 @@
 
     </properties>
 
+	<developers>
+		<developer>
+			<id>jesapaort</id>
+			<name>Jesus</name>
+			<email>jesapaort@alum.us.es</email>
+			<url>http://www.tmht.com/leo</url>
+			<roles>
+				<role>leader</role>
+			</roles>
+			<properties>
+				<picUrl>
+					https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.uco.es%2Finvestigacion%2Fproyectos%2FSEBASENet%2Findex.php%3Ftitle%3DArchivo%3ALogo_US.png&psig=AOvVaw2cXHtL5ucsDYPFOpTGj4pw&ust=1603187363241000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCLDHlrywwOwCFQAAAAAdAAAAABAD
+				</picUrl>
+			</properties>
+		</developer>
+    
+
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
         <dependency>
