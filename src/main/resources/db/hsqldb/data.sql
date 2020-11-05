@@ -90,4 +90,6 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03',
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
 
 
+INSERT INTO tutores(nombre,apellidos,email,pass) VALUES ('Alejandro','Barranco Ledesma','alebarled@alum.us.es','r4rm0n');
 
+INSERT INTO noticias(id,name,autor_email,fecha_publicacion,texto) VALUES (0,'Noticias Frescas','alebarled@alum.us.es',DATE'2020-07-22','Primera noticia de que esta página existe');
