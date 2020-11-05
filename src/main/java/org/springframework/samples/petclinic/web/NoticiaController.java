@@ -51,7 +51,7 @@ public class NoticiaController {
 			return "noticias/createOrUpdateNoticiaForm";
 		}
 		else {
-			BeanUtils.copyProperties(modifiedNoticia, noticia.get(), "id");
+			BeanUtils.copyProperties(modifiedNoticia, noticia.get(), "id", "fechaPublicacion");
 			noticiaService.save(noticia.get());
 			model.addAttribute("message","Noticia actualizada con éxito");
 			return listNoticias(model);
