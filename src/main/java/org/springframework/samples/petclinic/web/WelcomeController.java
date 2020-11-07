@@ -18,7 +18,7 @@ import java.util.List;
 public class WelcomeController {
 	
 	
-	  @GetMapping("/welcome")
+	  @GetMapping("/")
 	  public String welcome(Map<String, Object> model) {
 		  
 		  List<Person> persons = new ArrayList<Person>();
