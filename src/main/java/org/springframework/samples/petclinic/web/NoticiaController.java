@@ -24,7 +24,7 @@ public class NoticiaController {
 	@Autowired
 	NoticiaService noticiaService;
 	
-	@GetMapping("/")
+	@GetMapping("")
 	public String listNoticias(ModelMap model) {
 		model.addAttribute("noticias", noticiaService.findAll());
 		return "/noticias/noticiasList";
