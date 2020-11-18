@@ -13,6 +13,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 
+/*prueba*/
 @Data
 @Entity
 @Table(name = "noticias")
