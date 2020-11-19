@@ -14,9 +14,6 @@
         <div class="form-group has-feedback">
             <petclinic:inputField label="Título" name="name"/>
             <petclinic:inputField label="Texto" name="texto"/>
-            <div style="display: none;">
-            <petclinic:inputField label="Fecha" name="fechaPublicacion"/>
-            </div>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">

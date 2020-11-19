@@ -24,7 +24,7 @@ public class NoticiaController {
 	@Autowired
 	NoticiaService noticiaService;
 	
-	@GetMapping("/")
+	@GetMapping("")
 	public String listNoticias(ModelMap model) {
 		model.addAttribute("noticias", noticiaService.findAll());
 		return "/noticias/noticiasList";
@@ -51,7 +51,7 @@ public class NoticiaController {
 			return "noticias/createOrUpdateNoticiaForm";
 		}
 		else {
-			BeanUtils.copyProperties(modifiedNoticia, noticia.get(), "id");
+			BeanUtils.copyProperties(modifiedNoticia, noticia.get(), "id", "fechaPublicacion");
 			noticiaService.save(noticia.get());
 			model.addAttribute("message","Noticia actualizada con éxito");
 			return listNoticias(model);
