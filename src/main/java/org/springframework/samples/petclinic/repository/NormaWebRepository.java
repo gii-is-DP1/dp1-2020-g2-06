@@ -4,5 +4,5 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.samples.petclinic.model.NormaWeb;
 
 public interface NormaWebRepository extends CrudRepository<NormaWeb,Integer>{
-//
+
 }
