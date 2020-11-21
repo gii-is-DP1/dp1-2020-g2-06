@@ -24,5 +24,4 @@ public class Tutor {
 	@NotEmpty
 	private String pass;
 
-	
 }
