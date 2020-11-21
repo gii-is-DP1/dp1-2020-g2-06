@@ -14,7 +14,7 @@
         <table id="diseasesTable" class="table table-striped">
             <tr>
                 <th>                    
-                    <c:out value="${normasWeb.name}"/>&nbsp;<c:out value="${normasWeb.descripcion}"/>
+                    <c:out value="${normasWeb.name}"/>&nbsp;<!-- <c:out value="${normasWeb.descripcion}"/> -->
                 </th>
                 <th>
                 	<a href="/normasWeb/${normasWeb.id}/edit">
