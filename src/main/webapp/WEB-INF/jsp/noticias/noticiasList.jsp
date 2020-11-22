@@ -11,7 +11,7 @@
 	    
        
         <c:forEach items="${noticias}" var="noticia">
-        <table id="diseasesTable" class="table table-striped">
+        <table id="noticiasTable" class="table table-striped">
             <tr>
                 <th>                    
                     <c:out value="${noticia.name}"/>&nbsp;<c:out value="${noticia.fechaPublicacion}"/>
