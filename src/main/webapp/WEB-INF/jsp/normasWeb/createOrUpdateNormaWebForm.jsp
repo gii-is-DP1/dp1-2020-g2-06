@@ -8,12 +8,12 @@
 
 <petclinic:layout pageName="normasWeb">
     <h2>
-        <c:if test="${normaWeb['new']}">New </c:if> NormaWeb
+        <c:if test="${normas_web['new']}">Nueva </c:if> Norma Web
     </h2>
-    <form:form modelAttribute="normas_web" class="form-horizontal" id="add-owner-form">
+    <form:form modelAttribute="normas_web" class="form-horizontal" id="add-normaWeb-form">
         <div class="form-group has-feedback">
-            <petclinic:inputField label="Título" name="name"/>
-            <petclinic:inputField label="Texto" name="descripcion"/>
+            <petclinic:inputField label="Nombre de la Regla" name="name"/>
+            <petclinic:inputField label="Descripción" name="descripcion"/>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
