@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Table(name = "normas_web")
 public class NormaWeb extends NamedEntity {
-
+	
 	@NotEmpty
 	@Column(name = "descripcion")
 	@NotNull

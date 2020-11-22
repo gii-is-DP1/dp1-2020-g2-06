@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/normasWeb")
 public class NormaWebController {
 	
+	private static final String VIEWS_NORMAWEB_CREATE_OR_UPDATE_FORM = "normasWeb/createOrUpdateNormaWebForm";
+	
 	@Autowired
 	private NormaWebService normaWebService;
 	
@@ -30,12 +32,32 @@ public class NormaWebController {
 		return vista;
 	}
 	
+	@GetMapping(value = "/new")
+	public String initCreationForm(ModelMap model) {
+		NormaWeb normas_web = new NormaWeb();
+		model.addAttribute("normas_web", normas_web);
+		return VIEWS_NORMAWEB_CREATE_OR_UPDATE_FORM;
+	}
+
+	@PostMapping(value = "/new")
+	public String processCreationForm(@Valid NormaWeb normaWeb, BindingResult result) {
+		if (result.hasErrors()) {
+			return VIEWS_NORMAWEB_CREATE_OR_UPDATE_FORM;
+		}
+		else {
+			//creating normaWeb
+			normaWebService.saveNormaWeb(normaWeb);
+			
+			return "redirect:/normasWeb/";
+		}
+	}
+	
 	@GetMapping("/{id}/edit")
 	public String editNormaWeb(@PathVariable("id") int id, ModelMap model) {
 		Optional<NormaWeb> normaWeb = normaWebService.findById(id);
 		if(normaWeb.isPresent()) {
 			model.addAttribute("normas_web", normaWeb.get());
-			return "normasWeb/createOrUpdateNormasWeb";
+			return VIEWS_NORMAWEB_CREATE_OR_UPDATE_FORM;
 		}
 		else {
 			model.addAttribute("message", "No podemos encontrar la norma Web que intenta borrar");
@@ -48,11 +70,11 @@ public class NormaWebController {
 	public String editNormasWeb(@PathVariable("id") int id, @Valid NormaWeb modifiedNormaWeb, BindingResult binding, ModelMap model) {
 		Optional<NormaWeb> normaWeb = normaWebService.findById(id);
 		if(binding.hasErrors()) {
-			return "normaWeb/createOrUpdateNormaWebForm";
+			return VIEWS_NORMAWEB_CREATE_OR_UPDATE_FORM;
 		}
 		else {
 			BeanUtils.copyProperties(modifiedNormaWeb, normaWeb.get(), "id", "fechaPublicacion");
-			normaWebService.save(normaWeb.get());
+			normaWebService.saveNormaWeb(normaWeb.get());
 			model.addAttribute("message","NormaWeb actualizada con éxito");
 			return listNormasWeb(model);
 		}
