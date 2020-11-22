@@ -22,6 +22,7 @@
 				</a></th>
 			</tr>
 
+
 			<tr>
 				<td><c:out value="${normasWeb.descripcion}" /></td>
 
@@ -30,6 +31,6 @@
 	</c:forEach>
 
 	<%-- <sec:authorize access="hasAuthority('admin')">  --%>
-			<a class="btn btn-default" href='<spring:url value="/normasWeb/new" htmlEscape="true"/>'>Añadir Norma Web</a>
+			<a class="btn btn-default" href='<spring:url value="/normasWeb/new" htmlEscape="true"/>'>Aï¿½adir Norma Web</a>
 		<%-- </sec:authorize> --%>
 </petclinic:layout>
