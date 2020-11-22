@@ -13,8 +13,6 @@ public interface TutorRepository extends Repository<Tutor, String> {
 	
 	Optional<Tutor> findByEmail(String email) throws DataAccessException;
 	
-	void deleteByEmail(String email) throws DataAccessException;
-	
 	void save(Tutor tutor) throws DataAccessException;
 	
 }

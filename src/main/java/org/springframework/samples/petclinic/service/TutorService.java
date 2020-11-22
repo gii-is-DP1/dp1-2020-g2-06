@@ -25,10 +25,6 @@ public class TutorService {
 		return tutoRepo.findByEmail(email);
 	}
 	
-	public void delete(Tutor tutor) {
-		tutoRepo.deleteByEmail(tutor.getEmail());
-	}
-	
 	public void save(@Valid Tutor tutor) {
 		tutoRepo.save(tutor);
 	}
