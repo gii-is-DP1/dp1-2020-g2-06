@@ -37,13 +37,9 @@
                 	<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                 	</a>
                 </th>
-                <th>
-                	<a href="/tutores/${tutor.email}/delete">
-                		<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                	</a>
-                </th>
          	</tr>     
         </c:forEach>
         </tbody>
     </table>
+    <a class="btn btn-default" href='<spring:url value="/tutores/new" htmlEscape="true"/>'>Crear Tutor</a>
 </petclinic:layout>
