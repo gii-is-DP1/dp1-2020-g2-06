@@ -31,4 +31,5 @@ public class Articulo extends NamedEntity{
 	@NotEmpty
 	private String texto;
 
+	
 }
