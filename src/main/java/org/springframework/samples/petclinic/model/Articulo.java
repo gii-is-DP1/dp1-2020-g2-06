@@ -16,8 +16,8 @@ import lombok.Data;
 /*prueba*/
 @Data
 @Entity
-@Table(name = "noticias")
-public class Noticia extends NamedEntity{
+@Table(name = "articulos")
+public class Articulo extends NamedEntity{
 	
 	@ManyToOne
 	@JoinColumn(name="autor_email")
@@ -31,4 +31,5 @@ public class Noticia extends NamedEntity{
 	@NotEmpty
 	private String texto;
 
+	
 }
