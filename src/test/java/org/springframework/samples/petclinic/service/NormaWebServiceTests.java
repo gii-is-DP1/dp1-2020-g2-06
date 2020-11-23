@@ -16,6 +16,6 @@ public class NormaWebServiceTests {
 	@Test
 	public void testCountWithInitialData() {
 		int count = normaWebService.normaWebCount();
-		assertEquals(count, 1);
+		assertEquals(count, 3);
 	}
 }
