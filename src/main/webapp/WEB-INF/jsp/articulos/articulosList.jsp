@@ -5,24 +5,24 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 <!-- %@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %-->  
 
-<petclinic:layout pageName="noticias">
-    <h2>Noticias</h2>
+<petclinic:layout pageName="articulos">
+    <h2>Articulos</h2>
    
 	    
        
-        <c:forEach items="${noticias}" var="noticia">
-        <table id="noticiasTable" class="table table-striped">
+        <c:forEach items="${articulos}" var="articulo">
+        <table id="diseasesTable" class="table table-striped">
             <tr>
                 <th>                    
-                    <c:out value="${noticia.name}"/>&nbsp;<c:out value="${noticia.fechaPublicacion}"/>
+                    <c:out value="${articulo.name}"/>&nbsp;<c:out value="${articulo.fechaPublicacion}"/>
                 </th>
                 <th>
-                	<a href="/noticias/${noticia.id}/edit">
+                	<a href="/articulos/${articulo.id}/edit">
                 	<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                 	</a>
                 </th>
                 <th>
-                	<a href="/noticias/${noticia.id}/delete">
+                	<a href="/articulos/${articulo.id}/delete">
                 		<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                 	</a>
                 </th>
@@ -30,7 +30,7 @@
                 
             <tr>
                 <td>
-                    <c:out value="${noticia.texto}"/>
+                    <c:out value="${articulo.texto}"/>
                 </td>                
 
             </tr>

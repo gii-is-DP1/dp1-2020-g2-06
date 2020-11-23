@@ -39,5 +39,4 @@ public class Tutor{
 		return this.email == null;
 	}
 
-	
 }
