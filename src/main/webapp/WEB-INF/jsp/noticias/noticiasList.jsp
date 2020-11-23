@@ -30,6 +30,7 @@
                 
             <tr>
                 <td>
+               <p style="text-align:center"> <img src="${noticia.imagen}" width=400px/></p>
                     <c:out value="${noticia.texto}"/>
                 </td>                
 
