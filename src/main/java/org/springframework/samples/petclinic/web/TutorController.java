@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.web;
 
 
+import java.util.Map;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -56,17 +57,21 @@ public class TutorController {
 		}
 	}
 	
+	@GetMapping("/new")
+	public String initCreationForm(Map<String, Object> model) {
+		Tutor tutor = new Tutor();
+		model.put("tutor", tutor);
+		return "tutores/createOrUpdateTutorForm";
+	}
 	
-	@GetMapping("/{email}/delete")
-	public String deleteTutor(@PathVariable("email") String email, ModelMap model) {
-		Optional<Tutor> tutor = tutorService.finByEmail(email);
-		if(tutor.isPresent()) {
-			tutorService.delete(tutor.get());
-			model.addAttribute("message","Tutor borrado correctamente");
+	@PostMapping("/new")
+	public String processCreationForm(@Valid Tutor tutor, BindingResult result) {
+		if(result.hasErrors()) {
+			return "tutores/createOrUpdateTutorForm";
 		}else {
-			model.addAttribute("message","El tutor seleccionado no se ha podido eliminar");
+			this.tutorService.save(tutor);
+			return "redirect:/tutores";
 		}
-		return listTutores(model);
 	}
 	
 }
