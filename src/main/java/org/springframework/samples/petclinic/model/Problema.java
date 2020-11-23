@@ -35,27 +35,22 @@ public class Problema extends NamedEntity {
 	
 	@NotEmpty
 	@Column(name = "dificultad")
-	@NotNull
 	private String  dificultad;
 	
 	@NotEmpty
 	@Column(name = "temporada")
-	@NotNull
 	private String temporada;
 	
 	@NotEmpty
 	@Column(name = "descripcion")
-	@NotNull
 	private String descripcion;
 	
 	@NotEmpty
 	@Column(name = "casos_prueba")
-	@NotNull
 	private String casos_prueba;
 	
 	@NotEmpty
 	@Column(name = "salida_esperada")
-	@NotNull
 	private String salida_esperada;
 	
 	@NotEmpty
