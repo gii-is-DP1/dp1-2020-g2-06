@@ -1,15 +1,22 @@
 package org.springframework.samples.petclinic.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.Collection;
+
+import javax.validation.ConstraintViolationException;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.samples.petclinic.model.NormaWeb;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
-public class NormaWebServiceTests {
+class NormaWebServiceTests {
 	@Autowired
 	private NormaWebService normaWebService;
 	
@@ -17,5 +24,30 @@ public class NormaWebServiceTests {
 	public void testCountWithInitialData() {
 		int count = normaWebService.normaWebCount();
 		assertEquals(count, 3);
+	}
+	
+	@Test
+	public void shouldInsertNormaWeb() {
+		Collection<NormaWeb> normasWeb = this.normaWebService.findAll();
+		int found = normasWeb.size();
+
+		NormaWeb normaWeb = new NormaWeb();
+		normaWeb.setName("ComNormaWebiciones");
+		normaWeb.setDescripcion("Solo se puede participar en una comNormaWebicion a la vez");
+                
+		this.normaWebService.saveNormaWeb(normaWeb);	
+		
+		Collection<NormaWeb> normasWeb2 = this.normaWebService.findAll();
+		
+		assertThat(normasWeb2.size()).isEqualTo(found + 1);
+	}
+	
+	@Test
+	public void shouldThrowExceptionInsertingNormaWebWithoutDescripcion() {
+		NormaWeb normaWeb = new NormaWeb();
+		normaWeb.setName("Lorem");
+		Assertions.assertThrows(ConstraintViolationException.class, () ->{
+			this.normaWebService.saveNormaWeb(normaWeb);
+		});	
 	}
 }
