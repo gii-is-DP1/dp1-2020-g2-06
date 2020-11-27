@@ -1,9 +1,12 @@
 package org.springframework.samples.petclinic.service;
 
+import java.util.Collection;
 import java.util.Optional;
 
+import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.NormaWeb;
 import org.springframework.samples.petclinic.repository.NormaWebRepository;
 import org.springframework.stereotype.Service;
@@ -21,7 +24,7 @@ public class NormaWebService {
 	}
 	
 	@Transactional
-	public Iterable<NormaWeb> findAll() {
+	public Collection<NormaWeb> findAll() {
 		return normaWebRepository.findAll();
 	}
 	
@@ -33,10 +36,10 @@ public class NormaWebService {
 		normaWebRepository.deleteById(normaWeb.getId());
 	}
 	
-	@Transactional
-	public void saveNormaWeb(NormaWeb normaWeb) throws DataAccessException {
+	@Transactional(rollbackFor = ConstraintViolationException.class)
+	public void saveNormaWeb(@Valid NormaWeb normaWeb)  {
 		//creating normaWeb
-		normaWebRepository.save(normaWeb);
+			normaWebRepository.save(normaWeb);
 	}		
 
 }
