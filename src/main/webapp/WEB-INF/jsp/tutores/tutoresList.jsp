@@ -11,6 +11,9 @@
     <table id="tutoresTable" class="table table-striped">
     	<tbody>
     	<tr>
+    		<th>
+    			Foto
+    		</th>
 			<th>
 				Nombre
 			</th>
@@ -23,6 +26,9 @@
 		</tr>
        <c:forEach items="${tutores}" var="tutor">
         	<tr>
+        	<td>
+        		<img src="<c:out value="${tutor.foto}"/>" id="Imagen" width="165" height="100">
+        	</td>
             <td>                    
                <c:out value="${tutor.nombre}"/>
             </td>

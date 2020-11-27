@@ -35,6 +35,9 @@ public class Tutor{
 	@NotEmpty
 	private String pass;
 	
+	@Column(name = "foto")
+	private String foto;
+	
 	public boolean isNew() {
 		return this.email == null;
 	}
