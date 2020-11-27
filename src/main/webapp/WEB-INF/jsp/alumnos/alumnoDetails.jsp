@@ -12,6 +12,10 @@
 	</h2>
 
 	 <table class="table table-striped">
+	 <tr>
+            <th>Email</th>
+            <td><c:out value="${alumno.email}"/></td>
+        </tr>
     	<tr>
             <th>Puntuación Temporada</th>
             <td><c:out value="${alumno.puntosTemporada}"/></td>
