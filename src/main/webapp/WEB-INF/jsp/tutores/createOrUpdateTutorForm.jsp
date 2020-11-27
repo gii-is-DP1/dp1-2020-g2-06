@@ -18,11 +18,13 @@
                         <petclinic:inputField label="Nombre" name="nombre"/>
           				<petclinic:inputField label="Apellidos" name="apellidos"/>
           				<petclinic:inputField label="Pass" name="pass"/>
+          				<petclinic:inputField label="Foto" name="foto"/>
                </c:when>
                <c:otherwise>
                         <petclinic:inputField label="Nombre" name="nombre"/>
           				<petclinic:inputField label="Apellidos" name="apellidos"/>
           				<petclinic:inputField label="Pass" name="pass"/>
+          				<petclinic:inputField label="Foto" name="foto"/>
                </c:otherwise>
           </c:choose>            
         </div>
