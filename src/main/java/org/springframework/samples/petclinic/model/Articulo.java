@@ -28,6 +28,10 @@ public class Articulo extends NamedEntity{
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate fechaPublicacion;
 	
+	@Column(name= "imagen_articulo")
+	@NotEmpty
+	private String imagen;
+	
 	@Column(length=5600)
 	@NotEmpty
 	private String texto;
