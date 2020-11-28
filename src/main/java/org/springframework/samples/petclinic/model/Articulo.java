@@ -12,9 +12,10 @@ import javax.validation.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-/*prueba*/
 @Data
+@EqualsAndHashCode(callSuper=true)
 @Entity
 @Table(name = "articulos")
 public class Articulo extends NamedEntity{

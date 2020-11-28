@@ -35,7 +35,7 @@ public class NormaWebController {
 	@GetMapping(value = "/new")
 	public String initCreationForm(ModelMap model) {
 		NormaWeb normas_web = new NormaWeb();
-		model.addAttribute("normas_web", normas_web);
+		model.addAttribute("normaWeb", normas_web);
 		return VIEWS_NORMAWEB_CREATE_OR_UPDATE_FORM;
 	}
 
@@ -56,7 +56,7 @@ public class NormaWebController {
 	public String editNormaWeb(@PathVariable("id") int id, ModelMap model) {
 		Optional<NormaWeb> normaWeb = normaWebService.findById(id);
 		if(normaWeb.isPresent()) {
-			model.addAttribute("normas_web", normaWeb.get());
+			model.addAttribute("normaWeb", normaWeb.get());
 			return VIEWS_NORMAWEB_CREATE_OR_UPDATE_FORM;
 		}
 		else {
@@ -73,9 +73,9 @@ public class NormaWebController {
 			return VIEWS_NORMAWEB_CREATE_OR_UPDATE_FORM;
 		}
 		else {
-			BeanUtils.copyProperties(modifiedNormaWeb, normaWeb.get(), "id", "fechaPublicacion");
+			BeanUtils.copyProperties(modifiedNormaWeb, normaWeb.get(), "id");
 			normaWebService.saveNormaWeb(normaWeb.get());
-			model.addAttribute("message","NormaWeb actualizada con éxito");
+			model.addAttribute("message","Norma Web actualizada con éxito");
 			return listNormasWeb(model);
 		}
 		
@@ -86,7 +86,7 @@ public class NormaWebController {
 		Optional<NormaWeb> normaWeb = normaWebService.findById(id);
 		if(normaWeb.isPresent()) {
 			normaWebService.delete(normaWeb.get());
-			model.addAttribute("message", "La norma Web se ha borrado con exito");
+			model.addAttribute("message", "La Norma Web se ha borrado con exito");
 		}
 		else {
 			model.addAttribute("message", "No podemos encontrar la norma Web que intenta borrar");

@@ -1,14 +1,20 @@
 package org.springframework.samples.petclinic.model;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper=true)
 @Entity
 @Table(name = "alumnos")
 public class Alumno extends BaseEntity{
@@ -38,6 +44,9 @@ public class Alumno extends BaseEntity{
 
 	@NotEmpty
 	private String pass;
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "alumno")
+	private Set<Envio> envios;
 
 	
 }
