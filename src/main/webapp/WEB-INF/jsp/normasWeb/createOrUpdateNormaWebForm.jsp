@@ -6,11 +6,11 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="normasWeb">
+<petclinic:layout pageName="normaWeb">
     <h2>
-        <c:if test="${normas_web['new']}">Nueva </c:if> Norma Web
+        <c:if test="${normaweb['new']}">Nueva </c:if> Norma Web
     </h2>
-    <form:form modelAttribute="normas_web" class="form-horizontal" id="add-normaWeb-form">
+    <form:form modelAttribute="normaWeb" class="form-horizontal" id="add-normaWeb-form">
         <div class="form-group has-feedback">
             <petclinic:inputField label="Nombre de la Regla" name="name"/>
             <petclinic:inputField label="Descripción" name="descripcion"/>
@@ -18,11 +18,11 @@
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <c:choose>
-                    <c:when test="${normas_web['new']}">
-                        <button class="btn btn-default" type="submit">Añadir NormaWeb</button>
+                    <c:when test="${normaWeb['new']}">
+                        <button class="btn btn-default" type="submit">Añadir Norma Web</button>
                     </c:when>
                     <c:otherwise>
-                        <button class="btn btn-default" type="submit">Actualizar NormaWeb</button>
+                        <button class="btn btn-default" type="submit">Actualizar Norma Web</button>
                     </c:otherwise>
                 </c:choose>
             </div>
