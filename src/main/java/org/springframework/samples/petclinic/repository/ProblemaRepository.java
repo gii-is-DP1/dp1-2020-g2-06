@@ -18,4 +18,5 @@ public interface ProblemaRepository extends Repository<Problema,Integer>{
 	void save(Problema problema) throws DataAccessException;
 	
 	int count() throws DataAccessException;
+	
 }
