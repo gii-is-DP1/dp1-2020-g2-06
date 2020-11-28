@@ -39,14 +39,14 @@ class TutorServiceTests {
 	
 	@Test
 	void shouldUpdateOwner() {
-		Tutor tutor = this.tutorService.finByEmail("alebarled@alum.us.es").get();
+		Tutor tutor = this.tutorService.findById(1).get();
 		String antiguoNombre = tutor.getNombre();
 		String nuevoNombre = tutor.getNombre()+"x";
 		
 		tutor.setNombre(nuevoNombre);
 		this.tutorService.save(tutor);
 		
-		tutor = this.tutorService.finByEmail("alebarled@alum.us.es").get();
+		tutor = this.tutorService.findById(1).get();
 		assertThat(tutor.getNombre()).isEqualTo(nuevoNombre);
 		assertNotEquals(antiguoNombre, tutor.getNombre(), "Este nombre no coincide con el nombre actual del tutor");
 	}

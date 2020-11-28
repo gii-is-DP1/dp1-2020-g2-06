@@ -12,21 +12,11 @@
     </h2>
     <form:form modelAttribute="tutor" class="form-horizontal" id="add-owner-form">
         <div class="form-group has-feedback">
-		<c:choose>
-              <c:when test="${tutor['new']}">
-              			<petclinic:inputField label="Email" name="email"/>
-                        <petclinic:inputField label="Nombre" name="nombre"/>
-          				<petclinic:inputField label="Apellidos" name="apellidos"/>
-          				<petclinic:inputField label="Pass" name="pass"/>
-          				<petclinic:inputField label="Foto" name="foto"/>
-               </c:when>
-               <c:otherwise>
-                        <petclinic:inputField label="Nombre" name="nombre"/>
-          				<petclinic:inputField label="Apellidos" name="apellidos"/>
-          				<petclinic:inputField label="Pass" name="pass"/>
-          				<petclinic:inputField label="Foto" name="foto"/>
-               </c:otherwise>
-          </c:choose>            
+        	<petclinic:inputField label="Email" name="email"/>
+    		<petclinic:inputField label="Nombre" name="nombre"/>
+          	<petclinic:inputField label="Apellidos" name="apellidos"/>
+          	<petclinic:inputField label="Pass" name="pass"/>
+          	<petclinic:inputField label="Foto" name="foto"/>          
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
