@@ -21,8 +21,8 @@ public class TutorService {
 		return tutoRepo.findAll();
 	}
 	
-	public Optional<Tutor> finByEmail(String email){
-		return tutoRepo.findByEmail(email);
+	public Optional<Tutor> findById(int id){
+		return tutoRepo.findById(id);
 	}
 	
 	public void save(@Valid Tutor tutor) {

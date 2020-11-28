@@ -1,7 +1,7 @@
 package org.springframework.samples.petclinic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.util.Collection;
 
@@ -13,15 +13,15 @@ import org.springframework.samples.petclinic.model.Tutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 class TutorServiceTests {
 	
 	@Autowired
-	protected TutorService tutorService;
+	TutorService tutorService;
 
 	@Test
-	@Transactional
-	public void shouldInsertOwner() {
+	public void shouldInsertTutor() {
 		Collection<Tutor> tutores = this.tutorService.findAll();
 		int found = tutores.size();
 
@@ -36,4 +36,19 @@ class TutorServiceTests {
 		
 		assertThat(tutores.size()).isEqualTo(found + 1);
 	}
+	
+	@Test
+	void shouldUpdateOwner() {
+		Tutor tutor = this.tutorService.findById(1).get();
+		String antiguoNombre = tutor.getNombre();
+		String nuevoNombre = tutor.getNombre()+"x";
+		
+		tutor.setNombre(nuevoNombre);
+		this.tutorService.save(tutor);
+		
+		tutor = this.tutorService.findById(1).get();
+		assertThat(tutor.getNombre()).isEqualTo(nuevoNombre);
+		assertNotEquals(antiguoNombre, tutor.getNombre(), "Este nombre no coincide con el nombre actual del tutor");
+	}
+	
 }
