@@ -2,21 +2,17 @@ package org.springframework.samples.petclinic.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import lombok.Data;
 
 @Data
 @Entity
-@OnDelete(action = OnDeleteAction.CASCADE)
 @Table(name = "tutores")
-public class Tutor{
+public class Tutor extends BaseEntity{
 	
 	@Column(name = "nombre")
 	@NotEmpty
@@ -26,9 +22,9 @@ public class Tutor{
 	@NotEmpty
 	private String apellidos;
 	
-	@Column(name = "email")
 	@Email
-	@Id
+	@NotEmpty
+	@Column(unique=true)
 	private String email;
 	
 	@Column(name = "pass")
@@ -38,8 +34,5 @@ public class Tutor{
 	@Column(name = "foto")
 	private String foto;
 	
-	public boolean isNew() {
-		return this.email == null;
-	}
 
 }

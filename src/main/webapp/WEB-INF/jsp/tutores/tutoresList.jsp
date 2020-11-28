@@ -10,40 +10,20 @@
 
     <table id="tutoresTable" class="table table-striped">
     	<tbody>
-    	<tr>
-    		<th>
-    			Foto
-    		</th>
-			<th>
-				Nombre
-			</th>
-			<th>
-				Apellidos
-			</th>
-			<th>
-				Email
-			</th>
-		</tr>
        <c:forEach items="${tutores}" var="tutor">
         	<tr>
-        	<td>
-        		<img src="<c:out value="${tutor.foto}"/>" id="Imagen" width="165" height="100">
-        	</td>
-            <td>                    
-               <c:out value="${tutor.nombre}"/>
-            </td>
-            <td>
-             	<c:out value="${tutor.apellidos}"/>
-         	</td>
-         	<td>
-         		<c:out value="${tutor.email}"/>
-         	</td>
-         	<th>
-                	<a href="/tutores/${tutor.email}/edit">
+                <td>                    
+                    <img src="${tutor.foto}" width="100px" style="border-radius:100%;"/>&nbsp;
+					<a href="/tutores/${tutor.id}">
+					<c:out value="${tutor.nombre}"/>&nbsp;<c:out value="${tutor.apellidos}"/> 
+               		</a>
+                </td>
+                <td>
+                	<a href="/tutores/${tutor.id}/edit">
                 	<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                 	</a>
-                </th>
-         	</tr>     
+                </td>
+            </tr>     
         </c:forEach>
         </tbody>
     </table>

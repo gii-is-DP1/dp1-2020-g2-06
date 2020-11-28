@@ -31,5 +31,6 @@ public class NoticiaService {
 	public void save(@Valid Noticia noticia) {
 		noticiaRepo.save(noticia);
 	}
+	
 
 }
