@@ -16,11 +16,40 @@
             <th>Email</th>
             <td><c:out value="${tutor.email}"/></td>
         </tr>
-       
     </table>
-	
-   
+    
     <spring:url value="/tutores/${tutor.id}/edit" var="editUrl"> </spring:url>
     <a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar Tutor</a>
-
+   
+    <br> <br>
+    <br> <br>
+   
+    <h2> Noticias</h2>
+    <table class="table table-striped">
+    <c:forEach items="${noticiasTutor}" var="noticia">
+    	<tr>
+    		<td>
+    		<a href="/noticias/${noticia.id}">
+    		<c:out value="${noticia.name}"/>
+    		</a>
+    		</td>
+    	</tr>
+   	</c:forEach>
+    </table>
+   
+    <br> <br>
+   
+    <h2> Articulos</h2>
+    <table class="table table-striped">
+    <c:forEach items="${articulosTutor}" var="articulo">
+    	<tr>
+    		<td>
+    		<a href="/articulos/${articulo.id}">
+    		<c:out value="${articulo.name}"/>
+    		</a>
+    		</td>
+    	</tr>
+   	</c:forEach>
+    </table>
+    
 </petclinic:layout>

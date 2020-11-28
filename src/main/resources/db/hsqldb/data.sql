@@ -92,7 +92,7 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04',
 
 INSERT INTO tutores(id,nombre,apellidos,email,pass,foto) VALUES (0,'Alejandro','Barranco Ledesma','alebarled@alum.us.es','r4rm0n','https://estaticos.elperiodico.com/resources/jpg/6/4/img-8878-1585501756946.jpg');
 INSERT INTO tutores(id,nombre,apellidos,email,pass,foto) VALUES (1,'Juan Ramón','Ostos Rubio','juaostrub@alum.us.es','admin','https://png.pngtree.com/png-vector/20191110/ourlarge/pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_1978396.jpg');
-INSERT INTO tutores(id,nombre,apellidos,email,pass,foto) VALUES (2,'David','Brincau Cano','davbrincan@alum.us.es','1234','https://www.ecured.cu/images/d/db/Cristobal-Soria.jpg');
+INSERT INTO tutores(id,nombre,apellidos,email,pass,foto) VALUES (2,'David','Brincau Cano','davbrincan@alum.us.es','1234','https://yt3.ggpht.com/ytc/AAUvwnh3yE2BgOZmepJht3T-k6LRzPih9KwV4mbk1g4dYg=s88-c-k-c0x00ffffff-no-rj');
 INSERT INTO tutores(id,nombre,apellidos,email,pass,foto) VALUES (3,'Jesús','Aparicio Ortiz','jesaport@alum.us.es','j3sus','https://televisa.brightspotcdn.com/dims4/default/6f0ceca/2147483647/strip/true/crop/1920x1079+0+0/resize/820x461!/quality/90/?url=https%3A%2F%2Fvideoassets.televisa.com%2F500981%2Fsnapshot1604531045644.jpg');
 
 INSERT INTO noticias(id,name,autor_id,fecha_publicacion,texto,imagen) VALUES (0,'Noticias Frescas',0,DATE'2020-07-22','Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum','https://upload.wikimedia.org/wikipedia/commons/4/44/Queso_fresco.JPG');
@@ -112,4 +112,7 @@ INSERT INTO articulos(id,name,autor_id,fecha_publicacion,texto) VALUES (2,'No cr
 
 INSERT INTO alumnos(id,nombre,apellidos,email,imagen,puntos_anual,puntos_temporada,puntos_totales,pass) VALUES (0,'Daniel','Montes','rarmon@alum.us.es','https://www.superprof.co/imagenes/anuncios/profesor-home-estudiante-universidad-pedagogica-nacional-licenciatura-matematicas-refuerzos-algebra-calculo-polinomios-ecuaciones.jpg',100,12,224,'octavel0ver');
 INSERT INTO alumnos(id,nombre,apellidos,email,imagen,puntos_anual,puntos_temporada,puntos_totales,pass) VALUES (1,'Marina','Moya','marmozam@alum.us.es','https://pbs.twimg.com/profile_images/833645500003934208/A2AQpWnM_400x400.jpg',240,12,524,'coding4food');
+INSERT INTO alumnos(id,nombre,apellidos,email,imagen,puntos_anual,puntos_temporada,puntos_totales,pass) VALUES (2,'Alexis','Balboa','alexisbalbo@alum.us.es','https://pbs.twimg.com/profile_images/2751359125/fde5c9fa3b796a33ed394c63a0c49af3.jpeg',0,0,0,'nothing2lose');
+
+INSERT INTO creadores(id,nombre,apellidos,email,pass,foto) VALUES (0,'David','Brincau Cano','davbrican@us.es','dbgames55','https://yt3.ggpht.com/ytc/AAUvwnh3yE2BgOZmepJht3T-k6LRzPih9KwV4mbk1g4dYg=s88-c-k-c0x00ffffff-no-rj');
 

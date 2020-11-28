@@ -24,11 +24,6 @@
                 	<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                 	</a>
                 </td>
-                <td>
-                	<a href="/alumnos/${alumno.id}/delete">
-                		<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                	</a>
-                </td>
             </tr>
                 
             
