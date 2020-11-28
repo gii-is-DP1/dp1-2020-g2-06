@@ -112,4 +112,5 @@ INSERT INTO articulos(id,name,autor_id,fecha_publicacion,texto) VALUES (2,'No cr
 
 INSERT INTO alumnos(id,nombre,apellidos,email,imagen,puntos_anual,puntos_temporada,puntos_totales,pass) VALUES (0,'Daniel','Montes','rarmon@alum.us.es','https://www.superprof.co/imagenes/anuncios/profesor-home-estudiante-universidad-pedagogica-nacional-licenciatura-matematicas-refuerzos-algebra-calculo-polinomios-ecuaciones.jpg',100,12,224,'octavel0ver');
 INSERT INTO alumnos(id,nombre,apellidos,email,imagen,puntos_anual,puntos_temporada,puntos_totales,pass) VALUES (1,'Marina','Moya','marmozam@alum.us.es','https://pbs.twimg.com/profile_images/833645500003934208/A2AQpWnM_400x400.jpg',240,12,524,'coding4food');
+INSERT INTO alumnos(id,nombre,apellidos,email,imagen,puntos_anual,puntos_temporada,puntos_totales,pass) VALUES (2,'Alexis','Balboa','alexisbalbo@alum.us.es','https://pbs.twimg.com/profile_images/2751359125/fde5c9fa3b796a33ed394c63a0c49af3.jpeg',0,0,0,'nothing2lose');
 
