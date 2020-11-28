@@ -13,14 +13,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 
-/*prueba*/
 @Data
 @Entity
 @Table(name = "noticias")
 public class Noticia extends NamedEntity{
 	
 	@ManyToOne
-	@JoinColumn(name="autor_email")
+	@JoinColumn(name="autor_id")
 	private Tutor autor;
 	
 	@Column(name = "fecha_publicacion")
@@ -30,5 +29,7 @@ public class Noticia extends NamedEntity{
 	@Column(length=5600)
 	@NotEmpty
 	private String texto;
+	@NotEmpty
+	private String imagen;
 
 }

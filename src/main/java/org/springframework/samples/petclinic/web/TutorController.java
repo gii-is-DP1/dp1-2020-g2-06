@@ -32,9 +32,9 @@ public class TutorController {
 	}
 	
 	
-	@GetMapping("/{email}/edit")
-	public String editTutor(@PathVariable("email") String email, ModelMap model) {
-		Optional<Tutor> tutor = tutorService.finByEmail(email);
+	@GetMapping("/{id}/edit")
+	public String editTutor(@PathVariable("id") int id, ModelMap model) {
+		Optional<Tutor> tutor = tutorService.findById(id);
 		if(tutor.isPresent()) {
 			model.addAttribute("tutor", tutor.get());
 			return"tutores/createOrUpdateTutorForm";
@@ -44,17 +44,30 @@ public class TutorController {
 		}
 	}
 	
-	@PostMapping("/{email}/edit")
-	public String editNoticia(@PathVariable("email") String email, @Valid Tutor modifiedTutor, BindingResult binding, ModelMap model) {
-		Optional<Tutor> tutor = tutorService.finByEmail(email);
+	@PostMapping("/{id}/edit")
+	public String editNoticia(@PathVariable("id") int id, @Valid Tutor modifiedTutor, BindingResult binding, ModelMap model) {
+		Optional<Tutor> tutor = tutorService.findById(id);
 		if(binding.hasErrors()) {
 			return "tutores/createOrUpdateTutorForm";
 		}else {
-			BeanUtils.copyProperties(modifiedTutor, tutor.get(), "email");
+			BeanUtils.copyProperties(modifiedTutor, tutor.get(), "id");
 			tutorService.save(tutor.get());
 			model.addAttribute("message","Tutor actualizado con exito");
 			return listTutores(model);
 		}
+	}
+	
+	@GetMapping("/{id}")
+	public String tutorDetails(@PathVariable("id") int id, ModelMap model) {
+		Optional<Tutor> tutor = tutorService.findById(id);
+		if(tutor.isPresent()) {
+			model.addAttribute("tutor", tutor.get());
+			return "tutores/tutorDetails";
+		}else {
+			model.addAttribute("message", "El tutor al que intenta acceder no existe");
+			return listTutores(model);
+		}
+		
 	}
 	
 	@GetMapping("/new")
