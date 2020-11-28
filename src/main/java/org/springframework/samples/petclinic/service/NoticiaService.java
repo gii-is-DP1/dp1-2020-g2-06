@@ -32,5 +32,8 @@ public class NoticiaService {
 		noticiaRepo.save(noticia);
 	}
 	
+	public Collection<Noticia> findTutorNoticias(int id){
+		return noticiaRepo.findTutorNoticias(id);
+	}
 
 }
