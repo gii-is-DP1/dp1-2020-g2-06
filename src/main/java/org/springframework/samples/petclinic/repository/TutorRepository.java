@@ -11,8 +11,8 @@ public interface TutorRepository extends Repository<Tutor, String> {
 
 	Collection<Tutor> findAll() throws DataAccessException;
 	
-	Optional<Tutor> findByEmail(String email) throws DataAccessException;
+	Optional<Tutor> findById(int id) throws DataAccessException;
 	
 	void save(Tutor tutor) throws DataAccessException;
-	
+
 }

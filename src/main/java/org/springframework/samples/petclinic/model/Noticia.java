@@ -21,7 +21,7 @@ import lombok.EqualsAndHashCode;
 public class Noticia extends NamedEntity{
 	
 	@ManyToOne
-	@JoinColumn(name="autor_email")
+	@JoinColumn(name="autor_id")
 	private Tutor autor;
 	
 	@Column(name = "fecha_publicacion")
@@ -31,5 +31,7 @@ public class Noticia extends NamedEntity{
 	@Column(length=5600)
 	@NotEmpty
 	private String texto;
+	@NotEmpty
+	private String imagen;
 
 }

@@ -38,6 +38,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/users/new").permitAll()
 				.antMatchers("/articulos").permitAll()
 				.antMatchers("/normasWeb").permitAll() //EN SU MOMENTO SOLO SERA EL ADMIN EL UNICO CON PERMISOS PARA ACCEDER A DICHO APARTADO
+				.antMatchers("/alumnos").permitAll() 
 				.antMatchers("/admin/**").hasAnyAuthority("admin")
 				.antMatchers("/owners/**").hasAnyAuthority("owner","admin")				
 				.antMatchers("/vets/**").authenticated()

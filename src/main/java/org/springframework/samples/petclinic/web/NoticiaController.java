@@ -29,6 +29,20 @@ public class NoticiaController {
 		return "/noticias/noticiasList";
 	}
 	
+	@GetMapping("/{id}")
+	public String noticiaDetails(@PathVariable("id") int id, ModelMap model) {
+		Optional<Noticia> noticia = noticiaService.findById(id);
+		if(noticia.isPresent()) {
+			model.addAttribute("noticia", noticia.get());
+			return "noticias/noticiaDetails";
+		}
+		else {
+			model.addAttribute("message", "No podemos encontrar la noticia");
+			return listNoticias(model);
+			
+		}
+	}
+	
 	@GetMapping("/{id}/edit")
 	public String editNoticia(@PathVariable("id") int id, ModelMap model) {
 		Optional<Noticia> noticia = noticiaService.findById(id);
@@ -37,7 +51,7 @@ public class NoticiaController {
 			return "noticias/createOrUpdateNoticiaForm";
 		}
 		else {
-			model.addAttribute("message", "No podemos encontrar la noticia que intenta borrar");
+			model.addAttribute("message", "No podemos encontrar la noticia que intenta editar");
 			return listNoticias(model);
 			
 		}

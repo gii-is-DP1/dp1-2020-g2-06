@@ -6,19 +6,16 @@ import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
-
 import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "tutores")
-public class Tutor extends BaseEntity{
+@Table(name = "alumnos")
+public class Alumno extends BaseEntity{
 	
-	@Column(name = "nombre")
 	@NotEmpty
 	private String nombre;
 	
-	@Column(name = "apellidos")
 	@NotEmpty
 	private String apellidos;
 	
@@ -27,12 +24,20 @@ public class Tutor extends BaseEntity{
 	@Column(unique=true)
 	private String email;
 	
-	@Column(name = "pass")
+	@NotEmpty
+	private String imagen;
+	
+	@Column(name="puntos_anual")
+	private Integer puntosAnual;
+	
+	@Column(name="puntos_temporada")
+	private Integer puntosTemporada;
+	
+	@Column(name="puntos_totales")
+	private Integer puntosTotales;
+
 	@NotEmpty
 	private String pass;
-	
-	@Column(name = "foto")
-	private String foto;
-	
 
+	
 }
