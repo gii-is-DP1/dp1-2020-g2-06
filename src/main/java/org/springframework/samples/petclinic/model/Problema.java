@@ -35,6 +35,7 @@ public class Problema extends NamedEntity {
 	}
 	
 	/*
+	 CUANDO SE HAGA CREADOR
 	@ManyToOne
 	@JoinColumn(name="creador")
 	private Creador creador;
