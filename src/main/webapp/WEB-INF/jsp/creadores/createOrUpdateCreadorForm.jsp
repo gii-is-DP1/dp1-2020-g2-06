@@ -6,11 +6,11 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="tutores">
+<petclinic:layout pageName="creadores">
     <h2>
-        <c:if test="${tutores['new']}">New </c:if> Tutores
+        <c:if test="${creadores['new']}">New </c:if> Creadores
     </h2>
-    <form:form modelAttribute="tutor" class="form-horizontal" id="add-owner-form">
+    <form:form modelAttribute="creador" class="form-horizontal" id="add-owner-form">
         <div class="form-group has-feedback">
         	<petclinic:inputField label="Email" name="email"/>
     		<petclinic:inputField label="Nombre" name="nombre"/>
@@ -21,11 +21,11 @@
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <c:choose>
-                    <c:when test="${tutor['new']}">
-                        <button class="btn btn-default" type="submit">Añadir Tutor</button>
+                    <c:when test="${creador['new']}">
+                        <button class="btn btn-default" type="submit">Añadir Creador</button>
                     </c:when>
                     <c:otherwise>
-                        <button class="btn btn-default" type="submit">Actualizar Tutor</button>
+                        <button class="btn btn-default" type="submit">Actualizar Creador</button>
                     </c:otherwise>
                 </c:choose>
             </div>

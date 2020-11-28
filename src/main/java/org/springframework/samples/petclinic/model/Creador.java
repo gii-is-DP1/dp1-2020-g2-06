@@ -11,8 +11,8 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "tutores")
-public class Tutor extends BaseEntity{
+@Table(name = "creadores")
+public class Creador extends BaseEntity{
 	
 	@Column(name = "nombre")
 	@NotEmpty

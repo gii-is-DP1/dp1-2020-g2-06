@@ -20,7 +20,7 @@ import lombok.Data;
 public class Articulo extends NamedEntity{
 	
 	@ManyToOne
-	@JoinColumn(name="autor_email")
+	@JoinColumn(name="autor_id")
 	private Tutor autor;
 	
 	@Column(name = "fecha_publicacion")
