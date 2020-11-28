@@ -31,5 +31,9 @@ public class ArticuloService {
 	public void save(@Valid Articulo articulo) {
 		articuloRepo.save(articulo);
 	}
+	
+	public Collection<Articulo> findTutorArticulos(int id){
+		return articuloRepo.findTutorArticulos(id);
+	}
 
 }

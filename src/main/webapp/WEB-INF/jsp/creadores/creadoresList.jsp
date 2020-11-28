@@ -5,21 +5,21 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="tutores">
-    <h2>Tutores</h2>
+<petclinic:layout pageName="creadores">
+    <h2>Creadores</h2>
 
-    <table id="tutoresTable" class="table table-striped">
+    <table id="creadoresTable" class="table table-striped">
     	<tbody>
-       <c:forEach items="${tutores}" var="tutor">
+       <c:forEach items="${creadores}" var="creador">
         	<tr>
                 <td>                    
-                    <img src="${tutor.foto}" width="100px" style="border-radius:100%;"/>&nbsp;
-					<a href="/tutores/${tutor.id}">
-					<c:out value="${tutor.nombre}"/>&nbsp;<c:out value="${tutor.apellidos}"/> 
+                    <img src="${creador.foto}" width="100px" style="border-radius:100%;"/>&nbsp;
+					<a href="/creadores/${creador.id}">
+					<c:out value="${creador.nombre}"/>&nbsp;<c:out value="${creador.apellidos}"/> 
                		</a>
                 </td>
                 <td>
-                	<a href="/tutores/${tutor.id}/edit">
+                	<a href="/creadores/${creador.id}/edit">
                 	<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                 	</a>
                 </td>
@@ -27,5 +27,5 @@
         </c:forEach>
         </tbody>
     </table>
-    <a class="btn btn-default" href='<spring:url value="/tutores/new" htmlEscape="true"/>'>Crear Tutor</a>
+    <a class="btn btn-default" href='<spring:url value="/creadores/new" htmlEscape="true"/>'>Crear Creador</a>
 </petclinic:layout>
