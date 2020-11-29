@@ -117,4 +117,5 @@ INSERT INTO alumnos(id,nombre,apellidos,email,imagen,puntos_anual,puntos_tempora
 
 INSERT INTO creadores(id,nombre,apellidos,email,pass,foto) VALUES (0,'David','Brincau Cano','davbrican@us.es','dbgames55','https://yt3.ggpht.com/ytc/AAUvwnh3yE2BgOZmepJht3T-k6LRzPih9KwV4mbk1g4dYg=s88-c-k-c0x00ffffff-no-rj');
 
+INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema) VALUES (0,'2018-11-21T11:13:13.274','https://raw.githubusercontent.com/public-apis/public-apis/master/.travis.yml','AC',0,0);
 
