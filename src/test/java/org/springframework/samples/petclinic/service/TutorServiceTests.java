@@ -29,6 +29,22 @@ class TutorServiceTests {
 	ArticuloService articuloService;
 	
 	@Test
+	public void shouldFindAll() {
+		assertThat(tutorService.findAll().size()).isGreaterThan(0);
+	}
+	
+	@Test
+	public void shouldFindTutorById() {
+		Tutor tutor= this.tutorService.findById(0).get();
+		assertThat(tutor.getId()).isEqualTo(0);
+		assertThat(tutor.getNombre()).isEqualTo("Alejandro");
+		assertThat(tutor.getApellidos()).isEqualTo("Barranco Ledesma");
+		assertThat(tutor.getEmail()).isEqualTo("alebarled@alum.us.es");
+		assertThat(tutor.getFoto()).isEqualTo("https://estaticos.elperiodico.com/resources/jpg/6/4/img-8878-1585501756946.jpg");
+		assertThat(tutor.getPass()).isEqualTo("r4rm0n");
+	}
+	
+	@Test
 	public void shouldInsertTutor() {
 		Collection<Tutor> tutores = this.tutorService.findAll();
 		int found = tutores.size();
@@ -61,6 +77,7 @@ class TutorServiceTests {
 		assertNotEquals(antiguoNombre, tutor.getNombre(), "Este nombre no coincide con el nombre actual del tutor");
 	}
 	
+	
 	@Test
 	void shoulInsertNoticia() {
 		Tutor tutor = this.tutorService.findById(0).get();
@@ -89,6 +106,7 @@ class TutorServiceTests {
 		articuloNuevo.setAutor(tutor);
 		articuloNuevo.setFechaPublicacion(LocalDate.now());
 		articuloNuevo.setName("Concurso de AdaByron");
+		articuloNuevo.setImagen("foto.jpg");
 		articuloNuevo.setTexto("It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).");
 		articuloService.save(articuloNuevo);
 		
