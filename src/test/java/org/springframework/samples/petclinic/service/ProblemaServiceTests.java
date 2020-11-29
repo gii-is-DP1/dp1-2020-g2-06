@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProblemaServiceTests {
 
 	@Autowired
-	private ProblemaService ProblemaService;
+	ProblemaService ProblemaService;
 	
 	@Test
 	public void testCountWithInitialData() {
