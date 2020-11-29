@@ -14,12 +14,13 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Problema;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
-public class ProblemaTests {
+public class ProblemaServiceTests {
 
 	@Autowired
-	private ProblemaService ProblemaService;
+	ProblemaService ProblemaService;
 	
 	@Test
 	public void testCountWithInitialData() {
@@ -35,7 +36,6 @@ public class ProblemaTests {
 		Problema Problema = new Problema();
 		Problema.setName("La piscina olimpica");
 		Problema.setDescripcion("Una piscina olimica tiene 50 metros de largo...");
-		Problema.setDificultad("Media");
 		Problema.setPuntuacion(5);
 		Problema.setTemporada("Verano");
 		Problema.setCasos_prueba("50 2 1");
@@ -54,7 +54,6 @@ public class ProblemaTests {
 		Problema Problema = new Problema();
 		Problema.setName("La piscina olimpica");
 		Problema.setDescripcion("Una piscina olimica tiene 50 metros de largo...");
-		Problema.setDificultad("Media");
 		Problema.setPuntuacion(5);
 		Problema.setTemporada("Verano");
 		Problema.setSalida_esperada("Si");
@@ -62,5 +61,33 @@ public class ProblemaTests {
 		Assertions.assertThrows(ConstraintViolationException.class, () ->{
 			this.ProblemaService.saveProblema(Problema);
 		});	
+	}
+	
+	@Test
+	@Transactional
+	void shouldUpdateproblema() {
+		Problema problema = this.ProblemaService.findById(0).get();
+		String oldDescripcion = problema.getDescripcion();
+		String newDescripcion = oldDescripcion + "X";
+
+		problema.setDescripcion(newDescripcion);
+		this.ProblemaService.saveProblema(problema);
+
+		// retrieving new name from database
+		problema = this.ProblemaService.findById(0).get();
+		assertThat(problema.getDescripcion()).isEqualTo(newDescripcion);
+	}
+	
+	@Test
+	public void shouldDeleteproblema() {
+		Collection<Problema> normasWeb = this.ProblemaService.findAll();
+		int found = normasWeb.size();
+                
+		Problema problema = ProblemaService.findById(0).get();
+		this.ProblemaService.delete(problema);
+		
+		Collection<Problema> normasWeb2 = this.ProblemaService.findAll();
+		
+		assertThat(normasWeb2.size()).isEqualTo(found - 1);
 	}
 }

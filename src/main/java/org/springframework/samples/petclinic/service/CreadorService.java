@@ -16,6 +16,9 @@ public class CreadorService {
 	@Autowired
 	CreadorRepository creadorRepo;
 	
+	//@Autowired
+	//ProblemaService problemaService
+	
 	
 	public Collection<Creador> findAll(){
 		return creadorRepo.findAll();
