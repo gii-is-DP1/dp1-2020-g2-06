@@ -8,16 +8,29 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="problemas">
-    <h2>Problemas</h2>
+    <h2>Problemas vigentes</h2>
 
-	<c:forEach items="${problema}" var="problemas">
+	<c:forEach items="${problemasVigentes}" var="problemaVigente">
 		<table id="problemasTable" class="table table-striped">
 			<tr>
-				<th><a href="/problemas/${problemas.id}"> <c:out value="${problemas.name}" /> </a></th>
-				<th><a href="/problemas/${problemas.id}/edit"> <span
+				<th><a href="/problemas/${problemaVigente.id}"> <c:out value="${problemaVigente.name}" /> </a></th>
+				<th><a href="/problemas/${problemaVigente.id}/edit"> <span
 						class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 				</a></th>
-				<th><a href="/problemas/${problemas.id}/delete"> <span
+				<th><a href="/problemas/${problemasVigente.id}/delete"> <span
+						class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+				</a></th>
+			</tr>
+		</table>
+	</c:forEach>
+	
+	<h2>Problemas no vigentes</h2>
+	
+	<c:forEach items="${problemasNoVigentes}" var="problemaNoVigente">
+		<table id="problemasTable" class="table table-striped">
+			<tr>
+				<th><a href="/problemas/${problemaNoVigente.id}"> <c:out value="${problemaNoVigente.name}" /> </a></th>
+				<th><a href="/problemas/${problemaNoVigente.id}/delete"> <span
 						class="glyphicon glyphicon-trash" aria-hidden="true"></span>
 				</a></th>
 			</tr>
