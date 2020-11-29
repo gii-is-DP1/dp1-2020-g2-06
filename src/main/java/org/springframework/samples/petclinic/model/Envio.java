@@ -1,5 +1,9 @@
 package org.springframework.samples.petclinic.model;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -38,5 +42,10 @@ public class Envio extends BaseEntity{
 	@ManyToOne
 	@JoinColumn(name="id_problema")
 	private Problema problema;
+	
+	
+	public String getCodigoString() throws IOException {
+		return Files.readString(Paths.get(codigoPath), StandardCharsets.UTF_8);
+	}
 
 }
