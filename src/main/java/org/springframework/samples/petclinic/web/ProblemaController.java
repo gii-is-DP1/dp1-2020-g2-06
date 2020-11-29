@@ -59,7 +59,7 @@ private static final String VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM = "problemas/cr
 			return VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM;
 		}
 		else {
-			//creating normaWeb
+			//creating problema
 			problemaService.saveProblema(problema);
 			
 			return "redirect:/problemas/";

@@ -1,6 +1,6 @@
 package org.springframework.samples.petclinic.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,21 +17,26 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper=true)
 @Entity
-@Table(name = "noticias")
-public class Noticia extends NamedEntity{
+@Table(name="envios")
+public class Envio extends BaseEntity{
+
+	@NotEmpty
+	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm:ss")
+	private LocalDateTime fecha;
+	
+	@Column(name="codigo_path")
+	@NotEmpty
+	private String codigoPath;
+	
+	
+	private String resolucion;
 	
 	@ManyToOne
-	@JoinColumn(name="autor_id")
-	private Tutor autor;
+	@JoinColumn(name="id_alumno")
+	private Alumno alumno;
 	
-	@Column(name = "fecha_publicacion")
-	@DateTimeFormat(pattern = "yyyy/MM/dd")
-	private LocalDate fechaPublicacion;
-	
-	@Column(length=5600)
-	@NotEmpty
-	private String texto;
-	@NotEmpty
-	private String imagen;
+	@ManyToOne
+	@JoinColumn(name="id_problema")
+	private Problema problema;
 
 }

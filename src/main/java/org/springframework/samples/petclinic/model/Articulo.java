@@ -12,9 +12,10 @@ import javax.validation.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-/*prueba*/
 @Data
+@EqualsAndHashCode(callSuper=true)
 @Entity
 @Table(name = "articulos")
 public class Articulo extends NamedEntity{
@@ -26,6 +27,10 @@ public class Articulo extends NamedEntity{
 	@Column(name = "fecha_publicacion")
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate fechaPublicacion;
+	
+	@Column(name= "imagen_articulo")
+	@NotEmpty
+	private String imagen;
 	
 	@Column(length=5600)
 	@NotEmpty

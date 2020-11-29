@@ -25,6 +25,7 @@ public class TutorController {
 	@Autowired
 	TutorService tutorService;
 	
+	
 	@GetMapping("")
 	public String listTutores(ModelMap model) {
 		model.addAttribute("tutores", tutorService.findAll());
@@ -62,6 +63,8 @@ public class TutorController {
 		Optional<Tutor> tutor = tutorService.findById(id);
 		if(tutor.isPresent()) {
 			model.addAttribute("tutor", tutor.get());
+			model.addAttribute("noticiasTutor", tutorService.findTutorNoticias(id));
+			model.addAttribute("articulosTutor", tutorService.findTutorArticulos(id));
 			return "tutores/tutorDetails";
 		}else {
 			model.addAttribute("message", "El tutor al que intenta acceder no existe");
