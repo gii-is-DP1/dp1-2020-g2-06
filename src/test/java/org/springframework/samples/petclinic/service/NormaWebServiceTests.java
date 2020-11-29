@@ -14,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.NormaWeb;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 class NormaWebServiceTests {
@@ -49,5 +50,33 @@ class NormaWebServiceTests {
 		Assertions.assertThrows(ConstraintViolationException.class, () ->{
 			this.normaWebService.saveNormaWeb(normaWeb);
 		});	
+	}
+	
+	@Test
+	@Transactional
+	void shouldUpdateNormaWeb() {
+		NormaWeb normaWeb = this.normaWebService.findById(0).get();
+		String oldDescripcion = normaWeb.getDescripcion();
+		String newDescripcion = oldDescripcion + "X";
+
+		normaWeb.setDescripcion(newDescripcion);
+		this.normaWebService.saveNormaWeb(normaWeb);
+
+		// retrieving new name from database
+		normaWeb = this.normaWebService.findById(0).get();
+		assertThat(normaWeb.getDescripcion()).isEqualTo(newDescripcion);
+	}
+	
+	@Test
+	public void shouldDeleteNormaWeb() {
+		Collection<NormaWeb> normasWeb = this.normaWebService.findAll();
+		int found = normasWeb.size();
+                
+		NormaWeb normaweb = normaWebService.findById(0).get();
+		this.normaWebService.delete(normaweb);
+		
+		Collection<NormaWeb> normasWeb2 = this.normaWebService.findAll();
+		
+		assertThat(normasWeb2.size()).isEqualTo(found - 1);
 	}
 }

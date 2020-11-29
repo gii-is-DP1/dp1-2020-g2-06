@@ -6,24 +6,26 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="noticias">
+<petclinic:layout pageName="creadores">
     <h2>
-        <c:if test="${articulo['new']}">New </c:if> Articulo
+        <c:if test="${creadores['new']}">New </c:if> Creadores
     </h2>
-    <form:form modelAttribute="articulo" class="form-horizontal" id="add-owner-form">
+    <form:form modelAttribute="creador" class="form-horizontal" id="add-owner-form">
         <div class="form-group has-feedback">
-            <petclinic:inputField label="Título" name="name"/>
-            <petclinic:inputField label="Texto" name="texto"/>
-            <petclinic:inputField label="Imagen" name="imagen"/>
+        	<petclinic:inputField label="Email" name="email"/>
+    		<petclinic:inputField label="Nombre" name="nombre"/>
+          	<petclinic:inputField label="Apellidos" name="apellidos"/>
+          	<petclinic:inputField label="Pass" name="pass"/>
+          	<petclinic:inputField label="Foto" name="foto"/>          
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <c:choose>
-                    <c:when test="${articulo['new']}">
-                        <button class="btn btn-default" type="submit">Añadir Articulo</button>
+                    <c:when test="${creador['new']}">
+                        <button class="btn btn-default" type="submit">Añadir Creador</button>
                     </c:when>
                     <c:otherwise>
-                        <button class="btn btn-default" type="submit">Actualizar Articulo</button>
+                        <button class="btn btn-default" type="submit">Actualizar Creador</button>
                     </c:otherwise>
                 </c:choose>
             </div>
