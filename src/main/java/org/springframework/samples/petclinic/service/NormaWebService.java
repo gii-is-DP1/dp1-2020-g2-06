@@ -39,7 +39,7 @@ public class NormaWebService {
 	@Transactional(rollbackFor = ConstraintViolationException.class)
 	public void saveNormaWeb(@Valid NormaWeb normaWeb)  {
 		//creating normaWeb
-			normaWebRepository.save(normaWeb);
+		normaWebRepository.save(normaWeb);
 	}		
 
 }

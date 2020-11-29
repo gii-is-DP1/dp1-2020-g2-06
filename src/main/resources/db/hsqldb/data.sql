@@ -114,5 +114,8 @@ INSERT INTO alumnos(id,nombre,apellidos,email,imagen,puntos_anual,puntos_tempora
 INSERT INTO alumnos(id,nombre,apellidos,email,imagen,puntos_anual,puntos_temporada,puntos_totales,pass) VALUES (1,'Marina','Moya','marmozam@alum.us.es','https://pbs.twimg.com/profile_images/833645500003934208/A2AQpWnM_400x400.jpg',240,12,524,'coding4food');
 INSERT INTO alumnos(id,nombre,apellidos,email,imagen,puntos_anual,puntos_temporada,puntos_totales,pass) VALUES (2,'Alexis','Balboa','alexisbalbo@alum.us.es','https://pbs.twimg.com/profile_images/2751359125/fde5c9fa3b796a33ed394c63a0c49af3.jpeg',0,0,0,'nothing2lose');
 
+
 INSERT INTO creadores(id,nombre,apellidos,email,pass,foto) VALUES (0,'David','Brincau Cano','davbrican@us.es','dbgames55','https://yt3.ggpht.com/ytc/AAUvwnh3yE2BgOZmepJht3T-k6LRzPih9KwV4mbk1g4dYg=s88-c-k-c0x00ffffff-no-rj');
+
+INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema) VALUES (0,'2018-11-21T11:13:13.274','https://raw.githubusercontent.com/public-apis/public-apis/master/.travis.yml','AC',0,0);
 
