@@ -35,5 +35,45 @@
     <spring:url value="/alumnos/${alumno.id}/edit" var="editUrl"> </spring:url>
     <a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar Alumno</a>
     
+	<br>
+	<br>
+   
+    <h2> Últimos envíos</h2>
+    <table class="table table-striped">
+    <c:forEach items="${alumno.envios}" var="envio">
+    	<tr>
+    	<th> Envío
+    	</th>
+    	<th>
+    	Problema
+    	</th>
+    	<th>
+    	Fecha y hora
+    	</th>
+    	<th>
+    	Veredicto
+    	</th>
+    	</tr>
+    	<tr>
+    		<td>
+    		<a href="/envios/${envio.id}">
+    		<c:out value="${envio.id}"/>
+    		</a>
+    		</td>
+    		<td>
+    		<a href="/problemas/${envio.problema.id}">
+    		<c:out value="${envio.problema.name}"/>
+    		</a>
+    		</td>
+    		<td>
+    		<c:out value="${envio.fecha}"/>
+    		</td>
+    		<td>
+    		<c:out value="${envio.resolucion}"/>
+    		
+    	</tr>
+   	</c:forEach>
+    </table>
+    
 
 </petclinic:layout>
