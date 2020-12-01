@@ -17,9 +17,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Data
 @EqualsAndHashCode(callSuper=true)
+
 @Entity
 @Table(name="envios")
 public class Envio extends BaseEntity{
@@ -38,6 +40,7 @@ public class Envio extends BaseEntity{
 	@ManyToOne
 	@JoinColumn(name="id_alumno")
 	private Alumno alumno;
+	
 	
 	@ManyToOne
 	@JoinColumn(name="id_problema")
