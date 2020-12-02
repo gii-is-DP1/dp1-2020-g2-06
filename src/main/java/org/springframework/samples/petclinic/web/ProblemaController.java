@@ -28,14 +28,19 @@ private static final String VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM = "problemas/cr
 	@GetMapping()
 	public String listProblemas(ModelMap modelMap) {
 		String vista = "problemas/problemasList";
-		modelMap.addAttribute("problema",problemaService.findAll());
+		modelMap.addAttribute("problemasNoVigentes",problemaService.ProblemasNoVigentes());
+		modelMap.addAttribute("problemasVigentes",problemaService.ProblemasVigentes());
 		return vista;
 	}
 	
 	@GetMapping("/{id}")
 	public String problemaDetails(@PathVariable("id") int id,ModelMap model) {
 		Optional<Problema> problema = problemaService.findById(id);
+		
 		if(problema.isPresent()) {
+			if(problema.get().isVigente()) {
+				model.addAttribute("editarTrue",1);
+			}
 			model.addAttribute("problema", problema.get());
 			return "problemas/problemaDetails";
 		}
