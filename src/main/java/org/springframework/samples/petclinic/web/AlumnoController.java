@@ -36,7 +36,6 @@ public class AlumnoController {
 		Optional<Alumno> alumno = alumnoService.findById(id);
 		if(alumno.isPresent()) {
 			model.addAttribute("alumno",alumno.get());
-			model.addAttribute("envios",alumno.get().getEnvios());
 			return "alumnos/alumnoDetails";
 		}
 		else {

@@ -19,6 +19,9 @@ import org.springframework.beans.support.PropertyComparator;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
+
 
 @Data
 @EqualsAndHashCode(callSuper=true)
@@ -53,20 +56,8 @@ public class Alumno extends BaseEntity{
 	private String pass;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "alumno")
-	private Set<Envio> envios;
+	private List<Envio> envios;
 	
-	protected Set<Envio> getEnviosInternal() {
-		if (this.envios == null) {
-			this.envios = new HashSet<>();
-		}
-		return this.envios;
-	}
-	
-	public List<Envio> getEnvios() {
-		List<Envio> sortedEnvios = new ArrayList<>(getEnviosInternal());
-		PropertyComparator.sort(sortedEnvios, new MutableSortDefinition("id", true, true));
-		return Collections.unmodifiableList(sortedEnvios);
-	}
 
 	
 }
