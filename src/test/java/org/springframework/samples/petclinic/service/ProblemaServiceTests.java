@@ -36,7 +36,6 @@ public class ProblemaServiceTests {
 		Problema Problema = new Problema();
 		Problema.setName("La piscina olimpica");
 		Problema.setDescripcion("Una piscina olimica tiene 50 metros de largo...");
-		Problema.setDificultad("Media");
 		Problema.setPuntuacion(5);
 		Problema.setTemporada("Verano");
 		Problema.setCasos_prueba("50 2 1");
@@ -55,7 +54,6 @@ public class ProblemaServiceTests {
 		Problema Problema = new Problema();
 		Problema.setName("La piscina olimpica");
 		Problema.setDescripcion("Una piscina olimica tiene 50 metros de largo...");
-		Problema.setDificultad("Media");
 		Problema.setPuntuacion(5);
 		Problema.setTemporada("Verano");
 		Problema.setSalida_esperada("Si");

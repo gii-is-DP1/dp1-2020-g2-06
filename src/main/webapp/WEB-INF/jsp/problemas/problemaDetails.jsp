@@ -21,10 +21,6 @@
             <td><c:out value="${problema.puntuacion}"/></td>
         </tr>
         <tr>
-            <th>Dificultad</th>
-            <td><c:out value="${problema.dificultad}"/></td>
-        </tr>
-        <tr>
             <th>Temporada</th>
             <td><c:out value="${problema.temporada}"/></td>
         </tr>
@@ -37,8 +33,9 @@
             <td><c:out value="${problema.salida_esperada}"/></td>
         </tr>
     </table>
-
+	 <c:if test="${editarTrue == 1}">
     <spring:url value="{problemaId}/edit" var="editUrl"> <spring:param name="problemaId" value="${problema.id}"/> </spring:url>
     <a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar Problema</a>
+    </c:if>
 
 </petclinic:layout>

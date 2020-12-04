@@ -29,12 +29,6 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Table(name = "problema")
 public class Problema extends NamedEntity {
-
-	public enum dificultad {
-	    ALTA,
-	    MEDIA,
-	    BAJA
-	}
 	
 	public enum temporada {
 	    PRIMAVERA,
@@ -57,10 +51,6 @@ public class Problema extends NamedEntity {
 	@Column(name = "puntuacion")
 	@NotNull
 	private Integer puntuacion;
-	
-	@NotEmpty
-	@Column(name = "dificultad")
-	private String  dificultad;
 	
 	@NotEmpty
 	@Column(name = "temporada")
@@ -105,5 +95,11 @@ public class Problema extends NamedEntity {
 	public void addEnvio(Envio Envio) {
 		getEnviosInternal().add(Envio);
 		Envio.setProblema(this);
+	}
+	
+	public boolean isVigente() {
+		Integer aux = LocalDate.now().getMonth().getValue()%3;
+		return this.getFechaPublicacion().isAfter(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth().getValue()-aux, 1)) 
+													&& this.getFechaPublicacion().isBefore(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth().getValue()+(3-aux), 1));
 	}
 }
