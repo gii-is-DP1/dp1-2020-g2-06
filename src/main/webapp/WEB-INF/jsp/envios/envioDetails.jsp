@@ -31,8 +31,15 @@
         </tr>
         <tr>
             <th>Código</th>
-            <td><c:out value="${codigo}"/></td>
+            
+            <td><c:forEach items="${codigo}" var="linea">
+            <c:out value="${linea}"/><br>
+               </c:forEach>
+               </td>
+         
         </tr>
+        
+        
         
     </table>
 

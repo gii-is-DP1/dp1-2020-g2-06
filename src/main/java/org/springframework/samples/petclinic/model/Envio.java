@@ -5,6 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -47,8 +48,8 @@ public class Envio extends BaseEntity{
 	private Problema problema;
 	
 	
-	public String getCodigoString() throws IOException {
-		return Files.readString(Paths.get(codigoPath), StandardCharsets.UTF_8);
+	public List<String> getCodigoString() throws IOException {
+		return Files.readAllLines(Paths.get(codigoPath));
 	}
 
 }
