@@ -18,15 +18,15 @@
         </tr>
     	<tr>
             <th>Puntuación Temporada</th>
-            <td></td>
+            <td><c:out value="${puntostemporada}"/></td>
         </tr>
         <tr>
             <th>Puntuación Anual</th>
-            <td></td>
+            <td><c:out value="${puntosanuales}"/></td>
         </tr>
         <tr>
             <th>Puntuación Total</th>
-            <td></td>
+            <td><c:out value="${puntostotales}"/></td>
         </tr>
        
     </table>
@@ -80,7 +80,7 @@
     <br>
 	<br>
    
-    <h2> Problemas resueltos</h2>
+    <h2> Problemas resueltos (estando vigentes)</h2>
     <table class="table table-striped">
   
     	
