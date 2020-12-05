@@ -44,6 +44,7 @@ private static final String VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM = "problemas/cr
 				model.addAttribute("editarTrue",1);
 			}
 			model.addAttribute("problema", problema.get());
+			model.addAttribute("ultimosEnvios", problema.get().getEnvios().subList(0, 10));
 			return "problemas/problemaDetails";
 		}
 		else {
