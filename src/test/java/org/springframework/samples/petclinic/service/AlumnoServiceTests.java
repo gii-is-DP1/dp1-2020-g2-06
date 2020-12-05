@@ -26,9 +26,9 @@ public class AlumnoServiceTests {
 			assertThat(alumno.getApellidos()).isEqualTo("Montes");
 			assertThat(alumno.getEmail()).isEqualTo("rarmon@alum.us.es");
 			assertThat(alumno.getImagen()).isEqualTo("https://www.superprof.co/imagenes/anuncios/profesor-home-estudiante-universidad-pedagogica-nacional-licenciatura-matematicas-refuerzos-algebra-calculo-polinomios-ecuaciones.jpg");
-			assertThat(alumno.getPuntosAnual()).isEqualTo(100);
-			assertThat(alumno.getPuntosTemporada()).isEqualTo(12);
-			assertThat(alumno.getPuntosTotales()).isEqualTo(224);
+//			assertThat(alumno.getPuntosAnual()).isEqualTo(100);
+//			assertThat(alumno.getPuntosTemporada()).isEqualTo(12);
+//			assertThat(alumno.getPuntosTotales()).isEqualTo(224);
 			assertThat(alumno.getPass()).isEqualTo("octavel0ver");
 		}
 		
@@ -39,9 +39,9 @@ public class AlumnoServiceTests {
 			alumno.setApellidos("Barra");
 			alumno.setEmail("carbarmen@alum.us.es");
 			alumno.setImagen("https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Pentagram4.svg/1200px-Pentagram4.svg.png");
-			alumno.setPuntosAnual(0);
-			alumno.setPuntosTemporada(0);
-			alumno.setPuntosTotales(0);
+//			alumno.setPuntosAnual(0);
+//			alumno.setPuntosTemporada(0);
+//			alumno.setPuntosTotales(0);
 			alumno.setPass("pass1234");
 			alumnoService.save(alumno);
 			String email = alumnoService.findById(3).get().getEmail();
