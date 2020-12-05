@@ -46,10 +46,10 @@ public class ProblemaService {
 	}	
 	
 	public Collection<Problema> ProblemasVigentes() {
-		return problemaRepository.findAll().stream().filter(x->x.isVigente()).collect(Collectors.toList());
+		return problemaRepository.findAll().stream().filter(x->x.isVigente()&&x.getCompeticion()==null).collect(Collectors.toList());
 	}
 	
 	public Collection<Problema> ProblemasNoVigentes(Collection<Problema> cp) {
-		return problemaRepository.findAll().stream().filter(x->!x.isVigente()).collect(Collectors.toList());
+		return problemaRepository.findAll().stream().filter(x->!x.isVigente()&&x.getCompeticion()==null).collect(Collectors.toList());
 	}
 }
