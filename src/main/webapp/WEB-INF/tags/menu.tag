@@ -38,12 +38,12 @@
 					<span>PROBLEMAS</span>
 				</petclinic:menuItem>
 
-				<petclinic:menuItem active="${name eq 'COMPETICION'}" url="/oups"
+				<petclinic:menuItem active="${name eq 'COMPETICION'}" url="/competiciones"
 					title="trigger a RuntimeException to see how it is handled">
 				<!--
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 				-->
-					<span>COMPETICION</span>
+					<span>COMPETICIONES</span>
 				</petclinic:menuItem>
 
 				<petclinic:menuItem active="${name eq 'APRENDIZAJE'}" url="/articulos"
