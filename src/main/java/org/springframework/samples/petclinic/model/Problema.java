@@ -66,57 +66,16 @@ public class Problema extends NamedEntity {
 	@Column(name = "zip")
 	private String zip;
 	
-	public String getSeason() {
-		if(LocalDate.of(LocalDate.now().getYear(), 3, 21).isBefore(this.fechaPublicacion) 
-				&& this.fechaPublicacion.isBefore(LocalDate.of(LocalDate.now().getYear(), 5, 20))) {
-			return "primavera";
-		}else if(LocalDate.of(LocalDate.now().getYear(), 5, 21).isBefore(this.fechaPublicacion) 
-				&& this.fechaPublicacion.isBefore(LocalDate.of(LocalDate.now().getYear(), 9, 20))) {
-			return "verano";
-		}else if(LocalDate.of(LocalDate.now().getYear(), 9, 21).isBefore(this.fechaPublicacion) 
-				&& this.fechaPublicacion.isBefore(LocalDate.of(LocalDate.now().getYear(), 12, 20))) {
-			return "otoño";
-		}else {
-			return "invierno";
-		}
-	}
+	private String season;
 	
-	public Integer getYearofSeason() {
-		if(getSeason().equals("invierno")) {
-			if(fechaPublicacion.getMonthValue()==12)
-				return fechaPublicacion.getYear();
-			else
-				return fechaPublicacion.getYear()-1;
-		}
-			
-		else {
-			return fechaPublicacion.getYear();
-		}
-			
-	}
-	
+	@Column(name = "season_year")
+	private Integer seasonYear;
 	
 	
 	public boolean isVigente() {
-		String season = Utils.getActualSeason();
-		
-		if(season == "primavera"){
-			return LocalDate.of(LocalDate.now().getYear(), 3, 21)
-					.isBefore(this.getFechaPublicacion()) && this.getFechaPublicacion().isBefore(LocalDate.of(LocalDate.now().getYear(), 5, 20));
-		}else if(season == "verano") {
-			return LocalDate.of(LocalDate.now().getYear(), 5, 21)
-					.isBefore(this.getFechaPublicacion()) && this.getFechaPublicacion().isBefore(LocalDate.of(LocalDate.now().getYear(), 9, 20));
-		}else if(season == "otoño") {
-			return LocalDate.of(LocalDate.now().getYear(), 9, 21)
-					.isBefore(this.getFechaPublicacion()) && this.getFechaPublicacion().isBefore(LocalDate.of(LocalDate.now().getYear(), 12, 20));
-		}else {
-			if(LocalDate.now().getMonthValue() == 12) {
-				return LocalDate.of(LocalDate.now().getYear(), 12, 21).isBefore(this.fechaPublicacion) 
-						&& this.fechaPublicacion.isBefore(LocalDate.of(LocalDate.now().getYear()+1, 3, 20));
-			}else {
-				return LocalDate.of(LocalDate.now().getYear()-1, 12, 21).isBefore(LocalDate.now()) 
-				&& LocalDate.now().isBefore(LocalDate.of(LocalDate.now().getYear(), 3, 20));
-			}
-		}
+		String actualSeason = Utils.getActualSeason();
+		Integer actualYearSeason = Utils.getActualYearofSeason();
+		return this.season.equals(actualSeason) && this.seasonYear.equals(actualYearSeason);
+			
 	}
 }
