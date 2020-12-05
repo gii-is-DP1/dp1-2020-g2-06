@@ -18,15 +18,15 @@
         </tr>
     	<tr>
             <th>Puntuación Temporada</th>
-            <td><c:out value="${alumno.puntosTemporada}"/></td>
+            <td></td>
         </tr>
         <tr>
             <th>Puntuación Anual</th>
-            <td><c:out value="${alumno.puntosAnual}"/></td>
+            <td></td>
         </tr>
         <tr>
             <th>Puntuación Total</th>
-            <td><c:out value="${alumno.puntosTotales}"/></td>
+            <td></td>
         </tr>
        
     </table>
@@ -40,7 +40,7 @@
    
     <h2> Últimos envíos</h2>
     <table class="table table-striped">
-    <c:forEach items="${alumno.envios}" var="envio">
+  
     	<tr>
     	<th> Envío
     	</th>
@@ -55,6 +55,7 @@
     	</th>
     	</tr>
     	<tr>
+    	  <c:forEach items="${alumno.envios}" var="envio">
     		<td>
     		<a href="/envios/${envio.id}">
     		<c:out value="${envio.id}"/>
@@ -72,7 +73,7 @@
     		<c:out value="${envio.resolucion}"/>
     		
     	</tr>
-   	</c:forEach>
+   		</c:forEach>
     </table>
     
 
