@@ -53,9 +53,13 @@ public class WelcomeController {
 		  model.put("persons", persons);
 		  model.put("title", "Pet Shop Project");
 		  model.put("group", "G2-L6");
+<<<<<<< HEAD
 		  
 //		  model.put("rankingTemporada",alumnoService.rankingTemporada());
 //		  model.put("rankingAnual",alumnoService.rankingAnual());
+=======
+		
+>>>>>>> branch 'juaostrub' of https://github.com/gii-is-DP1/dp1-2020-g2-06
 	    return "welcome";
 	  }
 }

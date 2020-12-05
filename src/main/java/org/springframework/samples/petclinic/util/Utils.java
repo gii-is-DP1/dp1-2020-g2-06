@@ -18,4 +18,16 @@ public class Utils {
 			return "invierno";
 		}
 	}
+	
+	public static Integer getActualYearofSeason() {
+		if(getActualSeason().equals("invierno")) {
+			if(LocalDate.now().getMonthValue()==12)
+				return LocalDate.now().getYear();
+			else
+				return LocalDate.now().getYear()-1;
+		}
+		else {
+			return LocalDate.now().getYear();
+		}
+	}
 }
