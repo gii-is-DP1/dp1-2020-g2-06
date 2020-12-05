@@ -76,5 +76,25 @@
    		</c:forEach>
     </table>
     
+    
+    <br>
+	<br>
+   
+    <h2> Problemas resueltos</h2>
+    <table class="table table-striped">
+  
+    	
+    	<tr>
+    	  <c:forEach items="${problemasresueltos}" var="problem">
+    		<td>
+    		<a href="/problemas/${problem.id}">
+    		<c:out value="${problem.name}"/>
+    		</a>
+    		</td>
+    		
+    	</tr>
+   		</c:forEach>
+    </table>
+    
 
 </petclinic:layout>

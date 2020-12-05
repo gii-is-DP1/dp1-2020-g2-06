@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Alumno;
+import org.springframework.samples.petclinic.model.Problema;
 import org.springframework.samples.petclinic.repository.AlumnoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +29,10 @@ public class AlumnoService {
 	
 	public void save(Alumno alumno) {
 		alumnoRepository.save(alumno);
+	}
+	
+	public Collection<Problema> problemasResueltos(int id){
+		return alumnoRepository.problemasResueltos(id);
 	}
 	
 
