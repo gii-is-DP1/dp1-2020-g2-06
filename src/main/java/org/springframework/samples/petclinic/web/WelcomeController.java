@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.repository.UserRepository;
+import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.samples.petclinic.model.Person;
@@ -17,6 +18,8 @@ import java.util.List;
 @Controller
 public class WelcomeController {
 	
+	@Autowired
+	private AlumnoService alumnoService;
 	
 	  @GetMapping("/")
 	  public String welcome(Map<String, Object> model) {
@@ -51,7 +54,8 @@ public class WelcomeController {
 		  model.put("title", "Pet Shop Project");
 		  model.put("group", "G2-L6");
 		  
-
+		  model.put("rankingTemporada",alumnoService.rankingTemporada());
+		  model.put("rankingAnual",alumnoService.rankingAnual());
 	    return "welcome";
 	  }
 }

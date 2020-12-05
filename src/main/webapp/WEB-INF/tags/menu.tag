@@ -22,28 +22,44 @@
 		<div class="navbar-collapse collapse" id="main-navbar">
 			<ul class="nav navbar-nav">
 
-				<petclinic:menuItem active="${name eq 'home'}" url="/"
-					title="home page">
+				<petclinic:menuItem active="${name eq 'INICIO'}" url="/"
+					title="INICIO">
+				<!--
 					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-					<span>Home</span>
+				-->
+					<span>INICIO</span>
 				</petclinic:menuItem>
 
-				<petclinic:menuItem active="${name eq 'owners'}" url="/owners/find"
-					title="find owners">
+				<petclinic:menuItem active="${name eq 'PROBLEMAS'}" url="/problemas"
+					title="PROBLEMAS">
+				<!--
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-					<span>Find owners</span>
+				-->
+					<span>PROBLEMAS</span>
 				</petclinic:menuItem>
 
-				<petclinic:menuItem active="${name eq 'vets'}" url="/vets"
-					title="veterinarians">
-					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>Veterinarians</span>
-				</petclinic:menuItem>
-
-				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
+				<petclinic:menuItem active="${name eq 'COMPETICION'}" url="/oups"
 					title="trigger a RuntimeException to see how it is handled">
+				<!--
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+				-->
+					<span>COMPETICION</span>
+				</petclinic:menuItem>
+
+				<petclinic:menuItem active="${name eq 'APRENDIZAJE'}" url="/articulos"
+					title="APRENDIZAJE">
+				<!--
 					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
-					<span>Error</span>
+				-->
+					<span>APRENDIZAJE</span>
+				</petclinic:menuItem>
+				
+				<petclinic:menuItem active="${name eq 'COMUNIDAD'}" url="/oups"
+					title="trigger a RuntimeException to see how it is handled">
+				<!--
+					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
+				-->
+					<span>COMUNIDAD</span>
 				</petclinic:menuItem>
 
 			</ul>

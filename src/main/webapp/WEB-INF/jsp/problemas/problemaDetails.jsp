@@ -22,7 +22,7 @@
         </tr>
         <tr>
             <th>Temporada</th>
-            <td><c:out value="${problema.temporada}"/></td>
+            <td><c:out value="${problema.season}"/></td>
         </tr>
         <tr>
             <th>Casos de Prueba</th>

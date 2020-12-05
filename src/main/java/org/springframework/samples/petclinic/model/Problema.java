@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -30,19 +31,12 @@ import lombok.EqualsAndHashCode;
 @Table(name = "problema")
 public class Problema extends NamedEntity {
 	
-	public enum temporada {
-	    PRIMAVERA,
-	    VERANO,
-	    OTOÑO,
-	    INVIERNO
-	}
-	
 	@ManyToOne
 	@JoinColumn(name="creador")
 	private Creador creador;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "problema")
-	private Set<Envio> envios;
+	private List<Envio> envios;
 	
 	@Column(name = "fecha_publicacion")
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
@@ -51,10 +45,6 @@ public class Problema extends NamedEntity {
 	@Column(name = "puntuacion")
 	@NotNull
 	private Integer puntuacion;
-	
-	@NotEmpty
-	@Column(name = "temporada")
-	private String temporada;
 	
 	@NotEmpty
 	@Column(name = "descripcion")
@@ -75,31 +65,41 @@ public class Problema extends NamedEntity {
 	@Column(name = "zip")
 	private String zip;
 	
-	protected Set<Envio> getEnviosInternal() {
-		if (this.envios == null) {
-			this.envios = new HashSet<>();
+	public String getSeason() {
+		if(LocalDate.of(LocalDate.now().getYear(), 3, 21).isBefore(LocalDate.now()) 
+				&& LocalDate.now().isBefore(LocalDate.of(LocalDate.now().getYear(), 5, 20))) {
+			return "primavera";
+		}else if(LocalDate.of(LocalDate.now().getYear(), 5, 21).isBefore(LocalDate.now()) 
+				&& LocalDate.now().isBefore(LocalDate.of(LocalDate.now().getYear(), 9, 20))) {
+			return "verano";
+		}else if(LocalDate.of(LocalDate.now().getYear(), 9, 21).isBefore(LocalDate.now()) 
+				&& LocalDate.now().isBefore(LocalDate.of(LocalDate.now().getYear(), 12, 20))) {
+			return "otoño";
+		}else {
+			return "invierno";
 		}
-		return this.envios;
-	}
-
-	protected void setEnviosInternal(Set<Envio> Envios) {
-		this.envios = Envios;
-	}
-
-	public List<Envio> getEnvios() {
-		List<Envio> sortedEnvios = new ArrayList<>(getEnviosInternal());
-		PropertyComparator.sort(sortedEnvios, new MutableSortDefinition("name", true, true));
-		return Collections.unmodifiableList(sortedEnvios);
-	}
-
-	public void addEnvio(Envio Envio) {
-		getEnviosInternal().add(Envio);
-		Envio.setProblema(this);
 	}
 	
 	public boolean isVigente() {
-		Integer aux = LocalDate.now().getMonth().getValue()%3;
-		return this.getFechaPublicacion().isAfter(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth().getValue()-aux, 1)) 
-													&& this.getFechaPublicacion().isBefore(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth().getValue()+(3-aux), 1));
+		String season = getSeason();
+		
+		if(season == "primavera"){
+			return LocalDate.of(LocalDate.now().getYear(), 3, 21)
+					.isBefore(this.getFechaPublicacion()) && this.getFechaPublicacion().isBefore(LocalDate.of(LocalDate.now().getYear(), 5, 20));
+		}else if(season == "verano") {
+			return LocalDate.of(LocalDate.now().getYear(), 5, 21)
+					.isBefore(this.getFechaPublicacion()) && this.getFechaPublicacion().isBefore(LocalDate.of(LocalDate.now().getYear(), 9, 20));
+		}else if(season == "otoño") {
+			return LocalDate.of(LocalDate.now().getYear(), 9, 21)
+					.isBefore(this.getFechaPublicacion()) && this.getFechaPublicacion().isBefore(LocalDate.of(LocalDate.now().getYear(), 12, 20));
+		}else {
+			if(LocalDate.now().getMonthValue() == 12) {
+				return LocalDate.of(LocalDate.now().getYear(), 12, 21).isBefore(this.fechaPublicacion) 
+						&& this.fechaPublicacion.isBefore(LocalDate.of(LocalDate.now().getYear()+1, 3, 20));
+			}else {
+				return LocalDate.of(LocalDate.now().getYear()-1, 12, 21).isBefore(LocalDate.now()) 
+				&& LocalDate.now().isBefore(LocalDate.of(LocalDate.now().getYear(), 3, 20));
+			}
+		}
 	}
 }
