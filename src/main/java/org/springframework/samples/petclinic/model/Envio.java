@@ -31,7 +31,7 @@ public class Envio extends BaseEntity{
 	@NotEmpty
 	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm:ss")
 	private LocalDateTime fecha;
-	
+
 	@Column(name="codigo_path")
 	@NotEmpty
 	private String codigoPath;
@@ -48,6 +48,10 @@ public class Envio extends BaseEntity{
 	@JoinColumn(name="id_problema")
 	private Problema problema;
 	
+	private String season;  /// redundante pero necesario para query
+	
+	@Column(name = "season_year")
+	private Integer seasonYear;   /// redundante pero necesario para query
 	
 	public List<String> getCodigoString() throws IOException {
 		return Files.readAllLines(Paths.get(codigoPath));
@@ -55,6 +59,7 @@ public class Envio extends BaseEntity{
 	
 	
 	public String getSeason() {
+
 		if(LocalDate.of(LocalDate.now().getYear(), 3, 21).isBefore(this.fecha.toLocalDate()) 
 				&& this.fecha.toLocalDate().isBefore(LocalDate.of(LocalDate.now().getYear(), 5, 20))) {
 			return "primavera";

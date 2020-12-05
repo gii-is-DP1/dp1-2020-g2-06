@@ -119,14 +119,14 @@ INSERT INTO alumnos(id,nombre,apellidos,email,imagen,pass) VALUES (2,'Alexis','B
 
 INSERT INTO creadores(id,nombre,apellidos,email,pass,foto) VALUES (0,'David','Brincau Cano','davbrican@us.es','dbgames55','https://yt3.ggpht.com/ytc/AAUvwnh3yE2BgOZmepJht3T-k6LRzPih9KwV4mbk1g4dYg=s88-c-k-c0x00ffffff-no-rj');
 
-INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema) VALUES (0,'2018-11-21T11:13:13.274','codes/prueba.java','AC',0,0);
-INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema) VALUES (1,'2010-11-21T11:13:13.274','codes/prueba.c','AC',0,1);
-INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema) VALUES (2,'2020-11-21T11:13:13.274','codes/prueba.java','AC',0,0);
-INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema) VALUES (3,'2018-12-31T11:13:13.274','codes/prueba.c','AC',0,0);
-INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema) VALUES (4,'2018-11-21T11:13:13.274','codes/prueba.java','AC',1,1);
-INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema) VALUES (5,'2018-11-21T11:13:13.274','codes/prueba.c','AC',2,1);
-INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema) VALUES (6,'2018-11-21T11:13:13.274','codes/prueba.java','TLE',0,0);
-INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema) VALUES (7,'2018-11-21T11:13:13.274','codes/prueba.c','WA',0,1);
-INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema) VALUES (8,'2018-11-22T11:13:13.274','codes/prueba.java','TLE',0,1);
-INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema) VALUES (9,'2018-11-21T11:13:13.274','codes/prueba.c','AC',0,0);
+INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,season,season_year) VALUES (0,'2020-08-21T11:13:13.274','codes/prueba.java','AC',0,1,'verano',2020);
+INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,season,season_year) VALUES (1,'2010-11-21T11:13:13.274','codes/prueba.c','AC',0,1,'otoño',2010);
+INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,season,season_year) VALUES (2,'2020-11-21T11:13:13.274','codes/prueba.java','AC',0,0,'otoño',2020);
+INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,season,season_year) VALUES (3,'2018-12-31T11:13:13.274','codes/prueba.c','AC',0,0,'invierno',2018);
+INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,season,season_year) VALUES (4,'2018-11-21T11:13:13.274','codes/prueba.java','AC',1,1,'otoño',2018);
+INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,season,season_year) VALUES (5,'2018-11-21T11:13:13.274','codes/prueba.c','AC',2,1,'otoño',2018);
+INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,season,season_year) VALUES (6,'2018-11-21T11:13:13.274','codes/prueba.java','TLE',0,0,'otoño',2018);
+INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,season,season_year) VALUES (7,'2018-11-21T11:13:13.274','codes/prueba.c','WA',0,1,'otoño',2018);
+INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,season,season_year) VALUES (8,'2018-11-22T11:13:13.274','codes/prueba.java','TLE',0,1,'otoño',2018);
+INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,season,season_year) VALUES (9,'2018-11-21T11:13:13.274','codes/prueba.c','AC',0,0,'otoño',2018);
 
