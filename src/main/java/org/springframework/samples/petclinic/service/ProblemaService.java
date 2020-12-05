@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -45,14 +46,10 @@ public class ProblemaService {
 	}	
 	
 	public Collection<Problema> ProblemasVigentes() {
-		Integer aux = LocalDate.now().getMonth().getValue()%3;
-		return problemaRepository.findAll().stream().filter(x->x.getFechaPublicacion().isAfter(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth().getValue()-aux, 1)) 
-													&& x.getFechaPublicacion().isBefore(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth().getValue()+(3-aux), 1))).collect(Collectors.toList());
+		return problemaRepository.findAll().stream().filter(x->x.isVigente()).collect(Collectors.toList());
 	}
 	
-	public Collection<Problema> ProblemasNoVigentes() {
-		Integer aux = LocalDate.now().getMonth().getValue()%3;
-		return problemaRepository.findAll().stream().filter(x->!(x.getFechaPublicacion().isAfter(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth().getValue()-aux, 1)) 
-													&& x.getFechaPublicacion().isBefore(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth().getValue()+(3-aux), 1)))).collect(Collectors.toList());
+	public Collection<Problema> ProblemasNoVigentes(Collection<Problema> cp) {
+		return problemaRepository.findAll().stream().filter(x->!x.isVigente()).collect(Collectors.toList());
 	}
 }
