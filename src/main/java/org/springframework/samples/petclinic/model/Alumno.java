@@ -11,12 +11,10 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 
 
 @Data
-@EqualsAndHashCode(callSuper=true)
 @Entity
 @Table(name = "alumnos")
 public class Alumno extends BaseEntity{
@@ -35,14 +33,14 @@ public class Alumno extends BaseEntity{
 	@NotEmpty
 	private String imagen;
 	
-	@Column(name="puntos_anual")
-	private Integer puntosAnual;
-	
-	@Column(name="puntos_temporada")
-	private Integer puntosTemporada;
-	
-	@Column(name="puntos_totales")
-	private Integer puntosTotales;
+//	@Column(name="puntos_anual")
+//	private Integer puntosAnual;
+//	
+//	@Column(name="puntos_temporada")
+//	private Integer puntosTemporada;
+//	
+//	@Column(name="puntos_totales")
+//	private Integer puntosTotales;
 
 	@NotEmpty
 	private String pass;

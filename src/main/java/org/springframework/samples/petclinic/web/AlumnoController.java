@@ -58,9 +58,7 @@ public class AlumnoController {
 			return VIEWS_ALUMNO_CREATE_OR_UPDATE_FORM;
 		}
 		else {
-			alumno.setPuntosAnual(0);
-			alumno.setPuntosTemporada(0);
-			alumno.setPuntosTotales(0);
+
 			alumnoService.save(alumno);
 			
 			return "redirect:/alumnos/";
