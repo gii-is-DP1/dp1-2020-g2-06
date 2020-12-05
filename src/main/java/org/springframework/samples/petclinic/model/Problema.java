@@ -21,6 +21,7 @@ import javax.validation.constraints.NotNull;
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PropertyComparator;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.samples.petclinic.util.Utils;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -66,14 +67,14 @@ public class Problema extends NamedEntity {
 	private String zip;
 	
 	public String getSeason() {
-		if(LocalDate.of(LocalDate.now().getYear(), 3, 21).isBefore(LocalDate.now()) 
-				&& LocalDate.now().isBefore(LocalDate.of(LocalDate.now().getYear(), 5, 20))) {
+		if(LocalDate.of(LocalDate.now().getYear(), 3, 21).isBefore(this.fechaPublicacion) 
+				&& this.fechaPublicacion.isBefore(LocalDate.of(LocalDate.now().getYear(), 5, 20))) {
 			return "primavera";
-		}else if(LocalDate.of(LocalDate.now().getYear(), 5, 21).isBefore(LocalDate.now()) 
-				&& LocalDate.now().isBefore(LocalDate.of(LocalDate.now().getYear(), 9, 20))) {
+		}else if(LocalDate.of(LocalDate.now().getYear(), 5, 21).isBefore(this.fechaPublicacion) 
+				&& this.fechaPublicacion.isBefore(LocalDate.of(LocalDate.now().getYear(), 9, 20))) {
 			return "verano";
-		}else if(LocalDate.of(LocalDate.now().getYear(), 9, 21).isBefore(LocalDate.now()) 
-				&& LocalDate.now().isBefore(LocalDate.of(LocalDate.now().getYear(), 12, 20))) {
+		}else if(LocalDate.of(LocalDate.now().getYear(), 9, 21).isBefore(this.fechaPublicacion) 
+				&& this.fechaPublicacion.isBefore(LocalDate.of(LocalDate.now().getYear(), 12, 20))) {
 			return "otoño";
 		}else {
 			return "invierno";
@@ -81,7 +82,7 @@ public class Problema extends NamedEntity {
 	}
 	
 	public boolean isVigente() {
-		String season = getSeason();
+		String season = Utils.getActualSeason();
 		
 		if(season == "primavera"){
 			return LocalDate.of(LocalDate.now().getYear(), 3, 21)
