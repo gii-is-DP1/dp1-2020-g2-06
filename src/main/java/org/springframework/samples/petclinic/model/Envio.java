@@ -48,7 +48,7 @@ public class Envio extends BaseEntity{
 	
 	
 	public String getCodigoString() throws IOException {
-		return Files.readString(Paths.get(codigoPath), StandardCharsets.UTF_8);
+		return Files.readAllLines(Paths.get(codigoPath), StandardCharsets.UTF_8).toString();
 	}
 
 }
