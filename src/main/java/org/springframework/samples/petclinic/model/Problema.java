@@ -81,6 +81,22 @@ public class Problema extends NamedEntity {
 		}
 	}
 	
+	public Integer getYearofSeason() {
+		if(getSeason().equals("invierno")) {
+			if(fechaPublicacion.getMonthValue()==12)
+				return fechaPublicacion.getYear();
+			else
+				return fechaPublicacion.getYear()-1;
+		}
+			
+		else {
+			return fechaPublicacion.getYear();
+		}
+			
+	}
+	
+	
+	
 	public boolean isVigente() {
 		String season = Utils.getActualSeason();
 		

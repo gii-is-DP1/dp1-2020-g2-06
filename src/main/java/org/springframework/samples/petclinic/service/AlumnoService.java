@@ -30,14 +30,6 @@ public class AlumnoService {
 		alumnoRepository.save(alumno);
 	}
 	
-	@Transactional
-	public Collection<Alumno> rankingTemporada() {
-		return alumnoRepository.findAll().stream().sorted(Comparator.comparing(Alumno::getPuntosTemporada)).collect(Collectors.toList());
-	}
-	
-	@Transactional
-	public Collection<Alumno> rankingAnual() {
-		return alumnoRepository.findAll().stream().sorted(Comparator.comparing(Alumno::getPuntosAnual)).collect(Collectors.toList());
-	}
+
 
 }
