@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.repository;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -18,8 +19,19 @@ public interface AlumnoRepository extends Repository<Alumno, Integer>{
 	
 	void save(Alumno alumno) throws DataAccessException;
 	
-	@Query("SELECT DISTINCT p FROM Problema p JOIN p.envios e WHERE e.alumno.id LIKE :id AND e.resolucion LIKE 'AC'")
+	@Query("SELECT DISTINCT p FROM Problema p JOIN p.envios e WHERE e.alumno.id LIKE :id AND e.resolucion LIKE 'AC' "
+			+ "AND e.season LIKE :season AND e.seasonYear LIKE :seasonyear AND "
+			+ "p.season LIKE e.season AND p.seasonYear like e.seasonYear")
+	public Collection<Problema> problemasResueltosBySeason(@Param("id") int id,@Param("season")String season, @Param("seasonyear")Integer seasonyear);
+	
+	
+	@Query("SELECT DISTINCT p FROM Problema p JOIN p.envios e WHERE e.alumno.id LIKE :id AND e.resolucion LIKE 'AC' "
+			+ "AND p.season LIKE e.season AND p.seasonYear like e.seasonYear")
 	public Collection<Problema> problemasResueltos(@Param("id") int id);
+	
+	@Query("SELECT DISTINCT p FROM Problema p JOIN p.envios e WHERE e.alumno.id LIKE :id AND e.resolucion LIKE 'AC' "
+			+ "AND p.season LIKE e.season AND p.seasonYear LIKE e.seasonYear AND YEAR(e.fecha) LIKE :year")
+	public Collection<Problema> problemasResueltosDateFilter(@Param("id") int id,@Param("year")int year);
 	
 
 }
