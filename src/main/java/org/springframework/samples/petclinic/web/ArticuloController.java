@@ -64,7 +64,7 @@ public class ArticuloController {
 			return "articulos/createOrUpdateArticuloForm";
 		}
 		else {
-			BeanUtils.copyProperties(modifiedArticulo, articulo.get(), "id", "fechaPublicacion");
+			BeanUtils.copyProperties(modifiedArticulo, articulo.get(), "id", "fechaPublicacion", "autor");
 			articuloService.save(articulo.get());
 			model.addAttribute("message","El artículo se ha actualizado con éxito");
 			return listArticulos(model);
