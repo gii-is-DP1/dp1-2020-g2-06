@@ -18,15 +18,15 @@
         </tr>
     	<tr>
             <th>Puntuación Temporada</th>
-            <td><c:out value="${alumno.puntosTemporada}"/></td>
+            <td><c:out value="${puntostemporada}"/></td>
         </tr>
         <tr>
             <th>Puntuación Anual</th>
-            <td><c:out value="${alumno.puntosAnual}"/></td>
+            <td><c:out value="${puntosanuales}"/></td>
         </tr>
         <tr>
             <th>Puntuación Total</th>
-            <td><c:out value="${alumno.puntosTotales}"/></td>
+            <td><c:out value="${puntostotales}"/></td>
         </tr>
        
     </table>
@@ -40,7 +40,7 @@
    
     <h2> Últimos envíos</h2>
     <table class="table table-striped">
-    <c:forEach items="${alumno.envios}" var="envio">
+  
     	<tr>
     	<th> Envío
     	</th>
@@ -55,6 +55,7 @@
     	</th>
     	</tr>
     	<tr>
+    	  <c:forEach items="${alumno.envios}" var="envio">
     		<td>
     		<a href="/envios/${envio.id}">
     		<c:out value="${envio.id}"/>
@@ -72,7 +73,27 @@
     		<c:out value="${envio.resolucion}"/>
     		
     	</tr>
-   	</c:forEach>
+   		</c:forEach>
+    </table>
+    
+    
+    <br>
+	<br>
+   
+    <h2> Problemas resueltos (estando vigentes)</h2>
+    <table class="table table-striped">
+  
+    	
+    	<tr>
+    	  <c:forEach items="${problemasresueltos}" var="problem">
+    		<td>
+    		<a href="/problemas/${problem.id}">
+    		<c:out value="${problem.name}"/>
+    		</a>
+    		</td>
+    		
+    	</tr>
+   		</c:forEach>
     </table>
     
 

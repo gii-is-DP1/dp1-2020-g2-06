@@ -53,9 +53,6 @@ public class WelcomeController {
 		  model.put("persons", persons);
 		  model.put("title", "Pet Shop Project");
 		  model.put("group", "G2-L6");
-		  
-		  model.put("rankingTemporada",alumnoService.rankingTemporada());
-		  model.put("rankingAnual",alumnoService.rankingAnual());
 	    return "welcome";
 	  }
 }
