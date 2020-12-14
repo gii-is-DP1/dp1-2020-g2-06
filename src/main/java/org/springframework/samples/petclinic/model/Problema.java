@@ -1,11 +1,7 @@
 package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,9 +13,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.beans.support.MutableSortDefinition;
-import org.springframework.beans.support.PropertyComparator;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.samples.petclinic.util.Utils;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -30,19 +25,12 @@ import lombok.EqualsAndHashCode;
 @Table(name = "problema")
 public class Problema extends NamedEntity {
 	
-	public enum temporada {
-	    PRIMAVERA,
-	    VERANO,
-	    OTOÑO,
-	    INVIERNO
-	}
-	
 	@ManyToOne
 	@JoinColumn(name="creador")
 	private Creador creador;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "problema")
-	private Set<Envio> envios;
+	private List<Envio> envios;
 	
 	@Column(name = "fecha_publicacion")
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
@@ -51,10 +39,6 @@ public class Problema extends NamedEntity {
 	@Column(name = "puntuacion")
 	@NotNull
 	private Integer puntuacion;
-	
-	@NotEmpty
-	@Column(name = "temporada")
-	private String temporada;
 	
 	@NotEmpty
 	@Column(name = "descripcion")
@@ -75,31 +59,20 @@ public class Problema extends NamedEntity {
 	@Column(name = "zip")
 	private String zip;
 	
-	protected Set<Envio> getEnviosInternal() {
-		if (this.envios == null) {
-			this.envios = new HashSet<>();
-		}
-		return this.envios;
-	}
-
-	protected void setEnviosInternal(Set<Envio> Envios) {
-		this.envios = Envios;
-	}
-
-	public List<Envio> getEnvios() {
-		List<Envio> sortedEnvios = new ArrayList<>(getEnviosInternal());
-		PropertyComparator.sort(sortedEnvios, new MutableSortDefinition("name", true, true));
-		return Collections.unmodifiableList(sortedEnvios);
-	}
-
-	public void addEnvio(Envio Envio) {
-		getEnviosInternal().add(Envio);
-		Envio.setProblema(this);
-	}
+	private String season;
+	
+	@Column(name = "season_year")
+	private Integer seasonYear;
+	
+	@ManyToOne
+	@JoinColumn(name="id_competicion")
+	private Competicion competicion;
 	
 	public boolean isVigente() {
-		Integer aux = LocalDate.now().getMonth().getValue()%3;
-		return this.getFechaPublicacion().isAfter(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth().getValue()-aux, 1)) 
-													&& this.getFechaPublicacion().isBefore(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth().getValue()+(3-aux), 1));
+		String actualSeason = Utils.getActualSeason();
+		Integer actualYearSeason = Utils.getActualYearofSeason();
+		return this.season.equals(actualSeason) && this.seasonYear.equals(actualYearSeason);
+			
 	}
+	
 }

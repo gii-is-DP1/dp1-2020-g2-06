@@ -1,12 +1,17 @@
 package org.springframework.samples.petclinic.web;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Alumno;
+import org.springframework.samples.petclinic.model.Problema;
 import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -36,6 +41,13 @@ public class AlumnoController {
 		Optional<Alumno> alumno = alumnoService.findById(id);
 		if(alumno.isPresent()) {
 			model.addAttribute("alumno",alumno.get());
+			Collection<Problema> problemasResueltos = alumnoService.problemasResueltos(id);
+			Collection<Problema> problemasResueltosYear = alumnoService.problemasResueltosThisYear(id);
+			Collection<Problema> problemasResueltosSeason = alumnoService.problemasResueltosThisSeason(id);
+			model.addAttribute("problemasresueltos",problemasResueltos);
+			model.addAttribute("puntostotales",problemasResueltos.stream().mapToInt(x->x.getPuntuacion()).sum());
+			model.addAttribute("puntosanuales",problemasResueltosYear.stream().mapToInt(x->x.getPuntuacion()).sum());
+			model.addAttribute("puntostemporada",problemasResueltosSeason.stream().mapToInt(x->x.getPuntuacion()).sum());
 			return "alumnos/alumnoDetails";
 		}
 		else {
@@ -58,9 +70,7 @@ public class AlumnoController {
 			return VIEWS_ALUMNO_CREATE_OR_UPDATE_FORM;
 		}
 		else {
-			alumno.setPuntosAnual(0);
-			alumno.setPuntosTemporada(0);
-			alumno.setPuntosTotales(0);
+
 			alumnoService.save(alumno);
 			
 			return "redirect:/alumnos/";

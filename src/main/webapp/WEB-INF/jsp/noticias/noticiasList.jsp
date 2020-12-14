@@ -14,7 +14,7 @@
         <table id="noticiasTable" class="table table-striped">
             <tr>
                 <th>  
-                	<a href="noticias/${noticia.id}">                  
+                	<a href="/noticias/${noticia.id}">                  
                     <c:out value="${noticia.name}"/>&nbsp;<c:out value="${noticia.fechaPublicacion}"/>
                     </a>
                 </th>
