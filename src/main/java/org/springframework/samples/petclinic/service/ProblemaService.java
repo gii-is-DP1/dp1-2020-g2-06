@@ -1,7 +1,5 @@
 package org.springframework.samples.petclinic.service;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;

@@ -1,6 +1,5 @@
 package org.springframework.samples.petclinic.repository;
 
-import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Optional;
 
