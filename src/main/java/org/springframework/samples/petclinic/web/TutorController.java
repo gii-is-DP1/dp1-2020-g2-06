@@ -81,7 +81,7 @@ public class TutorController {
 	}
 	
 	@PostMapping("/new")
-	public String processCreationForm(@Valid Tutor tutor, BindingResult result) {
+	public String r(@Valid Tutor tutor, BindingResult result) {
 		if(result.hasErrors()) {
 			return "tutores/createOrUpdateTutorForm";
 		}else {

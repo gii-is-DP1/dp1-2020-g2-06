@@ -16,6 +16,65 @@
     </c:forEach>
     </ul></p>
     </div>
+    
+    <h2>Ranking Temporada</h2>
+    <c:set var="count" value="0" scope="page" />
+    <table id="rankingTTable" class="table table-striped">
+        <thead>
+        <tr>
+            <th style="width: 150px">Posición</th>
+            <th >Nombre</th>
+            <th >Apellidos</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach items="${rankingTemporada}" var="alumnot">
+            <tr>
+                <td>
+                    <c:out value="${count}" />
+                </td>
+                <td>
+                    <c:out value="${alumnot.nombre}"/>
+                </td>
+                <td>
+                    <c:out value="${alumnot.apellidos}"/>
+                </td>
+                
+            </tr>
+            <c:set var="count" value="${count + 1}" scope="page"/>
+        </c:forEach>
+        </tbody>
+    </table>
+    
+    <h2>Ranking Anual</h2>
+    <c:set var="count2" value="0" scope="page" />
+    <table id="rankingATable" class="table table-striped">
+        <thead>
+        <tr>
+            <th style="width: 150px">Posición</th>
+            <th >Nombre</th>
+            <th >Apellidos</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach items="${rankingAnual}" var="alumnoA">
+            <tr>
+                <td>
+                    <c:out value="${count2}" />
+                </td>
+                <td>
+                    <c:out value="${alumnoA.nombre}"/>
+                </td>
+                <td>
+                    <c:out value="${alumnoA.apellidos}"/>
+                </td>
+                
+            </tr>
+            <c:set var="count2" value="${count2 + 1}" scope="page"/>
+        </c:forEach>
+        </tbody>
+    </table>
+    
     <div class="row">
         <div class="col-md-12">
             <spring:url value="/resources/images/pets.png" htmlEscape="true" var="petsImage"/>

@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.web;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -28,15 +29,22 @@ private static final String VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM = "problemas/cr
 	@GetMapping()
 	public String listProblemas(ModelMap modelMap) {
 		String vista = "problemas/problemasList";
-		modelMap.addAttribute("problema",problemaService.findAll());
+		Collection<Problema> cp= problemaService.ProblemasVigentes();
+		modelMap.addAttribute("problemasVigentes",cp);
+		modelMap.addAttribute("problemasNoVigentes",problemaService.ProblemasNoVigentes(cp));
 		return vista;
 	}
 	
 	@GetMapping("/{id}")
 	public String problemaDetails(@PathVariable("id") int id,ModelMap model) {
 		Optional<Problema> problema = problemaService.findById(id);
+		
 		if(problema.isPresent()) {
+			if(problema.get().isVigente()) {
+				model.addAttribute("editarTrue",1);
+			}
 			model.addAttribute("problema", problema.get());
+			model.addAttribute("ultimosEnvios", problema.get().getEnvios());
 			return "problemas/problemaDetails";
 		}
 		else {

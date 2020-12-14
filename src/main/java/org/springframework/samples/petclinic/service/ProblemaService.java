@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
@@ -40,5 +41,13 @@ public class ProblemaService {
 	public void saveProblema(@Valid Problema problema){
 		//creating normaWeb
 		problemaRepository.save(problema);
-	}		
+	}	
+	
+	public Collection<Problema> ProblemasVigentes() {
+		return problemaRepository.findAll().stream().filter(x->x.isVigente()&&x.getCompeticion()==null).collect(Collectors.toList());
+	}
+	
+	public Collection<Problema> ProblemasNoVigentes(Collection<Problema> cp) {
+		return problemaRepository.findAll().stream().filter(x->!x.isVigente()&&x.getCompeticion()==null).collect(Collectors.toList());
+	}
 }

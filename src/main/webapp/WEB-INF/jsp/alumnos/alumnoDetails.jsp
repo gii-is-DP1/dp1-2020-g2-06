@@ -18,15 +18,15 @@
         </tr>
     	<tr>
             <th>Puntuación Temporada</th>
-            <td><c:out value="${alumno.puntosTemporada}"/></td>
+            <td><c:out value="${puntostemporada}"/></td>
         </tr>
         <tr>
             <th>Puntuación Anual</th>
-            <td><c:out value="${alumno.puntosAnual}"/></td>
+            <td><c:out value="${puntosanuales}"/></td>
         </tr>
         <tr>
             <th>Puntuación Total</th>
-            <td><c:out value="${alumno.puntosTotales}"/></td>
+            <td><c:out value="${puntostotales}"/></td>
         </tr>
        
     </table>
@@ -34,24 +34,67 @@
    
     <spring:url value="/alumnos/${alumno.id}/edit" var="editUrl"> </spring:url>
     <a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar Alumno</a>
-    <!-- > 
-    <br>
-	<br>
+    
 	<br>
 	<br>
    
-    <h2> Envíos</h2>
+    <h2> Últimos envíos</h2>
     <table class="table table-striped">
-    <c:forEach items="${alumno.envios}" var="envio">
+  
     	<tr>
+    	<th> Envío
+    	</th>
+    	<th>
+    	Problema
+    	</th>
+    	<th>
+    	Fecha y hora
+    	</th>
+    	<th>
+    	Veredicto
+    	</th>
+    	</tr>
+    	<tr>
+    	  <c:forEach items="${alumno.envios}" var="envio">
     		<td>
-    		<a href="/noticias/${envio.id}">
+    		<a href="/envios/${envio.id}">
     		<c:out value="${envio.id}"/>
     		</a>
     		</td>
+    		<td>
+    		<a href="/problemas/${envio.problema.id}">
+    		<c:out value="${envio.problema.name}"/>
+    		</a>
+    		</td>
+    		<td>
+    		<c:out value="${envio.fecha}"/>
+    		</td>
+    		<td>
+    		<c:out value="${envio.resolucion}"/>
+    		
     	</tr>
-   	</c:forEach>
+   		</c:forEach>
     </table>
-    -->
+    
+    
+    <br>
+	<br>
+   
+    <h2> Problemas resueltos (estando vigentes)</h2>
+    <table class="table table-striped">
+  
+    	
+    	<tr>
+    	  <c:forEach items="${problemasresueltos}" var="problem">
+    		<td>
+    		<a href="/problemas/${problem.id}">
+    		<c:out value="${problem.name}"/>
+    		</a>
+    		</td>
+    		
+    	</tr>
+   		</c:forEach>
+    </table>
+    
 
 </petclinic:layout>

@@ -6,7 +6,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
-
 import lombok.Data;
 
 @Data
@@ -33,6 +32,7 @@ public class Tutor extends BaseEntity{
 	
 	@Column(name = "foto")
 	private String foto;
+
 	
 
 }

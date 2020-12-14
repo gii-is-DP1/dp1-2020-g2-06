@@ -21,12 +21,8 @@
             <td><c:out value="${problema.puntuacion}"/></td>
         </tr>
         <tr>
-            <th>Dificultad</th>
-            <td><c:out value="${problema.dificultad}"/></td>
-        </tr>
-        <tr>
             <th>Temporada</th>
-            <td><c:out value="${problema.temporada}"/></td>
+            <td><c:out value="${problema.season}"/>&nbsp;<c:out value="${problema.seasonYear}"/></td>
         </tr>
         <tr>
             <th>Casos de Prueba</th>
@@ -37,8 +33,13 @@
             <td><c:out value="${problema.salida_esperada}"/></td>
         </tr>
     </table>
-
+	 <c:if test="${editarTrue == 1}">
     <spring:url value="{problemaId}/edit" var="editUrl"> <spring:param name="problemaId" value="${problema.id}"/> </spring:url>
     <a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar Problema</a>
+    </c:if>
+    
+    <c:forEach items="${ultimosEnvios}" var="envio">
+    	<spring:url value="envios/{envioId}" var="editUrl"> <spring:param name="envioId" value="${envio.id}"/> </spring:url>
+    </c:forEach>
 
 </petclinic:layout>
