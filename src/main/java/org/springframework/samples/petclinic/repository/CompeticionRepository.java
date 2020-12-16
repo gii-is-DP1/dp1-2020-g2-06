@@ -14,4 +14,5 @@ public interface CompeticionRepository extends Repository<Competicion, String> {
 	Optional<Competicion> findById(int id) throws DataAccessException;
 	
 	void save(Competicion competicion) throws DataAccessException;
+	
 }
