@@ -23,6 +23,7 @@ public class EnvioController {
 	public String envioDetails(@PathVariable("id") int id, ModelMap model) throws IOException {
 		Optional<Envio> envio = envioService.findById(id);
 		if(envio.isPresent()) {
+			model.addAttribute("comentarios", envio.get().getListaComentarios());
 			model.addAttribute("envio",envio.get());
 			model.addAttribute("codigo",envio.get().getCodigoString());
 			return "envios/envioDetails";
@@ -34,4 +35,5 @@ public class EnvioController {
 		
 	}
 
+	
 }

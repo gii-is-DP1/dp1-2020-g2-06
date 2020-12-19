@@ -1,7 +1,9 @@
 <%@ page session="false" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="problemas">
@@ -34,8 +36,9 @@
         </tr>
         <tr>
             <th>Puntuación de los alumnos</th>
-            
-            	<td><c:out value="${puntuacionMedia}"/></td>
+            <c:forEach items="${problema.puntuacionesProblema}" var="puntuacionProblema">
+            	<td><c:out value="${puntuacionProblema.puntuacion}"/></td>
+   			</c:forEach>
         </tr>
         <tr>
             <th>Aclaraciones de los tutores</th>
@@ -56,24 +59,41 @@
     	<spring:url value="envios/{envioId}" var="editUrl"> <spring:param name="envioId" value="${envio.id}"/> </spring:url>
     </c:forEach>
 			
-	<a class="btn btn-default" href='<spring:url value="aclaraciones/new" htmlEscape="true"/>'>Añadir Aclaración</a>
-	
-	<select id="isTitles" name="isTitles">
-   			<c:forEach items="${alumnos}" var="alumno">
-			    <option value="${alumno.nombre}"><c:out value="${alumno.nombre}"/></option>
-   			</c:forEach>
-			</select>
-			<select id="isTitles" name="isTitles">
-   				<option value="0">0</option>
-   				<option value="1">1</option>
-   				<option value="2">2</option>
-   				<option value="3">3</option>
-   				<option value="4">4</option>
-   				<option value="5">5</option>
-   				<option value="6">6</option>
-   				<option value="7">7</option>
-   				<option value="8">8</option>
-   				<option value="9">9</option>
-   				<option value="10">10</option>
-			</select>
-</petclinic:layout>
+	<a class="btn btn-default" href='<spring:url value="/aclaraciones/new" htmlEscape="true"/>'>Añadir Aclaración</a>
+
+
+
+
+
+
+
+
+
+
+
+    <h2>
+        <c:if test="${aclaracion['new']}">Nueva </c:if> Aclaracion
+    </h2>
+    <form:form modelAttribute="problema" class="form-horizontal" id="add-problema-form">
+        <div class="form-group has-feedback">
+            <petclinic:inputField label="Nombre del problema" name="name"/>
+            <petclinic:inputField label="Descripción" name="descripcion"/>
+            <petclinic:inputField label="Puntuacion" name="puntuacion"/>
+            <petclinic:inputField label="Casos_prueba" name="casos_prueba"/>
+            <petclinic:inputField label="Salida_esperada" name="salida_esperada"/>
+            <petclinic:inputField label="Imagen" name="imagen"/>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <c:choose>
+                    <c:when test="${problema['new']}">
+                        <button class="btn btn-default" type="submit">Añadir Problema</button>
+                    </c:when>
+                    <c:otherwise>
+                        <button class="btn btn-default" type="submit">Actualizar Problema</button>
+                    </c:otherwise>
+                </c:choose>
+            </div>
+        </div>
+    </form:form>
+</petclinic:layout> 
