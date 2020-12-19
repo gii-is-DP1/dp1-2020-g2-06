@@ -25,6 +25,9 @@
             <td><c:out value="${competicion.fecha_fin}"/></td>
         </tr>
         <tr>
+        	<th>Problemas: </th>
+        </tr>
+        <tr>
            <c:forEach items="${competicion.problemas}" var="problema">
            	<th>
            		<a href="/problemas/${problema.id}">

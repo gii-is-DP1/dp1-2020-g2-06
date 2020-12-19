@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +66,7 @@ class TutorServiceTests {
 	
 	
 	@Test
-	void shouldUpdateOwner() {
+	void shouldUpdateTutor() {
 		Tutor tutor = this.tutorService.findById(1).get();
 		String antiguoNombre = tutor.getNombre();
 		String nuevoNombre = tutor.getNombre()+"x";
@@ -101,9 +103,10 @@ class TutorServiceTests {
 	void shoulInsertArticulo() {
 		Tutor tutor = this.tutorService.findById(0).get();
 		Integer numArticulosAntiguos = articuloService.findTutorArticulos(tutor.getId()).size();
-		
+		Set<Tutor> autores = new HashSet<Tutor>();
+		autores.add(tutor);
 		Articulo articuloNuevo = new Articulo();
-		articuloNuevo.setAutor(tutor);
+		articuloNuevo.setAutores(autores);
 		articuloNuevo.setFechaPublicacion(LocalDate.now());
 		articuloNuevo.setName("Concurso de AdaByron");
 		articuloNuevo.setImagen("foto.jpg");

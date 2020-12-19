@@ -6,30 +6,26 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="noticias">
+<petclinic:layout pageName="competiciones">
     <h2>
-        <c:if test="${articulo['new']}">New </c:if> Articulo
+        <c:if test="${competiciones['new']}">New </c:if> Competicion
     </h2>
-    <form:form modelAttribute="articulo" class="form-horizontal" id="add-owner-form">
+    <form:form modelAttribute="competicion" class="form-horizontal" id="add-competicion-form">
         <div class="form-group has-feedback">
-            <petclinic:inputField label="Título" name="name"/>
-            <petclinic:inputField label="Texto" name="texto"/>
+            <petclinic:inputField label="Nombre" name="nombre"/>
+            <petclinic:inputField label="Descripcion" name="descripcion"/>
             <petclinic:inputField label="Imagen" name="imagen"/>
-            <div class="formGroup">            
-            	<div class="col-sm-10">
-            	<label>Autores:</label>
-            		<form:checkboxes items="${autores}" path="autores" delimiter="&nbsp;&nbsp;&nbsp;" itemLabel="nombre" style="border:10px;"/>
-            	</div>
-            </div>      
+            <petclinic:inputField label="Fecha Inicio" name="fecha_inicio"/>
+            <petclinic:inputField label="Fecha Fin" name="fecha_fin"/>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <c:choose>
-                    <c:when test="${articulo['new']}">
-                        <button class="btn btn-default" type="submit">Añadir Articulo</button>
+                    <c:when test="${competicion['new']}">
+                        <button class="btn btn-default" type="submit">Añadir Competicion</button>
                     </c:when>
                     <c:otherwise>
-                        <button class="btn btn-default" type="submit">Actualizar Articulo</button>
+                        <button class="btn btn-default" type="submit">Actualizar Competicion</button>
                     </c:otherwise>
                 </c:choose>
             </div>

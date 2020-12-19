@@ -1,6 +1,5 @@
 package org.springframework.samples.petclinic.model;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -10,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -30,16 +30,15 @@ public class Competicion extends BaseEntity{
 	
 	@Column(name = "fecha_inicio")
 	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm:ss")
-	@NotEmpty
+	@NotNull
 	private LocalDateTime fecha_inicio;
 	
 	@Column(name = "fecha_fin")
 	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm:ss")
-	@NotEmpty
+	@NotNull
 	private LocalDateTime fecha_fin;
 	
 	@Column(name= "imagen")
-	@NotEmpty
 	private String imagen;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "competicion")

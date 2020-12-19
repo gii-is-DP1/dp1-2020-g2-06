@@ -17,9 +17,6 @@
 				<th><a href="/problemas/${problemaVigente.id}/edit"> <span
 						class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 				</a></th>
-				<th><a href="/problemas/${problemasVigente.id}/delete"> <span
-						class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-				</a></th>
 			</tr>
 		</table>
 	</c:forEach>
@@ -30,9 +27,6 @@
 		<table id="problemasTable" class="table table-striped">
 			<tr>
 				<th><a href="/problemas/${problemaNoVigente.id}"> <c:out value="${problemaNoVigente.name}" /> </a></th>
-				<th><a href="/problemas/${problemaNoVigente.id}/delete"> <span
-						class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-				</a></th>
 			</tr>
 		</table>
 	</c:forEach>
