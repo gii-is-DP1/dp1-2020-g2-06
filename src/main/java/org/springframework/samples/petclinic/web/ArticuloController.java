@@ -96,6 +96,7 @@ public class ArticuloController {
 	public String initCreationForm(Map<String,Object> model) {
 		Articulo articulo = new Articulo();
 		model.put("articulo",articulo);
+		model.put("autores", tutorService.findAll());
 		return "articulos/createOrUpdateArticuloForm";
 	}
 	
