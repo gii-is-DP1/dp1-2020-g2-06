@@ -25,7 +25,7 @@ public class ProblemaServiceTests {
 	@Test
 	public void testCountWithInitialData() {
 		int count = ProblemaService.ProblemaCount();
-		assertEquals(count, 2);
+		assertEquals(count, 3);
 	}
 	
 	@Test

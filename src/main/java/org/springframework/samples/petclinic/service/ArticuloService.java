@@ -32,7 +32,7 @@ public class ArticuloService {
 		articuloRepo.save(articulo);
 	}
 	
-	public Collection<Articulo> findTutorArticulos(int id){
+	public Collection<Articulo> findTutorArticulos(int id) {
 		return articuloRepo.findTutorArticulos(id);
 	}
 
