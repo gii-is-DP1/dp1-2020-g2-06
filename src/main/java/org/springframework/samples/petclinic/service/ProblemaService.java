@@ -41,7 +41,6 @@ public class ProblemaService {
 	
 	@Transactional(rollbackFor = ConstraintViolationException.class)
 	public void saveProblema(@Valid Problema problema){
-		//creating normaWeb
 		problemaRepository.save(problema);
 	}	
 	

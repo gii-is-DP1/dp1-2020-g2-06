@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.web;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -7,8 +8,12 @@ import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Problema;
+import org.springframework.samples.petclinic.model.ProblemaAuxiliar;
 import org.springframework.samples.petclinic.service.ProblemaService;
+import org.springframework.samples.petclinic.service.zipService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -16,6 +21,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/problemas")
@@ -25,6 +33,9 @@ private static final String VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM = "problemas/cr
 	
 	@Autowired
 	private ProblemaService problemaService;
+	
+	@Autowired
+	private zipService zipService;
 	
 	@GetMapping()
 	public String listProblemas(ModelMap modelMap) {
@@ -63,15 +74,23 @@ private static final String VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM = "problemas/cr
 	}
 
 	@PostMapping(value = "/new")
-	public String processCreationForm(@Valid Problema problema, BindingResult result) {
-		if (result.hasErrors()) {
-			return VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM;
-		}
-		else {
-			//creating problema
-			problemaService.saveProblema(problema);
-			
-			return "redirect:/problemas/";
+	public String processCreationForm(@Valid ProblemaAuxiliar problemaAux, BindingResult result,@RequestParam("zip") MultipartFile zip){
+		String message;
+		try {
+			if (result.hasErrors()) {
+				System.out.println(result.getAllErrors());
+				return VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM;
+			}
+			else {
+				zipService.save(zip);
+				Problema problema = problemaAux.problemaConZip(zip);
+				problemaService.saveProblema(problema);
+				message = "Uploaded the files successfully: " + zip.getOriginalFilename();
+				return "redirect:/problemas/";
+			}
+		} catch (MaxUploadSizeExceededException e) {
+		      message = "Fail to upload files!";
+		      return VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM;
 		}
 	}
 	
@@ -90,16 +109,21 @@ private static final String VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM = "problemas/cr
 	}
 	
 	@PostMapping("/{id}/edit")
-	public String editProblemas(@PathVariable("id") int id, @Valid Problema modifiedProblema, BindingResult binding, ModelMap model) {
+	public String editProblemas(@PathVariable("id") int id, @Valid Problema modifiedProblema, BindingResult binding, ModelMap model,@RequestParam("zip") MultipartFile zip) throws IOException {
+		String message;
+		try {
 		Optional<Problema> problema = problemaService.findById(id);
 		if(binding.hasErrors()) {
 			return VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM;
 		}
 		else {
 			BeanUtils.copyProperties(modifiedProblema, problema.get(), "id");
-			problemaService.saveProblema(problema.get());
 			model.addAttribute("message","Problema actualizado con éxito");
 			return listProblemas(model);
+		}
+		} catch (MaxUploadSizeExceededException e) {
+		      message = "Fail to upload files!";
+		      return VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM;
 		}
 		
 	}

@@ -1,14 +1,15 @@
 package org.springframework.samples.petclinic.configuration;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;
-import org.springframework.boot.web.servlet.error.ErrorController;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * This advice is necessary because MockMvc is not a real servlet environment, therefore it does not redirect error
@@ -29,4 +30,12 @@ public class ExceptionHandlerConfiguration
         request.setAttribute("exeption", ex);
         return "exception";
     }
+   
+   //ExceptionHandler para subida de zips
+   @ExceptionHandler(MaxUploadSizeExceededException.class)
+   public ModelAndView handleMaxSizeException (MaxUploadSizeExceededException exc,HttpServletRequest request,HttpServletResponse response){
+	   ModelAndView modelAndView = new ModelAndView("problemas");
+       modelAndView.getModel().put("message", "File too large!");
+       return modelAndView;
+   }
 }
