@@ -15,11 +15,10 @@
             <petclinic:inputField label="Título" name="name"/>
             <petclinic:inputField label="Texto" name="texto"/>
             <petclinic:inputField label="Imagen" name="imagen"/>
-            <petclinic:richTextArea label="Autores" name="autores"/>
             <div class="formGroup">            
             	<div class="col-sm-10">
             	<label>Autores:</label>
-            		<form:checkboxes items="${autores}" path="autores" delimiter="&nbsp;&nbsp;&nbsp;"/>
+            		<form:checkboxes items="${autores}" path="autores" delimiter="&nbsp;&nbsp;&nbsp;" itemLabel="nombre" style="border:10px;"/>
             	</div>
             </div>      
         </div>

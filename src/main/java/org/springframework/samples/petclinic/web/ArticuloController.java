@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.web;
 
+import java.util.Map;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -89,6 +90,23 @@ public class ArticuloController {
 			model.addAttribute("message", "No podemos encontrar el articulo que intenta borrar");
 		}
 		return listArticulos(model);
+	}
+	
+	@GetMapping("/new")
+	public String initCreationForm(Map<String,Object> model) {
+		Articulo articulo = new Articulo();
+		model.put("articulo",articulo);
+		return "articulos/createOrUpdateArticuloForm";
+	}
+	
+	@PostMapping("/new")
+	public String processCreationForm(@Valid Articulo articulo, BindingResult result) {
+		if(result.hasErrors()) {
+			return "tutores/createOrUpdateArticuloForm";
+		}else {
+			this.articuloService.save(articulo);
+			return "redirect:/articulos";
+		}
 	}
 	
 
