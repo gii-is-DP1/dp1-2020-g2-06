@@ -31,11 +31,23 @@
         </tr>
         <tr>
             <th>Código</th>
+            <c:choose>
+            <c:when test="${envio.problema.vigente}">
             
-            <td><c:forEach items="${codigo}" var="linea">
+             <td>Problema vigente: código no disponible
+               </td>
+               
+               </c:when>
+               <c:otherwise>
+               
+               <td><c:forEach items="${codigo}" var="linea">
             <c:out value="${linea}"/><br>
                </c:forEach>
                </td>
+               
+               </c:otherwise>
+               
+               </c:choose>
          
         </tr>
         
