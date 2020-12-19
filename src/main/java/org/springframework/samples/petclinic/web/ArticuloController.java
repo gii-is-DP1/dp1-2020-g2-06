@@ -98,7 +98,6 @@ public class ArticuloController {
 		model.put("articulo",articulo);
 		model.put("autores", tutorService.findAll());
 		return "articulos/createOrUpdateArticuloForm";
-		//
 	}
 	
 	@PostMapping("/new")
