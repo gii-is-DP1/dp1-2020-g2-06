@@ -120,7 +120,8 @@ private static final String VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM = "problemas/cr
 					zipService.save(zip);
 					problema.get().setZip("uploads/" + zip.getOriginalFilename());
 				}
-				BeanUtils.copyProperties(modifiedProblema, problema.get(), "id");
+				BeanUtils.copyProperties(modifiedProblema, problema.get(), "id","zip");
+				problemaService.saveProblema(problema.get());
 				model.addAttribute("message","Problema actualizado con éxito");
 				return listProblemas(model);
 			}
