@@ -1,6 +1,5 @@
 package org.springframework.samples.petclinic.model;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -14,21 +13,19 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper=true)
 
 @Entity
-@Table(name="comentarios")
-public class Comentario extends BaseEntity{	
+@Table(name="aclaraciones")
+public class Aclaracion extends BaseEntity{	
 	
 	@NotEmpty
 	@ManyToOne
-	@JoinColumn(name="id_envio")
-	private Envio envio;
+	@JoinColumn(name="id_tutor")
+	private Tutor tutor;
 	
 	@NotEmpty
 	@ManyToOne
-	@JoinColumn(name="id_alumno")
-	private Alumno alumno;
-
-	@Column(length=500)
-	@NotEmpty
+	@JoinColumn(name="id_problema")
+	private Problema problema;
+	
 	private String texto;
 	
 

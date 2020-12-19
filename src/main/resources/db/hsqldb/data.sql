@@ -108,9 +108,12 @@ INSERT INTO competicion(id,nombre_competicion,descripcion,imagen,fecha_inicio,fe
 INSERT INTO competicion(id,nombre_competicion,descripcion,imagen,fecha_inicio,fecha_fin) VALUES (1,'Ensayo AdaByron','Un concurso para tener un primer contacto con el concurso de AdaByron','https://careers.edicomgroup.com/wp-content/uploads/2020/01/ConcursoUniversitarioProgramaci%C3%B3n.jpg','2020-10-24T11:07:00.000','2020-10-27T12:00:00.000');
 
 
-INSERT INTO problema(id,name,puntuacion,descripcion,casos_prueba,salida_esperada,imagen,zip,fecha_publicacion,season,season_year,id_competicion) VALUES (0,'La moneda de Paco', 2 , 'Debe encontrar la moneda falsa', '0 1 2' , '1','https://estaticos.elperiodico.com/resources/jpg/2/2/invierno-paisaje-1576018050722.jpg','pruebazip','2000-04-30','otoño',2020,1);
-INSERT INTO problema(id,name,puntuacion,descripcion,casos_prueba,salida_esperada,imagen,zip,fecha_publicacion,season,season_year,id_competicion) VALUES (1,'La fuga de Rarmon', 5 , 'Debe encontrar la manera de escapar de FuentePalmera', 'Derecha' , 'Izquierda','https://estaticos.elperiodico.com/resources/jpg/2/2/invierno-paisaje-1576018050722.jpg','pruebazip','2020-11-28','verano',2020,0);
-INSERT INTO problema(id,name,puntuacion,descripcion,casos_prueba,salida_esperada,imagen,zip,fecha_publicacion,season,season_year,id_competicion) VALUES (2,'La moneda de Paco v.2', 2 , 'Debe encontrar la moneda falsa', '0 1 2' , '1','https://estaticos.elperiodico.com/resources/jpg/2/2/invierno-paisaje-1576018050722.jpg','pruebazip','2000-04-30','otoño',2020,null);
+
+INSERT INTO problema(id,name,puntuacion,descripcion,casos_prueba,salida_esperada,imagen,fecha_publicacion,season,season_year,id_competicion) VALUES (0,'La moneda de Paco', 2 , 'Debe encontrar la moneda falsa', '0 1 2' , '1','https://estaticos.elperiodico.com/resources/jpg/2/2/invierno-paisaje-1576018050722.jpg','2000-04-30','otoño',2020,1);
+INSERT INTO problema(id,name,puntuacion,descripcion,casos_prueba,salida_esperada,imagen,fecha_publicacion,season,season_year,id_competicion) VALUES (1,'La fuga de Rarmon', 5 , 'Debe encontrar la manera de escapar de FuentePalmera', 'Derecha' , 'Izquierda','https://estaticos.elperiodico.com/resources/jpg/2/2/invierno-paisaje-1576018050722.jpg','2020-11-28','verano',2020,0);
+INSERT INTO problema(id,name,puntuacion,descripcion,casos_prueba,salida_esperada,imagen,fecha_publicacion,season,season_year,id_competicion) VALUES (2,'La moneda de Paco v.2', 2 , 'Debe encontrar la moneda falsa', '0 1 2' , '1','https://estaticos.elperiodico.com/resources/jpg/2/2/invierno-paisaje-1576018050722.jpg','2000-04-30','otoño',2020,null);
+INSERT INTO problema(id,name,puntuacion,descripcion,casos_prueba,salida_esperada,imagen,fecha_publicacion,season,season_year,id_competicion) VALUES (3,'La fuga de Rarmon v.2', 5 , 'Debe encontrar la manera de escapar de FuentePalmera', '0 1 2' , '1','https://estaticos.elperiodico.com/resources/jpg/2/2/invierno-paisaje-1576018050722.jpg','2000-04-30','invierno',2020,null);
+INSERT INTO problema(id,name,puntuacion,descripcion,casos_prueba,salida_esperada,imagen,fecha_publicacion,season,season_year,id_competicion) VALUES (4,'Hello World!', 1 , 'Imprimir n veces "Hello World!"', 'Hello World! \nHello World! \nHello World!' , '1','https://estaticos.elperiodico.com/resources/jpg/2/2/invierno-paisaje-1576018050722.jpg','2000-04-30','primavera',2019,null);
 
 
 INSERT INTO articulos(id,name,fecha_publicacion,texto,imagen_articulo) VALUES (0,'Articulo sobre DBGames',DATE'2020-07-22','Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfCt63KQugYpCi123rBfuaxbaYUmNrTrgpeg&usqp=CAU');
@@ -143,4 +146,13 @@ INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,season,
 INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,season,season_year) VALUES (7,'2018-11-21T11:13:13.274','codes/prueba.c','WA',0,1,'otoño',2018);
 INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,season,season_year) VALUES (8,'2018-11-22T11:13:13.274','codes/prueba.java','TLE',0,1,'otoño',2018);
 INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,season,season_year) VALUES (9,'2018-11-21T11:13:13.274','codes/prueba.c','AC',0,0,'otoño',2018);
+INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,season,season_year) VALUES (10,'2019-05-22T11:13:13.274','codes/prueba.java','AC',1,3,'verano',2019);
 
+
+INSERT INTO puntuacion_problema(id,id_alumno,id_problema,puntuacion) VALUES (0,2,2,3);
+INSERT INTO puntuacion_problema(id,id_alumno,id_problema,puntuacion) VALUES (1,2,1,3);
+INSERT INTO puntuacion_problema(id,id_alumno,id_problema,puntuacion) VALUES (2,0,2,7);
+
+INSERT INTO comentarios(id,id_envio,id_alumno,texto) VALUES (0,10,0,'Muy buena resolución del ejercicio, muy simple y muy claro.');
+
+INSERT INTO aclaraciones(id,id_tutor,id_problema,texto) VALUES (0,2,2,'Encontrar la moneda consiste en hacer un bucle infinito con el que reviente el PC');

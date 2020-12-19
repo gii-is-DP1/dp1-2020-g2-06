@@ -8,10 +8,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
@@ -52,6 +54,10 @@ public class Envio extends BaseEntity{
 	
 	@Column(name = "season_year")
 	private Integer seasonYear;   /// redundante pero necesario para query
+
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "envio")
+	private List<Comentario> listaComentarios;
 	
 	public List<String> getCodigoString() throws IOException {
 		return Files.readAllLines(Paths.get(codigoPath));
@@ -86,7 +92,5 @@ public class Envio extends BaseEntity{
 		}
 		
 	}
-			
-	
 
 }
