@@ -40,7 +40,12 @@
         </tr>
         
         
+    
+    <th>Comentarios</th>
+    <c:forEach items="${envio.listaComentarios}" var="comentario">
+    	<td><c:out value="${comentario.alumno.nombre} ${comentario.alumno.apellidos}"/><br><c:out value="${comentario.texto}"/></td>
+	</c:forEach>
         
     </table>
-
+	
 </petclinic:layout>

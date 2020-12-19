@@ -29,6 +29,11 @@ public class ProblemaServiceTests {
 	ProblemaService ProblemaService;
 	
 	@Test
+	public void testCountWithInitialData() {
+		int count = ProblemaService.ProblemaCount();
+		assertEquals(count, 3);
+	}
+	
 	public void shouldInsertProblema() throws IOException {
 		Collection<Problema> normasWeb = this.ProblemaService.findAll();
 		int found = normasWeb.size();

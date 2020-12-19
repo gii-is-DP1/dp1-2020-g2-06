@@ -19,6 +19,7 @@ public interface ArticuloRepository extends Repository<Articulo, Integer>{
 	
 	void save(Articulo articulo) throws DataAccessException;
 	
-	@Query(value="SELECT * FROM ARTICULOS articulo WHERE articulo.autor_id = :id", nativeQuery = true)
+	@Query(value="SELECT id,name,fecha_publicacion,imagen_articulo,texto FROM Articulos as a LEFT JOIN Articulos_Autores at  WHERE a.id = at.articulo_id and at.autores_id = :id", nativeQuery = true)
 	public Collection<Articulo> findTutorArticulos(@Param("id") int id);
+
 }

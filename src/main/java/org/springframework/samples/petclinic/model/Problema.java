@@ -68,11 +68,19 @@ public class Problema extends NamedEntity {
 	@JoinColumn(name="id_competicion")
 	private Competicion competicion;
 	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "problema")
+	private List<PuntuacionProblema> puntuacionesProblema;
+		
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "problema")
+	private List<Aclaracion> aclaraciones;
+	
 	public boolean isVigente() {
 		String actualSeason = Utils.getActualSeason();
 		Integer actualYearSeason = Utils.getActualYearofSeason();
 		return this.season.toLowerCase().equals(actualSeason) && this.seasonYear.equals(actualYearSeason);
 			
 	}
+	
+	//private Double puntuacionMedia = puntuacionesProblema.stream().mapToInt(x -> x.getPuntuacion()).average().getAsDouble(); 
 	
 }
