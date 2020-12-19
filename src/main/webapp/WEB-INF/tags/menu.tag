@@ -89,7 +89,10 @@
 										</div>
 										<div class="col-lg-8">
 											<p class="text-left">
-												<strong><sec:authentication property="name" /></strong>
+												<a href="<c:url value="/perfil" />">
+													<strong><sec:authentication property="name" />
+													</strong>
+												</a>
 											</p>
 											<p class="text-left">
 												<a href="<c:url value="/logout" />"
