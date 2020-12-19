@@ -10,15 +10,22 @@
     <h2>
         <c:if test="${problema['new']}">Nuevo </c:if> Problema
     </h2>
-    <form:form modelAttribute="problema" class="form-horizontal" id="add-problema-form">
+    <form:form modelAttribute="problema" class="form-horizontal" id="add-problema-form"  enctype="multipart/form-data">
         <div class="form-group has-feedback">
             <petclinic:inputField label="Nombre del problema" name="name"/>
             <petclinic:inputField label="Descripción" name="descripcion"/>
             <petclinic:inputField label="Puntuacion" name="puntuacion"/>
             <petclinic:inputField label="Casos_prueba" name="casos_prueba"/>
             <petclinic:inputField label="Salida_esperada" name="salida_esperada"/>
+            <petclinic:inputField label="Season" name="season"/>
+            <petclinic:inputField label="Season_year" name="seasonYear"/>
+            <petclinic:inputField label="Fecha Publicación" name="fechaPublicacion"/>
             <petclinic:inputField label="Imagen" name="imagen"/>
+            <table>
+				<form:form enctype="multipart/form-data"> <tr><td>File to upload:</td><td><input type="file" name="zip" /></td></tr>  </form:form>
+			</table>
         </div>
+        
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <c:choose>

@@ -2,7 +2,6 @@ package org.springframework.samples.petclinic.web;
 
 import java.util.Map;
 import java.util.Optional;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
@@ -54,6 +53,7 @@ public class CompeticionController {
 			
 		}
 	}
+	
 		
 	@PostMapping("/{id}/edit")
 	public String editCompeticion(@PathVariable("id") int id, @Valid Competicion modifiedCompeticion, BindingResult binding, ModelMap model) {
@@ -61,9 +61,9 @@ public class CompeticionController {
 		if(binding.hasErrors()) {
 			return "competiciones/createOrUpdateCompeticionForm";
 		}else {
-			BeanUtils.copyProperties(modifiedCompeticion, competicion.get(), "id");
+			BeanUtils.copyProperties(modifiedCompeticion, competicion.get(), "id", "problemas");
 			competicionService.save(competicion.get());
-			model.addAttribute("message","No se encuentra la competicion seleccionada");
+			model.addAttribute("message","Se ha actualizado la competicion seleccionada");
 			return listCompeticiones(model);		
 		}
 	}
@@ -81,7 +81,7 @@ public class CompeticionController {
 			return "competiciones/createOrUpdateCompeticionForm";
 		}else {
 			this.competicionService.save(competicion);
-			return "redirect/:competiciones";
+			return "redirect:/competiciones/";
 		}
 	}
 	

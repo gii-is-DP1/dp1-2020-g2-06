@@ -17,9 +17,6 @@
             <petclinic:inputField label="Email" name="email"/>
             <petclinic:inputField label="Contraseña" name="pass"/>
             <c:if test="!${alumno['new']}">
-            <petclinic:inputField label="Puntuación Temporada" name="puntosTemporada"/>
-            <petclinic:inputField label="Puntuación Anual" name="puntosAnual"/>
-            <petclinic:inputField label="Puntuación Total" name="puntosTotales"/>
             </c:if>
             <petclinic:inputField label="Imagen" name="imagen"/>
         </div>
