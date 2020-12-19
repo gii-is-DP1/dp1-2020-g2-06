@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.web;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -83,6 +84,7 @@ private static final String VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM = "problemas/cr
 			else {
 				zipService.save(zip);
 				problema.setZip("uploads/" + zip.getOriginalFilename());
+				problema.setFechaPublicacion(LocalDate.now());
 				problemaService.saveProblema(problema);
 				message = "Uploaded the files successfully: " + zip.getOriginalFilename();
 				return "redirect:/problemas/";
