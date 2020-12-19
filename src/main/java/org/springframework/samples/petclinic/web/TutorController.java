@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Tutor;
+import org.springframework.samples.petclinic.service.ArticuloService;
 import org.springframework.samples.petclinic.service.TutorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -24,6 +25,9 @@ public class TutorController {
 
 	@Autowired
 	TutorService tutorService;
+	
+	@Autowired
+	ArticuloService articuloService;
 	
 	
 	@GetMapping("")
@@ -64,7 +68,7 @@ public class TutorController {
 		if(tutor.isPresent()) {
 			model.addAttribute("tutor", tutor.get());
 			model.addAttribute("noticiasTutor", tutorService.findTutorNoticias(id));
-			model.addAttribute("articulosTutor", tutorService.findTutorArticulos(id));
+			model.addAttribute("articulosTutor", articuloService.findTutorArticulos(id));
 			return "tutores/tutorDetails";
 		}else {
 			model.addAttribute("message", "El tutor al que intenta acceder no existe");
@@ -81,7 +85,7 @@ public class TutorController {
 	}
 	
 	@PostMapping("/new")
-	public String r(@Valid Tutor tutor, BindingResult result) {
+	public String processCreationForm(@Valid Tutor tutor, BindingResult result) {
 		if(result.hasErrors()) {
 			return "tutores/createOrUpdateTutorForm";
 		}else {

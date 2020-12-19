@@ -5,12 +5,15 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Articulo;
+import org.springframework.samples.petclinic.model.Tutor;
 import org.springframework.stereotype.Service;
 
 import net.bytebuddy.asm.Advice.This;
@@ -28,9 +31,12 @@ public class ArticuloServiceTests {
 	public void shouldInsertArticulo() {
 		Collection<Articulo> articulos = this.articuloService.findAll();
 		int found = articulos.size();
+		Set<Tutor> autores = new HashSet<Tutor>();
+		autores.add(this.tutorService.findById(0).get());
+		autores.add(this.tutorService.findById(1).get());
 		
 		Articulo articulo = new Articulo();
-		articulo.setAutor(tutorService.findById(0).get());
+		articulo.setAutores(autores);
 		articulo.setFechaPublicacion(LocalDate.now());
 		articulo.setImagen("prueba.jpg");
 		articulo.setName("NEw Lorem");
