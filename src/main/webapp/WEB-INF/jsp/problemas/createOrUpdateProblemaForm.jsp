@@ -19,9 +19,11 @@
             <petclinic:inputField label="Salida_esperada" name="salida_esperada"/>
             <petclinic:inputField label="Season" name="season"/>
             <petclinic:inputField label="Season_year" name="seasonYear"/>
-            <petclinic:inputField label="Imagen" name="imagen"/>
             <table>
-				<form:form enctype="multipart/form-data"> <tr><td>File to upload:</td><td><input type="file" name="zipo" /></td></tr>  </form:form>
+            <form:form enctype="multipart/form-data">
+             <tr><td>Image to upload:</td><td><input type="file" name="image" /></td></tr>  
+             <tr><td>File to upload:</td><td><input type="file" name="zipo" /></td></tr>
+            </form:form>
 			</table>
         </div>
         

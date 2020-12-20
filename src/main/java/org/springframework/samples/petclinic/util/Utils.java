@@ -5,14 +5,14 @@ import java.time.LocalDate;
 public class Utils {
 
 	public static String getActualSeason() {
-		if(LocalDate.of(LocalDate.now().getYear(), 3, 21).isBefore(LocalDate.now()) 
-				&& LocalDate.now().isBefore(LocalDate.of(LocalDate.now().getYear(), 5, 20))) {
+		if(LocalDate.of(LocalDate.now().getYear(), 3, 20).isBefore(LocalDate.now()) 
+				&& LocalDate.now().isBefore(LocalDate.of(LocalDate.now().getYear(), 5, 21))) {
 			return "primavera";
-		}else if(LocalDate.of(LocalDate.now().getYear(), 5, 21).isBefore(LocalDate.now()) 
-				&& LocalDate.now().isBefore(LocalDate.of(LocalDate.now().getYear(), 9, 20))) {
+		}else if(LocalDate.of(LocalDate.now().getYear(), 5, 20).isBefore(LocalDate.now()) 
+				&& LocalDate.now().isBefore(LocalDate.of(LocalDate.now().getYear(), 9, 21))) {
 			return "verano";
-		}else if(LocalDate.of(LocalDate.now().getYear(), 9, 21).isBefore(LocalDate.now()) 
-				&& LocalDate.now().isBefore(LocalDate.of(LocalDate.now().getYear(), 12, 20))) {
+		}else if(LocalDate.of(LocalDate.now().getYear(), 9, 20).isBefore(LocalDate.now()) 
+				&& LocalDate.now().isBefore(LocalDate.of(LocalDate.now().getYear(), 12, 21))) {
 			return "otoño";
 		}else {
 			return "invierno";
