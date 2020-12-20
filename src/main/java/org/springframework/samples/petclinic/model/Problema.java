@@ -77,7 +77,7 @@ public class Problema extends NamedEntity {
 	public boolean isVigente() {
 		String actualSeason = Utils.getActualSeason();
 		Integer actualYearSeason = Utils.getActualYearofSeason();
-		return this.season.equals(actualSeason) && this.seasonYear.equals(actualYearSeason);
+		return this.season.toLowerCase().equals(actualSeason) && this.seasonYear.equals(actualYearSeason);
 			
 	}
 	

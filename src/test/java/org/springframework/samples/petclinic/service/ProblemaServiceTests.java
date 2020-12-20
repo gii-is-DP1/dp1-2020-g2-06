@@ -18,7 +18,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.samples.petclinic.model.Problema;
-import org.springframework.samples.petclinic.model.ProblemaAuxiliar;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,13 +38,13 @@ public class ProblemaServiceTests {
 		Collection<Problema> normasWeb = this.ProblemaService.findAll();
 		int found = normasWeb.size();
 
-		ProblemaAuxiliar ProblemaAux = new ProblemaAuxiliar();
-		ProblemaAux.setName("La piscina olimpica");
-		ProblemaAux.setDescripcion("Una piscina olimica tiene 50 metros de largo...");
-		ProblemaAux.setPuntuacion(5);
-		ProblemaAux.setCasos_prueba("50 2 1");
-		ProblemaAux.setSalida_esperada("Si");
-		ProblemaAux.setImagen("https://www.imagendeprueba.com/2");
+		Problema problema = new Problema();
+		problema.setName("La piscina olimpica");
+		problema.setDescripcion("Una piscina olimica tiene 50 metros de largo...");
+		problema.setPuntuacion(5);
+		problema.setCasos_prueba("50 2 1");
+		problema.setSalida_esperada("Si");
+		problema.setImagen("https://www.imagendeprueba.com/2");
 		
 		Path path = Paths.get("/TestTxt/TestFile.txt");
 		String name = "file.txt";
@@ -60,7 +59,7 @@ public class ProblemaServiceTests {
 		MultipartFile file = new MockMultipartFile(name,
                 originalFileName, contentType, content);
 		
-		Problema problema = ProblemaAux.problemaConZip(file);
+		problema.setZip("uploads/" + file.getOriginalFilename());
                 
 		this.ProblemaService.saveProblema(problema);	
 		
@@ -71,13 +70,12 @@ public class ProblemaServiceTests {
 	
 	@Test
 	public void shouldThrowExceptionInsertingProblemaWithoutCasosPrueba() {
-		ProblemaAuxiliar ProblemaAux = new ProblemaAuxiliar();
-		ProblemaAux.setName("La piscina olimpica");
-		ProblemaAux.setDescripcion("Una piscina olimica tiene 50 metros de largo...");
-		ProblemaAux.setPuntuacion(5);
-		ProblemaAux.setCasos_prueba("50 2 1");
-		ProblemaAux.setSalida_esperada("Si");
-		ProblemaAux.setImagen("https://www.imagendeprueba.com/2");
+		Problema problema = new Problema();
+		problema.setName("La piscina olimpica");
+		problema.setDescripcion("Una piscina olimica tiene 50 metros de largo...");
+		problema.setPuntuacion(5);
+		problema.setSalida_esperada("Si");
+		problema.setImagen("https://www.imagendeprueba.com/2");
 		
 		Path path = Paths.get("/TestTxt/TestFile.txt");
 		String name = "file.txt";
@@ -92,7 +90,7 @@ public class ProblemaServiceTests {
 		MultipartFile file = new MockMultipartFile(name,
                 originalFileName, contentType, content);
 		
-		Problema problema = ProblemaAux.problemaConZip(file);
+		problema.setZip("uploads/" + file.getOriginalFilename());
 		
 		Assertions.assertThrows(ConstraintViolationException.class, () ->{
 			this.ProblemaService.saveProblema(problema);	;
