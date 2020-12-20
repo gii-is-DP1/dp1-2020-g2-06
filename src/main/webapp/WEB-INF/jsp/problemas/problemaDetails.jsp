@@ -7,7 +7,7 @@
 <petclinic:layout pageName="problemas">
 
     <h2><c:out value="${problema.name}"/></h2>
-    <img src="<c:out value="${problema.imagen}"/>" id="Imagen" width="300" height="225">
+    <img src="/<c:out value="${problema.imagen}"/>" id="Imagen" width="300" height="225">
     
 
 
@@ -32,11 +32,13 @@
             <th>Salida Esperada</th>
             <td><c:out value="${problema.salida_esperada}"/></td>
         </tr>
+        <c:if test="${puntuacionMedia != -1.0}">
         <tr>
             <th>Puntuación de los alumnos</th>
             
             	<td><c:out value="${puntuacionMedia}"/></td>
         </tr>
+        </c:if>
         <tr>
             <th>Aclaraciones de los tutores</th>
             <c:forEach items="${problema.aclaraciones}" var="aclaracion">
