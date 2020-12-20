@@ -12,9 +12,20 @@
     </h2>
     <form:form modelAttribute="articulo" class="form-horizontal" id="add-owner-form">
         <div class="form-group has-feedback">
-            <petclinic:inputField label="Título" name="name"/>
-            <petclinic:inputField label="Texto" name="texto"/>
-            <petclinic:inputField label="Imagen" name="imagen"/>
+        <c:choose>
+        	<c:when test="${articulo['new']}">
+           		<petclinic:inputField label="Título" name="name"/>
+            	<petclinic:inputField label="Texto" name="texto"/>
+            	<petclinic:inputField label="Imagen" name="imagen"/>
+            	<petclinic:inputField label="fechaPublicacion" name="fechaPublicacion"/>
+            </c:when>
+            <c:otherwise>
+            	<petclinic:inputField label="Título" name="name"/>
+            	<petclinic:inputField label="Texto" name="texto"/>
+            	<petclinic:inputField label="Imagen" name="imagen"/>
+            </c:otherwise>
+         </c:choose>
+            
             <div class="formGroup">            
             	<div class="col-sm-10">
             	<label>Autores:</label>
