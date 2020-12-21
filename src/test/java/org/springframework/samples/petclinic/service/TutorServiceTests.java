@@ -102,7 +102,7 @@ class TutorServiceTests {
 	@Test
 	void shoulInsertArticulo() {
 		Tutor tutor = this.tutorService.findById(0).get();
-		Integer numArticulosAntiguos = articuloService.findTutorArticulos(tutor.getId()).size();
+		Integer numArticulosAntiguos = articuloService.findArticulosByTutor(tutor.getId()).size();
 		Set<Tutor> autores = new HashSet<Tutor>();
 		autores.add(tutor);
 		Articulo articuloNuevo = new Articulo();
@@ -114,7 +114,7 @@ class TutorServiceTests {
 		articuloService.save(articuloNuevo);
 		
 		tutor = this.tutorService.findById(0).get();
-		Integer numArticulosNuevo = articuloService.findTutorArticulos(tutor.getId()).size();
+		Integer numArticulosNuevo = articuloService.findArticulosByTutor(tutor.getId()).size();
 		assertThat(numArticulosNuevo).isEqualTo(numArticulosAntiguos+1);
 		assertNotEquals(numArticulosAntiguos, numArticulosNuevo, "El número de noticias asociado a este tutor no es correcto");
 	}

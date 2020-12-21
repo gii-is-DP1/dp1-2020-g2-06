@@ -24,18 +24,18 @@
             <th>Fecha Fin</th>
             <td><c:out value="${competicion.fecha_fin}"/></td>
         </tr>
-        <tr>
-        	<th>Problemas: </th>
-        </tr>
-        <tr>
+        </table>
+        <h1>Problemas:</h1>
+        <table>
            <c:forEach items="${competicion.problemas}" var="problema">
-           	<th>
+           <tr>
+           	<td>
            		<a href="/problemas/${problema.id}">
            		<c:out value="${problema.name}"></c:out>
            		</a>
-           	</th>
+           	</td>
+           	</tr>
            </c:forEach>
-        </tr>
     </table>
 </petclinic:layout>
 
