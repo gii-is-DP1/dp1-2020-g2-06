@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.service;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -49,10 +50,13 @@ public class ProblemaService {
 	}
 	
 	public Collection<Problema> ProblemasNoVigentes(Collection<Problema> cp) {
-		return problemaRepository.findAll().stream().filter(x->!x.isVigente()&&x.getCompeticion()==null).collect(Collectors.toList());
+		return problemaRepository.findAll().stream().filter(x->!x.isVigente()&&x.getFechaPublicacion().isBefore(LocalDate.now())&&x.getCompeticion()==null).collect(Collectors.toList());
 	}
 	
 	public Double valoracionMediaAlumnno(Problema pr) {
+		if(pr.getPuntuacionesProblema().isEmpty()) {
+			return -1.0;
+		}
 		return pr.getPuntuacionesProblema().stream().mapToDouble(x->x.getPuntuacion()).average().getAsDouble();
 	}
 }

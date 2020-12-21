@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.web;
 
+import java.util.Map;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -7,8 +8,8 @@ import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Articulo;
-import org.springframework.samples.petclinic.model.Noticia;
 import org.springframework.samples.petclinic.service.ArticuloService;
+import org.springframework.samples.petclinic.service.TutorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -24,6 +25,9 @@ public class ArticuloController {
 	@Autowired
 	ArticuloService articuloService;
 	
+	@Autowired
+	TutorService tutorService;
+	
 	@GetMapping("")
 	public String listArticulos(ModelMap model) {
 		model.addAttribute("articulos", articuloService.findAll());
@@ -35,6 +39,7 @@ public class ArticuloController {
 		Optional<Articulo> articulo = articuloService.findById(id);
 		if(articulo.isPresent()) {
 			model.addAttribute("articulo", articulo.get());
+			model.addAttribute("autores", articuloService.findTutorArticulos(id));
 			return "articulos/articuloDetails";
 		}
 		else {
@@ -48,6 +53,7 @@ public class ArticuloController {
 		Optional<Articulo> articulo = articuloService.findById(id);
 		if(articulo.isPresent()) {
 			model.addAttribute("articulo", articulo.get());
+			model.addAttribute("autores", tutorService.findAll());
 			return "articulos/createOrUpdateArticuloForm";
 		}
 		else {
@@ -64,7 +70,7 @@ public class ArticuloController {
 			return "articulos/createOrUpdateArticuloForm";
 		}
 		else {
-			BeanUtils.copyProperties(modifiedArticulo, articulo.get(), "id", "fechaPublicacion", "autor");
+			BeanUtils.copyProperties(modifiedArticulo, articulo.get(), "id", "fechaPublicacion");
 			articuloService.save(articulo.get());
 			model.addAttribute("message","El artículo se ha actualizado con éxito");
 			return listArticulos(model);
@@ -85,5 +91,24 @@ public class ArticuloController {
 		return listArticulos(model);
 	}
 	
+	@GetMapping("/new")
+	public String initCreationForm(Map<String,Object> model) {
+		Articulo articulo = new Articulo();
+		model.put("articulo",articulo);
+		model.put("autores", tutorService.findAll());
+		return "articulos/createOrUpdateArticuloForm";
+	}
+	
+	@PostMapping("/new")
+	public String processCreationForm(@Valid Articulo articulo, BindingResult result) {
+		if(result.hasErrors()) {
+			return "tutores/createOrUpdateArticuloForm";
+		}else {
+			this.articuloService.save(articulo);
+			return "redirect:/articulos";
+		}
+	}
+	
 
 }
+

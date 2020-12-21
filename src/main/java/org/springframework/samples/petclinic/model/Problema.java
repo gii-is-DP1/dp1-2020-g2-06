@@ -52,8 +52,6 @@ public class Problema extends NamedEntity {
 	@Column(name = "salida_esperada")
 	private String salida_esperada;
 	
-	@NotEmpty
-	@Column(name = "imagen")
 	private String imagen;
 	
 	
@@ -77,7 +75,7 @@ public class Problema extends NamedEntity {
 	public boolean isVigente() {
 		String actualSeason = Utils.getActualSeason();
 		Integer actualYearSeason = Utils.getActualYearofSeason();
-		return this.season.equals(actualSeason) && this.seasonYear.equals(actualYearSeason);
+		return this.season.toLowerCase().equals(actualSeason) && this.seasonYear.equals(actualYearSeason);
 			
 	}
 	

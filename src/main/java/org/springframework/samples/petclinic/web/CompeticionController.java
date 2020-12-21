@@ -81,7 +81,7 @@ public class CompeticionController {
 			return "competiciones/createOrUpdateCompeticionForm";
 		}else {
 			this.competicionService.save(competicion);
-			return "redirect/:competiciones";
+			return "redirect:/competiciones/";
 		}
 	}
 	

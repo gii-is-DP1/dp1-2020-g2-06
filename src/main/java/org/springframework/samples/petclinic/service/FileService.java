@@ -9,21 +9,34 @@ import javax.validation.ConstraintViolationException;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
-import org.springframework.samples.petclinic.repository.zipRepository;
+import org.springframework.samples.petclinic.repository.FileRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-public class zipService implements zipRepository{
+public class FileService implements FileRepository{
 	
-	private final Path root = Paths.get("uploads");
+	private final Path rootZip = Paths.get("uploads");
+	private final Path rootImage = Paths.get("CodeUsImages");
+	public static Integer id= 0;
 
 
 	  @Override
-	  public void save(MultipartFile file) {
+	  public void saveZip(MultipartFile file) {
 	    try {
-	      Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
+	      Files.copy(file.getInputStream(), this.rootZip.resolve(id.toString() + file.getOriginalFilename()));
+	      id++;
+	    } catch (Exception e) {
+	      throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
+	    }
+	  }
+	  
+	  @Override
+	  public void saveImage(MultipartFile file) {
+	    try {
+	      Files.copy(file.getInputStream(), this.rootImage.resolve(id.toString() + file.getOriginalFilename()));
+	      id++;
 	    } catch (Exception e) {
 	      throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
 	    }
@@ -32,7 +45,7 @@ public class zipService implements zipRepository{
 	  @Override
 	  public Resource load(String filename) {
 	    try {
-	      Path file = root.resolve(filename);
+	      Path file = rootImage.resolve(filename);
 	      Resource resource = new UrlResource(file.toUri());
 
 	      if (resource.exists() || resource.isReadable()) {
