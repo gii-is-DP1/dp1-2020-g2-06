@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.util;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Utils {
 
@@ -29,5 +30,11 @@ public class Utils {
 		else {
 			return LocalDate.now().getYear();
 		}
+	}
+	
+	public static String diferenciador(String extension) {
+		return LocalDate.now().getYear() + "" + LocalDate.now().getMonth() + "" + LocalDate.now().getDayOfMonth() + "" +
+				+ LocalDateTime.now().getHour() + "" + LocalDateTime.now().getMinute() + "" + LocalDateTime.now().getSecond() +
+				+ LocalDateTime.now().getNano() + "." + extension;
 	}
 }
