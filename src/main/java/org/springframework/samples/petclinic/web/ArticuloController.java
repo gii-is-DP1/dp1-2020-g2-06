@@ -8,7 +8,6 @@ import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Articulo;
-import org.springframework.samples.petclinic.model.Noticia;
 import org.springframework.samples.petclinic.service.ArticuloService;
 import org.springframework.samples.petclinic.service.TutorService;
 import org.springframework.stereotype.Controller;
@@ -96,6 +95,7 @@ public class ArticuloController {
 	public String initCreationForm(Map<String,Object> model) {
 		Articulo articulo = new Articulo();
 		model.put("articulo",articulo);
+		model.put("autores", tutorService.findAll());
 		return "articulos/createOrUpdateArticuloForm";
 	}
 	
