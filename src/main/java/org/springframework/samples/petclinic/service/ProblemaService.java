@@ -54,6 +54,9 @@ public class ProblemaService {
 	}
 	
 	public Double valoracionMediaAlumnno(Problema pr) {
+		if(pr.getPuntuacionesProblema().isEmpty()) {
+			return -1.0;
+		}
 		return pr.getPuntuacionesProblema().stream().mapToDouble(x->x.getPuntuacion()).average().getAsDouble();
 	}
 }

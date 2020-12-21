@@ -52,8 +52,6 @@ public class Problema extends NamedEntity {
 	@Column(name = "salida_esperada")
 	private String salida_esperada;
 	
-	@NotEmpty
-	@Column(name = "imagen")
 	private String imagen;
 	
 	
