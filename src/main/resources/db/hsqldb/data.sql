@@ -108,7 +108,6 @@ INSERT INTO competicion(id,nombre_competicion,descripcion,imagen,fecha_inicio,fe
 INSERT INTO competicion(id,nombre_competicion,descripcion,imagen,fecha_inicio,fecha_fin) VALUES (1,'Ensayo AdaByron','Un concurso para tener un primer contacto con el concurso de AdaByron','https://careers.edicomgroup.com/wp-content/uploads/2020/01/ConcursoUniversitarioProgramaci%C3%B3n.jpg','2020-10-24T11:07:00.000','2020-10-27T12:00:00.000');
 
 
-
 INSERT INTO problema(id,name,puntuacion,descripcion,casos_prueba,salida_esperada,fecha_publicacion,season,season_year,id_competicion) VALUES (0,'La moneda de Paco', 2 , 'Debe encontrar la moneda falsa', '0 1 2' , '1','2000-04-30','otoño',2020,1);
 INSERT INTO problema(id,name,puntuacion,descripcion,casos_prueba,salida_esperada,fecha_publicacion,season,season_year,id_competicion) VALUES (1,'La fuga de Rarmon', 5 , 'Debe encontrar la manera de escapar de FuentePalmera', 'Derecha' , 'Izquierda','2020-11-28','verano',2020,0);
 INSERT INTO problema(id,name,puntuacion,descripcion,casos_prueba,salida_esperada,fecha_publicacion,season,season_year,id_competicion) VALUES (2,'La moneda de Paco v.2', 2 , 'Debe encontrar la moneda falsa', '0 1 2' , '1','2000-04-30','otoño',2020,null);

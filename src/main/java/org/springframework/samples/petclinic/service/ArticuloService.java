@@ -32,8 +32,8 @@ public class ArticuloService {
 		articuloRepo.save(articulo);
 	}
 	
-	public Collection<Articulo> findTutorArticulos(int id) {
-		return articuloRepo.findTutorArticulos(id);
+	public Collection<Articulo> findArticulosByTutor(int id) {
+		return articuloRepo.findArticulosByTutor(id);
 	}
 
 }

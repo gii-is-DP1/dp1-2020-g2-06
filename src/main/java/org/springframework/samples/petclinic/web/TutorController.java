@@ -68,7 +68,7 @@ public class TutorController {
 		if(tutor.isPresent()) {
 			model.addAttribute("tutor", tutor.get());
 			model.addAttribute("noticiasTutor", tutorService.findTutorNoticias(id));
-			model.addAttribute("articulosTutor", articuloService.findTutorArticulos(id));
+			model.addAttribute("articulosTutor", articuloService.findArticulosByTutor(id));
 			return "tutores/tutorDetails";
 		}else {
 			model.addAttribute("message", "El tutor al que intenta acceder no existe");
