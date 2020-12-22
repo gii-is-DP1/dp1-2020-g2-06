@@ -32,14 +32,16 @@
                 
             <tr>
                 <td>
-               <p style="text-align:center"> <img src="${noticia.imagen}" width=400px/></p>
+               <p style="text-align:center"> <img src="/<c:out value="${noticia.imagen}"/>" id="Imagen" width="400px"></p>
                     <c:out value="${noticia.texto}"/>
                 </td>                
 
             </tr>
              </table>
         </c:forEach>
-       
-   
+        
+        <%-- <sec:authorize access="hasAuthority('admin')">  --%>
+			<a class="btn btn-default" href='<spring:url value="/noticias/new" htmlEscape="true"/>'>Añadir Noticia</a>
+		<%-- </sec:authorize> --%>
 
 </petclinic:layout> 
