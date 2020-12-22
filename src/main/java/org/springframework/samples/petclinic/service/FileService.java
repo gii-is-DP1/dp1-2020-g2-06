@@ -16,26 +16,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class FileService implements FileRepository{
-	
-	private final Path rootZip = Paths.get("uploads");
-	private final Path rootImage = Paths.get("CodeUsImages");
 	public static Integer id= 0;
 
 
 	  @Override
-	  public void saveZip(MultipartFile file) {
+	  public void saveFile(MultipartFile file,Path path,String diferenciador) {
 	    try {
-	      Files.copy(file.getInputStream(), this.rootZip.resolve(id.toString() + file.getOriginalFilename()));
-	      id++;
-	    } catch (Exception e) {
-	      throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
-	    }
-	  }
-	  
-	  @Override
-	  public void saveImage(MultipartFile file) {
-	    try {
-	      Files.copy(file.getInputStream(), this.rootImage.resolve(id.toString() + file.getOriginalFilename()));
+	      Files.copy(file.getInputStream(), path.resolve(diferenciador));
 	      id++;
 	    } catch (Exception e) {
 	      throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
@@ -43,9 +30,9 @@ public class FileService implements FileRepository{
 	  }
 
 	  @Override
-	  public Resource load(String filename) {
+	  public Resource load(String filename,Path path) {
 	    try {
-	      Path file = rootImage.resolve(filename);
+	      Path file = path.resolve(filename);
 	      Resource resource = new UrlResource(file.toUri());
 
 	      if (resource.exists() || resource.isReadable()) {
