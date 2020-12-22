@@ -39,7 +39,7 @@ public class ArticuloController {
 		Optional<Articulo> articulo = articuloService.findById(id);
 		if(articulo.isPresent()) {
 			model.addAttribute("articulo", articulo.get());
-			model.addAttribute("autores", articuloService.findTutorArticulos(id));
+			model.addAttribute("autores", articuloService.findArticulosByTutor(id));
 			return "articulos/articuloDetails";
 		}
 		else {

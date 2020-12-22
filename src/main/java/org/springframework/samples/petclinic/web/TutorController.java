@@ -8,8 +8,12 @@ import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.samples.petclinic.model.Tutor;
 import org.springframework.samples.petclinic.service.ArticuloService;
+import org.springframework.samples.petclinic.service.NoticiaService;
 import org.springframework.samples.petclinic.service.TutorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/tutores")
@@ -28,6 +33,9 @@ public class TutorController {
 	
 	@Autowired
 	ArticuloService articuloService;
+	
+	@Autowired
+	NoticiaService noticiaService;
 	
 	
 	@GetMapping("")
@@ -63,12 +71,26 @@ public class TutorController {
 	}
 	
 	@GetMapping("/{id}")
-	public String tutorDetails(@PathVariable("id") int id, ModelMap model) {
+	public String tutorDetails(@PathVariable("id") int id,@RequestParam(name="page-art", defaultValue="1") int pagea, @RequestParam(name="page-not", defaultValue="1") int pagen, ModelMap model) {
 		Optional<Tutor> tutor = tutorService.findById(id);
+		Integer pa = pagea;
+		Integer pn = pagen;
+		Pageable pageableA = PageRequest.of(pagea-1, 3, Sort.by("fecha_publicacion"));
+		Pageable pageableN = PageRequest.of(pagen-1, 1, Sort.by("fecha_publicacion"));
 		if(tutor.isPresent()) {
 			model.addAttribute("tutor", tutor.get());
-			model.addAttribute("noticiasTutor", tutorService.findTutorNoticias(id));
-			model.addAttribute("articulosTutor", articuloService.findTutorArticulos(id));
+			model.addAttribute("noticiasTutor", noticiaService.findNoticiasByTutorPage(id, pageableN).getContent());
+			model.addAttribute("articulosTutor", articuloService.findArticulosByTutorPage(id, pageableA).getContent());
+			model.addAttribute("pagenotactual", pn);
+			model.addAttribute("pageartactual", pa);
+			model.addAttribute("npnoticia", pn+1);
+			model.addAttribute("ppnoticia", pn-1);
+			model.addAttribute("nparticulo", pa+1);
+			model.addAttribute("pparticulo", pa-1);
+			model.addAttribute("esUltimaPaginaArticulo", articuloService.findArticulosByTutorPage(id, pageableA).isLast());
+			model.addAttribute("esPrimeraPaginaArticulo", articuloService.findArticulosByTutorPage(id, pageableA).isFirst());
+			model.addAttribute("esUltimaPaginaNoticia", noticiaService.findNoticiasByTutorPage(id, pageableN).isLast());
+			model.addAttribute("esPrimeraPaginaNoticia", noticiaService.findNoticiasByTutorPage(id, pageableN).isFirst());
 			return "tutores/tutorDetails";
 		}else {
 			model.addAttribute("message", "El tutor al que intenta acceder no existe");
