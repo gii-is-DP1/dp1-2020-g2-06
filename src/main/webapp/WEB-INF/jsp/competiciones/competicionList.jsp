@@ -10,16 +10,16 @@
         <c:forEach items="${competiciones}" var="competicion">
         <table id="noticiasTable" class="table table-striped">
             <tr>
-                <td>  
+                <th>  
                 	<a href="/competiciones/${competicion.id}">                  
                     <c:out value="${competicion.nombre}"/>
                     </a>
-                </td>
-                <td>
+                </th>
+                <th>
                 	<a href="/competiciones/${competicion.id}/edit">
                 	<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                 	</a>
-                </td>
+                </th>
             </tr>
              </table>
         </c:forEach>
