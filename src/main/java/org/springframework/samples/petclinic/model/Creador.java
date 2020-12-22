@@ -31,8 +31,7 @@ public class Creador extends BaseEntity{
 	@NotEmpty
 	private String pass;
 	
-	@Column(name = "foto")
-	private String foto;
+	private String imagen;
 	
 
 }

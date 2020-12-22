@@ -30,7 +30,7 @@ public class Alumno extends BaseEntity{
 	@Column(unique=true)
 	private String email;
 	
-	@NotEmpty
+	
 	private String imagen;
 	
 //	@Column(name="puntos_anual")

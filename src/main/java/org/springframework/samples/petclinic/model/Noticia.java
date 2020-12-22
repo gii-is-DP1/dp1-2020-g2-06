@@ -31,7 +31,7 @@ public class Noticia extends NamedEntity{
 	@Column(length=5600)
 	@NotEmpty
 	private String texto;
-	@NotEmpty
+	
 	private String imagen;
 
 }

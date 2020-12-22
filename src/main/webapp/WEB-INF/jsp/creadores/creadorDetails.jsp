@@ -7,7 +7,7 @@
 <petclinic:layout pageName="creador">
 
 	<h2>
-    <img src="<c:out value="${creador.foto}"/>" width="200" style="border-radius:100%"/>&nbsp;
+    <img src="/<c:out value="${creador.imagen}"/>" id="Imagen" width="100px" style="border-radius:100%"/>&nbsp;
 	<c:out value="${creador.nombre}"/>&nbsp;<c:out value="${creador.apellidos}"/>
 	</h2>
 

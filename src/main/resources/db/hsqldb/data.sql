@@ -143,7 +143,7 @@ INSERT INTO alumnos(id,nombre,apellidos,email,imagen,pass) VALUES (2,'Alexis','B
 
 
 
-INSERT INTO creadores(id,nombre,apellidos,email,pass,foto) VALUES (0,'David','Brincau Cano','davbrican@us.es','dbgames55','https://yt3.ggpht.com/ytc/AAUvwnh3yE2BgOZmepJht3T-k6LRzPih9KwV4mbk1g4dYg=s88-c-k-c0x00ffffff-no-rj');
+INSERT INTO creadores(id,nombre,apellidos,email,pass,imagen) VALUES (0,'David','Brincau Cano','davbrican@us.es','dbgames55','https://yt3.ggpht.com/ytc/AAUvwnh3yE2BgOZmepJht3T-k6LRzPih9KwV4mbk1g4dYg=s88-c-k-c0x00ffffff-no-rj');
 
 INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,season,season_year) VALUES (0,'2020-08-21T11:13:13.274','codes/prueba.java','AC',0,1,'verano',2020);
 INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,season,season_year) VALUES (1,'2010-11-21T11:13:13.274','codes/prueba.c','AC',0,1,'otoño',2010);
