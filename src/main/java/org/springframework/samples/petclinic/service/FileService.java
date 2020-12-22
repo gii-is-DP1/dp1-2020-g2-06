@@ -9,30 +9,30 @@ import javax.validation.ConstraintViolationException;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
-import org.springframework.samples.petclinic.repository.zipRepository;
+import org.springframework.samples.petclinic.repository.FileRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-public class zipService implements zipRepository{
-	
-	private final Path root = Paths.get("uploads");
+public class FileService implements FileRepository{
+	public static Integer id= 0;
 
 
 	  @Override
-	  public void save(MultipartFile file) {
+	  public void saveFile(MultipartFile file,Path path,String diferenciador) {
 	    try {
-	      Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
+	      Files.copy(file.getInputStream(), path.resolve(diferenciador));
+	      id++;
 	    } catch (Exception e) {
 	      throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
 	    }
 	  }
 
 	  @Override
-	  public Resource load(String filename) {
+	  public Resource load(String filename,Path path) {
 	    try {
-	      Path file = root.resolve(filename);
+	      Path file = path.resolve(filename);
 	      Resource resource = new UrlResource(file.toUri());
 
 	      if (resource.exists() || resource.isReadable()) {

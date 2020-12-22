@@ -1,6 +1,11 @@
 package org.springframework.samples.petclinic.web;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -8,12 +13,13 @@ import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Problema;
-import org.springframework.samples.petclinic.model.ProblemaAuxiliar;
 import org.springframework.samples.petclinic.service.ProblemaService;
-import org.springframework.samples.petclinic.service.zipService;
+import org.springframework.samples.petclinic.util.Utils;
+import org.springframework.samples.petclinic.service.FileService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -30,12 +36,14 @@ import org.springframework.web.multipart.MultipartFile;
 public class ProblemaController {
 
 private static final String VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM = "problemas/createOrUpdateProblemaForm";
+private final Path rootZip = Paths.get("uploads");
+private final Path rootImage = Paths.get("src/main/resources/static/resources/images");
 	
 	@Autowired
 	private ProblemaService problemaService;
 	
 	@Autowired
-	private zipService zipService;
+	private FileService fileService;
 	
 	@GetMapping()
 	public String listProblemas(ModelMap modelMap) {
@@ -47,7 +55,7 @@ private static final String VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM = "problemas/cr
 	}
 	
 	@GetMapping("/{id}")
-	public String problemaDetails(@PathVariable("id") int id,ModelMap model) {
+	public String problemaDetails(@PathVariable("id") int id,ModelMap model) throws IOException {
 		Optional<Problema> problema = problemaService.findById(id);
 		
 		if(problema.isPresent()) {
@@ -74,22 +82,29 @@ private static final String VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM = "problemas/cr
 	}
 
 	@PostMapping(value = "/new")
-	public String processCreationForm(@Valid ProblemaAuxiliar problemaAux, BindingResult result,@RequestParam("zip") MultipartFile zip){
+	public String processCreationForm(@Valid Problema problema, BindingResult result,ModelMap model,@RequestParam("zipo") MultipartFile zip,@RequestParam("image") MultipartFile imagen) throws IOException, InstantiationException, IllegalAccessException{
 		String message;
 		try {
-			if (result.hasErrors()) {
-				System.out.println(result.getAllErrors());
+			if (result.hasErrors() || zip.getBytes().length/(1024*1024)>20 || imagen.getBytes().length/(1024*1024)>20) {
+				model.clear();
+				model.addAttribute("problema", problema);
 				return VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM;
 			}
 			else {
-				zipService.save(zip);
-				Problema problema = problemaAux.problemaConZip(zip);
+				String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
+				problema.setZip(rootZip + "/" + Utils.diferenciador("zip"));
+				fileService.saveFile(zip,rootZip,Utils.diferenciador("zip"));
+				problema.setImagen("resources/images/"  + Utils.diferenciador("zip"));
+				fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				problema.setFechaPublicacion(LocalDate.now());
 				problemaService.saveProblema(problema);
-				message = "Uploaded the files successfully: " + zip.getOriginalFilename();
+				message = "Uploaded the files successfully: ";
 				return "redirect:/problemas/";
 			}
 		} catch (MaxUploadSizeExceededException e) {
 		      message = "Fail to upload files!";
+		      model.clear();
+		      model.addAttribute("problema", problema);
 		      return VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM;
 		}
 	}
@@ -102,29 +117,37 @@ private static final String VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM = "problemas/cr
 			return VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM;
 		}
 		else {
-			model.addAttribute("message", "No podemos encontrar el problema que intenta borrar");
+			model.addAttribute("message", "No podemos encontrar el problema que intenta editar");
 			return listProblemas(model);
 			
 		}
 	}
 	
 	@PostMapping("/{id}/edit")
-	public String editProblemas(@PathVariable("id") int id, @Valid Problema modifiedProblema, BindingResult binding, ModelMap model,@RequestParam("zip") MultipartFile zip) throws IOException {
+	public String editProblemas(@PathVariable("id") int id, @Valid Problema modifiedProblema, BindingResult binding, ModelMap model,@RequestParam("zipo") MultipartFile zip,@RequestParam("image") MultipartFile imagen) throws IOException {
 		String message;
-		try {
-		Optional<Problema> problema = problemaService.findById(id);
-		if(binding.hasErrors()) {
-			return VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM;
-		}
-		else {
-			BeanUtils.copyProperties(modifiedProblema, problema.get(), "id");
-			model.addAttribute("message","Problema actualizado con éxito");
-			return listProblemas(model);
-		}
-		} catch (MaxUploadSizeExceededException e) {
-		      message = "Fail to upload files!";
-		      return VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM;
-		}
+			Optional<Problema> problema = problemaService.findById(id);
+			if(binding.hasErrors() || zip.getBytes().length/(1024*1024)>20 || imagen.getBytes().length/(1024*1024)>20) {
+				model.clear();
+				model.addAttribute("problema", problema.get());
+				return VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM;
+			}
+			else {
+				String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
+				if(!zip.isEmpty()) {
+					problema.get().setZip(rootZip + "/" + Utils.diferenciador("zip"));
+					fileService.saveFile(zip,rootZip,Utils.diferenciador("zip"));
+				}
+				if(!imagen.isEmpty()) {
+					problema.get().setImagen("resources/images/"  + Utils.diferenciador("zip"));
+					fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				}
+				BeanUtils.copyProperties(modifiedProblema, problema.get(), "id","zip","imagen");
+				problemaService.saveProblema(problema.get());
+				model.addAttribute("message","Problema actualizado con éxito");
+				return listProblemas(model);
+			}
+		
 		
 	}
 	
