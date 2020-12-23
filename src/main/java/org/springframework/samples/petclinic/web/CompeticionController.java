@@ -96,6 +96,7 @@ public class CompeticionController {
 		if(binding.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
 			model.clear();
 			model.addAttribute("competicion", competicion.get());
+			model.addAttribute("message",binding.getFieldError().getField());
 			return "competiciones/createOrUpdateCompeticionForm";
 		}else {
 			if(!imagen.isEmpty()) {

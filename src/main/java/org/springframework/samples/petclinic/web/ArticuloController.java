@@ -74,7 +74,7 @@ public class ArticuloController {
 		if(result.hasErrors() || imagen.getBytes().length/(1024*1024)>10) {
 			model.clear();
 			model.addAttribute("articulo", articulo);
-			return "tutores/createOrUpdateArticuloForm";
+			return "articulos/createOrUpdateArticuloForm";
 		}else {
 			String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
 			articulo.setImagen("resources/images/articulos/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
@@ -105,6 +105,7 @@ public class ArticuloController {
 		if(binding.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
 			model.clear();
 			model.addAttribute("articulo", articulo.get());
+			model.addAttribute("message",binding.getFieldError().getField());
 			return "articulos/createOrUpdateArticuloForm";
 		}
 		else {

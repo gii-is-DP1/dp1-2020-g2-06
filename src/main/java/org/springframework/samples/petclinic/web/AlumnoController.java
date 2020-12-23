@@ -112,7 +112,7 @@ public class AlumnoController {
 		Optional<Alumno> alumno = alumnoService.findById(id);
 		if(binding.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
 			model.clear();
-			model.addAttribute("noticia", alumno.get());
+			model.addAttribute("alumno", alumno.get());
 			model.addAttribute("message",binding.getFieldError().getField());
 			return VIEWS_ALUMNO_CREATE_OR_UPDATE_FORM;
 		}
