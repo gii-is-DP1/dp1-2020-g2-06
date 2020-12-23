@@ -34,7 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class AlumnoController {
 	
 	private static final String VIEWS_ALUMNO_CREATE_OR_UPDATE_FORM = "alumnos/createOrUpdateAlumnoForm";
-	private final Path rootImage = Paths.get("src/main/resources/static/resources/images");
+	private final Path rootImage = Paths.get("src/main/resources/static/resources/images/alumnos");
 	
 	@Autowired
 	AlumnoService alumnoService;
@@ -85,7 +85,7 @@ public class AlumnoController {
 		}
 		else {
 			String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
-			alumno.setImagen("resources/images/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+			alumno.setImagen("resources/images/alumnos/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 			fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 			alumnoService.save(alumno);
 			
@@ -112,14 +112,14 @@ public class AlumnoController {
 		Optional<Alumno> alumno = alumnoService.findById(id);
 		if(binding.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
 			model.clear();
-			model.addAttribute("noticia", alumno.get());
+			model.addAttribute("alumno", alumno.get());
 			model.addAttribute("message",binding.getFieldError().getField());
 			return VIEWS_ALUMNO_CREATE_OR_UPDATE_FORM;
 		}
 		else {
 			if(!imagen.isEmpty()) {
 				String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
-				alumno.get().setImagen("resources/images/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				alumno.get().setImagen("resources/images/alumnos/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 				fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 			}
 			BeanUtils.copyProperties(modifiedAlumno, alumno.get(), "id");
