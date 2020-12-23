@@ -92,6 +92,7 @@ public class TutorController {
 			model.addAttribute("esUltimaPaginaNoticia", noticiaService.findNoticiasByTutorPage(id, pageableN).isLast());
 			model.addAttribute("esPrimeraPaginaNoticia", noticiaService.findNoticiasByTutorPage(id, pageableN).isFirst());
 			return "tutores/tutorDetails";
+			
 		}else {
 			model.addAttribute("message", "El tutor al que intenta acceder no existe");
 			return listTutores(model);
