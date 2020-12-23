@@ -82,10 +82,10 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 	}
 
 	@PostMapping(value = "/new")
-	public String processCreationForm(@Valid Problema problema, BindingResult result,ModelMap model,@RequestParam("zipo") MultipartFile zip,@RequestParam("image") MultipartFile imagen) throws IOException, InstantiationException, IllegalAccessException{
+	public String processCreationForm(@Valid Problema problema, BindingResult result,ModelMap model,@RequestParam("zipo") MultipartFile zip,@RequestParam("image") MultipartFile imagen) throws IOException{
 		String message;
 		try {
-			if (result.hasErrors() || zip.getBytes().length/(1024*1024)>20 || imagen.getBytes().length/(1024*1024)>20) {
+			if (result.hasErrors() || zip.getBytes().length/(1024*1024)>20 || imagen.getBytes().length/(1024*1024)>10) {
 				model.clear();
 				model.addAttribute("problema", problema);
 				return VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM;
@@ -94,7 +94,7 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 				String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
 				problema.setZip(rootZip + "/" + Utils.diferenciador("zip"));
 				fileService.saveFile(zip,rootZip,Utils.diferenciador("zip"));
-				problema.setImagen("resources/images/"  + Utils.diferenciador("zip"));
+				problema.setImagen("resources/images/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 				fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 				problema.setFechaPublicacion(LocalDate.now());
 				problemaService.saveProblema(problema);
@@ -127,19 +127,19 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 	public String editProblemas(@PathVariable("id") int id, @Valid Problema modifiedProblema, BindingResult binding, ModelMap model,@RequestParam("zipo") MultipartFile zip,@RequestParam("image") MultipartFile imagen) throws IOException {
 		String message;
 			Optional<Problema> problema = problemaService.findById(id);
-			if(binding.hasErrors() || zip.getBytes().length/(1024*1024)>20 || imagen.getBytes().length/(1024*1024)>20) {
+			if(binding.hasErrors() || zip.getBytes().length/(1024*1024)>20 || imagen.getBytes().length/(1024*1024)>10) {
 				model.clear();
 				model.addAttribute("problema", problema.get());
 				return VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM;
 			}
 			else {
-				String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
 				if(!zip.isEmpty()) {
 					problema.get().setZip(rootZip + "/" + Utils.diferenciador("zip"));
 					fileService.saveFile(zip,rootZip,Utils.diferenciador("zip"));
 				}
 				if(!imagen.isEmpty()) {
-					problema.get().setImagen("resources/images/"  + Utils.diferenciador("zip"));
+					String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
+					problema.get().setImagen("resources/images/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 					fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 				}
 				BeanUtils.copyProperties(modifiedProblema, problema.get(), "id","zip","imagen");

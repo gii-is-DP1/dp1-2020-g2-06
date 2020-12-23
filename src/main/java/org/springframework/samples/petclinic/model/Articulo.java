@@ -29,7 +29,6 @@ public class Articulo extends NamedEntity{
 	private LocalDate fechaPublicacion;
 	
 	@Column(name= "imagen_articulo")
-	@NotEmpty
 	private String imagen;
 	
 	@Column(length=5600)
