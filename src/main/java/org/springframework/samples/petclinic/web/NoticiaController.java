@@ -29,7 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/noticias")
 public class NoticiaController {
 	
-	private final Path rootImage = Paths.get("src/main/resources/static/resources/images");
+	private final Path rootImage = Paths.get("src/main/resources/static/resources/images/noticias");
 	
 	@Autowired
 	NoticiaService noticiaService;
@@ -73,7 +73,7 @@ public class NoticiaController {
 		}
 		else {
 			String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
-			noticia.setImagen("resources/images/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+			noticia.setImagen("resources/images/noticias/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 			fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 			noticia.setFechaPublicacion(LocalDate.now());
 			noticiaService.save(noticia);
@@ -107,7 +107,7 @@ public class NoticiaController {
 		else {
 			if(!imagen.isEmpty()) {
 				String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
-				noticia.get().setImagen("resources/images/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				noticia.get().setImagen("resources/images/noticias/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 				fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 			}
 			BeanUtils.copyProperties(modifiedNoticia, noticia.get(), "id", "fechaPublicacion", "imagen");

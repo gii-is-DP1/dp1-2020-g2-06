@@ -30,7 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/creadores")
 public class CreadorController {
 	
-	private final Path rootImage = Paths.get("src/main/resources/static/resources/images");
+	private final Path rootImage = Paths.get("src/main/resources/static/resources/images/creadores");
 
 	@Autowired
 	CreadorService creadorService;
@@ -72,7 +72,7 @@ public class CreadorController {
 			return "creadores/createOrUpdateCreadorForm";
 		}else {
 			String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
-			creador.setImagen("resources/images/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+			creador.setImagen("resources/images/creadores/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 			fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 			this.creadorService.save(creador);
 			return "redirect:/creadores";
@@ -102,7 +102,7 @@ public class CreadorController {
 		}else {
 			if(!imagen.isEmpty()) {
 				String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
-				creador.get().setImagen("resources/images/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				creador.get().setImagen("resources/images/creadores/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 				fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 			}
 			BeanUtils.copyProperties(modifiedCreador, creador.get(), "id");
