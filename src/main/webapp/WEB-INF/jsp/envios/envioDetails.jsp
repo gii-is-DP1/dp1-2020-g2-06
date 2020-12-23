@@ -53,11 +53,27 @@
         
         
     
-    <th>Comentarios</th>
-    <c:forEach items="${envio.listaComentarios}" var="comentario">
-    	<td><c:out value="${comentario.alumno.nombre} ${comentario.alumno.apellidos}"/><br><c:out value="${comentario.texto}"/></td>
-	</c:forEach>
         
     </table>
+    
+    
+    <h3>Comentarios</h3>
+          
+      <c:forEach items="${envio.listaComentarios}" var="comentario">
+	<table class="table table-striped">
+    <tr>
+    <td><img src="/<c:out value="${comentario.alumno.imagen}"/>" id="Imagen" width="50" style="border-radius:100%"/>&nbsp;
+    <a href="/alumnos/${comentario.alumno.id}">
+    <c:out value="${comentario.alumno.nombre} ${comentario.alumno.apellidos}"/>
+    </a></td>
+    </tr>
+  
+    	<tr>
+    	<td><c:out value="${comentario.texto}"/><td></tr>
+    	
+    	</table>
+	</c:forEach>
+    
+    
 	
 </petclinic:layout>
