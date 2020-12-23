@@ -66,7 +66,7 @@ public class CreadorController {
 	
 	@PostMapping("/new")
 	public String processCreationForm(@Valid Creador creador, BindingResult result,ModelMap model,@RequestParam("image") MultipartFile imagen) throws IOException {
-		if(result.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
+		if(result.hasErrors()|| imagen.getBytes().length/(1024*1024)>10 || imagen.isEmpty()) {
 			model.clear();
 			model.addAttribute("creador", creador);
 			return "creadores/createOrUpdateCreadorForm";
@@ -103,7 +103,9 @@ public class CreadorController {
 		}else {
 			if(!imagen.isEmpty()) {
 				String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
+				String aux = creador.get().getImagen();
 				creador.get().setImagen("resources/images/creadores/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				fileService.delete(Paths.get("src/main/resources/static/" + aux));
 				fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 			}
 			BeanUtils.copyProperties(modifiedCreador, creador.get(), "id","imagen");

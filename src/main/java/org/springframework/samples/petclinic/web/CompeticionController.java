@@ -62,8 +62,8 @@ public class CompeticionController {
 	}
 		
 	@PostMapping("/new")
-	public String processCreationForm(@Valid Competicion competicion,ModelMap model, BindingResult result,@RequestParam("image") MultipartFile imagen) throws IOException {
-		if(result.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
+	public String processCreationForm(@Valid Competicion competicion,BindingResult result,ModelMap model,@RequestParam("image") MultipartFile imagen) throws IOException {
+		if(result.hasErrors()|| imagen.getBytes().length/(1024*1024)>10 || imagen.isEmpty()) {
 			model.clear();
 			model.addAttribute("competicion", competicion);
 			return "competiciones/createOrUpdateCompeticionForm";
@@ -101,7 +101,9 @@ public class CompeticionController {
 		}else {
 			if(!imagen.isEmpty()) {
 				String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
+				String aux = competicion.get().getImagen();
 				competicion.get().setImagen("resources/images/competiciones/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				fileService.delete(Paths.get("src/main/resources/static/" + aux));
 				fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 			}
 			BeanUtils.copyProperties(modifiedCompeticion, competicion.get(), "id", "problemas","imagen");

@@ -64,8 +64,8 @@ public class TutorController {
 	}
 	
 	@PostMapping("/new")
-	public String processCreationForm(@Valid Tutor tutor,ModelMap model, BindingResult result,@RequestParam("image") MultipartFile imagen) throws IOException {
-		if(result.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
+	public String processCreationForm(@Valid Tutor tutor,BindingResult result,ModelMap model,@RequestParam("image") MultipartFile imagen) throws IOException {
+		if(result.hasErrors()|| imagen.getBytes().length/(1024*1024)>10 || imagen.isEmpty()) {
 			model.clear();
 			model.addAttribute("tutor", tutor);
 			return "tutores/createOrUpdateTutorForm";
@@ -92,7 +92,7 @@ public class TutorController {
 	}
 	
 	@PostMapping("/{id}/edit")
-	public String editNoticia(@PathVariable("id") int id, @Valid Tutor modifiedTutor, BindingResult binding, ModelMap model,@RequestParam("image") MultipartFile imagen) throws BeansException, IOException {
+	public String editTutor(@PathVariable("id") int id, @Valid Tutor modifiedTutor, BindingResult binding, ModelMap model,@RequestParam("image") MultipartFile imagen) throws BeansException, IOException {
 		Optional<Tutor> tutor = tutorService.findById(id);
 		if(binding.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
 			model.clear();
@@ -102,7 +102,9 @@ public class TutorController {
 		}else {
 			if(!imagen.isEmpty()) {
 				String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
+				String aux = tutor.get().getImagen();
 				tutor.get().setImagen("resources/images/tutores/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				fileService.delete(Paths.get("src/main/resources/static/" + aux));
 				fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 			}
 			BeanUtils.copyProperties(modifiedTutor, tutor.get(), "id","imagen");
