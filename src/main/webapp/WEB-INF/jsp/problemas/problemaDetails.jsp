@@ -83,4 +83,5 @@
    				<option value="9">9</option>
    				<option value="10">10</option>
 			</select>
+	<a style="text-align: right;" href="/problemas/${problema.id}/estadisticas">Ver las estadisticas de este problema</a>
 </petclinic:layout>
