@@ -47,11 +47,10 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 	
 	@GetMapping()
 	public String listProblemas(ModelMap modelMap) {
-		String vista = "problemas/problemasList";
 		Collection<Problema> cp= problemaService.ProblemasVigentes();
 		modelMap.addAttribute("problemasVigentes",cp);
 		modelMap.addAttribute("problemasNoVigentes",problemaService.ProblemasNoVigentes(cp));
-		return vista;
+		return "problemas/problemasList";
 	}
 	
 	@GetMapping("/{id}")
@@ -85,7 +84,7 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 	public String processCreationForm(@Valid Problema problema, BindingResult result,ModelMap model,@RequestParam("zipo") MultipartFile zip,@RequestParam("image") MultipartFile imagen) throws IOException{
 		String message;
 		try {
-			if (result.hasErrors() || zip.getBytes().length/(1024*1024)>20 || imagen.getBytes().length/(1024*1024)>10) {
+			if (result.hasErrors() || zip.getBytes().length/(1024*1024)>20 || imagen.getBytes().length/(1024*1024)>10 || imagen.isEmpty() || zip.isEmpty()) {
 				model.clear();
 				model.addAttribute("problema", problema);
 				return VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM;
@@ -135,12 +134,16 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 			}
 			else {
 				if(!zip.isEmpty()) {
+					String aux = problema.get().getZip();
 					problema.get().setZip(rootZip + "/" + Utils.diferenciador("zip"));
+					fileService.delete(Paths.get(aux));
 					fileService.saveFile(zip,rootZip,Utils.diferenciador("zip"));
 				}
 				if(!imagen.isEmpty()) {
 					String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
+					String aux = problema.get().getImagen();
 					problema.get().setImagen("resources/images/problemas/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+					fileService.delete(Paths.get("src/main/resources/static/" + aux));
 					fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 				}
 				BeanUtils.copyProperties(modifiedProblema, problema.get(), "id","zip","imagen");
