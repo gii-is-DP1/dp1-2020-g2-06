@@ -37,7 +37,7 @@ public class TutorService {
 	}
 	
 	public Collection<Noticia> findTutorNoticias(int id){
-		return noticiaService.findTutorNoticias(id);
+		return noticiaService.findNoticiasByTutor(id);
 	}
 	
 	

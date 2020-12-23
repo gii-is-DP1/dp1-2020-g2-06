@@ -25,7 +25,7 @@
                 
             <tr>
                 <td>
-               <p style="text-align:center"> <img src="${articulo.imagen}" width=400px/></p>
+               <p style="text-align:center"> <img src="/<c:out value="${articulo.imagen}"/>" id="Imagen" width=400px/></p>
                     <c:out value="${articulo.texto}"/>
                 </td>                
 
