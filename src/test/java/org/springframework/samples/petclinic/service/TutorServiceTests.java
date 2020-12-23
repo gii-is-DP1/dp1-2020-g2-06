@@ -42,7 +42,7 @@ class TutorServiceTests {
 		assertThat(tutor.getNombre()).isEqualTo("Alejandro");
 		assertThat(tutor.getApellidos()).isEqualTo("Barranco Ledesma");
 		assertThat(tutor.getEmail()).isEqualTo("alebarled@alum.us.es");
-		assertThat(tutor.getFoto()).isEqualTo("https://estaticos.elperiodico.com/resources/jpg/6/4/img-8878-1585501756946.jpg");
+		assertThat(tutor.getImagen()).isEqualTo("https://estaticos.elperiodico.com/resources/jpg/6/4/img-8878-1585501756946.jpg");
 		assertThat(tutor.getPass()).isEqualTo("r4rm0n");
 	}
 	
@@ -83,7 +83,7 @@ class TutorServiceTests {
 	@Test
 	void shoulInsertNoticia() {
 		Tutor tutor = this.tutorService.findById(0).get();
-		Integer numNoticiasAntiguos = noticiaService.findTutorNoticias(tutor.getId()).size();
+		Integer numNoticiasAntiguos = noticiaService.findNoticiasByTutor(tutor.getId()).size();
 		
 		Noticia noticiaNueva = new Noticia();
 		noticiaNueva.setAutor(tutor);
@@ -94,7 +94,7 @@ class TutorServiceTests {
 		noticiaService.save(noticiaNueva);
 		
 		tutor = this.tutorService.findById(0).get();
-		Integer numNoticiasNuevo = noticiaService.findTutorNoticias(tutor.getId()).size();
+		Integer numNoticiasNuevo = noticiaService.findNoticiasByTutor(tutor.getId()).size();
 		assertThat(numNoticiasNuevo).isEqualTo(numNoticiasAntiguos+1);
 		assertNotEquals(numNoticiasAntiguos, numNoticiasNuevo, "El número de noticias asociado a este tutor no es correcto");
 	}

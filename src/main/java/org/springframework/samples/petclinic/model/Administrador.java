@@ -6,32 +6,19 @@ import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
-
 import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "creadores")
-public class Creador extends BaseEntity{
+@Table(name="administradores")
+public class Administrador extends BaseEntity{
 	
-	@Column(name = "nombre")
-	@NotEmpty
-	private String nombre;
-	
-	@Column(name = "apellidos")
-	@NotEmpty
-	private String apellidos;
-	
+	@Column(name="email")
 	@Email
 	@NotEmpty
-	@Column(unique=true)
 	private String email;
 	
-	@Column(name = "pass")
+	@Column(name="pass")
 	@NotEmpty
 	private String pass;
-	
-	private String imagen;
-	
-
 }
