@@ -62,9 +62,10 @@
       <c:forEach items="${envio.listaComentarios}" var="comentario">
 	<table class="table table-striped">
     <tr>
-    <th><a href="/alumnos/${comentario.alumno.id}">
+    <td><img src="/<c:out value="${comentario.alumno.imagen}"/>" id="Imagen" width="50" style="border-radius:100%"/>&nbsp;
+    <a href="/alumnos/${comentario.alumno.id}">
     <c:out value="${comentario.alumno.nombre} ${comentario.alumno.apellidos}"/>
-    </a></th>
+    </a></td>
     </tr>
   
     	<tr>
