@@ -30,7 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/articulos")
 public class ArticuloController {
 	
-	private final Path rootImage = Paths.get("src/main/resources/static/resources/images");
+	private final Path rootImage = Paths.get("src/main/resources/static/resources/images/articulos");
 	
 	@Autowired
 	ArticuloService articuloService;
@@ -77,7 +77,7 @@ public class ArticuloController {
 			return "tutores/createOrUpdateArticuloForm";
 		}else {
 			String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
-			articulo.setImagen("resources/images/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+			articulo.setImagen("resources/images/articulos/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 			fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 			this.articuloService.save(articulo);
 			return "redirect:/articulos";
@@ -110,7 +110,7 @@ public class ArticuloController {
 		else {
 			if(!imagen.isEmpty()) {
 				String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
-				articulo.get().setImagen("resources/images/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				articulo.get().setImagen("resources/images/articulos/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 				fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 			}
 			BeanUtils.copyProperties(modifiedArticulo, articulo.get(), "id", "fechaPublicacion");

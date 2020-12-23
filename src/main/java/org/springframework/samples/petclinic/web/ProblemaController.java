@@ -37,7 +37,7 @@ public class ProblemaController {
 
 private static final String VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM = "problemas/createOrUpdateProblemaForm";
 private final Path rootZip = Paths.get("uploads");
-private final Path rootImage = Paths.get("src/main/resources/static/resources/images");
+private final Path rootImage = Paths.get("src/main/resources/static/resources/images/problemas");
 	
 	@Autowired
 	private ProblemaService problemaService;
@@ -94,7 +94,7 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 				String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
 				problema.setZip(rootZip + "/" + Utils.diferenciador("zip"));
 				fileService.saveFile(zip,rootZip,Utils.diferenciador("zip"));
-				problema.setImagen("resources/images/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				problema.setImagen("resources/images/problemas/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 				fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 				problema.setFechaPublicacion(LocalDate.now());
 				problemaService.saveProblema(problema);
@@ -139,7 +139,7 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 				}
 				if(!imagen.isEmpty()) {
 					String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
-					problema.get().setImagen("resources/images/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+					problema.get().setImagen("resources/images/problemas/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 					fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 				}
 				BeanUtils.copyProperties(modifiedProblema, problema.get(), "id","zip","imagen");
