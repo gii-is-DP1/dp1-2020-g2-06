@@ -7,7 +7,7 @@
 <petclinic:layout pageName="competicion">
 
     <h2><c:out value="${competicion.nombre}"/></h2>
-    <img src="<c:out value="${competicion.imagen}"/>" id="Imagen" width="300" height="225">
+    <img src="/<c:out value="${competicion.imagen}"/>" id="Imagen" width="300" height="225">
     <br></br>
 
 

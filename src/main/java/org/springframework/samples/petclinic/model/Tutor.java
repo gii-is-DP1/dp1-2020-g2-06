@@ -30,8 +30,8 @@ public class Tutor extends BaseEntity{
 	@NotEmpty
 	private String pass;
 	
-	@Column(name = "foto")
-	private String foto;
+	@Column(name = "imagen")
+	private String imagen;
 
 	
 
