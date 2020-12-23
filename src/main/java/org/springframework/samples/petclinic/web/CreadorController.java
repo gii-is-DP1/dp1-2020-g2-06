@@ -98,6 +98,7 @@ public class CreadorController {
 		if(binding.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
 			model.clear();
 			model.addAttribute("creador", creador);
+			model.addAttribute("message",binding.getFieldError().getField());
 			return "creadores/createOrUpdateCreadorForm";
 		}else {
 			if(!imagen.isEmpty()) {

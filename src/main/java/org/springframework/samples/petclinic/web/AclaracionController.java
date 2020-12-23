@@ -48,8 +48,9 @@ public class AclaracionController {
 
 
 	@PostMapping(value = "/new")
-	public String processCreationForm(@Valid Aclaracion aclaracion, BindingResult result) {
+	public String processCreationForm(@Valid Aclaracion aclaracion, BindingResult result,ModelMap model) {
 		if (result.hasErrors()) {
+			model.addAttribute("aclaracion", aclaracion);
 			return VIEWS_ACLARACION_CREATE_OR_UPDATE_FORM;
 		}
 		else {

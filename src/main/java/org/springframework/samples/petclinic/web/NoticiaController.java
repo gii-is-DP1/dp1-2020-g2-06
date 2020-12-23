@@ -102,6 +102,7 @@ public class NoticiaController {
 		if(binding.hasErrors() || imagen.getBytes().length/(1024*1024)>10) {
 			model.clear();
 			model.addAttribute("noticia", noticia.get());
+			model.addAttribute("message",binding.getFieldError().getField());
 			return "noticias/createOrUpdateNoticiaForm";
 		}
 		else {

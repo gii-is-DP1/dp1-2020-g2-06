@@ -97,6 +97,7 @@ public class TutorController {
 		if(binding.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
 			model.clear();
 			model.addAttribute("tutor", tutor.get());
+			model.addAttribute("message",binding.getFieldError().getField());
 			return "tutores/createOrUpdateTutorForm";
 		}else {
 			if(!imagen.isEmpty()) {
