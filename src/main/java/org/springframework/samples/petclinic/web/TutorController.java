@@ -35,7 +35,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/tutores")
 public class TutorController {
 	
-	private final Path rootImage = Paths.get("src/main/resources/static/resources/images");
+	private final Path rootImage = Paths.get("src/main/resources/static/resources/images/tutores");
 
 	@Autowired
 	TutorService tutorService;
@@ -70,6 +70,9 @@ public class TutorController {
 			model.addAttribute("tutor", tutor);
 			return "tutores/createOrUpdateTutorForm";
 		}else {
+			String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
+			tutor.setImagen("resources/images/tutores/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+			fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 			this.tutorService.save(tutor);
 			return "redirect:/tutores";
 		}
@@ -94,11 +97,12 @@ public class TutorController {
 		if(binding.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
 			model.clear();
 			model.addAttribute("tutor", tutor.get());
+			model.addAttribute("message",binding.getFieldError().getField());
 			return "tutores/createOrUpdateTutorForm";
 		}else {
 			if(!imagen.isEmpty()) {
 				String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
-				tutor.get().setImagen("resources/images/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				tutor.get().setImagen("resources/images/tutores/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 				fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 			}
 			BeanUtils.copyProperties(modifiedTutor, tutor.get(), "id");
