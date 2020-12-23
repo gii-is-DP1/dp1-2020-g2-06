@@ -106,7 +106,7 @@ public class CreadorController {
 				creador.get().setImagen("resources/images/creadores/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 				fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 			}
-			BeanUtils.copyProperties(modifiedCreador, creador.get(), "id");
+			BeanUtils.copyProperties(modifiedCreador, creador.get(), "id","imagen");
 			creadorService.save(creador.get());
 			model.addAttribute("message","Creador actualizado con exito");
 			return listCreadores(model);
