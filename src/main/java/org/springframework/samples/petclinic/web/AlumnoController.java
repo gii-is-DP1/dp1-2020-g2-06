@@ -77,8 +77,8 @@ public class AlumnoController {
 	}
 
 	@PostMapping(value = "/new")
-	public String processCreationForm(@Valid Alumno alumno,ModelMap model, BindingResult result,@RequestParam("image") MultipartFile imagen) throws IOException {
-		if (result.hasErrors() || imagen.getBytes().length/(1024*1024)>10) {
+	public String processCreationForm(@Valid Alumno alumno,BindingResult result,ModelMap model,@RequestParam("image") MultipartFile imagen) throws IOException {
+		if (result.hasErrors() || imagen.getBytes().length/(1024*1024)>10 || imagen.isEmpty()) {
 			model.clear();
 			model.addAttribute("alumno", alumno);
 			return VIEWS_ALUMNO_CREATE_OR_UPDATE_FORM;
@@ -119,7 +119,9 @@ public class AlumnoController {
 		else {
 			if(!imagen.isEmpty()) {
 				String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
+				String aux = alumno.get().getImagen();
 				alumno.get().setImagen("resources/images/alumnos/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				fileService.delete(Paths.get("src/main/resources/static/" + aux));
 				fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 			}
 			BeanUtils.copyProperties(modifiedAlumno, alumno.get(), "id","imagen");

@@ -11,10 +11,12 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 
 
 @Data
+@EqualsAndHashCode(callSuper=true)
 @Entity
 @Table(name = "alumnos")
 public class Alumno extends BaseEntity{
