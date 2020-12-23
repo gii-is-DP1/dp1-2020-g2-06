@@ -74,6 +74,8 @@ public class ArticuloController {
 		if(result.hasErrors() || imagen.getBytes().length/(1024*1024)>10) {
 			model.clear();
 			model.addAttribute("articulo", articulo);
+			model.addAttribute("texto",null);
+			model.addAttribute("message",result.getFieldError().getField());
 			return "articulos/createOrUpdateArticuloForm";
 		}else {
 			String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
@@ -114,7 +116,7 @@ public class ArticuloController {
 				articulo.get().setImagen("resources/images/articulos/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 				fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 			}
-			BeanUtils.copyProperties(modifiedArticulo, articulo.get(), "id", "fechaPublicacion");
+			BeanUtils.copyProperties(modifiedArticulo, articulo.get(), "id", "fechaPublicacion","imagen");
 			articuloService.save(articulo.get());
 			model.addAttribute("message","El artículo se ha actualizado con éxito");
 			return listArticulos(model);
