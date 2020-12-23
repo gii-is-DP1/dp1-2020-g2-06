@@ -105,7 +105,7 @@ public class TutorController {
 				tutor.get().setImagen("resources/images/tutores/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 				fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 			}
-			BeanUtils.copyProperties(modifiedTutor, tutor.get(), "id");
+			BeanUtils.copyProperties(modifiedTutor, tutor.get(), "id","imagen");
 			tutorService.save(tutor.get());
 			model.addAttribute("message","Tutor actualizado con exito");
 			return listTutores(model);

@@ -122,7 +122,7 @@ public class AlumnoController {
 				alumno.get().setImagen("resources/images/alumnos/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 				fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 			}
-			BeanUtils.copyProperties(modifiedAlumno, alumno.get(), "id");
+			BeanUtils.copyProperties(modifiedAlumno, alumno.get(), "id","imagen");
 			alumnoService.save(alumno.get());
 			model.addAttribute("message","Alumno actualizado con éxito");
 			return listAlumnos(model);
