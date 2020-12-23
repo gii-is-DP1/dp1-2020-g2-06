@@ -14,7 +14,7 @@
 		
             <tr>
                 <td>                    
-                    <img src="${alumno.imagen}" width="100px" style="border-radius:100%;"/>&nbsp;
+                    <img src="/<c:out value="${alumno.imagen}"/>" id="Imagen" width="100px" style="border-radius:100%;"/>&nbsp;
                     <a href="/alumnos/${alumno.id}">
 					<c:out value="${alumno.nombre}"/>&nbsp;<c:out value="${alumno.apellidos}"/> 
                     </a>

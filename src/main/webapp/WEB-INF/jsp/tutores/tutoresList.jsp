@@ -13,7 +13,7 @@
        <c:forEach items="${tutores}" var="tutor">
         	<tr>
                 <td>                    
-                    <img src="${tutor.foto}" width="100px" style="border-radius:100%;"/>&nbsp;
+                    <img src="/<c:out value="${tutor.imagen}"/>" id="Imagen" width="100px" style="border-radius:100%;"/>&nbsp;
 					<a href="/tutores/${tutor.id}">
 					<c:out value="${tutor.nombre}"/>&nbsp;<c:out value="${tutor.apellidos}"/> 
                		</a>
