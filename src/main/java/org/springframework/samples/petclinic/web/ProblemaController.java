@@ -7,7 +7,9 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -19,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Problema;
 import org.springframework.samples.petclinic.service.ProblemaService;
 import org.springframework.samples.petclinic.util.Utils;
+import org.springframework.samples.petclinic.service.EnvioService;
 import org.springframework.samples.petclinic.service.FileService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -44,6 +47,9 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 	
 	@Autowired
 	private FileService fileService;
+	
+	@Autowired
+	private EnvioService envioService;
 	
 	@GetMapping()
 	public String listProblemas(ModelMap modelMap) {
@@ -109,10 +115,20 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 		}
 	}
 	
-//	@GetMapping("/{id}/estadisticas")
-//	public String estadisticasProblema(@PathVariable("id") int id, ModelMap model) {
-//		
-//	}
+	@GetMapping("/{id}/estadisticas")
+	public String estadisticasProblema(@PathVariable("id") int id, ModelMap model) {
+		Optional<Problema> problema = problemaService.findById(id);
+		Map<String, Long> resoluciones = envioService.resolucionProblema(id);
+		if(problema.isPresent()) {
+			model.addAttribute("problema",problema.get());
+			model.addAttribute("resoluciones",resoluciones);
+			model.addAttribute("totalEnvios",envioService.findAllByProblema(id).size());
+			return "problemas/problemaEstadisticas";
+		}else {
+			model.addAttribute("message", "No podemos encontrar el problema que intenta editar");
+			return listProblemas(model);
+		}
+	}
 	
 	@GetMapping("/{id}/edit")
 	public String editProblema(@PathVariable("id") int id, ModelMap model) {

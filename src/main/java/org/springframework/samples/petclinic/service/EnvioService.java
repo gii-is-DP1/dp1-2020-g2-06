@@ -1,25 +1,14 @@
 package org.springframework.samples.petclinic.service;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.samples.petclinic.domjudge.Run;
 import org.springframework.samples.petclinic.model.Envio;
 import org.springframework.samples.petclinic.repository.EnvioRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 @Service
 public class EnvioService {
@@ -48,9 +37,9 @@ public class EnvioService {
 		return envioRepository.findAllByProblema(id);
 	}
 	
-//	public Map<String, Integer> resolucionProblema(int id){
-//		return envioRepository.findAllByProblema(id).stream().collect(Collectors.toMap(x->x.getResolucion(), Collectors.counting()));
-//	}
+	public Map<String, Long> resolucionProblema(int id){
+		return envioRepository.findAllByProblema(id).stream().collect(Collectors.groupingBy(Envio::getResolucion, Collectors.counting()));
+	}
 
 
 }

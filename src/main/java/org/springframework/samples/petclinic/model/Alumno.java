@@ -10,11 +10,13 @@ import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "alumnos")
 public class Alumno extends BaseEntity{
