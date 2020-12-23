@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -45,6 +47,10 @@ public class EnvioService {
 	public Collection<Envio> findAllByProblema(int id){
 		return envioRepository.findAllByProblema(id);
 	}
+	
+//	public Map<String, Integer> resolucionProblema(int id){
+//		return envioRepository.findAllByProblema(id).stream().collect(Collectors.toMap(x->x.getResolucion(), Collectors.counting()));
+//	}
 
 
 }

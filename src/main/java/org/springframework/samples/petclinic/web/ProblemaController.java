@@ -109,6 +109,11 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 		}
 	}
 	
+//	@GetMapping("/{id}/estadisticas")
+//	public String estadisticasProblema(@PathVariable("id") int id, ModelMap model) {
+//		
+//	}
+	
 	@GetMapping("/{id}/edit")
 	public String editProblema(@PathVariable("id") int id, ModelMap model) {
 		Optional<Problema> problema = problemaService.findById(id);
