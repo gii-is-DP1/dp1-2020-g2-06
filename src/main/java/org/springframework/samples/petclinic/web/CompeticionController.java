@@ -104,7 +104,7 @@ public class CompeticionController {
 				competicion.get().setImagen("resources/images/competiciones/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 				fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 			}
-			BeanUtils.copyProperties(modifiedCompeticion, competicion.get(), "id", "problemas");
+			BeanUtils.copyProperties(modifiedCompeticion, competicion.get(), "id", "problemas","imagen");
 			competicionService.save(competicion.get());
 			model.addAttribute("message","Se ha actualizado la competicion seleccionada");
 			return listCompeticiones(model);		
