@@ -21,11 +21,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(callSuper=true)
-
 @Entity
 @Table(name="envios")
 public class Envio extends BaseEntity{

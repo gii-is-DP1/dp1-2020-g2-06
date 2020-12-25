@@ -8,10 +8,12 @@ import javax.validation.constraints.NotEmpty;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(callSuper=true)
-
 @Entity
 @Table(name="puntuacionProblema")
 public class PuntuacionProblema extends BaseEntity{	

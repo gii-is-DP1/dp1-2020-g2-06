@@ -13,8 +13,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(callSuper=true)
 @Entity
 @Table(name = "articulos")

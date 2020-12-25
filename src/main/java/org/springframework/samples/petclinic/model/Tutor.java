@@ -7,8 +7,11 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "tutores")
 public class Tutor extends BaseEntity{
