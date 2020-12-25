@@ -9,7 +9,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
