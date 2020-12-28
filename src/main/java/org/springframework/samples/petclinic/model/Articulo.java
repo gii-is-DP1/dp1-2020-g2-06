@@ -10,6 +10,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.NonNull;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -23,7 +24,7 @@ import lombok.Setter;
 public class Articulo extends NamedEntity{
 	
 	@ManyToMany
-	@NotEmpty
+	@NonNull
 	Set<Tutor> autores;
 	
 	@Column(name = "fecha_publicacion")

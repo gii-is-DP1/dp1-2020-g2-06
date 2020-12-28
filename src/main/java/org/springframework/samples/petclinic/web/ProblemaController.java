@@ -90,6 +90,7 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 
 	@PostMapping(value = "/new")
 	public String processCreationForm(@Valid Problema problema, BindingResult result,ModelMap model,@RequestParam("zipo") MultipartFile zip,@RequestParam("image") MultipartFile imagen) throws IOException{
+
 //		String message;
 		
 			if (result.hasErrors() || zip.getBytes().length/(1024*1024)>20 || imagen.getBytes().length/(1024*1024)>10 || imagen.isEmpty() || zip.isEmpty()) {
