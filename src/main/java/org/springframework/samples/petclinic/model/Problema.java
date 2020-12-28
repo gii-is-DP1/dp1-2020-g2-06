@@ -34,12 +34,10 @@ public class Problema extends NamedEntity {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "problema")
 	private List<Envio> envios;
 	
-	@NotEmpty
 	@Column(name = "fecha_publicacion")
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate fechaPublicacion;
 	
-	@NotEmpty
 	@Column(name = "puntuacion")
 	@NotNull
 	private Integer puntuacion;
@@ -64,7 +62,7 @@ public class Problema extends NamedEntity {
 	@NotEmpty
 	private String season;
 	
-	@NotEmpty
+	@NotNull
 	@Column(name = "season_year")
 	private Integer seasonYear;
 	

@@ -84,7 +84,7 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 	public String processCreationForm(@Valid Problema problema, BindingResult result,ModelMap model,@RequestParam("zipo") MultipartFile zip,@RequestParam("image") MultipartFile imagen) throws IOException{
 		String message;
 		try {
-			if (result.hasErrors() || zip.getBytes().length/(1024*1024)>20 || imagen.getBytes().length/(1024*1024)>10 || imagen.isEmpty() || zip.isEmpty()) {
+			if (result.hasErrors() || imagen.isEmpty() || zip.isEmpty() || zip.getBytes().length/(1024*1024)>20 || imagen.getBytes().length/(1024*1024)>10) {
 				model.clear();
 				model.addAttribute("problema", problema);
 				return VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM;

@@ -10,6 +10,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
+import org.springframework.lang.NonNull;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -52,6 +54,7 @@ public class Alumno extends BaseEntity{
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "alumno")
 	private List<Envio> envios;
 	
-
+	@NonNull
+	private Boolean compartir;
 	
 }
