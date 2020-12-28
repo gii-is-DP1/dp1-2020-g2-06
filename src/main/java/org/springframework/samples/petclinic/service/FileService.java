@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.service;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,18 +13,16 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.samples.petclinic.repository.FileRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class FileService implements FileRepository{
-	public static Integer id= 0;
-
 
 	  @Override
 	  public void saveFile(MultipartFile file,Path path,String diferenciador) {
 	    try {
 	      Files.copy(file.getInputStream(), path.resolve(diferenciador));
-	      id++;
 	    } catch (Exception e) {
 	      throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
 	    }
@@ -44,4 +43,11 @@ public class FileService implements FileRepository{
 	      throw new RuntimeException("Error: " + e.getMessage());
 	    }
 	  }
+	  
+	  @Override
+	  public void delete(Path path) throws IOException {
+	    FileSystemUtils.deleteRecursively(path);
+	  }
+	  
+	  
 }
