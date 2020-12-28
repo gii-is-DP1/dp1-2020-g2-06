@@ -63,7 +63,7 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 	@GetMapping("/{id}")
 	public String problemaDetails(@PathVariable("id") int id,ModelMap model) throws IOException {
 		Optional<Problema> problema = problemaService.findById(id);
-		
+		Map<String, Long> resoluciones = envioService.resolucionProblema(id);
 		if(problema.isPresent()) {
 			if(problema.get().isVigente()) {
 				model.addAttribute("editarTrue",1);
@@ -71,6 +71,8 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 			model.addAttribute("problema", problema.get());
 			model.addAttribute("puntuacionMedia", problemaService.valoracionMediaAlumnno(problema.get()));
 			model.addAttribute("ultimosEnvios", problema.get().getEnvios());
+			model.addAttribute("resoluciones",resoluciones);
+			model.addAttribute("totalEnvios",envioService.findAllByProblema(id).size());
 			return "problemas/problemaDetails";
 		}
 		else {
@@ -112,21 +114,6 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 		      model.clear();
 		      model.addAttribute("problema", problema);
 		      return VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM;
-		}
-	}
-	
-	@GetMapping("/{id}/estadisticas")
-	public String estadisticasProblema(@PathVariable("id") int id, ModelMap model) {
-		Optional<Problema> problema = problemaService.findById(id);
-		Map<String, Long> resoluciones = envioService.resolucionProblema(id);
-		if(problema.isPresent()) {
-			model.addAttribute("problema",problema.get());
-			model.addAttribute("resoluciones",resoluciones);
-			model.addAttribute("totalEnvios",envioService.findAllByProblema(id).size());
-			return "problemas/problemaEstadisticas";
-		}else {
-			model.addAttribute("message", "No podemos encontrar el problema que intenta editar");
-			return listProblemas(model);
 		}
 	}
 	
