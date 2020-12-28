@@ -70,6 +70,8 @@ public class NormaWebController {
 	public String editNormasWeb(@PathVariable("id") int id, @Valid NormaWeb modifiedNormaWeb, BindingResult binding, ModelMap model) {
 		Optional<NormaWeb> normaWeb = normaWebService.findById(id);
 		if(binding.hasErrors()) {
+			model.addAttribute("normaWeb", normaWeb.get());
+			model.addAttribute("message",binding.getFieldError().getField());
 			return VIEWS_NORMAWEB_CREATE_OR_UPDATE_FORM;
 		}
 		else {

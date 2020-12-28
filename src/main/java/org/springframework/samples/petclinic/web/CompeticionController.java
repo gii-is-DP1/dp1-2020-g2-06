@@ -28,7 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/competiciones")
 public class CompeticionController {
 	
-	private final Path rootImage = Paths.get("src/main/resources/static/resources/images");
+	private final Path rootImage = Paths.get("src/main/resources/static/resources/images/competiciones");
 
 	@Autowired
 	CompeticionService competicionService;
@@ -62,14 +62,14 @@ public class CompeticionController {
 	}
 		
 	@PostMapping("/new")
-	public String processCreationForm(@Valid Competicion competicion,ModelMap model, BindingResult result,@RequestParam("image") MultipartFile imagen) throws IOException {
-		if(result.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
+	public String processCreationForm(@Valid Competicion competicion,BindingResult result,ModelMap model,@RequestParam("image") MultipartFile imagen) throws IOException {
+		if(result.hasErrors()|| imagen.getBytes().length/(1024*1024)>10 || imagen.isEmpty()) {
 			model.clear();
 			model.addAttribute("competicion", competicion);
 			return "competiciones/createOrUpdateCompeticionForm";
 		}else {
 			String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
-			competicion.setImagen("resources/images/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+			competicion.setImagen("resources/images/competiciones/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 			fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 			this.competicionService.save(competicion);
 			return "redirect:/competiciones/";
@@ -96,14 +96,17 @@ public class CompeticionController {
 		if(binding.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
 			model.clear();
 			model.addAttribute("competicion", competicion.get());
+			model.addAttribute("message",binding.getFieldError().getField());
 			return "competiciones/createOrUpdateCompeticionForm";
 		}else {
 			if(!imagen.isEmpty()) {
 				String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
-				competicion.get().setImagen("resources/images/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				String aux = competicion.get().getImagen();
+				competicion.get().setImagen("resources/images/competiciones/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				fileService.delete(Paths.get("src/main/resources/static/" + aux));
 				fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 			}
-			BeanUtils.copyProperties(modifiedCompeticion, competicion.get(), "id", "problemas");
+			BeanUtils.copyProperties(modifiedCompeticion, competicion.get(), "id", "problemas","imagen");
 			competicionService.save(competicion.get());
 			model.addAttribute("message","Se ha actualizado la competicion seleccionada");
 			return listCompeticiones(model);		

@@ -7,7 +7,9 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -19,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Problema;
 import org.springframework.samples.petclinic.service.ProblemaService;
 import org.springframework.samples.petclinic.util.Utils;
+import org.springframework.samples.petclinic.service.EnvioService;
 import org.springframework.samples.petclinic.service.FileService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -37,7 +40,7 @@ public class ProblemaController {
 
 private static final String VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM = "problemas/createOrUpdateProblemaForm";
 private final Path rootZip = Paths.get("uploads");
-private final Path rootImage = Paths.get("src/main/resources/static/resources/images");
+private final Path rootImage = Paths.get("src/main/resources/static/resources/images/problemas");
 	
 	@Autowired
 	private ProblemaService problemaService;
@@ -45,13 +48,15 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 	@Autowired
 	private FileService fileService;
 	
+	@Autowired
+	private EnvioService envioService;
+	
 	@GetMapping()
 	public String listProblemas(ModelMap modelMap) {
-		String vista = "problemas/problemasList";
 		Collection<Problema> cp= problemaService.ProblemasVigentes();
 		modelMap.addAttribute("problemasVigentes",cp);
 		modelMap.addAttribute("problemasNoVigentes",problemaService.ProblemasNoVigentes(cp));
-		return vista;
+		return "problemas/problemasList";
 	}
 	
 	@GetMapping("/{id}")
@@ -85,7 +90,7 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 	public String processCreationForm(@Valid Problema problema, BindingResult result,ModelMap model,@RequestParam("zipo") MultipartFile zip,@RequestParam("image") MultipartFile imagen) throws IOException{
 		String message;
 		try {
-			if (result.hasErrors() || zip.getBytes().length/(1024*1024)>20 || imagen.getBytes().length/(1024*1024)>10) {
+			if (result.hasErrors() || zip.getBytes().length/(1024*1024)>20 || imagen.getBytes().length/(1024*1024)>10 || imagen.isEmpty() || zip.isEmpty()) {
 				model.clear();
 				model.addAttribute("problema", problema);
 				return VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM;
@@ -94,7 +99,7 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 				String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
 				problema.setZip(rootZip + "/" + Utils.diferenciador("zip"));
 				fileService.saveFile(zip,rootZip,Utils.diferenciador("zip"));
-				problema.setImagen("resources/images/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				problema.setImagen("resources/images/problemas/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 				fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 				problema.setFechaPublicacion(LocalDate.now());
 				problemaService.saveProblema(problema);
@@ -106,6 +111,21 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 		      model.clear();
 		      model.addAttribute("problema", problema);
 		      return VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM;
+		}
+	}
+	
+	@GetMapping("/{id}/estadisticas")
+	public String estadisticasProblema(@PathVariable("id") int id, ModelMap model) {
+		Optional<Problema> problema = problemaService.findById(id);
+		Map<String, Long> resoluciones = envioService.resolucionProblema(id);
+		if(problema.isPresent()) {
+			model.addAttribute("problema",problema.get());
+			model.addAttribute("resoluciones",resoluciones);
+			model.addAttribute("totalEnvios",envioService.findAllByProblema(id).size());
+			return "problemas/problemaEstadisticas";
+		}else {
+			model.addAttribute("message", "No podemos encontrar el problema que intenta editar");
+			return listProblemas(model);
 		}
 	}
 	
@@ -130,16 +150,21 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 			if(binding.hasErrors() || zip.getBytes().length/(1024*1024)>20 || imagen.getBytes().length/(1024*1024)>10) {
 				model.clear();
 				model.addAttribute("problema", problema.get());
+				model.addAttribute("message",binding.getFieldError().getField());
 				return VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM;
 			}
 			else {
 				if(!zip.isEmpty()) {
+					String aux = problema.get().getZip();
 					problema.get().setZip(rootZip + "/" + Utils.diferenciador("zip"));
+					fileService.delete(Paths.get(aux));
 					fileService.saveFile(zip,rootZip,Utils.diferenciador("zip"));
 				}
 				if(!imagen.isEmpty()) {
 					String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
-					problema.get().setImagen("resources/images/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+					String aux = problema.get().getImagen();
+					problema.get().setImagen("resources/images/problemas/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+					fileService.delete(Paths.get("src/main/resources/static/" + aux));
 					fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 				}
 				BeanUtils.copyProperties(modifiedProblema, problema.get(), "id","zip","imagen");

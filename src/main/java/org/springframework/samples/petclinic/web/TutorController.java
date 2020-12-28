@@ -35,7 +35,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/tutores")
 public class TutorController {
 	
-	private final Path rootImage = Paths.get("src/main/resources/static/resources/images");
+	private final Path rootImage = Paths.get("src/main/resources/static/resources/images/tutores");
 
 	@Autowired
 	TutorService tutorService;
@@ -64,12 +64,15 @@ public class TutorController {
 	}
 	
 	@PostMapping("/new")
-	public String processCreationForm(@Valid Tutor tutor,ModelMap model, BindingResult result,@RequestParam("image") MultipartFile imagen) throws IOException {
-		if(result.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
+	public String processCreationForm(@Valid Tutor tutor,BindingResult result,ModelMap model,@RequestParam("image") MultipartFile imagen) throws IOException {
+		if(result.hasErrors()|| imagen.getBytes().length/(1024*1024)>10 || imagen.isEmpty()) {
 			model.clear();
 			model.addAttribute("tutor", tutor);
 			return "tutores/createOrUpdateTutorForm";
 		}else {
+			String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
+			tutor.setImagen("resources/images/tutores/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+			fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 			this.tutorService.save(tutor);
 			return "redirect:/tutores";
 		}
@@ -89,19 +92,22 @@ public class TutorController {
 	}
 	
 	@PostMapping("/{id}/edit")
-	public String editNoticia(@PathVariable("id") int id, @Valid Tutor modifiedTutor, BindingResult binding, ModelMap model,@RequestParam("image") MultipartFile imagen) throws BeansException, IOException {
+	public String editTutor(@PathVariable("id") int id, @Valid Tutor modifiedTutor, BindingResult binding, ModelMap model,@RequestParam("image") MultipartFile imagen) throws BeansException, IOException {
 		Optional<Tutor> tutor = tutorService.findById(id);
 		if(binding.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
 			model.clear();
 			model.addAttribute("tutor", tutor.get());
+			model.addAttribute("message",binding.getFieldError().getField());
 			return "tutores/createOrUpdateTutorForm";
 		}else {
 			if(!imagen.isEmpty()) {
 				String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
-				tutor.get().setImagen("resources/images/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				String aux = tutor.get().getImagen();
+				tutor.get().setImagen("resources/images/tutores/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				fileService.delete(Paths.get("src/main/resources/static/" + aux));
 				fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 			}
-			BeanUtils.copyProperties(modifiedTutor, tutor.get(), "id");
+			BeanUtils.copyProperties(modifiedTutor, tutor.get(), "id","imagen");
 			tutorService.save(tutor.get());
 			model.addAttribute("message","Tutor actualizado con exito");
 			return listTutores(model);
@@ -130,6 +136,7 @@ public class TutorController {
 			model.addAttribute("esUltimaPaginaNoticia", noticiaService.findNoticiasByTutorPage(id, pageableN).isLast());
 			model.addAttribute("esPrimeraPaginaNoticia", noticiaService.findNoticiasByTutorPage(id, pageableN).isFirst());
 			return "tutores/tutorDetails";
+			
 		}else {
 			model.addAttribute("message", "El tutor al que intenta acceder no existe");
 			return listTutores(model);
