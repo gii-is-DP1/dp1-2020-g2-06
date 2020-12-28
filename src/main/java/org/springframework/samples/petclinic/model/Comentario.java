@@ -14,7 +14,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper=true)
-
 @Entity
 @Table(name="comentarios")
 public class Comentario extends BaseEntity{	

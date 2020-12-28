@@ -13,7 +13,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper=true)
-
 @Entity
 @Table(name="aclaraciones")
 public class Aclaracion extends BaseEntity{	
