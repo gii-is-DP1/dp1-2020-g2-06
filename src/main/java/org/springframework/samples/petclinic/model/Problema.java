@@ -59,8 +59,10 @@ public class Problema extends NamedEntity {
 	
 	private String zip;
 	
-	@NotEmpty
-	private String season;
+	@ManyToOne
+	@NotNull
+	@JoinColumn(name="id_season")
+	private Temporada season;
 	
 	@NotNull
 	@Column(name = "season_year")
@@ -77,9 +79,9 @@ public class Problema extends NamedEntity {
 	private List<Aclaracion> aclaraciones;
 	
 	public boolean isVigente() {
-		String actualSeason = Utils.getActualSeason();
+		Temporada actualSeason = Utils.getActualSeason();
 		Integer actualYearSeason = Utils.getActualYearofSeason();
-		return this.season.toLowerCase().equals(actualSeason) && this.seasonYear.equals(actualYearSeason);
+		return this.season.equals(actualSeason) && this.seasonYear.equals(actualYearSeason);
 			
 	}
 	

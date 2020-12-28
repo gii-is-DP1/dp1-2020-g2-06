@@ -4,6 +4,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+
 <petclinic:layout pageName="problemas">
 
     <h2><c:out value="${problema.name}"/></h2>
@@ -23,7 +28,7 @@
         </tr>
         <tr>
             <th>Temporada</th>
-            <td><c:out value="${problema.season}"/>&nbsp;<c:out value="${problema.seasonYear}"/></td>
+            <td><c:out value="${problema.season.nombre}"/>&nbsp;<c:out value="${problema.seasonYear}"/></td>
         </tr>
         <tr>
             <th>Casos de Prueba</th>
@@ -83,5 +88,32 @@
    				<option value="9">9</option>
    				<option value="10">10</option>
 			</select>
-	<a style="text-align: right;" href="/problemas/${problema.id}/estadisticas">Ver las estadisticas de este problema</a>
+	<br>
+	<br>
+	<h2>Estadisticas</h2>
+	<div id="graficaDonut" style="height: 250px;"></div>
+	<script>
+	var morris1 = new Morris.Donut({
+		  element: 'graficaDonut',
+		  data: [
+		    <c:forEach items="${resoluciones}" var="resolucion">
+		    	{label: '<c:out value="${resolucion.key}"></c:out>', value: <c:out value="${resolucion.value}"></c:out>},
+		    </c:forEach>
+		  ],
+		  resize: true
+		});
+	</script>
+	<table class="table table-striped">
+	<c:forEach items="${resoluciones}" var="resolucion">
+	<tr>
+		<td><c:out value="${resolucion.key}"></c:out>: <c:out value="${resolucion.value}"></c:out>/<c:out value="${totalEnvios}"></c:out>
+		(<script type="text/javascript">
+		var a = <c:out value="${totalEnvios}"></c:out>;
+		var b = <c:out value="${resolucion.value}"></c:out>;
+		var c = (b/a)*100;
+		document.write(c.toFixed());
+		</script>%)</td>
+	<tr>
+	</c:forEach>
+	</table>
 </petclinic:layout>

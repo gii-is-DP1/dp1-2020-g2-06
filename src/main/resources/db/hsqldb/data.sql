@@ -108,11 +108,17 @@ INSERT INTO normas_web(id,name,descripcion) VALUES (2,'Disfruta', 'Lo importante
 INSERT INTO competicion(id,nombre_competicion,descripcion,imagen,fecha_inicio,fecha_fin) VALUES (0,'Concurso payaso','Un concurso para los verdaderos payasos recursivos','resources/images/competiciones/2020122317127570000000.jpg','2020-12-30T11:07:00.000','2020-12-30T12:00:00.000');
 INSERT INTO competicion(id,nombre_competicion,descripcion,imagen,fecha_inicio,fecha_fin) VALUES (1,'Ensayo AdaByron','Un concurso para tener un primer contacto con el concurso de AdaByron','resources/images/competiciones/20201223171314927000000.jpg','2020-10-24T11:07:00.000','2020-10-27T12:00:00.000');
 
-INSERT INTO problema(id,name,puntuacion,descripcion,casos_prueba,salida_esperada,fecha_publicacion,season,season_year,id_competicion,imagen) VALUES (0,'La moneda de Paco', 2 , 'Debe encontrar la moneda falsa', '0 1 2' , '1','2000-04-30','otoño',2020,1,'resources/images/problemas/2020122317127570000000.jpg');
-INSERT INTO problema(id,name,puntuacion,descripcion,casos_prueba,salida_esperada,fecha_publicacion,season,season_year,id_competicion,imagen) VALUES (1,'La fuga de Rarmon', 5 , 'Debe encontrar la manera de escapar de FuentePalmera', 'Derecha' , 'Izquierda','2020-11-28','verano',2020,0,'resources/images/problemas/20201223171314927000000.jpg');
-INSERT INTO problema(id,name,puntuacion,descripcion,casos_prueba,salida_esperada,fecha_publicacion,season,season_year,id_competicion,imagen) VALUES (2,'La moneda de Paco v.2', 2 , 'Debe encontrar la moneda falsa', '0 1 2' , '1','2000-04-30','otoño',2020,null,'resources/images/problemas/20201223171351187000000.jpg');
-INSERT INTO problema(id,name,puntuacion,descripcion,casos_prueba,salida_esperada,fecha_publicacion,season,season_year,id_competicion,imagen) VALUES (3,'La fuga de Rarmon v.2', 5 , 'Debe encontrar la manera de escapar de FuentePalmera', '0 1 2' , '1','2000-04-30','invierno',2020,null,'resources/images/problemas/2020122317810299000000.jpg');
-INSERT INTO problema(id,name,puntuacion,descripcion,casos_prueba,salida_esperada,fecha_publicacion,season,season_year,id_competicion,imagen) VALUES (4,'Hello World!', 1 , 'Imprimir n veces "Hello World!"', 'Hello World! \nHello World! \nHello World!' , '1','2000-04-30','primavera',2019,null,'resources/images/problemas/2020122317827911000000.jpg');
+INSERT INTO temporada(id,nombre) VALUES (0,'PRIMAVERA');
+INSERT INTO temporada(id,nombre) VALUES (1,'VERANO');
+INSERT INTO temporada(id,nombre) VALUES (2,'OTOÑO');
+INSERT INTO temporada(id,nombre) VALUES (3,'INVIERNO');
+
+
+INSERT INTO problema(id,name,puntuacion,descripcion,casos_prueba,salida_esperada,fecha_publicacion,id_season,season_year,id_competicion,imagen) VALUES (0,'La moneda de Paco', 2 , 'Debe encontrar la moneda falsa', '0 1 2' , '1','2000-04-30',2,2020,1,'resources/images/problemas/2020122317127570000000.jpg');
+INSERT INTO problema(id,name,puntuacion,descripcion,casos_prueba,salida_esperada,fecha_publicacion,id_season,season_year,id_competicion,imagen) VALUES (1,'La fuga de Rarmon', 5 , 'Debe encontrar la manera de escapar de FuentePalmera', 'Derecha' , 'Izquierda','2020-11-28',1,2020,0,'resources/images/problemas/20201223171314927000000.jpg');
+INSERT INTO problema(id,name,puntuacion,descripcion,casos_prueba,salida_esperada,fecha_publicacion,id_season,season_year,id_competicion,imagen) VALUES (2,'La moneda de Paco v.2', 2 , 'Debe encontrar la moneda falsa', '0 1 2' , '1','2000-04-30',2,2020,null,'resources/images/problemas/20201223171351187000000.jpg');
+INSERT INTO problema(id,name,puntuacion,descripcion,casos_prueba,salida_esperada,fecha_publicacion,id_season,season_year,id_competicion,imagen) VALUES (3,'La fuga de Rarmon v.2', 5 , 'Debe encontrar la manera de escapar de FuentePalmera', '0 1 2' , '1','2000-04-30',3,2020,null,'resources/images/problemas/2020122317810299000000.jpg');
+INSERT INTO problema(id,name,puntuacion,descripcion,casos_prueba,salida_esperada,fecha_publicacion,id_season,season_year,id_competicion,imagen) VALUES (4,'Hello World!', 1 , 'Imprimir n veces "Hello World!"', 'Hello World! \nHello World! \nHello World!' , '1','2000-04-30',2,2019,null,'resources/images/problemas/2020122317827911000000.jpg');
 
 
 INSERT INTO articulos(id,name,fecha_publicacion,texto,imagen_articulo) VALUES (0,'Articulo sobre DBGames',DATE'2020-07-22','Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum', 'resources/images/articulos/2020122317810299000000.jpg');
@@ -146,17 +152,17 @@ INSERT INTO alumnos(id,nombre,apellidos,email,imagen,pass,compartir) VALUES (2,'
 
 INSERT INTO creadores(id,nombre,apellidos,email,pass,imagen) VALUES (0,'David','Brincau Cano','davbrican@us.es','dbgames55','resources/images/creadores/2020122317244979000000.jpg');
 
-INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,season,season_year) VALUES (0,'2020-08-21T11:13:13.274','codes/prueba.java','AC',0,1,'verano',2020);
-INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,season,season_year) VALUES (1,'2010-11-21T11:13:13.274','codes/prueba.c','AC',0,1,'otoño',2010);
-INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,season,season_year) VALUES (2,'2020-11-21T11:13:13.274','codes/prueba.java','AC',0,0,'otoño',2020);
-INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,season,season_year) VALUES (3,'2018-12-31T11:13:13.274','codes/prueba.c','AC',0,0,'invierno',2018);
-INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,season,season_year) VALUES (4,'2018-11-21T11:13:13.274','codes/prueba.java','AC',1,1,'otoño',2018);
-INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,season,season_year) VALUES (5,'2018-11-21T11:13:13.274','codes/prueba.c','AC',2,1,'otoño',2018);
-INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,season,season_year) VALUES (6,'2018-11-21T11:13:13.274','codes/prueba.java','TLE',0,0,'otoño',2018);
-INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,season,season_year) VALUES (7,'2018-11-21T11:13:13.274','codes/prueba.c','WA',0,1,'otoño',2018);
-INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,season,season_year) VALUES (8,'2018-11-22T11:13:13.274','codes/prueba.java','TLE',0,1,'otoño',2018);
-INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,season,season_year) VALUES (9,'2018-11-21T11:13:13.274','codes/prueba.c','AC',0,0,'otoño',2018);
-INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,season,season_year) VALUES (10,'2019-05-22T11:13:13.274','codes/prueba.java','AC',1,3,'verano',2019);
+INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,id_season,season_year) VALUES (0,'2020-08-21T11:13:13.274','codes/prueba.java','AC',0,1,0,2020);
+INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,id_season,season_year) VALUES (1,'2010-11-21T11:13:13.274','codes/prueba.c','AC',0,1,2,2010);
+INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,id_season,season_year) VALUES (2,'2020-11-21T11:13:13.274','codes/prueba.java','AC',0,0,2,2020);
+INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,id_season,season_year) VALUES (3,'2018-12-31T11:13:13.274','codes/prueba.c','AC',0,0,3,2018);
+INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,id_season,season_year) VALUES (4,'2018-11-21T11:13:13.274','codes/prueba.java','AC',1,1,2,2018);
+INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,id_season,season_year) VALUES (5,'2018-11-21T11:13:13.274','codes/prueba.c','AC',2,1,2,2018);
+INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,id_season,season_year) VALUES (6,'2018-11-21T11:13:13.274','codes/prueba.java','TLE',0,0,2,2018);
+INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,id_season,season_year) VALUES (7,'2018-11-21T11:13:13.274','codes/prueba.c','WA',0,1,2,2018);
+INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,id_season,season_year) VALUES (8,'2018-11-22T11:13:13.274','codes/prueba.java','TLE',0,1,2,2018);
+INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,id_season,season_year) VALUES (9,'2018-11-21T11:13:13.274','codes/prueba.c','AC',0,0,2,2018);
+INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,id_season,season_year) VALUES (10,'2019-05-22T11:13:13.274','codes/prueba.java','AC',1,3,1,2019);
 
 
 INSERT INTO puntuacion_problema(id,id_alumno,id_problema,puntuacion) VALUES (0,2,2,3);
@@ -169,3 +175,6 @@ INSERT INTO comentarios(id,id_envio,id_alumno,texto) VALUES (1,10,2,'Estoy desea
 INSERT INTO aclaraciones(id,id_tutor,id_problema,texto) VALUES (0,2,2,'Encontrar la moneda consiste en hacer un bucle infinito con el que reviente el PC');
 
 INSERT INTO administradores(id,email,pass) VALUES (0, 'administrador@us.es', 'adm1n1234');
+
+
+
