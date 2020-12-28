@@ -34,12 +34,11 @@ public class Problema extends NamedEntity {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "problema")
 	private List<Envio> envios;
 	
-	@NotEmpty
+
 	@Column(name = "fecha_publicacion")
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate fechaPublicacion;
 	
-	@NotEmpty
 	@Column(name = "puntuacion")
 	@NotNull
 	private Integer puntuacion;
@@ -61,10 +60,12 @@ public class Problema extends NamedEntity {
 	
 	private String zip;
 	
-	@NotEmpty
-	private String season;
+	@ManyToOne
+	@NotNull
+	@JoinColumn(name="id_season")
+	private Temporada season;
 	
-	@NotEmpty
+	@NotNull
 	@Column(name = "season_year")
 	private Integer seasonYear;
 	
@@ -79,9 +80,9 @@ public class Problema extends NamedEntity {
 	private List<Aclaracion> aclaraciones;
 	
 	public boolean isVigente() {
-		String actualSeason = Utils.getActualSeason();
+		Temporada actualSeason = Utils.getActualSeason();
 		Integer actualYearSeason = Utils.getActualYearofSeason();
-		return this.season.toLowerCase().equals(actualSeason) && this.seasonYear.equals(actualYearSeason);
+		return this.season.equals(actualSeason) && this.seasonYear.equals(actualYearSeason);
 			
 	}
 	

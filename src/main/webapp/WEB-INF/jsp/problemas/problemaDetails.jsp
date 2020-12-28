@@ -23,7 +23,7 @@
         </tr>
         <tr>
             <th>Temporada</th>
-            <td><c:out value="${problema.season}"/>&nbsp;<c:out value="${problema.seasonYear}"/></td>
+            <td><c:out value="${problema.season.nombre}"/>&nbsp;<c:out value="${problema.seasonYear}"/></td>
         </tr>
         <tr>
             <th>Casos de Prueba</th>

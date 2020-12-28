@@ -50,7 +50,9 @@ public class Envio extends BaseEntity{
 	@JoinColumn(name="id_problema")
 	private Problema problema;
 	
-	private String season;  /// redundante pero necesario para query
+	@ManyToOne
+	@JoinColumn(name="id_season")
+	private Temporada season;  /// redundante pero necesario para query
 	
 	@Column(name = "season_year")
 	private Integer seasonYear;   /// redundante pero necesario para query
