@@ -9,6 +9,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+
+import org.springframework.samples.constraint.EmailConstraint;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,28 +25,19 @@ import lombok.Setter;
 @Table(name = "alumnos")
 public class Alumno extends BaseEntity{
 	
-	@NotEmpty
+	@NotEmpty(message= "El campo nombre no puede estar vacío")
 	private String nombre;
 	
-	@NotEmpty
+	@NotEmpty(message= "El campo apellidos no puede estar vacío")
 	private String apellidos;
 	
-	@Email
-	@NotEmpty
+	@EmailConstraint
 	@Column(unique=true)
 	private String email;
 	
 	
 	private String imagen;
 	
-//	@Column(name="puntos_anual")
-//	private Integer puntosAnual;
-//	
-//	@Column(name="puntos_temporada")
-//	private Integer puntosTemporada;
-//	
-//	@Column(name="puntos_totales")
-//	private Integer puntosTotales;
 
 	@NotEmpty
 	private String pass;

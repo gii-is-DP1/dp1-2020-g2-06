@@ -23,6 +23,6 @@ public interface PuntuacionProblemaRepository extends Repository<PuntuacionProbl
 	@Query(value="SELECT * FROM puntuacionProblema WHERE puntuacionProblema.id_problema=:id", nativeQuery = true)
 	Collection<PuntuacionProblema> findAllByProblema(@Param("id") int id) throws DataAccessException;
 	
-	@Query(value="SELECT avg(puntuacionProblema.puntuacion) FROM puntuacionProblema WHERE puntuacionProblema.id_problema=:id", nativeQuery = true)
-	Collection<PuntuacionProblema> averageAllByProblema(@Param("id") int id) throws DataAccessException;
+//	@Query(value="SELECT avg(puntuacionProblema.puntuacion) FROM puntuacionProblema WHERE puntuacionProblema.id_problema=:id")
+//	Double averageAllByProblema(@Param("id") int id) throws DataAccessException;
 }
