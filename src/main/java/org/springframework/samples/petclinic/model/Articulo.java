@@ -21,7 +21,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "articulos")
 public class Articulo extends NamedEntity{
-//	
+	
 	@ManyToMany
 	@NotEmpty
 	Set<Tutor> autores;
