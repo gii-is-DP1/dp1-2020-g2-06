@@ -34,7 +34,6 @@ public class Problema extends NamedEntity {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "problema")
 	private List<Envio> envios;
 	
-
 	@Column(name = "fecha_publicacion")
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate fechaPublicacion;
