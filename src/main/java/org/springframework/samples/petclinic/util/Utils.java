@@ -3,20 +3,34 @@ package org.springframework.samples.petclinic.util;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import org.springframework.samples.petclinic.model.Temporada;
+
 public class Utils {
 
-	public static String getActualSeason() {
+	public static Temporada getActualSeason() {
 		if(LocalDate.of(LocalDate.now().getYear(), 3, 20).isBefore(LocalDate.now()) 
 				&& LocalDate.now().isBefore(LocalDate.of(LocalDate.now().getYear(), 5, 21))) {
-			return "primavera";
+			Temporada temp = new Temporada();
+			temp.setId(0);
+			temp.setNombre("primavera");
+			return temp;
 		}else if(LocalDate.of(LocalDate.now().getYear(), 5, 20).isBefore(LocalDate.now()) 
 				&& LocalDate.now().isBefore(LocalDate.of(LocalDate.now().getYear(), 9, 21))) {
-			return "verano";
+			Temporada temp = new Temporada();
+			temp.setId(1);
+			temp.setNombre("verano");
+			return temp;
 		}else if(LocalDate.of(LocalDate.now().getYear(), 9, 20).isBefore(LocalDate.now()) 
 				&& LocalDate.now().isBefore(LocalDate.of(LocalDate.now().getYear(), 12, 21))) {
-			return "otoño";
+			Temporada temp = new Temporada();
+			temp.setId(2);
+			temp.setNombre("otoño");
+			return temp;
 		}else {
-			return "invierno";
+			Temporada temp = new Temporada();
+			temp.setId(3);
+			temp.setNombre("invierno");
+			return temp;
 		}
 	}
 	
@@ -33,7 +47,7 @@ public class Utils {
 	}
 	
 	public static String diferenciador(String extension) {
-		return LocalDate.now().getYear() + "" + LocalDate.now().getMonth() + "" + LocalDate.now().getDayOfMonth() + "" +
+		return LocalDate.now().getYear() + "" + LocalDate.now().getMonthValue() + "" + LocalDate.now().getDayOfMonth() + "" +
 				+ LocalDateTime.now().getHour() + "" + LocalDateTime.now().getMinute() + "" + LocalDateTime.now().getSecond() +
 				+ LocalDateTime.now().getNano() + "." + extension;
 	}

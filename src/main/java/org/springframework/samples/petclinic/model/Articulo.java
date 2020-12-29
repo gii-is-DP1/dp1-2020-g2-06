@@ -10,18 +10,21 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.NonNull;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(callSuper=true)
 @Entity
 @Table(name = "articulos")
 public class Articulo extends NamedEntity{
 	
 	@ManyToMany
-	@NotEmpty
+	@NonNull
 	Set<Tutor> autores;
 	
 	@Column(name = "fecha_publicacion")

@@ -29,7 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/noticias")
 public class NoticiaController {
 	
-	private final Path rootImage = Paths.get("src/main/resources/static/resources/images");
+	private final Path rootImage = Paths.get("src/main/resources/static/resources/images/noticias");
 	
 	@Autowired
 	NoticiaService noticiaService;
@@ -65,15 +65,16 @@ public class NoticiaController {
 	}
 
 	@PostMapping(value = "/new")
-	public String processCreationForm(@Valid Noticia noticia,ModelMap model, BindingResult result,@RequestParam("image") MultipartFile imagen) throws IOException {
-		if (result.hasErrors() || imagen.getBytes().length/(1024*1024)>10) {
+	public String processCreationForm(@Valid Noticia noticia,BindingResult result,ModelMap model,@RequestParam("image") MultipartFile imagen) throws IOException {
+		if (result.hasErrors() || imagen.getBytes().length/(1024*1024)>10 || imagen.isEmpty()) {
 			model.clear();
 			model.addAttribute("noticia", noticia);
+			model.addAttribute("message",result.getFieldError().getField());
 			return  "noticias/createOrUpdateNoticiaForm";
 		}
 		else {
 			String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
-			noticia.setImagen("resources/images/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+			noticia.setImagen("resources/images/noticias/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 			fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 			noticia.setFechaPublicacion(LocalDate.now());
 			noticiaService.save(noticia);
@@ -102,12 +103,15 @@ public class NoticiaController {
 		if(binding.hasErrors() || imagen.getBytes().length/(1024*1024)>10) {
 			model.clear();
 			model.addAttribute("noticia", noticia.get());
+			model.addAttribute("message",binding.getFieldError().getField());
 			return "noticias/createOrUpdateNoticiaForm";
 		}
 		else {
 			if(!imagen.isEmpty()) {
 				String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
-				noticia.get().setImagen("resources/images/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				String aux = noticia.get().getImagen();
+				noticia.get().setImagen("resources/images/noticias/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				fileService.delete(Paths.get("src/main/resources/static/" + aux));
 				fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 			}
 			BeanUtils.copyProperties(modifiedNoticia, noticia.get(), "id", "fechaPublicacion", "imagen");

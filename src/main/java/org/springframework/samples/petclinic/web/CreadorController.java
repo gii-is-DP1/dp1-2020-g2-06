@@ -30,7 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/creadores")
 public class CreadorController {
 	
-	private final Path rootImage = Paths.get("src/main/resources/static/resources/images");
+	private final Path rootImage = Paths.get("src/main/resources/static/resources/images/creadores");
 
 	@Autowired
 	CreadorService creadorService;
@@ -66,13 +66,13 @@ public class CreadorController {
 	
 	@PostMapping("/new")
 	public String processCreationForm(@Valid Creador creador, BindingResult result,ModelMap model,@RequestParam("image") MultipartFile imagen) throws IOException {
-		if(result.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
+		if(result.hasErrors()|| imagen.getBytes().length/(1024*1024)>10 || imagen.isEmpty()) {
 			model.clear();
 			model.addAttribute("creador", creador);
 			return "creadores/createOrUpdateCreadorForm";
 		}else {
 			String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
-			creador.setImagen("resources/images/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+			creador.setImagen("resources/images/creadores/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 			fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 			this.creadorService.save(creador);
 			return "redirect:/creadores";
@@ -98,14 +98,17 @@ public class CreadorController {
 		if(binding.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
 			model.clear();
 			model.addAttribute("creador", creador);
+			model.addAttribute("message",binding.getFieldError().getField());
 			return "creadores/createOrUpdateCreadorForm";
 		}else {
 			if(!imagen.isEmpty()) {
 				String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
-				creador.get().setImagen("resources/images/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				String aux = creador.get().getImagen();
+				creador.get().setImagen("resources/images/creadores/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				fileService.delete(Paths.get("src/main/resources/static/" + aux));
 				fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 			}
-			BeanUtils.copyProperties(modifiedCreador, creador.get(), "id");
+			BeanUtils.copyProperties(modifiedCreador, creador.get(), "id","imagen");
 			creadorService.save(creador.get());
 			model.addAttribute("message","Creador actualizado con exito");
 			return listCreadores(model);

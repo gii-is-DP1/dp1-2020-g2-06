@@ -6,9 +6,13 @@ import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
-import lombok.Data;
+import org.springframework.samples.constraint.EmailConstraint;
 
-@Data
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @Entity
 @Table(name = "tutores")
 public class Tutor extends BaseEntity{
@@ -21,8 +25,7 @@ public class Tutor extends BaseEntity{
 	@NotEmpty
 	private String apellidos;
 	
-	@Email
-	@NotEmpty
+	@EmailConstraint
 	@Column(unique=true)
 	private String email;
 	

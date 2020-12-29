@@ -16,10 +16,12 @@ import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.petclinic.util.Utils;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(callSuper=true)
 @Entity
 @Table(name = "problema")
@@ -57,8 +59,12 @@ public class Problema extends NamedEntity {
 	
 	private String zip;
 	
-	private String season;
+	@ManyToOne
+	@NotNull
+	@JoinColumn(name="id_season")
+	private Temporada season;
 	
+	@NotNull
 	@Column(name = "season_year")
 	private Integer seasonYear;
 	
@@ -73,9 +79,9 @@ public class Problema extends NamedEntity {
 	private List<Aclaracion> aclaraciones;
 	
 	public boolean isVigente() {
-		String actualSeason = Utils.getActualSeason();
+		Temporada actualSeason = Utils.getActualSeason();
 		Integer actualYearSeason = Utils.getActualYearofSeason();
-		return this.season.toLowerCase().equals(actualSeason) && this.seasonYear.equals(actualYearSeason);
+		return this.season.equals(actualSeason) && this.seasonYear.equals(actualYearSeason);
 			
 	}
 	

@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -34,7 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class AlumnoController {
 	
 	private static final String VIEWS_ALUMNO_CREATE_OR_UPDATE_FORM = "alumnos/createOrUpdateAlumnoForm";
-	private final Path rootImage = Paths.get("src/main/resources/static/resources/images");
+	private final Path rootImage = Paths.get("src/main/resources/static/resources/images/alumnos");
 	
 	@Autowired
 	AlumnoService alumnoService;
@@ -77,15 +75,16 @@ public class AlumnoController {
 	}
 
 	@PostMapping(value = "/new")
-	public String processCreationForm(@Valid Alumno alumno,ModelMap model, BindingResult result,@RequestParam("image") MultipartFile imagen) throws IOException {
-		if (result.hasErrors() || imagen.getBytes().length/(1024*1024)>10) {
+	public String processCreationForm(@Valid Alumno alumno,BindingResult result,ModelMap model,@RequestParam("image") MultipartFile imagen) throws IOException {
+		if (result.hasErrors() || imagen.isEmpty() || imagen.getBytes().length/(1024*1024)>10) {
 			model.clear();
 			model.addAttribute("alumno", alumno);
+			model.addAttribute("message", result.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList()));
 			return VIEWS_ALUMNO_CREATE_OR_UPDATE_FORM;
 		}
 		else {
 			String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
-			alumno.setImagen("resources/images/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+			alumno.setImagen("resources/images/alumnos/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 			fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 			alumnoService.save(alumno);
 			
@@ -112,17 +111,19 @@ public class AlumnoController {
 		Optional<Alumno> alumno = alumnoService.findById(id);
 		if(binding.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
 			model.clear();
-			model.addAttribute("noticia", alumno.get());
+			model.addAttribute("alumno", alumno.get());
 			model.addAttribute("message",binding.getFieldError().getField());
 			return VIEWS_ALUMNO_CREATE_OR_UPDATE_FORM;
 		}
 		else {
 			if(!imagen.isEmpty()) {
 				String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
-				alumno.get().setImagen("resources/images/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				String aux = alumno.get().getImagen();
+				alumno.get().setImagen("resources/images/alumnos/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				fileService.delete(Paths.get("src/main/resources/static/" + aux));
 				fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
 			}
-			BeanUtils.copyProperties(modifiedAlumno, alumno.get(), "id");
+			BeanUtils.copyProperties(modifiedAlumno, alumno.get(), "id","imagen");
 			alumnoService.save(alumno.get());
 			model.addAttribute("message","Alumno actualizado con éxito");
 			return listAlumnos(model);
