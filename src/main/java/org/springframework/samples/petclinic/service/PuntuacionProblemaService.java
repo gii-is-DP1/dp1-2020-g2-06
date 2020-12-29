@@ -34,8 +34,8 @@ public class PuntuacionProblemaService {
 		return puntuacionProblemaRepository.findAllByProblema(id);
 	}
 	
-	public Collection<PuntuacionProblema> averageAllByProblema(int id){
-		return puntuacionProblemaRepository.averageAllByProblema(id);
-	}
+//	public Double averageAllByProblema(int id){
+//		return puntuacionProblemaRepository.averageAllByProblema(id);
+//	}
 
 }
