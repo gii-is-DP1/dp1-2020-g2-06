@@ -13,7 +13,7 @@
     <form:form modelAttribute="articulo" class="form-horizontal" id="add-owner-form" enctype="multipart/form-data">
 		<div class="form-group has-feedback">
 			<petclinic:inputField label="Título" name="name" />
-			<petclinic:inputField label="Texto" name="texto" />
+			<petclinic:textArea label="Texto" name="texto" rows="12"/>
 			<petclinic:inputField label="fechaPublicacion"
 				name="fechaPublicacion" />
 			<table>
