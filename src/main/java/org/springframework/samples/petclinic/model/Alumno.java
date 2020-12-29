@@ -13,6 +13,8 @@ import javax.validation.constraints.NotEmpty;
 import org.springframework.samples.constraint.EmailConstraint;
 
 
+import org.springframework.lang.NonNull;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
