@@ -76,7 +76,7 @@ public class AlumnoController {
 
 	@PostMapping(value = "/new")
 	public String processCreationForm(@Valid Alumno alumno,BindingResult result,ModelMap model,@RequestParam("image") MultipartFile imagen) throws IOException {
-		if (result.hasErrors() || imagen.getBytes().length/(1024*1024)>10 || imagen.isEmpty()) {
+		if (result.hasErrors() || imagen.isEmpty() || imagen.getBytes().length/(1024*1024)>10) {
 			model.clear();
 			model.addAttribute("alumno", alumno);
 			model.addAttribute("message", result.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList()));

@@ -144,9 +144,9 @@ INSERT INTO ARTICULOS_AUTORES(ARTICULO_ID,AUTORES_ID) VALUES (4,0);
 INSERT INTO ARTICULOS_AUTORES(ARTICULO_ID,AUTORES_ID) VALUES (5,0);
 
 
-INSERT INTO alumnos(id,nombre,apellidos,email,imagen,pass) VALUES (0,'Daniel','Montes','rarmon@alum.us.es','resources/images/alumnos/20201223154714879157200.jpg','octavel0ver');
-INSERT INTO alumnos(id,nombre,apellidos,email,imagen,pass) VALUES (1,'Marina','Moya','marmozam@alum.us.es','resources/images/alumnos/20201223155839395152900.jpg','coding4food');
-INSERT INTO alumnos(id,nombre,apellidos,email,imagen,pass) VALUES (2,'Alexis','Balboa','alexisbalbo@alum.us.es','resources/images/alumnos/20201223155630996653000.jpeg','nothing2lose');
+INSERT INTO alumnos(id,nombre,apellidos,email,imagen,pass,compartir) VALUES (0,'Daniel','Montes','rarmon@alum.us.es','resources/images/alumnos/20201223154714879157200.jpg','octavel0ver',true);
+INSERT INTO alumnos(id,nombre,apellidos,email,imagen,pass,compartir) VALUES (1,'Marina','Moya','marmozam@alum.us.es','resources/images/alumnos/20201223155839395152900.jpg','coding4food',false);
+INSERT INTO alumnos(id,nombre,apellidos,email,imagen,pass,compartir) VALUES (2,'Alexis','Balboa','alexisbalbo@alum.us.es','resources/images/alumnos/20201223155630996653000.jpeg','nothing2lose',true);
 
 
 

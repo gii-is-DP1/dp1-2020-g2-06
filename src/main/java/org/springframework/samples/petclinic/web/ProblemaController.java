@@ -62,7 +62,7 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 	@GetMapping("/{id}")
 	public String problemaDetails(@PathVariable("id") int id,ModelMap model) throws IOException {
 		Optional<Problema> problema = problemaService.findById(id);
-		
+		Map<String, Long> resoluciones = envioService.resolucionProblema(id);
 		if(problema.isPresent()) {
 			if(problema.get().isVigente()) {
 				model.addAttribute("editarTrue",1);
@@ -70,6 +70,8 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 			model.addAttribute("problema", problema.get());
 			model.addAttribute("puntuacionMedia", problemaService.valoracionMediaAlumnno(problema.get()));
 			model.addAttribute("ultimosEnvios", problema.get().getEnvios());
+			model.addAttribute("resoluciones",resoluciones);
+			model.addAttribute("totalEnvios",envioService.findAllByProblema(id).size());
 			return "problemas/problemaDetails";
 		}
 		else {
@@ -88,6 +90,7 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 
 	@PostMapping(value = "/new")
 	public String processCreationForm(@Valid Problema problema, BindingResult result,ModelMap model,@RequestParam("zipo") MultipartFile zip,@RequestParam("image") MultipartFile imagen) throws IOException{
+
 //		String message;
 		
 			if (result.hasErrors() || zip.getBytes().length/(1024*1024)>20 || imagen.getBytes().length/(1024*1024)>10 || imagen.isEmpty() || zip.isEmpty()) {
@@ -108,21 +111,6 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 				return "redirect:/problemas/";
 			}
 		
-	}
-	
-	@GetMapping("/{id}/estadisticas")
-	public String estadisticasProblema(@PathVariable("id") int id, ModelMap model) {
-		Optional<Problema> problema = problemaService.findById(id);
-		Map<String, Long> resoluciones = envioService.resolucionProblema(id);
-		if(problema.isPresent()) {
-			model.addAttribute("problema",problema.get());
-			model.addAttribute("resoluciones",resoluciones);
-			model.addAttribute("totalEnvios",envioService.findAllByProblema(id).size());
-			return "problemas/problemaEstadisticas";
-		}else {
-			model.addAttribute("message", "No podemos encontrar el problema que intenta editar");
-			return listProblemas(model);
-		}
 	}
 	
 	@GetMapping("/{id}/edit")

@@ -12,11 +12,10 @@ import javax.validation.constraints.NotEmpty;
 
 import org.springframework.samples.constraint.EmailConstraint;
 
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-
-
 
 @Getter
 @Setter
@@ -45,6 +44,7 @@ public class Alumno extends BaseEntity{
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "alumno")
 	private List<Envio> envios;
 	
-
+	@NonNull
+	private Boolean compartir;
 	
 }
