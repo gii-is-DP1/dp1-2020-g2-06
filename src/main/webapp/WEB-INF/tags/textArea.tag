@@ -4,9 +4,10 @@
 <%@ attribute name="name" required="true" rtexprvalue="true"
               description="Name of corresponding property in bean object" %>
 <%@ attribute name="label" required="true" rtexprvalue="true"
-              description="Label appears in red color if input is considered as invalid after submission" %>
-<%@ attribute name="type" required="false" rtexprvalue="true"
-              description="Input type" %>
+              description="Label appears in red color if input is considered as invalid after submission" %>     
+<%@ attribute name="rows" required="true" rtexprvalue="true"
+              description="Rows of textArea" %>
+
 
 <spring:bind path="${name}">
     <c:set var="cssGroup" value="form-group ${status.error ? 'has-error' : '' }"/>
@@ -15,7 +16,7 @@
         <label class="col-sm-2 control-label">${label}</label>
 
         <div class="col-sm-10">
-            <form:input class="form-control" path="${name}" type="${type}"/>
+            <form:textarea class="form-control" path="${name}" rows="${rows}" style="resize: none"/>
             <c:if test="${valid}">
                 <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
             </c:if>
