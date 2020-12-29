@@ -12,10 +12,11 @@
     </h2>
     <form:form modelAttribute="tutor" class="form-horizontal" id="add-owner-form" enctype="multipart/form-data">
         <div class="form-group has-feedback">
-        	<petclinic:inputField label="Email" name="email"/>
+        	
     		<petclinic:inputField label="Nombre" name="nombre"/>
           	<petclinic:inputField label="Apellidos" name="apellidos"/>
-          	<petclinic:inputField label="Pass" name="pass"/>
+          	<petclinic:inputField label="Email" name="email"/>
+          	<petclinic:inputField label="Contraseña" name="pass" type="password"/>
           	<table>
             <form:form enctype="multipart/form-data">
              <tr><td>Image to upload:</td><td><input type="file" name="image" /></td></tr>

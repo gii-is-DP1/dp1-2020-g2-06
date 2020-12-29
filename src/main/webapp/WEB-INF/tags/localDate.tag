@@ -7,5 +7,5 @@
 <%@ attribute name="pattern" required="true" type="java.lang.String" %>
 
 
-<fmt:parseDate value="${date}" pattern="yyyy-MM-dd" var="parsedDate" type="date"/>
+<fmt:parseDate value="${date}" pattern="yyyy-MM-dd" var="parsedDate" type="date" autocomplete="off"/>
 <fmt:formatDate value="${parsedDate}" type="date" pattern="${pattern}"/>
