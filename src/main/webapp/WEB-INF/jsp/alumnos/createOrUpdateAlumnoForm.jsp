@@ -15,7 +15,7 @@
             <petclinic:inputField label="Nombre" name="nombre"/>
             <petclinic:inputField label="Apellidos" name="apellidos"/>
             <petclinic:inputField label="Email" name="email"/>
-            <petclinic:inputField label="Contraseña" name="pass"/>
+            <petclinic:inputField label="Contraseña" name="pass" type="password"/>
             <form:checkbox path="compartir" label ="Compartir soluciones de Problemas resueltos" />
             <table>
             <form:form enctype="multipart/form-data">
