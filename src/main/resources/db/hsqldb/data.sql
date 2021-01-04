@@ -105,8 +105,8 @@ INSERT INTO normas_web(id,name,descripcion) VALUES (1,'Bien', 'Se deben tratar b
 INSERT INTO normas_web(id,name,descripcion) VALUES (2,'Disfruta', 'Lo importante es pasarselo bien');
 
 
-INSERT INTO competicion(id,nombre_competicion,descripcion,imagen,fecha_inicio,fecha_fin) VALUES (0,'Concurso payaso','Un concurso para los verdaderos payasos recursivos','resources/images/competiciones/2020122317127570000000.jpg','2020-12-30T11:07:00.000','2020-12-30T12:00:00.000');
-INSERT INTO competicion(id,nombre_competicion,descripcion,imagen,fecha_inicio,fecha_fin) VALUES (1,'Ensayo AdaByron','Un concurso para tener un primer contacto con el concurso de AdaByron','resources/images/competiciones/20201223171314927000000.jpg','2020-10-24T11:07:00.000','2020-10-27T12:00:00.000');
+INSERT INTO competicion(id,nombre_competicion,descripcion,imagen,fecha_inicio,fecha_fin,hora_inicio,hora_fin) VALUES (0,'Concurso payaso','Un concurso para los verdaderos payasos recursivos','resources/images/competiciones/2020122317127570000000.jpg','2020-12-30','2020-12-30','18:00','18:01');
+INSERT INTO competicion(id,nombre_competicion,descripcion,imagen,fecha_inicio,fecha_fin,hora_inicio,hora_fin) VALUES (1,'Ensayo AdaByron','Un concurso para tener un primer contacto con el concurso de AdaByron','resources/images/competiciones/20201223171314927000000.jpg','2020-10-24','2020-10-27','18:00','18:01');
 
 INSERT INTO temporada(id,nombre) VALUES (0,'PRIMAVERA');
 INSERT INTO temporada(id,nombre) VALUES (1,'VERANO');

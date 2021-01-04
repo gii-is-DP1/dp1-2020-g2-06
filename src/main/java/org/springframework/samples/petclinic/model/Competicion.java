@@ -1,5 +1,7 @@
 package org.springframework.samples.petclinic.model;
 
+import java.sql.Time;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -32,15 +34,25 @@ public class Competicion extends BaseEntity{
 	private String descripcion;
 	
 	@Column(name = "fecha_inicio")
-	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm:ss")
 	@NotNull
-	private LocalDateTime fecha_inicio;
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	private LocalDate fecha_inicio;
 	
-	@Column(name = "fecha_fin")
-	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm:ss")
-	@FechaFinConstraint
+	@Column(name = "hora_inicio")
+	@DateTimeFormat(pattern = "HH:mm")
 	@NotNull
-	private LocalDateTime fecha_fin;
+	private Time hora_inicio;
+	
+	@Column(name = "fecha_fin") 
+	@FechaFinConstraint
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	@NotNull
+	private LocalDate fecha_fin;
+	
+	@Column(name = "hora_fin")
+	@NotNull
+	@DateTimeFormat(pattern = "HH:mm")
+	private Time hora_fin;
 	
 	@Column(name= "imagen")
 	private String imagen;

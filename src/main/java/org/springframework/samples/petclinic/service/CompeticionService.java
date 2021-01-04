@@ -6,12 +6,15 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.samples.petclinic.model.Competicion;
 import org.springframework.samples.petclinic.repository.CompeticionRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CompeticionService {
+	
+	ConversionService conversionService;
 
 	@Autowired
 	CompeticionRepository competicionRepository;
