@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -68,6 +69,7 @@ public class TutorController {
 		if(result.hasErrors()|| imagen.getBytes().length/(1024*1024)>10 || imagen.isEmpty()) {
 			model.clear();
 			model.addAttribute("tutor", tutor);
+			model.addAttribute("message", result.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList()));
 			return "tutores/createOrUpdateTutorForm";
 		}else {
 			String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
@@ -97,7 +99,7 @@ public class TutorController {
 		if(binding.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
 			model.clear();
 			model.addAttribute("tutor", tutor.get());
-			model.addAttribute("message",binding.getFieldError().getField());
+			model.addAttribute("message", binding.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList()));
 			return "tutores/createOrUpdateTutorForm";
 		}else {
 			if(!imagen.isEmpty()) {

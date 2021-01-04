@@ -3,7 +3,7 @@ package org.springframework.samples.petclinic.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +21,8 @@ public class CompeticionServiceTests {
 	@Test
 	void shouldUpdateCompeticion() {
 		Competicion competicion = this.competicionService.findById(0).get();
-		LocalDateTime fechaInicioAntigua = competicion.getFecha_inicio();
-		LocalDateTime fechaInicioNueva = LocalDateTime.now();
+		LocalDate fechaInicioAntigua = competicion.getFecha_inicio();
+		LocalDate fechaInicioNueva = LocalDate.now();
 		 
 		competicion.setFecha_inicio(fechaInicioNueva);
 		this.competicionService.save(competicion);

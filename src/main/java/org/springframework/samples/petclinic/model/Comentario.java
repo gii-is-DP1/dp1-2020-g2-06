@@ -7,6 +7,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
+import org.springframework.lang.NonNull;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,12 +20,12 @@ import lombok.Setter;
 @Table(name="comentarios")
 public class Comentario extends BaseEntity{	
 	
-	@NotEmpty
+	@NonNull
 	@ManyToOne
 	@JoinColumn(name="id_envio")
 	private Envio envio;
 	
-	@NotEmpty
+	@NonNull
 	@ManyToOne
 	@JoinColumn(name="id_alumno")
 	private Alumno alumno;
