@@ -12,6 +12,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.samples.constraint.FechaFinConstraint;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -37,6 +38,7 @@ public class Competicion extends BaseEntity{
 	
 	@Column(name = "fecha_fin")
 	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm:ss")
+	@FechaFinConstraint
 	@NotNull
 	private LocalDateTime fecha_fin;
 	
