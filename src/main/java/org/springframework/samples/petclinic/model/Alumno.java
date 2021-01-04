@@ -7,13 +7,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
-import org.springframework.samples.constraint.EmailConstraint;
-
-
 import org.springframework.lang.NonNull;
+import org.springframework.samples.constraint.EmailConstraint;
+import org.springframework.samples.constraint.PassConstraint;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -41,6 +39,7 @@ public class Alumno extends BaseEntity{
 	
 
 	@NotEmpty
+	@PassConstraint
 	private String pass;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "alumno")
