@@ -7,6 +7,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 import org.springframework.samples.constraint.EmailConstraint;
+import org.springframework.samples.constraint.PassConstraint;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,11 +19,11 @@ import lombok.Setter;
 public class Tutor extends BaseEntity{
 	
 	@Column(name = "nombre")
-	@NotEmpty
+	@NotEmpty(message= "El campo nombre no puede estar vacío")
 	private String nombre;
 	
 	@Column(name = "apellidos")
-	@NotEmpty
+	@NotEmpty(message= "El campo apellidos no puede estar vacío")
 	private String apellidos;
 	
 	@EmailConstraint
@@ -31,6 +32,7 @@ public class Tutor extends BaseEntity{
 	
 	@Column(name = "pass")
 	@NotEmpty
+	@PassConstraint
 	private String pass;
 	
 	@Column(name = "imagen")
