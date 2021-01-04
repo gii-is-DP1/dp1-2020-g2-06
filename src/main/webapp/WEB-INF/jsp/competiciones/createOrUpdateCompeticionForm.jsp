@@ -13,7 +13,7 @@
     <form:form modelAttribute="competicion" class="form-horizontal" id="add-competicion-form" enctype="multipart/form-data">
         <div class="form-group has-feedback">
             <petclinic:inputField label="Nombre" name="nombre"/>
-            <petclinic:inputField label="Descripcion" name="descripcion"/>
+            <petclinic:textArea label="Descripcion" name="descripcion" rows="12"/>
             <petclinic:inputField label="Fecha Inicio" name="fecha_inicio"/>
             <petclinic:inputField label="Fecha Fin" name="fecha_fin"/>
             <table>

@@ -107,6 +107,7 @@ public class ArticuloController {
 		if(binding.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
 			model.clear();
 			model.addAttribute("articulo", articulo.get());
+			model.addAttribute("autores", tutorService.findAll());
 			model.addAttribute("message",binding.getFieldError().getField());
 			return "articulos/createOrUpdateArticuloForm";
 		}
