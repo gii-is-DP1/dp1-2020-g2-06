@@ -7,15 +7,26 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="noticias">
+
+	<jsp:attribute name="customScript">
+        <script>
+			$(function() {
+				$("#fechaPublicacion").datepicker({
+					dateFormat : 'yy/mm/dd'
+				});
+			});
+		</script>
+    </jsp:attribute>
+	<jsp:body>
     <h2>
         <c:if test="${articulo['new']}">New </c:if> Articulo
     </h2>
-    <form:form modelAttribute="articulo" class="form-horizontal" id="add-owner-form" enctype="multipart/form-data">
+    <form:form modelAttribute="articulo" class="form-horizontal"
+			id="add-owner-form" enctype="multipart/form-data">
 		<div class="form-group has-feedback">
 			<petclinic:inputField label="Título" name="name" />
-			<petclinic:textArea label="Texto" name="texto" rows="12"/>
-			<petclinic:inputField label="fechaPublicacion"
-				name="fechaPublicacion" />
+			<petclinic:textArea label="Texto" name="texto" rows="12" />
+			<petclinic:inputField label="Fecha de Publicacion" name="fechaPublicacion" />
 			<table>
 				<form:form enctype="multipart/form-data">
 					<tr>
@@ -32,8 +43,8 @@
 				<div class="col-sm-10">
 					<label>Autores:</label>
 					<form:checkboxes items="${autores}" path="autores"
-						delimiter="&nbsp;&nbsp;&nbsp;" itemLabel="nombre"
-						style="border:10px;" />
+							delimiter="&nbsp;&nbsp;&nbsp;" itemLabel="nombre"
+							style="border:10px;" />
 				</div>
 			</div>
 		</div>
@@ -50,4 +61,5 @@
             </div>
         </div>
     </form:form>
+    </jsp:body>
 </petclinic:layout> 
