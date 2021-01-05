@@ -1,4 +1,4 @@
-package org.springframework.samples.contraint.validators;
+package org.springframework.samples.constraint.validators;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

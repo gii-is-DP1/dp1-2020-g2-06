@@ -1,7 +1,5 @@
 package org.springframework.samples.petclinic.model;
 
-import java.time.LocalDate;
-
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
@@ -15,8 +13,8 @@ import lombok.Setter;
 @Entity
 public class Temporada extends BaseEntity implements Comparable<Temporada>{
 	
-
-
+	
+	
 	@NotEmpty
 	private String nombre;
 
@@ -24,5 +22,15 @@ public class Temporada extends BaseEntity implements Comparable<Temporada>{
 	public int compareTo(Temporada o) {
 		return this.id.compareTo(o.id);
 	}
+
+	@Override
+	public String toString() {
+		return this.id.toString();
+	}
+
+	
+	
+	
+	
 
 }

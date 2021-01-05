@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.model;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -41,7 +42,7 @@ public class Competicion extends BaseEntity{
 	@Column(name = "hora_inicio")
 	@DateTimeFormat(pattern = "HH:mm")
 	@NotNull
-	private Time hora_inicio;
+	private LocalTime hora_inicio;
 	
 	@Column(name = "fecha_fin") 
 	@FechaFinConstraint
@@ -52,7 +53,7 @@ public class Competicion extends BaseEntity{
 	@Column(name = "hora_fin")
 	@NotNull
 	@DateTimeFormat(pattern = "HH:mm")
-	private Time hora_fin;
+	private LocalTime hora_fin;
 	
 	@Column(name= "imagen")
 	private String imagen;

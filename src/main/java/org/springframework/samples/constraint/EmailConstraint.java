@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import org.springframework.samples.contraint.validators.EmailValidator;
+import org.springframework.samples.constraint.validators.EmailValidator;
 
 @Documented
 @Constraint(validatedBy = EmailValidator.class)
