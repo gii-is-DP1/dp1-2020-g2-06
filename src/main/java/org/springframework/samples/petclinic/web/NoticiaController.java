@@ -1,13 +1,20 @@
 package org.springframework.samples.petclinic.web;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Noticia;
+import org.springframework.samples.petclinic.service.FileService;
 import org.springframework.samples.petclinic.service.NoticiaService;
+import org.springframework.samples.petclinic.util.Utils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -15,13 +22,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/noticias")
 public class NoticiaController {
 	
+	private final Path rootImage = Paths.get("src/main/resources/static/resources/images/noticias");
+	
 	@Autowired
 	NoticiaService noticiaService;
+	
+	@Autowired
+	private FileService fileService;
 	
 	@GetMapping("")
 	public String listNoticias(ModelMap model) {
@@ -43,6 +57,32 @@ public class NoticiaController {
 		}
 	}
 	
+	@GetMapping(value = "/new")
+	public String initCreationForm(ModelMap model) {
+		Noticia noticia = new Noticia();
+		model.addAttribute("noticia", noticia);
+		return  "noticias/createOrUpdateNoticiaForm";
+	}
+
+	@PostMapping(value = "/new")
+	public String processCreationForm(@Valid Noticia noticia,BindingResult result,ModelMap model,@RequestParam("image") MultipartFile imagen) throws IOException {
+		if (result.hasErrors() || imagen.getBytes().length/(1024*1024)>10 || imagen.isEmpty()) {
+			model.clear();
+			model.addAttribute("noticia", noticia);
+			model.addAttribute("message",result.getFieldError().getField());
+			return  "noticias/createOrUpdateNoticiaForm";
+		}
+		else {
+			String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
+			noticia.setImagen("resources/images/noticias/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+			fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+			noticia.setFechaPublicacion(LocalDate.now());
+			noticiaService.save(noticia);
+			
+			return "redirect:/noticias/";
+		}
+	}
+	
 	@GetMapping("/{id}/edit")
 	public String editNoticia(@PathVariable("id") int id, ModelMap model) {
 		Optional<Noticia> noticia = noticiaService.findById(id);
@@ -58,13 +98,23 @@ public class NoticiaController {
 	}
 	
 	@PostMapping("/{id}/edit")
-	public String editNoticia(@PathVariable("id") int id, @Valid Noticia modifiedNoticia, BindingResult binding, ModelMap model) {
+	public String editNoticia(@PathVariable("id") int id, @Valid Noticia modifiedNoticia, BindingResult binding, ModelMap model,@RequestParam("image") MultipartFile imagen) throws BeansException, IOException {
 		Optional<Noticia> noticia = noticiaService.findById(id);
-		if(binding.hasErrors()) {
+		if(binding.hasErrors() || imagen.getBytes().length/(1024*1024)>10) {
+			model.clear();
+			model.addAttribute("noticia", noticia.get());
+			model.addAttribute("message",binding.getFieldError().getField());
 			return "noticias/createOrUpdateNoticiaForm";
 		}
 		else {
-			BeanUtils.copyProperties(modifiedNoticia, noticia.get(), "id", "fechaPublicacion", "autor");
+			if(!imagen.isEmpty()) {
+				String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
+				String aux = noticia.get().getImagen();
+				noticia.get().setImagen("resources/images/noticias/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				fileService.delete(Paths.get("src/main/resources/static/" + aux));
+				fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+			}
+			BeanUtils.copyProperties(modifiedNoticia, noticia.get(), "id", "fechaPublicacion", "imagen");
 			noticiaService.save(noticia.get());
 			model.addAttribute("message","Noticia actualizada con éxito");
 			return listNoticias(model);

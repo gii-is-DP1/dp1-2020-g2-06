@@ -3,6 +3,10 @@ package org.springframework.samples.petclinic.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collection;
 
 import javax.validation.ConstraintViolationException;
@@ -12,9 +16,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.samples.petclinic.model.Problema;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 public class ProblemaServiceTests {
@@ -22,26 +28,34 @@ public class ProblemaServiceTests {
 	@Autowired
 	ProblemaService ProblemaService;
 	
-	@Test
-	public void testCountWithInitialData() {
-		int count = ProblemaService.ProblemaCount();
-		assertEquals(count, 2);
-	}
-	
-	@Test
-	public void shouldInsertProblema() {
+	public void shouldInsertProblema() throws IOException {
 		Collection<Problema> normasWeb = this.ProblemaService.findAll();
 		int found = normasWeb.size();
 
-		Problema Problema = new Problema();
-		Problema.setName("La piscina olimpica");
-		Problema.setDescripcion("Una piscina olimica tiene 50 metros de largo...");
-		Problema.setPuntuacion(5);
-		Problema.setCasos_prueba("50 2 1");
-		Problema.setSalida_esperada("Si");
-		Problema.setImagen("https://www.imagendeprueba.com/2");
+		Problema problema = new Problema();
+		problema.setName("La piscina olimpica");
+		problema.setDescripcion("Una piscina olimica tiene 50 metros de largo...");
+		problema.setPuntuacion(5);
+		problema.setCasos_prueba("50 2 1");
+		problema.setSalida_esperada("Si");
+		problema.setImagen("https://www.imagendeprueba.com/2");
+		
+		Path path = Paths.get("/TestTxt/TestFile.txt");
+		String name = "file.txt";
+		String originalFileName = "TestFile.txt";
+		String contentType = "text/plain";
+		byte[] content = null;
+		try {
+		    content = Files.readAllBytes(path);
+		} catch (final IOException e) {
+		}
+		
+		MultipartFile file = new MockMultipartFile(name,
+                originalFileName, contentType, content);
+		
+		problema.setZip("uploads/" + file.getOriginalFilename());
                 
-		this.ProblemaService.saveProblema(Problema);	
+		this.ProblemaService.saveProblema(problema);	
 		
 		Collection<Problema> normasWeb2 = this.ProblemaService.findAll();
 		
@@ -50,20 +64,36 @@ public class ProblemaServiceTests {
 	
 	@Test
 	public void shouldThrowExceptionInsertingProblemaWithoutCasosPrueba() {
-		Problema Problema = new Problema();
-		Problema.setName("La piscina olimpica");
-		Problema.setDescripcion("Una piscina olimica tiene 50 metros de largo...");
-		Problema.setPuntuacion(5);
-		Problema.setSalida_esperada("Si");
-		Problema.setImagen("https://www.imagendeprueba.com/2");
+		Problema problema = new Problema();
+		problema.setName("La piscina olimpica");
+		problema.setDescripcion("Una piscina olimica tiene 50 metros de largo...");
+		problema.setPuntuacion(5);
+		problema.setSalida_esperada("Si");
+		problema.setImagen("https://www.imagendeprueba.com/2");
+		
+		Path path = Paths.get("/TestTxt/TestFile.txt");
+		String name = "file.txt";
+		String originalFileName = "TestFile.txt";
+		String contentType = "text/plain";
+		byte[] content = null;
+		try {
+		    content = Files.readAllBytes(path);
+		} catch (final IOException e) {
+		}
+		
+		MultipartFile file = new MockMultipartFile(name,
+                originalFileName, contentType, content);
+		
+		problema.setZip("uploads/" + file.getOriginalFilename());
+		
 		Assertions.assertThrows(ConstraintViolationException.class, () ->{
-			this.ProblemaService.saveProblema(Problema);
+			this.ProblemaService.saveProblema(problema);	;
 		});	
 	}
 	
 	@Test
 	@Transactional
-	void shouldUpdateproblema() {
+	void shouldUpdateproblema() throws IOException {
 		Problema problema = this.ProblemaService.findById(0).get();
 		String oldDescripcion = problema.getDescripcion();
 		String newDescripcion = oldDescripcion + "X";

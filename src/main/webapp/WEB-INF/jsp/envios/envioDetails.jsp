@@ -31,16 +31,49 @@
         </tr>
         <tr>
             <th>Código</th>
+            <c:choose>
+            <c:when test="${envio.problema.vigente || !envio.alumno.compartir}">
             
-            <td><c:forEach items="${codigo}" var="linea">
+             <td>Problema vigente: código no disponible
+               </td>
+               
+               </c:when>
+               <c:otherwise>
+               
+               <td><c:forEach items="${codigo}" var="linea">
             <c:out value="${linea}"/><br>
                </c:forEach>
                </td>
+               
+               </c:otherwise>
+               
+               </c:choose>
          
         </tr>
         
         
+    
         
     </table>
-
+    
+    
+    <h3>Comentarios</h3>
+          
+      <c:forEach items="${envio.listaComentarios}" var="comentario">
+	<table class="table table-striped">
+    <tr>
+    <td><img src="/<c:out value="${comentario.alumno.imagen}"/>" id="Imagen" width="50" style="border-radius:100%"/>&nbsp;
+    <a href="/alumnos/${comentario.alumno.id}">
+    <c:out value="${comentario.alumno.nombre} ${comentario.alumno.apellidos}"/>
+    </a></td>
+    </tr>
+  
+    	<tr>
+    	<td><c:out value="${comentario.texto}"/><td></tr>
+    	
+    	</table>
+	</c:forEach>
+    
+    
+	
 </petclinic:layout>

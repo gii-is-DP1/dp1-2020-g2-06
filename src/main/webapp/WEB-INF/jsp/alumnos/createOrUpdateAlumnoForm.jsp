@@ -1,4 +1,4 @@
-<%@ page session="false" trimDirectiveWhitespaces="true" %>
+<%@ page session="false" trimDirectiveWhitespaces="true" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -10,24 +10,24 @@
     <h2>
         <c:if test="${alumno['new']}">Nuevo </c:if> Alumno
     </h2>
-    <form:form modelAttribute="alumno" class="form-horizontal" id="add-alumno-form">
+    <form:form modelAttribute="alumno" class="form-horizontal" id="add-alumno-form" enctype="multipart/form-data">
         <div class="form-group has-feedback">
             <petclinic:inputField label="Nombre" name="nombre"/>
             <petclinic:inputField label="Apellidos" name="apellidos"/>
             <petclinic:inputField label="Email" name="email"/>
-            <petclinic:inputField label="Contraseña" name="pass"/>
-            <c:if test="!${alumno['new']}">
-            <petclinic:inputField label="Puntuación Temporada" name="puntosTemporada"/>
-            <petclinic:inputField label="Puntuación Anual" name="puntosAnual"/>
-            <petclinic:inputField label="Puntuación Total" name="puntosTotales"/>
-            </c:if>
-            <petclinic:inputField label="Imagen" name="imagen"/>
+            <petclinic:inputField label="ContraseÃ±a" name="pass" type="password"/>
+            <form:checkbox path="compartir" label ="Compartir soluciones de Problemas resueltos" />
+            <table>
+            <form:form enctype="multipart/form-data">
+             <tr><td>Image to upload:</td><td><input type="file" name="image" /></td></tr>
+            </form:form>
+			</table>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <c:choose>
                     <c:when test="${alumno['new']}">
-                        <button class="btn btn-default" type="submit">Añadir alumno</button>
+                        <button class="btn btn-default" type="submit">AÃ±adir alumno</button>
                     </c:when>
                     <c:otherwise>
                         <button class="btn btn-default" type="submit">Actualizar alumno</button>

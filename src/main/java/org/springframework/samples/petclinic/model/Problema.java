@@ -16,10 +16,12 @@ import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.petclinic.util.Utils;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(callSuper=true)
 @Entity
 @Table(name = "problema")
@@ -52,15 +54,17 @@ public class Problema extends NamedEntity {
 	@Column(name = "salida_esperada")
 	private String salida_esperada;
 	
-	@NotEmpty
-	@Column(name = "imagen")
 	private String imagen;
 	
-	@Column(name = "zip")
+	
 	private String zip;
 	
-	private String season;
+	@ManyToOne
+	@NotNull
+	@JoinColumn(name="id_season")
+	private Temporada season;
 	
+	@NotNull
 	@Column(name = "season_year")
 	private Integer seasonYear;
 	
@@ -68,11 +72,19 @@ public class Problema extends NamedEntity {
 	@JoinColumn(name="id_competicion")
 	private Competicion competicion;
 	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "problema")
+	private List<PuntuacionProblema> puntuacionesProblema;
+		
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "problema")
+	private List<Aclaracion> aclaraciones;
+	
 	public boolean isVigente() {
-		String actualSeason = Utils.getActualSeason();
+		Temporada actualSeason = Utils.getActualSeason();
 		Integer actualYearSeason = Utils.getActualYearofSeason();
 		return this.season.equals(actualSeason) && this.seasonYear.equals(actualYearSeason);
 			
 	}
+	
+	//private Double puntuacionMedia = puntuacionesProblema.stream().mapToInt(x -> x.getPuntuacion()).average().getAsDouble(); 
 	
 }

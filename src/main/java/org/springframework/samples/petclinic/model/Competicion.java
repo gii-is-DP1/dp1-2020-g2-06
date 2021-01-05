@@ -1,7 +1,9 @@
 package org.springframework.samples.petclinic.model;
 
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -10,12 +12,16 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.samples.constraint.FechaFinConstraint;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "competicion")
 public class Competicion extends BaseEntity{
@@ -29,17 +35,27 @@ public class Competicion extends BaseEntity{
 	private String descripcion;
 	
 	@Column(name = "fecha_inicio")
-	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm:ss")
-	@NotEmpty
-	private LocalDateTime fecha_inicio;
+	@NotNull
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	private LocalDate fecha_inicio;
 	
-	@Column(name = "fecha_fin")
-	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm:ss")
-	@NotEmpty
-	private LocalDateTime fecha_fin;
+	@Column(name = "hora_inicio")
+	@DateTimeFormat(pattern = "HH:mm")
+	@NotNull
+	private LocalTime hora_inicio;
+	
+	@Column(name = "fecha_fin") 
+	@FechaFinConstraint
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	@NotNull
+	private LocalDate fecha_fin;
+	
+	@Column(name = "hora_fin")
+	@NotNull
+	@DateTimeFormat(pattern = "HH:mm")
+	private LocalTime hora_fin;
 	
 	@Column(name= "imagen")
-	@NotEmpty
 	private String imagen;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "competicion")

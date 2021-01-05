@@ -6,7 +6,6 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.model.Articulo;
 import org.springframework.samples.petclinic.model.Noticia;
 import org.springframework.samples.petclinic.model.Tutor;
 import org.springframework.samples.petclinic.repository.TutorRepository;
@@ -38,10 +37,8 @@ public class TutorService {
 	}
 	
 	public Collection<Noticia> findTutorNoticias(int id){
-		return noticiaService.findTutorNoticias(id);
+		return noticiaService.findNoticiasByTutor(id);
 	}
 	
-	public Collection<Articulo> findTutorArticulos(int id){
-		return articuloService.findTutorArticulos(id);
-	}
+	
 }

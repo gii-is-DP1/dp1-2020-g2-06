@@ -1,4 +1,4 @@
-<%@ page session="false" trimDirectiveWhitespaces="true" %>
+<%@ page session="false" trimDirectiveWhitespaces="true" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -10,19 +10,24 @@
     <h2>
         <c:if test="${tutores['new']}">New </c:if> Tutores
     </h2>
-    <form:form modelAttribute="tutor" class="form-horizontal" id="add-owner-form">
+    <form:form modelAttribute="tutor" class="form-horizontal" id="add-owner-form" enctype="multipart/form-data">
         <div class="form-group has-feedback">
-        	<petclinic:inputField label="Email" name="email"/>
+        	
     		<petclinic:inputField label="Nombre" name="nombre"/>
           	<petclinic:inputField label="Apellidos" name="apellidos"/>
-          	<petclinic:inputField label="Pass" name="pass"/>
-          	<petclinic:inputField label="Foto" name="foto"/>          
+          	<petclinic:inputField label="Email" name="email"/>
+          	<petclinic:inputField label="Contraseña" name="pass" type="password"/>
+          	<table>
+            <form:form enctype="multipart/form-data">
+             <tr><td>Image to upload:</td><td><input type="file" name="image" /></td></tr>
+            </form:form>
+			</table>         
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <c:choose>
                     <c:when test="${tutor['new']}">
-                        <button class="btn btn-default" type="submit">A�adir Tutor</button>
+                        <button class="btn btn-default" type="submit">Añadir Tutor</button>
                     </c:when>
                     <c:otherwise>
                         <button class="btn btn-default" type="submit">Actualizar Tutor</button>

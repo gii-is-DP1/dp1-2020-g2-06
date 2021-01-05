@@ -7,47 +7,45 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
-import lombok.Data;
+import org.springframework.lang.NonNull;
+import org.springframework.samples.constraint.EmailConstraint;
+import org.springframework.samples.constraint.PassConstraint;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper=true)
 @Entity
 @Table(name = "alumnos")
 public class Alumno extends BaseEntity{
 	
-	@NotEmpty
+	@NotEmpty(message= "El campo nombre no puede estar vacío")
 	private String nombre;
 	
-	@NotEmpty
+	@NotEmpty(message= "El campo apellidos no puede estar vacío")
 	private String apellidos;
 	
-	@Email
-	@NotEmpty
+	@EmailConstraint
 	@Column(unique=true)
 	private String email;
 	
-	@NotEmpty
+	
 	private String imagen;
 	
-//	@Column(name="puntos_anual")
-//	private Integer puntosAnual;
-//	
-//	@Column(name="puntos_temporada")
-//	private Integer puntosTemporada;
-//	
-//	@Column(name="puntos_totales")
-//	private Integer puntosTotales;
 
 	@NotEmpty
+	@PassConstraint
 	private String pass;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "alumno")
 	private List<Envio> envios;
 	
-
+	@NonNull
+	private Boolean compartir;
 	
 }

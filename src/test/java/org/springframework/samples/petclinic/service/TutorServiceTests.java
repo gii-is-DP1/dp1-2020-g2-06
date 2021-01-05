@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +42,7 @@ class TutorServiceTests {
 		assertThat(tutor.getNombre()).isEqualTo("Alejandro");
 		assertThat(tutor.getApellidos()).isEqualTo("Barranco Ledesma");
 		assertThat(tutor.getEmail()).isEqualTo("alebarled@alum.us.es");
-		assertThat(tutor.getFoto()).isEqualTo("https://estaticos.elperiodico.com/resources/jpg/6/4/img-8878-1585501756946.jpg");
+		assertThat(tutor.getImagen()).isEqualTo("https://estaticos.elperiodico.com/resources/jpg/6/4/img-8878-1585501756946.jpg");
 		assertThat(tutor.getPass()).isEqualTo("r4rm0n");
 	}
 	
@@ -64,7 +66,7 @@ class TutorServiceTests {
 	
 	
 	@Test
-	void shouldUpdateOwner() {
+	void shouldUpdateTutor() {
 		Tutor tutor = this.tutorService.findById(1).get();
 		String antiguoNombre = tutor.getNombre();
 		String nuevoNombre = tutor.getNombre()+"x";
@@ -81,7 +83,7 @@ class TutorServiceTests {
 	@Test
 	void shoulInsertNoticia() {
 		Tutor tutor = this.tutorService.findById(0).get();
-		Integer numNoticiasAntiguos = noticiaService.findTutorNoticias(tutor.getId()).size();
+		Integer numNoticiasAntiguos = noticiaService.findNoticiasByTutor(tutor.getId()).size();
 		
 		Noticia noticiaNueva = new Noticia();
 		noticiaNueva.setAutor(tutor);
@@ -92,7 +94,7 @@ class TutorServiceTests {
 		noticiaService.save(noticiaNueva);
 		
 		tutor = this.tutorService.findById(0).get();
-		Integer numNoticiasNuevo = noticiaService.findTutorNoticias(tutor.getId()).size();
+		Integer numNoticiasNuevo = noticiaService.findNoticiasByTutor(tutor.getId()).size();
 		assertThat(numNoticiasNuevo).isEqualTo(numNoticiasAntiguos+1);
 		assertNotEquals(numNoticiasAntiguos, numNoticiasNuevo, "El número de noticias asociado a este tutor no es correcto");
 	}
@@ -100,10 +102,11 @@ class TutorServiceTests {
 	@Test
 	void shoulInsertArticulo() {
 		Tutor tutor = this.tutorService.findById(0).get();
-		Integer numArticulosAntiguos = articuloService.findTutorArticulos(tutor.getId()).size();
-		
+		Integer numArticulosAntiguos = articuloService.findArticulosByTutor(tutor.getId()).size();
+		Set<Tutor> autores = new HashSet<Tutor>();
+		autores.add(tutor);
 		Articulo articuloNuevo = new Articulo();
-		articuloNuevo.setAutor(tutor);
+		articuloNuevo.setAutores(autores);
 		articuloNuevo.setFechaPublicacion(LocalDate.now());
 		articuloNuevo.setName("Concurso de AdaByron");
 		articuloNuevo.setImagen("foto.jpg");
@@ -111,7 +114,7 @@ class TutorServiceTests {
 		articuloService.save(articuloNuevo);
 		
 		tutor = this.tutorService.findById(0).get();
-		Integer numArticulosNuevo = articuloService.findTutorArticulos(tutor.getId()).size();
+		Integer numArticulosNuevo = articuloService.findArticulosByTutor(tutor.getId()).size();
 		assertThat(numArticulosNuevo).isEqualTo(numArticulosAntiguos+1);
 		assertNotEquals(numArticulosAntiguos, numArticulosNuevo, "El número de noticias asociado a este tutor no es correcto");
 	}

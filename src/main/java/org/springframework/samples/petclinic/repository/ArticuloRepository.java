@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
@@ -19,6 +21,10 @@ public interface ArticuloRepository extends Repository<Articulo, Integer>{
 	
 	void save(Articulo articulo) throws DataAccessException;
 	
-	@Query(value="SELECT * FROM ARTICULOS articulo WHERE articulo.autor_id = :id", nativeQuery = true)
-	public Collection<Articulo> findTutorArticulos(@Param("id") int id);
+	@Query(value="SELECT id,name,fecha_publicacion,imagen_articulo,texto FROM Articulos as a LEFT JOIN Articulos_Autores at WHERE a.id = at.articulo_id and at.autores_id = :id", nativeQuery = true)
+	public Collection<Articulo> findArticulosByTutor(@Param("id") int id);
+
+	@Query(value="SELECT id,name,fecha_publicacion,imagen_articulo,texto FROM Articulos as a LEFT JOIN Articulos_Autores at WHERE a.id = at.articulo_id and at.autores_id = :id", nativeQuery = true)
+	public Slice<Articulo> findArticulosByTutorPageable(@Param("id") int id, Pageable pageable);
+
 }

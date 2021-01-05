@@ -11,10 +11,12 @@ import javax.validation.constraints.NotEmpty;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(callSuper=true)
 @Entity
 @Table(name = "noticias")
@@ -31,7 +33,7 @@ public class Noticia extends NamedEntity{
 	@Column(length=5600)
 	@NotEmpty
 	private String texto;
-	@NotEmpty
+	
 	private String imagen;
 
 }

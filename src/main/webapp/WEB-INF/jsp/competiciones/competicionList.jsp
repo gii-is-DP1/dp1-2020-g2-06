@@ -7,26 +7,21 @@
 
 <petclinic:layout pageName="competiciones">
     <h2>Competiciones</h2>
-   
-	    
-       
         <c:forEach items="${competiciones}" var="competicion">
         <table id="noticiasTable" class="table table-striped">
             <tr>
-                <td>  
+                <th>  
                 	<a href="/competiciones/${competicion.id}">                  
                     <c:out value="${competicion.nombre}"/>
                     </a>
-                </td>
-                <td>
+                </th>
+                <th>
                 	<a href="/competiciones/${competicion.id}/edit">
                 	<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                 	</a>
-                </td>
+                </th>
             </tr>
              </table>
         </c:forEach>
-       
-   
-
+       <a class="btn btn-default" href='<spring:url value="/competiciones/new" htmlEscape="true"/>'>Crear Competicion</a>
 </petclinic:layout> 

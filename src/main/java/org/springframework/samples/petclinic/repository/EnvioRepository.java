@@ -1,13 +1,13 @@
 package org.springframework.samples.petclinic.repository;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
-import org.springframework.samples.petclinic.model.Creador;
 import org.springframework.samples.petclinic.model.Envio;
 
 public interface EnvioRepository extends Repository<Envio, String>{
@@ -23,4 +23,5 @@ public interface EnvioRepository extends Repository<Envio, String>{
 
 	@Query(value="SELECT * FROM ENVIOS envio WHERE envio.id_problema=:id", nativeQuery = true)
 	Collection<Envio> findAllByProblema(@Param("id") int id) throws DataAccessException;
+	
 }

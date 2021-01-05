@@ -25,11 +25,23 @@
                 
             <tr>
                 <td>
-               <p style="text-align:center"> <img src="${articulo.imagen}" width=400px/></p>
+               <p style="text-align:center"> <img src="/<c:out value="${articulo.imagen}"/>" id="Imagen" width=400px/></p>
                     <c:out value="${articulo.texto}"/>
                 </td>                
 
             </tr>
+             </table>
+             
+             <h2>Realizado por:</h2>
+             <table>
+             <c:forEach items="${articulo.autores}" var="autor">
+             	<tr>
+             		<td>
+             			<c:out value="${autor.nombre}"/>&nbsp;<c:out value="${autor.apellidos}"/>
+             		</td>             
+             	</tr>
+             </c:forEach>
+             
              </table>
 	
 </petclinic:layout>

@@ -1,14 +1,21 @@
 package org.springframework.samples.petclinic.web;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Articulo;
-import org.springframework.samples.petclinic.model.Noticia;
 import org.springframework.samples.petclinic.service.ArticuloService;
+import org.springframework.samples.petclinic.service.FileService;
+import org.springframework.samples.petclinic.service.TutorService;
+import org.springframework.samples.petclinic.util.Utils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -16,13 +23,23 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/articulos")
 public class ArticuloController {
 	
+	private final Path rootImage = Paths.get("src/main/resources/static/resources/images/articulos");
+	
 	@Autowired
 	ArticuloService articuloService;
+	
+	@Autowired
+	TutorService tutorService;
+	
+	@Autowired
+	private FileService fileService;
 	
 	@GetMapping("")
 	public String listArticulos(ModelMap model) {
@@ -35,6 +52,7 @@ public class ArticuloController {
 		Optional<Articulo> articulo = articuloService.findById(id);
 		if(articulo.isPresent()) {
 			model.addAttribute("articulo", articulo.get());
+			model.addAttribute("autores", articuloService.findArticulosByTutor(id));
 			return "articulos/articuloDetails";
 		}
 		else {
@@ -43,28 +61,65 @@ public class ArticuloController {
 		}
 	}
 	
+	@GetMapping("/new")
+	public String initCreationForm(Map<String,Object> model) {
+		Articulo articulo = new Articulo();
+		model.put("articulo",articulo);
+		model.put("autores", tutorService.findAll());
+		return "articulos/createOrUpdateArticuloForm";
+	}
+	
+	@PostMapping("/new")
+	public String processCreationForm(@Valid Articulo articulo,BindingResult result,ModelMap model, @RequestParam("image") MultipartFile imagen) throws IOException {
+		if(result.hasErrors() || imagen.isEmpty() || imagen.getBytes().length/(1024*1024)>10) {
+			model.clear();
+			model.addAttribute("articulo", articulo);
+			model.addAttribute("autores", tutorService.findAll());
+			model.addAttribute("message",result.getFieldError().getField());
+			return "articulos/createOrUpdateArticuloForm";
+		}else {
+			String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
+			articulo.setImagen("resources/images/articulos/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+			fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+			this.articuloService.save(articulo);
+			return "redirect:/articulos";
+		}
+	}
+	
 	@GetMapping("/{id}/edit")
 	public String editArticulo(@PathVariable("id") int id, ModelMap model) {
 		Optional<Articulo> articulo = articuloService.findById(id);
 		if(articulo.isPresent()) {
 			model.addAttribute("articulo", articulo.get());
+			model.addAttribute("autores", tutorService.findAll());
 			return "articulos/createOrUpdateArticuloForm";
 		}
 		else {
-			model.addAttribute("message", "No podemos encontrar el articulo que intenta borrar");
+			model.addAttribute("message", "No podemos encontrar el articulo que intenta editar");
 			return listArticulos(model);
 			
 		}
 	}
 	
 	@PostMapping("/{id}/edit")
-	public String editArticulo(@PathVariable("id") int id, @Valid Articulo modifiedArticulo, BindingResult binding, ModelMap model) {
+	public String editArticulo(@PathVariable("id") int id, @Valid Articulo modifiedArticulo, BindingResult binding, ModelMap model,@RequestParam("image") MultipartFile imagen) throws BeansException, IOException {
 		Optional<Articulo> articulo = articuloService.findById(id);
-		if(binding.hasErrors()) {
+		if(binding.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
+			model.clear();
+			model.addAttribute("articulo", articulo.get());
+			model.addAttribute("autores", tutorService.findAll());
+			model.addAttribute("message",binding.getFieldError().getField());
 			return "articulos/createOrUpdateArticuloForm";
 		}
 		else {
-			BeanUtils.copyProperties(modifiedArticulo, articulo.get(), "id", "fechaPublicacion", "autor");
+			if(!imagen.isEmpty()) {
+				String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
+				String aux = articulo.get().getImagen();
+				articulo.get().setImagen("resources/images/articulos/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				fileService.delete(Paths.get("src/main/resources/static/" + aux));
+				fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+			}
+			BeanUtils.copyProperties(modifiedArticulo, articulo.get(), "id","imagen");
 			articuloService.save(articulo.get());
 			model.addAttribute("message","El artículo se ha actualizado con éxito");
 			return listArticulos(model);
@@ -87,3 +142,4 @@ public class ArticuloController {
 	
 
 }
+

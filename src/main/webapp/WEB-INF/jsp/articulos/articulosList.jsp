@@ -38,7 +38,5 @@
             </tr>
              </table>
         </c:forEach>
-       
-   
-
+       <a class="btn btn-default" href='<spring:url value="/articulos/new" htmlEscape="true"/>'>Crear Articulo</a>
 </petclinic:layout> 

@@ -1,15 +1,22 @@
 package org.springframework.samples.petclinic.web;
 
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Creador;
 import org.springframework.samples.petclinic.service.CreadorService;
+import org.springframework.samples.petclinic.service.FileService;
+import org.springframework.samples.petclinic.util.Utils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -17,13 +24,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/creadores")
 public class CreadorController {
+	
+	private final Path rootImage = Paths.get("src/main/resources/static/resources/images/creadores");
 
 	@Autowired
 	CreadorService creadorService;
+	
+	@Autowired
+	private FileService fileService;
 	
 	@GetMapping("")
 	public String listCreadores(ModelMap model) {
@@ -44,16 +58,26 @@ public class CreadorController {
 		}
 	}
 	
-	@PostMapping("/{id}/edit")
-	public String editNoticia(@PathVariable("id") int id, @Valid Creador modifiedCreador, BindingResult binding, ModelMap model) {
-		Optional<Creador> creador = creadorService.findById(id);
-		if(binding.hasErrors()) {
+	@GetMapping("/new")
+	public String initCreationForm(Map<String, Object> model) {
+		Creador creador = new Creador();
+		model.put("creador", creador);
+		return "creadores/createOrUpdateCreadorForm";
+	}
+	
+	@PostMapping("/new")
+	public String processCreationForm(@Valid Creador creador, BindingResult result,ModelMap model,@RequestParam("image") MultipartFile imagen) throws IOException {
+		if(result.hasErrors()|| imagen.getBytes().length/(1024*1024)>10 || imagen.isEmpty()) {
+			model.clear();
+			model.addAttribute("creador", creador);
+			model.addAttribute("message", result.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList()));
 			return "creadores/createOrUpdateCreadorForm";
 		}else {
-			BeanUtils.copyProperties(modifiedCreador, creador.get(), "id");
-			creadorService.save(creador.get());
-			model.addAttribute("message","Creador actualizado con exito");
-			return listCreadores(model);
+			String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
+			creador.setImagen("resources/images/creadores/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+			fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+			this.creadorService.save(creador);
+			return "redirect:/creadores";
 		}
 	}
 	
@@ -70,20 +94,26 @@ public class CreadorController {
 		
 	}
 	
-	@GetMapping("/new")
-	public String initCreationForm(Map<String, Object> model) {
-		Creador creador = new Creador();
-		model.put("creador", creador);
-		return "creadores/createOrUpdateCreadorForm";
-	}
-	
-	@PostMapping("/new")
-	public String processCreationForm(@Valid Creador creador, BindingResult result) {
-		if(result.hasErrors()) {
+	@PostMapping("/{id}/edit")
+	public String editCreador(@PathVariable("id") int id, @Valid Creador modifiedCreador, BindingResult binding, ModelMap model,@RequestParam("image") MultipartFile imagen) throws BeansException, IOException {
+		Optional<Creador> creador = creadorService.findById(id);
+		if(binding.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
+			model.clear();
+			model.addAttribute("creador", creador);
+			model.addAttribute("message", binding.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList()));
 			return "creadores/createOrUpdateCreadorForm";
 		}else {
-			this.creadorService.save(creador);
-			return "redirect:/creadores";
+			if(!imagen.isEmpty()) {
+				String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
+				String aux = creador.get().getImagen();
+				creador.get().setImagen("resources/images/creadores/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				fileService.delete(Paths.get("src/main/resources/static/" + aux));
+				fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+			}
+			BeanUtils.copyProperties(modifiedCreador, creador.get(), "id","imagen");
+			creadorService.save(creador.get());
+			model.addAttribute("message","Creador actualizado con exito");
+			return listCreadores(model);
 		}
 	}
 	

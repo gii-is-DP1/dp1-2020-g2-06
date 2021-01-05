@@ -1,29 +1,31 @@
 package org.springframework.samples.petclinic.model;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(callSuper=true)
-
 @Entity
 @Table(name="envios")
 public class Envio extends BaseEntity{
@@ -48,10 +50,16 @@ public class Envio extends BaseEntity{
 	@JoinColumn(name="id_problema")
 	private Problema problema;
 	
-	private String season;  /// redundante pero necesario para query
+	@ManyToOne
+	@JoinColumn(name="id_season")
+	private Temporada season;  /// redundante pero necesario para query
 	
 	@Column(name = "season_year")
 	private Integer seasonYear;   /// redundante pero necesario para query
+
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "envio")
+	private List<Comentario> listaComentarios;
 	
 	public List<String> getCodigoString() throws IOException {
 		return Files.readAllLines(Paths.get(codigoPath));
@@ -86,7 +94,5 @@ public class Envio extends BaseEntity{
 		}
 		
 	}
-			
-	
 
 }

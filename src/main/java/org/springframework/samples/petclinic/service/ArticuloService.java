@@ -6,6 +6,8 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.samples.petclinic.model.Articulo;
 import org.springframework.samples.petclinic.repository.ArticuloRepository;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ public class ArticuloService {
 	
 	@Autowired
 	ArticuloRepository articuloRepo;
+	
 	
 	public Collection<Articulo> findAll(){
 		return articuloRepo.findAll();
@@ -32,8 +35,12 @@ public class ArticuloService {
 		articuloRepo.save(articulo);
 	}
 	
-	public Collection<Articulo> findTutorArticulos(int id){
-		return articuloRepo.findTutorArticulos(id);
+	public Collection<Articulo> findArticulosByTutor(int id) {
+		return articuloRepo.findArticulosByTutor(id);
+	}
+	
+	public Slice<Articulo> findArticulosByTutorPage(int id, Pageable pageable){
+		return articuloRepo.findArticulosByTutorPageable(id, pageable);
 	}
 
 }
