@@ -1,4 +1,4 @@
-package org.springframework.samples.contraint.validators;
+package org.springframework.samples.constraint.validators;
 
 import java.time.LocalDate;
 
