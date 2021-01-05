@@ -7,6 +7,20 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="competiciones">
+
+	<jsp:attribute name="customScript">
+        <script>
+			$(function() {
+				$("#fecha_inicio").datepicker({
+					dateFormat : 'yy/mm/dd'
+				});
+				$("#fecha_fin").datepicker({
+					dateFormat : 'yy/mm/dd'
+				});
+			});
+		</script>
+    </jsp:attribute>
+	<jsp:body>
     <h2>
         <c:if test="${competiciones['new']}">New </c:if> Competicion
     </h2>
@@ -14,8 +28,10 @@
         <div class="form-group has-feedback">
             <petclinic:inputField label="Nombre" name="nombre"/>
             <petclinic:textArea label="Descripcion" name="descripcion" rows="12"/>
-            <petclinic:inputField label="Fecha Inicio" name="fecha_inicio"/>
-            <petclinic:inputField label="Fecha Fin" name="fecha_fin"/>
+            <petclinic:inputField label="Fecha de inicio" name="fecha_inicio" />
+            <petclinic:inputField type="time" label="Hora de inicio" name="hora_inicio" />
+            <petclinic:inputField label="Fecha de fin" name="fecha_fin" />
+            <petclinic:inputField type="time" label="Hora de fin" name="hora_fin" />
             <table>
             <form:form enctype="multipart/form-data">
              <tr><td>Image to upload:</td><td><input type="file" name="image" /></td></tr>
@@ -35,4 +51,5 @@
             </div>
         </div>
     </form:form>
+    </jsp:body>
 </petclinic:layout> 
