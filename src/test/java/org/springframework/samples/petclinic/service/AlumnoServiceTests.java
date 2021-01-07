@@ -92,5 +92,4 @@ public class AlumnoServiceTests {
 			assertThat(problemas.stream().collect(Collectors.toSet())).isEqualTo(st);
 		}
 		
-		
 }
