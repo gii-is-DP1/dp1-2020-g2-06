@@ -15,13 +15,18 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode(callSuper=true)
 @Entity
-@Table(name="aclaraciones")
-public class Aclaracion extends BaseEntity{	
+@Table(name="pregunta")
+public class PreguntaTutor extends BaseEntity{	
 	
-	@NonNull
+	
 	@ManyToOne
 	@JoinColumn(name="id_tutor")
 	private Tutor tutor;
+	
+	@NonNull
+	@ManyToOne
+	@JoinColumn(name="id_alumno")
+	private Alumno alumno;
 	
 	@NonNull
 	@ManyToOne
@@ -29,7 +34,8 @@ public class Aclaracion extends BaseEntity{
 	private Problema problema;
 	
 	@NotEmpty
-	private String texto;
+	private String pregunta;
 	
+	private String respuesta;
 
 }
