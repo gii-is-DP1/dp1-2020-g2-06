@@ -167,10 +167,10 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 		Optional<Problema> problema = problemaService.findById(id);
 		if(problema.isPresent()) {
 			problemaService.delete(problema.get());
-			model.addAttribute("message", "La norma Web se ha borrado con exito");
+			model.addAttribute("message", "El problema se ha borrado con exito");
 		}
 		else {
-			model.addAttribute("message", "No podemos encontrar la norma Web que intenta borrar");
+			model.addAttribute("message", "No podemos encontrar el problema que intenta borrar");
 		}
 		return listProblemas(model);
 	}
