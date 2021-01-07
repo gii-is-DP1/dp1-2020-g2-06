@@ -42,7 +42,7 @@ public class AlumnoServiceTests {
 //			alumno.setPuntosAnual(0);
 //			alumno.setPuntosTemporada(0);
 //			alumno.setPuntosTotales(0);
-			alumno.setPass("pass1234");
+			alumno.setPass("pass1··DD234");
 			alumnoService.save(alumno);
 			String email = alumnoService.findById(3).get().getEmail();
 			

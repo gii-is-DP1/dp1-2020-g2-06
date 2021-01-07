@@ -46,7 +46,7 @@ class CreadorServiceTests {
 		creador.setEmail("vicgragil@us.es");
 		creador.setNombre("Victor");
 		creador.setApellidos("Granero Gil");
-		creador.setPass("dbgamesnosirve");
+		creador.setPass("dbgamesnosirvWe2$");
                 
 		this.creadorService.save(creador);
 		creadores = this.creadorService.findAll();
