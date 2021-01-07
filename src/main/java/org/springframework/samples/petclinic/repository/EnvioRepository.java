@@ -1,7 +1,6 @@
 package org.springframework.samples.petclinic.repository;
 
 import java.util.Collection;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.dao.DataAccessException;
