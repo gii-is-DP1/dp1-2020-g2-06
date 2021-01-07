@@ -176,5 +176,8 @@ INSERT INTO aclaraciones(id,id_tutor,id_problema,texto) VALUES (0,2,2,'Encontrar
 
 INSERT INTO administradores(id,email,pass) VALUES (0, 'administrador@us.es', 'adm1n1234');
 
+INSERT INTO publicaciones(id_alumno,fecha,texto) VALUES (0,'2018-11-21T11:13:13.274','Estais listos para el Ada Byron?! Nos van a machacar!!!');
+INSERT INTO publicaciones(id_alumno,fecha,texto) VALUES (1,'2018-11-22T11:13:13.274','A alguien le da TLE también el de Rarmon? No veo cómo hacerlo.');
+
 
 
