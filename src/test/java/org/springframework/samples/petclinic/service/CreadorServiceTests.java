@@ -34,7 +34,7 @@ class CreadorServiceTests {
 		assertThat(creador.getApellidos()).isEqualTo("Brincau Cano");
 		assertThat(creador.getEmail()).isEqualTo("davbrican@us.es");
 		assertThat(creador.getImagen()).isEqualTo("https://yt3.ggpht.com/ytc/AAUvwnh3yE2BgOZmepJht3T-k6LRzPih9KwV4mbk1g4dYg=s88-c-k-c0x00ffffff-no-rj");
-		assertThat(creador.getPass()).isEqualTo("dbgames55");
+		assertThat(creador.getPass()).isEqualTo("dbgames5DD@f5");
 	}
 	
 	@Test

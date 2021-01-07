@@ -17,10 +17,10 @@ public interface PuntuacionProblemaRepository extends Repository<PuntuacionProbl
 	
 	void save(PuntuacionProblema puntProb) throws DataAccessException;
 	
-	@Query(value="SELECT * FROM puntuacionProblema WHERE puntuacionProblema.id_alumno=:id", nativeQuery = true)
+	@Query(value="SELECT * FROM Puntuacion_problema WHERE id_alumno=:id", nativeQuery = true)
 	Collection<PuntuacionProblema> findAllByAlumno(@Param("id") int id) throws DataAccessException;
 
-	@Query(value="SELECT * FROM puntuacionProblema WHERE puntuacionProblema.id_problema=:id", nativeQuery = true)
+	@Query(value="SELECT * FROM  Puntuacion_problema WHERE id_problema=:id", nativeQuery = true)
 	Collection<PuntuacionProblema> findAllByProblema(@Param("id") int id) throws DataAccessException;
 	
 //	@Query(value="SELECT avg(puntuacionProblema.puntuacion) FROM puntuacionProblema WHERE puntuacionProblema.id_problema=:id")

@@ -19,12 +19,6 @@ public class AdministradorService {
 	@Autowired
 	AdministradorRepository administradorRepo;
 	
-	@Autowired
-	NoticiaService noticiaService;
-	
-	@Autowired
-	ArticuloService articuloService;
-	
 	
 	public Collection<Administrador> findAll(){
 		return administradorRepo.findAll();

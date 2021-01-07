@@ -8,7 +8,7 @@ import org.springframework.data.repository.Repository;
 import org.springframework.samples.petclinic.model.Administrador;
 import org.springframework.samples.petclinic.model.Tutor;
 
-public interface AdministradorRepository extends Repository<Tutor, String> {
+public interface AdministradorRepository extends Repository<Administrador, String> {
 
 	Collection<Administrador> findAll() throws DataAccessException;
 	
