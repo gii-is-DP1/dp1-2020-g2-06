@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class TutorService {
 	
 	@Autowired
-	TutorRepository tutoRepo;
+	TutorRepository	tutoRepo;
 	
 	@Autowired
 	NoticiaService noticiaService;
