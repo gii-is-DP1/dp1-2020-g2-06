@@ -91,10 +91,10 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04',
 
 
 
-INSERT INTO tutores(id,nombre,apellidos,email,pass,imagen) VALUES (0,'Alejandro','Barranco Ledesma','alebarled@alum.us.es','r4rm0n','resources/images/tutores/20201223174110190000000.jpg');
-INSERT INTO tutores(id,nombre,apellidos,email,pass,imagen) VALUES (1,'Juan Ramón','Ostos Rubio','juaostrub@alum.us.es','admin','resources/images/tutores/20201223174011976000000.jpg');
-INSERT INTO tutores(id,nombre,apellidos,email,pass,imagen) VALUES (2,'David','Brincau Cano','davbrincan@alum.us.es','1234','resources/images/tutores/2020122317244979000000.jpg');
-INSERT INTO tutores(id,nombre,apellidos,email,pass,imagen) VALUES (3,'Jesús','Aparicio Ortiz','jesaport@alum.us.es','j3sus','resources/images/tutores/20201223173921376000000.jpg');
+INSERT INTO tutores(id,nombre,apellidos,email,pass,imagen) VALUES (0,'Alejandro','Barranco Ledesma','alebarled@alum.us.es','r4rm0nAAAaf1sf@','resources/images/tutores/20201223174110190000000.jpg');
+INSERT INTO tutores(id,nombre,apellidos,email,pass,imagen) VALUES (1,'Juan Ramón','Ostos Rubio','juaostrub@alum.us.es','adminaklsf@gEf1','resources/images/tutores/20201223174011976000000.jpg');
+INSERT INTO tutores(id,nombre,apellidos,email,pass,imagen) VALUES (2,'David','Brincau Cano','davbrincan@alum.us.es','1234Haksdjfab@','resources/images/tutores/2020122317244979000000.jpg');
+INSERT INTO tutores(id,nombre,apellidos,email,pass,imagen) VALUES (3,'Jesús','Aparicio Ortiz','jesaport@alum.us.es','j3s u1saskdgfD','resources/images/tutores/20201223173921376000000.jpg');
 
 
 INSERT INTO noticias(id,name,autor_id,fecha_publicacion,texto,imagen) VALUES (0,'Noticias Frescas',0,DATE'2020-07-22','Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum','resources/images/noticias/2020122317827911000000.jpg');
@@ -144,13 +144,13 @@ INSERT INTO ARTICULOS_AUTORES(ARTICULO_ID,AUTORES_ID) VALUES (4,0);
 INSERT INTO ARTICULOS_AUTORES(ARTICULO_ID,AUTORES_ID) VALUES (5,0);
 
 
-INSERT INTO alumnos(id,nombre,apellidos,email,imagen,pass,compartir) VALUES (0,'Daniel','Montes','rarmon@alum.us.es','resources/images/alumnos/20201223154714879157200.jpg','octavel0ver',true);
-INSERT INTO alumnos(id,nombre,apellidos,email,imagen,pass,compartir) VALUES (1,'Marina','Moya','marmozam@alum.us.es','resources/images/alumnos/20201223155839395152900.jpg','coding4food',false);
-INSERT INTO alumnos(id,nombre,apellidos,email,imagen,pass,compartir) VALUES (2,'Alexis','Balboa','alexisbalbo@alum.us.es','resources/images/alumnos/20201223155630996653000.jpeg','nothing2lose',true);
+INSERT INTO alumnos(id,nombre,apellidos,email,imagen,pass,compartir) VALUES (0,'Daniel','Montes','rarmon@alum.us.es','resources/images/alumnos/20201223154714879157200.jpg','octave¬11El0ver',true);
+INSERT INTO alumnos(id,nombre,apellidos,email,imagen,pass,compartir) VALUES (1,'Marina','Moya','marmozam@alum.us.es','resources/images/alumnos/20201223155839395152900.jpg','coding@4food',false);
+INSERT INTO alumnos(id,nombre,apellidos,email,imagen,pass,compartir) VALUES (2,'Alexis','Balboa','alexisbalbo@alum.us.es','resources/images/alumnos/20201223155630996653000.jpeg','nothiWW#ng2lose',true);
 
 
 
-INSERT INTO creadores(id,nombre,apellidos,email,pass,imagen) VALUES (0,'David','Brincau Cano','davbrican@us.es','dbgames55','resources/images/creadores/2020122317244979000000.jpg');
+INSERT INTO creadores(id,nombre,apellidos,email,pass,imagen) VALUES (0,'David','Brincau Cano','davbrican@us.es','dbgames5DD@f5','resources/images/creadores/2020122317244979000000.jpg');
 
 INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,id_season,season_year) VALUES (0,'2020-08-21T11:13:13.274','codes/prueba.java','AC',0,1,0,2020);
 INSERT INTO envios(id,fecha,codigo_path,resolucion,id_alumno,id_problema,id_season,season_year) VALUES (1,'2010-11-21T11:13:13.274','codes/prueba.c','AC',0,1,2,2010);
@@ -174,7 +174,10 @@ INSERT INTO comentarios(id,id_envio,id_alumno,texto) VALUES (1,10,2,'Estoy desea
 
 INSERT INTO aclaraciones(id,id_tutor,id_problema,texto) VALUES (0,2,2,'Encontrar la moneda consiste en hacer un bucle infinito con el que reviente el PC');
 
-INSERT INTO administradores(id,email,pass) VALUES (0, 'administrador@us.es', 'adm1n1234');
+INSERT INTO administradores(id,email,pass) VALUES (0, 'administrador@us.es', 'adm1asdfWW%n1234');
+
+INSERT INTO publicaciones(id_alumno,fecha,texto) VALUES (0,'2018-11-21T11:13:13.274','Estais listos para el Ada Byron?! Nos van a machacar!!!');
+INSERT INTO publicaciones(id_alumno,fecha,texto) VALUES (1,'2018-11-22T11:13:13.274','A alguien le da TLE también el de Rarmon? No veo cómo hacerlo.');
 
 
 

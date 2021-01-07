@@ -74,8 +74,9 @@ public class CreadorController {
 			return "creadores/createOrUpdateCreadorForm";
 		}else {
 			String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
-			creador.setImagen("resources/images/creadores/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
-			fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+			String name = Utils.diferenciador(extensionImagen[extensionImagen.length-1]);
+			creador.setImagen("resources/images/creadores/"  + name);
+			fileService.saveFile(imagen,rootImage,name);
 			this.creadorService.save(creador);
 			return "redirect:/creadores";
 		}
@@ -106,9 +107,10 @@ public class CreadorController {
 			if(!imagen.isEmpty()) {
 				String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
 				String aux = creador.get().getImagen();
-				creador.get().setImagen("resources/images/creadores/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				String name = Utils.diferenciador(extensionImagen[extensionImagen.length-1]);
+				creador.get().setImagen("resources/images/creadores/"  + name);
 				fileService.delete(Paths.get("src/main/resources/static/" + aux));
-				fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				fileService.saveFile(imagen,rootImage,name);
 			}
 			BeanUtils.copyProperties(modifiedCreador, creador.get(), "id","imagen");
 			creadorService.save(creador.get());
