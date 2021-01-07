@@ -7,6 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Alumno;
@@ -22,12 +23,12 @@ public class AlumnoServiceTests {
 		
 		@Test
 		public void shouldFindAll() {
-			assertThat(alumnoServiceMocked.findAll().size()).isGreaterThan(0);
+			assertThat(alumnoService.findAll().size()).isGreaterThan(0);
 		}
 		
 		@Test
 		public void shouldFindAlumnoById() {
-			Alumno alumno= this.alumnoServiceMocked.findById(0).get();
+			Alumno alumno= this.alumnoService.findById(0).get();
 			assertThat(alumno.getId()).isEqualTo(0);
 			assertThat(alumno.getNombre()).isEqualTo("Daniel");
 			assertThat(alumno.getApellidos()).isEqualTo("Montes");
