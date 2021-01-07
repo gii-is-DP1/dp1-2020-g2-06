@@ -73,8 +73,9 @@ public class TutorController {
 			return "tutores/createOrUpdateTutorForm";
 		}else {
 			String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
-			tutor.setImagen("resources/images/tutores/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
-			fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+			String name = Utils.diferenciador(extensionImagen[extensionImagen.length-1]);
+			tutor.setImagen("resources/images/tutores/"  + name);
+			fileService.saveFile(imagen,rootImage,name);
 			this.tutorService.save(tutor);
 			return "redirect:/tutores";
 		}
@@ -105,9 +106,10 @@ public class TutorController {
 			if(!imagen.isEmpty()) {
 				String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
 				String aux = tutor.get().getImagen();
-				tutor.get().setImagen("resources/images/tutores/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				String name = Utils.diferenciador(extensionImagen[extensionImagen.length-1]);
+				tutor.get().setImagen("resources/images/tutores/"  + name);
 				fileService.delete(Paths.get("src/main/resources/static/" + aux));
-				fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				fileService.saveFile(imagen,rootImage,name);
 			}
 			BeanUtils.copyProperties(modifiedTutor, tutor.get(), "id","imagen");
 			tutorService.save(tutor.get());
