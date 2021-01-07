@@ -45,7 +45,6 @@ public class AlumnoService {
 	public Collection<Problema> problemasResueltosThisSeason(int id){
 		return alumnoRepository.problemasResueltosBySeason(id, Utils.getActualSeason().getId(), Utils.getActualYearofSeason());
 	}
-	
 
 
 }
