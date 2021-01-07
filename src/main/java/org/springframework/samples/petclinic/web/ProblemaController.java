@@ -101,8 +101,9 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 			}
 			else {
 				String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
-				problema.setZip(rootZip + "/" + Utils.diferenciador("zip"));
-				fileService.saveFile(zip,rootZip,Utils.diferenciador("zip"));
+				String namezip = Utils.diferenciador("zip");
+				problema.setZip(rootZip + "/" + namezip);
+				fileService.saveFile(zip,rootZip,namezip);
 				String name = Utils.diferenciador(extensionImagen[extensionImagen.length-1]);
 				problema.setImagen("resources/images/problemas/"  + name);
 				fileService.saveFile(imagen,rootImage,name);
@@ -167,10 +168,10 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 		Optional<Problema> problema = problemaService.findById(id);
 		if(problema.isPresent()) {
 			problemaService.delete(problema.get());
-			model.addAttribute("message", "La norma Web se ha borrado con exito");
+			model.addAttribute("message", "El problema se ha borrado con exito");
 		}
 		else {
-			model.addAttribute("message", "No podemos encontrar la norma Web que intenta borrar");
+			model.addAttribute("message", "No podemos encontrar el problema que intenta borrar");
 		}
 		return listProblemas(model);
 	}
