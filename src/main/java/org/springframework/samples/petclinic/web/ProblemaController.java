@@ -103,8 +103,9 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 				String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
 				problema.setZip(rootZip + "/" + Utils.diferenciador("zip"));
 				fileService.saveFile(zip,rootZip,Utils.diferenciador("zip"));
-				problema.setImagen("resources/images/problemas/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
-				fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				String name = Utils.diferenciador(extensionImagen[extensionImagen.length-1]);
+				problema.setImagen("resources/images/problemas/"  + name);
+				fileService.saveFile(imagen,rootImage,name);
 				problema.setFechaPublicacion(LocalDate.now());
 				problemaService.saveProblema(problema);
 				String message = "Uploaded the files successfully: ";
@@ -129,7 +130,7 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 	
 	@PostMapping("/{id}/edit")
 	public String editProblemas(@PathVariable("id") int id, @Valid Problema modifiedProblema, BindingResult binding, ModelMap model,@RequestParam("zipo") MultipartFile zip,@RequestParam("image") MultipartFile imagen) throws IOException {
-		String message;
+			System.out.println("hello");
 			Optional<Problema> problema = problemaService.findById(id);
 			if(binding.hasErrors() || zip.getBytes().length/(1024*1024)>20 || imagen.getBytes().length/(1024*1024)>10) {
 				model.clear();
@@ -147,11 +148,12 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 				if(!imagen.isEmpty()) {
 					String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
 					String aux = problema.get().getImagen();
-					problema.get().setImagen("resources/images/problemas/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+					String name = Utils.diferenciador(extensionImagen[extensionImagen.length-1]);
+					problema.get().setImagen("resources/images/problemas/"  + name);
 					fileService.delete(Paths.get("src/main/resources/static/" + aux));
-					fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+					fileService.saveFile(imagen,rootImage,name);
 				}
-				BeanUtils.copyProperties(modifiedProblema, problema.get(), "id","zip","imagen");
+				BeanUtils.copyProperties(modifiedProblema, problema.get(), "id","zip","imagen","fechaPublicacion");
 				problemaService.saveProblema(problema.get());
 				model.addAttribute("message","Problema actualizado con éxito");
 				return listProblemas(model);

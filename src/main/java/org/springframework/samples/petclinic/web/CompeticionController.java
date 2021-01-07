@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.web;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DateFormat;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -12,6 +13,7 @@ import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.datetime.DateFormatter;
 import org.springframework.samples.petclinic.model.Competicion;
 import org.springframework.samples.petclinic.service.CompeticionService;
 import org.springframework.samples.petclinic.service.FileService;
@@ -72,8 +74,9 @@ public class CompeticionController {
 			return "competiciones/createOrUpdateCompeticionForm";
 		}else {
 			String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
-			competicion.setImagen("resources/images/competiciones/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
-			fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+			String name = Utils.diferenciador(extensionImagen[extensionImagen.length-1]);
+			competicion.setImagen("resources/images/competiciones/"  + name);
+			fileService.saveFile(imagen,rootImage,name);
 			this.competicionService.save(competicion);
 			return "redirect:/competiciones/";
 		}
@@ -105,9 +108,10 @@ public class CompeticionController {
 			if(!imagen.isEmpty()) {
 				String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
 				String aux = competicion.get().getImagen();
-				competicion.get().setImagen("resources/images/competiciones/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				String name = Utils.diferenciador(extensionImagen[extensionImagen.length-1]);
+				competicion.get().setImagen("resources/images/competiciones/"  + name);
 				fileService.delete(Paths.get("src/main/resources/static/" + aux));
-				fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				fileService.saveFile(imagen,rootImage,name);
 			}
 			BeanUtils.copyProperties(modifiedCompeticion, competicion.get(), "id", "problemas","imagen");
 			competicionService.save(competicion.get());
