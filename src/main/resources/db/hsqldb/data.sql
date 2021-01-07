@@ -179,5 +179,10 @@ INSERT INTO administradores(id,email,pass) VALUES (0, 'administrador@us.es', 'ad
 INSERT INTO publicaciones(id_alumno,fecha,texto) VALUES (0,'2018-11-21T11:13:13.274','Estais listos para el Ada Byron?! Nos van a machacar!!!');
 INSERT INTO publicaciones(id_alumno,fecha,texto) VALUES (1,'2018-11-22T11:13:13.274','A alguien le da TLE también el de Rarmon? No veo cómo hacerlo.');
 
+INSERT INTO pregunta(id,id_tutor,id_alumno,id_problema, pregunta, respuesta) VALUES (0,null,0,0,'¿La moneda es de euro?', null);
+INSERT INTO pregunta(id,id_tutor,id_alumno,id_problema, pregunta, respuesta) VALUES (1,null,1,0,'¿La moneda es de 2 euros?', null);
+INSERT INTO pregunta(id,id_tutor,id_alumno,id_problema, pregunta, respuesta) VALUES (2,1,1,1,'¿Dónde está Fuente Palmera?', 'Eso no es relevante para la resolución del problema.');
+
+
 
 

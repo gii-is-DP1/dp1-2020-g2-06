@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.samples.petclinic.model.NormaWeb;
 import org.springframework.samples.petclinic.model.Noticia;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +43,19 @@ public class NoticiaServiceTests {
 		assertThat(noticias.size()).isEqualTo(found +1);
 	
 	}
-	
+	@Test
+	public void shouldFindNoticia() {
+		Noticia noticia = this.noticiaService.findById(0).get();
+		String name = noticia.getName();
+		
+		assertThat(noticia.getName()).isEqualTo(name);
+	}
+	@Test
+	public void shouldFindAllNoticia() {
+		Collection<Noticia> noticias = this.noticiaService.findAll();
+		
+		assertThat( noticias.size()).isEqualTo(2);
+	}
 	@Test
 	public void shouldUpdateNoticia() {
 		Noticia noticia = this.noticiaService.findById(0).get();
@@ -68,6 +81,11 @@ public class NoticiaServiceTests {
 		
 		assertThat(numNoticiasNew).isEqualTo(this.noticiaService.findAll().size());
 		assertNotEquals(numNoticiasOld, numNoticiasNew, "El numero de noticias no coincide");
+	}
+	@Test
+	public void shouldFindNoticiaByTutorInitial() {
+		Collection<Noticia> noticias = this.noticiaService.findNoticiasByTutor(0);
+		assertThat( noticias.size()).isEqualTo(2);
 	}
 
 }

@@ -8,6 +8,7 @@ import javax.validation.constraints.NotEmpty;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 @Getter
@@ -17,16 +18,17 @@ import lombok.Setter;
 @Table(name="aclaraciones")
 public class Aclaracion extends BaseEntity{	
 	
-	@NotEmpty
+	@NonNull
 	@ManyToOne
 	@JoinColumn(name="id_tutor")
 	private Tutor tutor;
 	
-	@NotEmpty
+	@NonNull
 	@ManyToOne
 	@JoinColumn(name="id_problema")
 	private Problema problema;
 	
+	@NotEmpty
 	private String texto;
 	
 
