@@ -3,7 +3,6 @@ package org.springframework.samples.petclinic.model;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,7 +20,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
@@ -37,7 +35,6 @@ public class Envio extends BaseEntity{
 	@Column(name="codigo_path")
 	@NotEmpty
 	private String codigoPath;
-	
 	
 	private String resolucion;
 	

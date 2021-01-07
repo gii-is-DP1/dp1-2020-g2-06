@@ -34,10 +34,8 @@ public class Alumno extends BaseEntity{
 	@Column(unique=true)
 	private String email;
 	
-	
 	private String imagen;
 	
-
 	@NotEmpty
 	@PassConstraint
 	private String pass;

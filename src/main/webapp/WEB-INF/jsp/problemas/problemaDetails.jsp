@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <%@ page session="false" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -19,11 +21,11 @@
 
     <table class="table table-striped">
     	<tr>
-            <th>Descripcion</th>
-            <td><c:out value="${problema.descripcion}"/></td>
+            <th>Descripción</th>
+            <td><c:out value="${problema.descripcion}" escapeXml="false"/></td>
         </tr>
         <tr>
-            <th>Puntuacion</th>
+            <th>Puntos</th>
             <td><c:out value="${problema.puntuacion}"/></td>
         </tr>
         <tr>
@@ -32,15 +34,15 @@
         </tr>
         <tr>
             <th>Casos de Prueba</th>
-            <td><c:out value="${problema.casos_prueba}"/></td>
+            <td><c:out value="${problema.casos_prueba}" escapeXml="false"/></td>
         </tr>
         <tr>
             <th>Salida Esperada</th>
-            <td><c:out value="${problema.salida_esperada}"/></td>
+            <td><c:out value="${problema.salida_esperada}" escapeXml="false"/></td>
         </tr>
      
         <tr>
-            <th>Puntuación de los alumnos</th>
+            <th>Valoración de los alumnos</th>
             	<c:if test="${puntuacionMedia != -1.0}">
             		<td><c:out value="${puntuacionMedia}"/></td>
             	</c:if>

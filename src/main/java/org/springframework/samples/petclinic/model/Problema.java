@@ -27,6 +27,10 @@ import lombok.Setter;
 @Table(name = "problema")
 public class Problema extends NamedEntity {
 	
+	@Column(name = "id_judge")
+	@NotNull
+	private Integer idJudge;
+	
 	@ManyToOne
 	@JoinColumn(name="creador")
 	private Creador creador;
@@ -43,7 +47,7 @@ public class Problema extends NamedEntity {
 	private Integer puntuacion;
 	
 	@NotEmpty
-	@Column(name = "descripcion")
+	@Column(name = "descripcion",length=5600)
 	private String descripcion;
 	
 	@NotEmpty
