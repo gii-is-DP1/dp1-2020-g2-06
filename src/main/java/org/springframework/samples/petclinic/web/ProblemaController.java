@@ -101,8 +101,9 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 			}
 			else {
 				String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
-				problema.setZip(rootZip + "/" + Utils.diferenciador("zip"));
-				fileService.saveFile(zip,rootZip,Utils.diferenciador("zip"));
+				String namezip = Utils.diferenciador("zip");
+				problema.setZip(rootZip + "/" + namezip);
+				fileService.saveFile(zip,rootZip,namezip);
 				String name = Utils.diferenciador(extensionImagen[extensionImagen.length-1]);
 				problema.setImagen("resources/images/problemas/"  + name);
 				fileService.saveFile(imagen,rootImage,name);
