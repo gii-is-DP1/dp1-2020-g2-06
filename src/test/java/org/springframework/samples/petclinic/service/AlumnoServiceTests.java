@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 public class AlumnoServiceTests {
-
+				
 		@Autowired
 		private AlumnoService alumnoService;
 		
@@ -18,6 +18,7 @@ public class AlumnoServiceTests {
 		public void shouldFindAll() {
 			assertThat(alumnoService.findAll().size()).isGreaterThan(0);
 		}
+		
 		@Test
 		public void shouldFindAlumnoById() {
 			Alumno alumno= this.alumnoService.findById(0).get();
@@ -42,12 +43,13 @@ public class AlumnoServiceTests {
 //			alumno.setPuntosAnual(0);
 //			alumno.setPuntosTemporada(0);
 //			alumno.setPuntosTotales(0);
-			alumno.setPass("pass1234");
+			alumno.setPass("pass1··DD234");
 			alumnoService.save(alumno);
 			String email = alumnoService.findById(3).get().getEmail();
 			
 			assertThat(alumno.getEmail()).isEqualTo(email);
-			
-	
+
 		}
+		
+		
 }
