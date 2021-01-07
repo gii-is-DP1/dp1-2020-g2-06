@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.samples.petclinic.model.Problema;
 import org.springframework.samples.petclinic.model.PuntuacionProblema;
 import org.springframework.stereotype.Service;
 
@@ -55,6 +54,18 @@ public class PuntuacionProblemaServiceTests {
 		assertThat(nNew).isEqualTo(nOld+1);
 	}
 	
+	@Test
+	public void shouldUpdatePuntuacionProblema() {
+		PuntuacionProblema puntuacion = puntuacionProblemaService.findById(0).get();
+		Integer puntuacionOld = puntuacion.getPuntuacion();
+		Integer puntuacionNew = 2;
+		
+		puntuacion.setPuntuacion(2);
+		assertThat(puntuacion.getPuntuacion()).isEqualTo(puntuacionNew);
+		assertNotEquals(puntuacionOld, puntuacion.getPuntuacion());
+
+	}
+	
 	
 	@Test
 	public void shouldFindAllPuntuacionesByAlumno() {
@@ -72,14 +83,13 @@ public class PuntuacionProblemaServiceTests {
 	
 
 	
-	@SuppressWarnings("unlikely-arg-type")
 	@Test
 	public void shouldFindAllPuntuacionesByProblema() {
 		Integer puntuacionesMetodo = puntuacionProblemaService.findAllByProblema(2).size();
 		Collection<PuntuacionProblema> puntuaciones = puntuacionProblemaService.findAll();
 		int puntuacionesFor = 0;
 		for(PuntuacionProblema x : puntuaciones) {
-			if(x.getAlumno().equals(problemaService.findById(2).get())) {
+			if(x.getProblema().equals(problemaService.findById(2).get())) {
 				puntuacionesFor = puntuacionesFor +1 ;
 			}
 		}
