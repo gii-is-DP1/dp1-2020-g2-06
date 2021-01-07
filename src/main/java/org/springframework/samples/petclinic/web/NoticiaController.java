@@ -74,8 +74,9 @@ public class NoticiaController {
 		}
 		else {
 			String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
-			noticia.setImagen("resources/images/noticias/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
-			fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+			String name = Utils.diferenciador(extensionImagen[extensionImagen.length-1]);
+			noticia.setImagen("resources/images/noticias/"  + name);
+			fileService.saveFile(imagen,rootImage,name);
 			noticia.setFechaPublicacion(LocalDate.now());
 			noticiaService.save(noticia);
 			
@@ -110,9 +111,10 @@ public class NoticiaController {
 			if(!imagen.isEmpty()) {
 				String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
 				String aux = noticia.get().getImagen();
-				noticia.get().setImagen("resources/images/noticias/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				String name = Utils.diferenciador(extensionImagen[extensionImagen.length-1]);
+				noticia.get().setImagen("resources/images/noticias/"  + name);
 				fileService.delete(Paths.get("src/main/resources/static/" + aux));
-				fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				fileService.saveFile(imagen,rootImage,name);
 			}
 			BeanUtils.copyProperties(modifiedNoticia, noticia.get(), "id", "fechaPublicacion", "imagen");
 			noticiaService.save(noticia.get());

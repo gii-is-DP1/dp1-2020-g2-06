@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -68,11 +69,13 @@ public class TutorController {
 		if(result.hasErrors()|| imagen.getBytes().length/(1024*1024)>10 || imagen.isEmpty()) {
 			model.clear();
 			model.addAttribute("tutor", tutor);
+			model.addAttribute("message", result.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList()));
 			return "tutores/createOrUpdateTutorForm";
 		}else {
 			String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
-			tutor.setImagen("resources/images/tutores/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
-			fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+			String name = Utils.diferenciador(extensionImagen[extensionImagen.length-1]);
+			tutor.setImagen("resources/images/tutores/"  + name);
+			fileService.saveFile(imagen,rootImage,name);
 			this.tutorService.save(tutor);
 			return "redirect:/tutores";
 		}
@@ -97,15 +100,16 @@ public class TutorController {
 		if(binding.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
 			model.clear();
 			model.addAttribute("tutor", tutor.get());
-			model.addAttribute("message",binding.getFieldError().getField());
+			model.addAttribute("message", binding.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList()));
 			return "tutores/createOrUpdateTutorForm";
 		}else {
 			if(!imagen.isEmpty()) {
 				String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
 				String aux = tutor.get().getImagen();
-				tutor.get().setImagen("resources/images/tutores/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				String name = Utils.diferenciador(extensionImagen[extensionImagen.length-1]);
+				tutor.get().setImagen("resources/images/tutores/"  + name);
 				fileService.delete(Paths.get("src/main/resources/static/" + aux));
-				fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				fileService.saveFile(imagen,rootImage,name);
 			}
 			BeanUtils.copyProperties(modifiedTutor, tutor.get(), "id","imagen");
 			tutorService.save(tutor.get());

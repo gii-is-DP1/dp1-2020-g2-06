@@ -9,14 +9,14 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import org.springframework.samples.constraint.validators.EmailValidator;
+import org.springframework.samples.constraint.validators.FechaFinValidator;
 
 @Documented
-@Constraint(validatedBy = EmailValidator.class)
+@Constraint(validatedBy = FechaFinValidator.class)
 @Target( { ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface EmailConstraint {
-String message() default "Email incorrecto. Debe ser un email @us.es o @alum.us.es";
-Class<?>[] groups() default {};
-Class<? extends Payload>[] payload() default {};
+public @interface FechaFinConstraint {
+	String message() default "Esta fecha no puede ser anterior a la fecha de hoy";
+	Class<?>[] groups() default {};
+	Class<? extends Payload>[] payload() default {};
 }

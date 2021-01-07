@@ -9,14 +9,14 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import org.springframework.samples.constraint.validators.EmailValidator;
+import org.springframework.samples.constraint.validators.PassValidator;
 
 @Documented
-@Constraint(validatedBy = EmailValidator.class)
+@Constraint(validatedBy = PassValidator.class)
 @Target( { ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface EmailConstraint {
-String message() default "Email incorrecto. Debe ser un email @us.es o @alum.us.es";
-Class<?>[] groups() default {};
-Class<? extends Payload>[] payload() default {};
+public @interface PassConstraint {
+	String message() default "La contraseña debe tener una longitud minima de 8, una mayuscula, un número y un caracter especial";
+	Class<?>[] groups() default {};
+	Class<? extends Payload>[] payload() default {};
 }

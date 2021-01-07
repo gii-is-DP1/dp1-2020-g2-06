@@ -71,7 +71,7 @@ public class ArticuloController {
 	
 	@PostMapping("/new")
 	public String processCreationForm(@Valid Articulo articulo,BindingResult result,ModelMap model, @RequestParam("image") MultipartFile imagen) throws IOException {
-		if(result.hasErrors() || imagen.isEmpty() || imagen.getBytes().length/(1024*1024)>10 || imagen.isEmpty()) {
+		if(result.hasErrors() || imagen.isEmpty() || imagen.getBytes().length/(1024*1024)>10) {
 			model.clear();
 			model.addAttribute("articulo", articulo);
 			model.addAttribute("autores", tutorService.findAll());
@@ -79,8 +79,9 @@ public class ArticuloController {
 			return "articulos/createOrUpdateArticuloForm";
 		}else {
 			String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
-			articulo.setImagen("resources/images/articulos/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
-			fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+			String name = Utils.diferenciador(extensionImagen[extensionImagen.length-1]);
+			articulo.setImagen("resources/images/articulos/"  + name);
+			fileService.saveFile(imagen,rootImage,name);
 			this.articuloService.save(articulo);
 			return "redirect:/articulos";
 		}
@@ -95,7 +96,7 @@ public class ArticuloController {
 			return "articulos/createOrUpdateArticuloForm";
 		}
 		else {
-			model.addAttribute("message", "No podemos encontrar el articulo que intenta borrar");
+			model.addAttribute("message", "No podemos encontrar el articulo que intenta editar");
 			return listArticulos(model);
 			
 		}
@@ -107,6 +108,7 @@ public class ArticuloController {
 		if(binding.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
 			model.clear();
 			model.addAttribute("articulo", articulo.get());
+			model.addAttribute("autores", tutorService.findAll());
 			model.addAttribute("message",binding.getFieldError().getField());
 			return "articulos/createOrUpdateArticuloForm";
 		}
@@ -114,11 +116,12 @@ public class ArticuloController {
 			if(!imagen.isEmpty()) {
 				String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
 				String aux = articulo.get().getImagen();
-				articulo.get().setImagen("resources/images/articulos/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				String name = Utils.diferenciador(extensionImagen[extensionImagen.length-1]);
+				articulo.get().setImagen("resources/images/articulos/"  + name);
 				fileService.delete(Paths.get("src/main/resources/static/" + aux));
-				fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				fileService.saveFile(imagen,rootImage,name);
 			}
-			BeanUtils.copyProperties(modifiedArticulo, articulo.get(), "id", "fechaPublicacion","imagen");
+			BeanUtils.copyProperties(modifiedArticulo, articulo.get(), "id","imagen");
 			articuloService.save(articulo.get());
 			model.addAttribute("message","El artículo se ha actualizado con éxito");
 			return listArticulos(model);
