@@ -72,14 +72,14 @@ public class PuntuacionProblemaServiceTests {
 	
 
 	
+	@SuppressWarnings("unlikely-arg-type")
 	@Test
 	public void shouldFindAllPuntuacionesByProblema() {
 		Integer puntuacionesMetodo = puntuacionProblemaService.findAllByProblema(2).size();
 		Collection<PuntuacionProblema> puntuaciones = puntuacionProblemaService.findAll();
-		Problema p = problemaService.findById(2).get();
 		int puntuacionesFor = 0;
 		for(PuntuacionProblema x : puntuaciones) {
-			if(x.getAlumno().equals(p)) {
+			if(x.getAlumno().equals(problemaService.findById(2).get())) {
 				puntuacionesFor = puntuacionesFor +1 ;
 			}
 		}
