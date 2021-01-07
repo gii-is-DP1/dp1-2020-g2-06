@@ -79,8 +79,9 @@ public class ArticuloController {
 			return "articulos/createOrUpdateArticuloForm";
 		}else {
 			String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
-			articulo.setImagen("resources/images/articulos/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
-			fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+			String name = Utils.diferenciador(extensionImagen[extensionImagen.length-1]);
+			articulo.setImagen("resources/images/articulos/"  + name);
+			fileService.saveFile(imagen,rootImage,name);
 			this.articuloService.save(articulo);
 			return "redirect:/articulos";
 		}
@@ -115,9 +116,10 @@ public class ArticuloController {
 			if(!imagen.isEmpty()) {
 				String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
 				String aux = articulo.get().getImagen();
-				articulo.get().setImagen("resources/images/articulos/"  + Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				String name = Utils.diferenciador(extensionImagen[extensionImagen.length-1]);
+				articulo.get().setImagen("resources/images/articulos/"  + name);
 				fileService.delete(Paths.get("src/main/resources/static/" + aux));
-				fileService.saveFile(imagen,rootImage,Utils.diferenciador(extensionImagen[extensionImagen.length-1]));
+				fileService.saveFile(imagen,rootImage,name);
 			}
 			BeanUtils.copyProperties(modifiedArticulo, articulo.get(), "id","imagen");
 			articuloService.save(articulo.get());
