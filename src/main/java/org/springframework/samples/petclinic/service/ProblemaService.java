@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -50,7 +51,24 @@ public class ProblemaService {
 	}
 	
 	public Collection<Problema> ProblemasNoVigentes(Collection<Problema> cp) {
-		return problemaRepository.findAll().stream().filter(x->!x.isVigente()&&x.getFechaPublicacion().isBefore(LocalDate.now())&&x.getCompeticion()==null).collect(Collectors.toList());
+		Collection<Problema> all = problemaRepository.findAll();
+		List<Problema> res = new ArrayList<>();
+		
+		for(Problema p: all) {
+			if(!p.isVigente() && p.getCompeticion()==null) {
+				if(p.getSeasonYear().compareTo(LocalDate.now().getYear())<0) {
+					res.add(p);
+				}
+				else {
+					if(p.getSeasonYear().compareTo(LocalDate.now().getYear())==0) {
+						if(p.getSeason().getId().compareTo(Utils.getActualSeason().getId())<=0)
+							res.add(p);
+					}
+				}
+			}
+		}
+		
+		return res;
 	}
 	
 	public Double valoracionMediaAlumnno(Problema pr) {
