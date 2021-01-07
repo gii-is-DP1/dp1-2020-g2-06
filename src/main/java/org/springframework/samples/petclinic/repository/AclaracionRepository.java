@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.samples.petclinic.model.Aclaracion;
 import org.springframework.samples.petclinic.model.PuntuacionProblema;
 
-public interface AclaracionRepository extends Repository<PuntuacionProblema, String>{
+public interface AclaracionRepository extends Repository<Aclaracion, String>{
 	
 	Collection<Aclaracion> findAll() throws DataAccessException;
 	
