@@ -16,16 +16,15 @@ import org.springframework.stereotype.Service;
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 @ExtendWith (MockitoExtension.class)
 public class AlumnoServiceTests {
-
-		@Mock
-		private AlumnoRepository alumnoRepositoryMocked;
-		
-		private AlumnoService alumnoServiceMocked;
+				
+		@Autowired
+		private AlumnoService alumnoService;
 		
 		@Test
 		public void shouldFindAll() {
 			assertThat(alumnoServiceMocked.findAll().size()).isGreaterThan(0);
 		}
+		
 		@Test
 		public void shouldFindAlumnoById() {
 			Alumno alumno= this.alumnoServiceMocked.findById(0).get();
@@ -44,12 +43,17 @@ public class AlumnoServiceTests {
 			alumno.setNombre("Carmen");
 			alumno.setApellidos("Barra");
 			alumno.setEmail("carbarmen@alum.us.es");
-			alumno.setImagen("resources/images/alumnos/20201223154714879157200.jpg");
-			alumno.setPass("pass1234");
-			alumnoServiceMocked.save(alumno);
-			Mockito.verify(alumnoServiceMocked).save(alumno);
-			String email = alumnoServiceMocked.findById(3).get().getEmail();
+			alumno.setImagen("https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Pentagram4.svg/1200px-Pentagram4.svg.png");
+//			alumno.setPuntosAnual(0);
+//			alumno.setPuntosTemporada(0);
+//			alumno.setPuntosTotales(0);
+			alumno.setPass("pass1··DD234");
+			alumnoService.save(alumno);
+			String email = alumnoService.findById(3).get().getEmail();
 			
 			assertThat(alumno.getEmail()).isEqualTo(email);
+
 		}
+		
+		
 }

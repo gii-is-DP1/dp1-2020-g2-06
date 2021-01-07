@@ -55,7 +55,7 @@ class TutorServiceTests {
 		tutor.setEmail("pepe@alum.us.es");
 		tutor.setNombre("Pepe");
 		tutor.setApellidos("Alvarez Toledo");
-		tutor.setPass("Cuarentena123");
+		tutor.setPass("Cuarentena12@@3");
                 
 		this.tutorService.save(tutor);
 		tutores = this.tutorService.findAll();
