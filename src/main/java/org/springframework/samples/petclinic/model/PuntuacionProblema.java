@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 @Getter
@@ -18,6 +19,7 @@ import lombok.Setter;
 @Table(name="puntuacionProblema")
 public class PuntuacionProblema extends BaseEntity{	
 	
+
 	@NotNull
 	@ManyToOne
 	@JoinColumn(name="id_alumno")
