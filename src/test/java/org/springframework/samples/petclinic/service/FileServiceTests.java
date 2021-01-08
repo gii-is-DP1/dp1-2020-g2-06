@@ -22,9 +22,9 @@ public class FileServiceTests {
 		private FileService fileService;
 		
 		@Test
-		public void shouldSaveFile() {
+		public void shouldSaveFile() throws IOException {
 			Path path = Paths.get("TestTxt");
-			String name = "test";
+			String name = "test.txt";
 			byte[] content = "Hello".getBytes();
 			
 			MultipartFile file = new MockMultipartFile(name,content);
@@ -38,6 +38,7 @@ public class FileServiceTests {
 			} catch (final IOException e) {
 			}
 			assertThat(content).isEqualTo(content2);
+			this.fileService.delete(Paths.get("TestTxt/test.txt"));
 		}
 		
 		@Test
@@ -51,16 +52,23 @@ public class FileServiceTests {
 		public void shouldDeleteFile() throws IOException {
 			Path path = Paths.get("TestTxt/testDelete.txt");
 			byte[] content = null;
+			String name = "testDelete.txt";
+			byte[] aux = null;
+			try {
+			    aux = Files.readAllBytes(path);
+			} catch (final IOException e) {
+			}
+			MultipartFile fichero = new MockMultipartFile(name, aux);
 			
 			this.fileService.delete(path);
 			
 			byte[] content2 = null;
-			Path path2 = Paths.get("TestTxt/testDelete.txt");
 			try {
-			    content2 = Files.readAllBytes(path2);
+			    content2 = Files.readAllBytes(path);
 			} catch (final IOException e) {
 			}
 			assertThat(content).isEqualTo(content2);
+			this.fileService.saveFile(fichero, Paths.get("TestTxt"), "testDelete.txt");
 		}
 		
 }
