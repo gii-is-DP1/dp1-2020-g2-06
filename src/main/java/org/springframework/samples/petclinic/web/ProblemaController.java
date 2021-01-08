@@ -23,6 +23,7 @@ import org.springframework.samples.petclinic.service.ProblemaService;
 import org.springframework.samples.petclinic.util.Utils;
 import org.springframework.samples.petclinic.service.EnvioService;
 import org.springframework.samples.petclinic.service.FileService;
+import org.springframework.samples.petclinic.service.JudgeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -50,6 +51,9 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 	
 	@Autowired
 	private EnvioService envioService;
+	
+	@Autowired
+	private JudgeService judgeService;
 	
 	@GetMapping()
 	public String listProblemas(ModelMap modelMap) {
@@ -91,12 +95,11 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 	@PostMapping(value = "/new")
 	public String processCreationForm(@Valid Problema problema, BindingResult result,ModelMap model,@RequestParam("zipo") MultipartFile zip,@RequestParam("image") MultipartFile imagen) throws IOException{
 
-//		String message;
 		
-			if (result.hasErrors() || zip.getBytes().length/(1024*1024)>20 || imagen.getBytes().length/(1024*1024)>10 || imagen.isEmpty() || zip.isEmpty()) {
+			if (result.hasErrors() || zip.getBytes().length/(1024*1024)>40 || imagen.getBytes().length/(1024*1024)>10 || imagen.isEmpty() || zip.isEmpty()) {
 				model.clear();
 				model.addAttribute("problema", problema);
-				model.addAttribute("message", "Error!");
+				model.addAttribute("message", result.getAllErrors());
 				return VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM;
 			}
 			else {
@@ -107,6 +110,10 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 				String name = Utils.diferenciador(extensionImagen[extensionImagen.length-1]);
 				problema.setImagen("resources/images/problemas/"  + name);
 				fileService.saveFile(imagen,rootImage,name);
+				
+				Integer idJudge = judgeService.addProblem(2, rootZip + "/" + namezip).getProblemIds().get(0);
+				problema.setIdJudge(idJudge);
+				
 				problema.setFechaPublicacion(LocalDate.now());
 				problemaService.saveProblema(problema);
 				String message = "Uploaded the files successfully: ";

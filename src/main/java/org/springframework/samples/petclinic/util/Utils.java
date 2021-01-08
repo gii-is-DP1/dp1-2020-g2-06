@@ -35,7 +35,10 @@ public class Utils {
 	}
 	
 	public static Integer getActualYearofSeason() {
-		if(getActualSeason().equals("invierno")) {
+		Temporada temp = new Temporada();
+		temp.setId(3);
+		temp.setNombre("invierno");
+		if(getActualSeason().equals(temp)) {
 			if(LocalDate.now().getMonthValue()==12)
 				return LocalDate.now().getYear();
 			else

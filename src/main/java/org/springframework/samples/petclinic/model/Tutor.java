@@ -3,7 +3,6 @@ package org.springframework.samples.petclinic.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 import org.springframework.samples.constraint.EmailConstraint;
@@ -26,13 +25,16 @@ public class Tutor extends BaseEntity{
 	@NotEmpty(message= "El campo apellidos no puede estar vacío")
 	private String apellidos;
 	
+	private Boolean enabled;
+	
 	@EmailConstraint
 	@Column(unique=true)
 	private String email;
 	
 	@Column(name = "pass")
-	@NotEmpty
+
 	@PassConstraint
+	@NotEmpty
 	private String pass;
 	
 	@Column(name = "imagen")
