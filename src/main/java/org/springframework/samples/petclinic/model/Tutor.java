@@ -25,6 +25,8 @@ public class Tutor extends BaseEntity{
 	@NotEmpty(message= "El campo apellidos no puede estar vacío")
 	private String apellidos;
 	
+	private Boolean enabled;
+	
 	@EmailConstraint
 	@Column(unique=true)
 	private String email;

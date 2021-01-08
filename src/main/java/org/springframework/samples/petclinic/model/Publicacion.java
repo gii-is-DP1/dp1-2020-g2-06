@@ -8,11 +8,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 @Getter
@@ -20,13 +22,14 @@ import lombok.Setter;
 @EqualsAndHashCode(callSuper=true)
 @Entity
 @Table(name = "publicaciones")
-public class Publicacion extends NamedEntity{
+public class Publicacion extends BaseEntity{
 	
 	@Column(length=5600)
 	@NotEmpty
 	private String texto;
 	
-	@NotEmpty
+
+	@NotNull
 	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm:ss")
 	private LocalDateTime fecha;
 	
