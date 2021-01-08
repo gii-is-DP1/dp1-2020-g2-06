@@ -36,6 +36,7 @@ public class ProblemaServiceTests {
 		problema.setName("La piscina olimpica");
 		problema.setDescripcion("Una piscina olimica tiene 50 metros de largo...");
 		problema.setPuntuacion(5);
+		problema.setIdJudge(1);
 		problema.setCasos_prueba("50 2 1");
 		problema.setSalida_esperada("Si");
 		problema.setImagen("https://www.imagendeprueba.com/2");
@@ -68,6 +69,7 @@ public class ProblemaServiceTests {
 		problema.setName("La piscina olimpica");
 		problema.setDescripcion("Una piscina olimica tiene 50 metros de largo...");
 		problema.setPuntuacion(5);
+		problema.setIdJudge(1);
 		problema.setSalida_esperada("Si");
 		problema.setImagen("https://www.imagendeprueba.com/2");
 		
