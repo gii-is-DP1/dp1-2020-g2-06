@@ -14,6 +14,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 @Getter
@@ -21,12 +22,13 @@ import lombok.Setter;
 @EqualsAndHashCode(callSuper=true)
 @Entity
 @Table(name = "publicaciones")
-public class Publicacion extends NamedEntity{
+public class Publicacion extends BaseEntity{
 	
 	@Column(length=5600)
 	@NotEmpty
 	private String texto;
 	
+
 	@NotNull
 	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm:ss")
 	private LocalDateTime fecha;
