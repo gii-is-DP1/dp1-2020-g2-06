@@ -12,7 +12,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Problema;
-import org.springframework.samples.petclinic.model.PuntuacionProblema;
 import org.springframework.samples.petclinic.repository.ProblemaRepository;
 import org.springframework.samples.petclinic.util.Utils;
 import org.springframework.stereotype.Service;

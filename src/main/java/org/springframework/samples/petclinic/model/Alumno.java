@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
@@ -30,14 +31,14 @@ public class Alumno extends BaseEntity{
 	@NotEmpty(message= "El campo apellidos no puede estar vacío")
 	private String apellidos;
 	
+	private Boolean enabled;
+	
 	@EmailConstraint
 	@Column(unique=true)
 	private String email;
 	
-	
 	private String imagen;
 	
-
 	@NotEmpty
 	@PassConstraint
 	private String pass;

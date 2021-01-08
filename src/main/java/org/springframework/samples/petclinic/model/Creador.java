@@ -26,6 +26,8 @@ public class Creador extends BaseEntity{
 	@NotEmpty
 	private String apellidos;
 	
+	private Boolean enabled;
+	
 	@EmailConstraint
 	@Column(unique=true)
 	private String email;

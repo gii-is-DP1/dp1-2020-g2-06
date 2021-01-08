@@ -3,7 +3,6 @@ package org.springframework.samples.petclinic.model;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -15,13 +14,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
@@ -29,15 +28,18 @@ import lombok.ToString;
 @Entity
 @Table(name="envios")
 public class Envio extends BaseEntity{
+	
+	@Column(name = "id_judge")
+	@NotNull
+	private Integer idJudge;
 
-	@NotEmpty
+	@NotNull
 	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm:ss")
 	private LocalDateTime fecha;
 
 	@Column(name="codigo_path")
 	@NotEmpty
 	private String codigoPath;
-	
 	
 	private String resolucion;
 	
