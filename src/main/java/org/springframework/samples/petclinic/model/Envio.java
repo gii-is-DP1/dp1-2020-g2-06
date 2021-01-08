@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -27,8 +28,12 @@ import lombok.Setter;
 @Entity
 @Table(name="envios")
 public class Envio extends BaseEntity{
+	
+	@Column(name = "id_judge")
+	@NotNull
+	private Integer idJudge;
 
-	@NotEmpty
+	@NotNull
 	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm:ss")
 	private LocalDateTime fecha;
 

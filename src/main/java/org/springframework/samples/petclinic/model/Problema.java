@@ -28,7 +28,6 @@ import lombok.Setter;
 public class Problema extends NamedEntity {
 	
 	@Column(name = "id_judge")
-	@NotNull
 	private Integer idJudge;
 	
 	@ManyToOne

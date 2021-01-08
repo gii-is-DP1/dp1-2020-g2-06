@@ -5,6 +5,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -17,12 +18,12 @@ import lombok.Setter;
 @Table(name="puntuacionProblema")
 public class PuntuacionProblema extends BaseEntity{	
 	
-	@NotEmpty
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name="id_alumno")
 	private Alumno alumno;
 	
-	@NotEmpty
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name="id_problema")
 	private Problema problema;
