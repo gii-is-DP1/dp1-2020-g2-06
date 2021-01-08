@@ -32,6 +32,10 @@ public class TutorService {
 		return tutoRepo.findById(id);
 	}
 	
+	public Integer findIdByEmail(String email){
+		return tutoRepo.findIdByEmail(email);
+	}
+	
 	public void save(@Valid Tutor tutor) {
 		tutoRepo.save(tutor);
 	}
