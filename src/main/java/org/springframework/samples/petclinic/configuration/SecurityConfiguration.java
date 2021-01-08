@@ -71,7 +71,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	      .authoritiesByUsernameQuery(
 	       "select * from (select * from (select email, authority from alumnos a right join auths b on a.id = b.id_alumno) union "
 	       + "(select email, authority from creadores a right join auths b on a.id = b.id_creador) union "
-	       + "(select email, authority from tutores a right join auths b on a.id = b.id_tutor) ) where email = ?")	      	      
+	       + "(select email, authority from tutores a right join auths b on a.id = b.id_tutor) ) where email = ?")     	      
 	      .passwordEncoder(passwordEncoder());	
 	}
 	
