@@ -4,6 +4,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.springframework.samples.petclinic.model.Temporada;
+import org.springframework.samples.petclinic.service.AlumnoService;
+import org.springframework.samples.petclinic.service.CreadorService;
+import org.springframework.samples.petclinic.service.TutorService;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 public class Utils {
 
@@ -54,4 +59,47 @@ public class Utils {
 				+ LocalDateTime.now().getHour() + "" + LocalDateTime.now().getMinute() + "" + LocalDateTime.now().getSecond() +
 				+ LocalDateTime.now().getNano() + "." + extension;
 	}
+	
+	
+	public static String authLoggedIn() {
+		SecurityContext sc = SecurityContextHolder.getContext();
+		if(sc==null)
+			return null;
+		else {
+			return  sc.getAuthentication().getAuthorities().toString()
+					.substring(1,sc.getAuthentication().getAuthorities()
+							.toString().length()-1);
+				
+		}
+		
+	}
+	
+	public static Integer idLoggedIn() {
+		String rol = authLoggedIn();
+		
+		if(rol.equals("ROLE_ANONYMOUS"))
+			return -1;
+		else {
+			SecurityContext sc = SecurityContextHolder.getContext();
+			String email = sc.getAuthentication().getName();
+			if(rol.equals("alumno")) {
+				AlumnoService alumnoService = new AlumnoService();
+				Integer id = alumnoService.findIdByEmail(email);
+				return alumnoService.findIdByEmail(email);
+			}
+			else if(rol.equals("creador")) {
+				CreadorService creadorService = new CreadorService();
+				return creadorService.findIdByEmail(email);
+			}
+			else {
+				TutorService tutorService = new TutorService();
+				return tutorService.findIdByEmail(email);
+			}
+			
+		}
+	}
+	
+
+
+	
 }
