@@ -35,4 +35,9 @@ public class CreadorService {
 	public void save(@Valid Creador creador) {
 		creadorRepo.save(creador);
 	}
+
+	public Optional<Creador> findByEmail(String email) {
+		// TODO Auto-generated method stub
+		return creadorRepo.findByEmail(email);
+	}
 }

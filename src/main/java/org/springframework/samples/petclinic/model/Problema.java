@@ -87,7 +87,7 @@ public class Problema extends NamedEntity {
 		return this.season.equals(actualSeason) && this.seasonYear.equals(actualYearSeason);
 			
 	}
-	
+	//
 	//private Double puntuacionMedia = puntuacionesProblema.stream().mapToInt(x -> x.getPuntuacion()).average().getAsDouble(); 
 	
 }

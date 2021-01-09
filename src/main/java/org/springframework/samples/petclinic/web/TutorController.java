@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.samples.petclinic.model.Tutor;
 import org.springframework.samples.petclinic.service.ArticuloService;
+import org.springframework.samples.petclinic.service.AuthService;
 import org.springframework.samples.petclinic.service.FileService;
 import org.springframework.samples.petclinic.service.NoticiaService;
 import org.springframework.samples.petclinic.service.TutorService;
@@ -50,6 +51,9 @@ public class TutorController {
 	@Autowired
 	private FileService fileService;
 	
+	@Autowired
+	AuthService authService;
+	
 	
 	@GetMapping("")
 	public String listTutores(ModelMap model) {
@@ -76,7 +80,9 @@ public class TutorController {
 			String name = Utils.diferenciador(extensionImagen[extensionImagen.length-1]);
 			tutor.setImagen("resources/images/tutores/"  + name);
 			fileService.saveFile(imagen,rootImage,name);
-			this.tutorService.save(tutor);
+			tutor.setEnabled(true);
+			tutorService.save(tutor);
+			authService.saveAuthoritiesTutor(tutor.getEmail(), "tutor");
 			return "redirect:/tutores";
 		}
 	}
