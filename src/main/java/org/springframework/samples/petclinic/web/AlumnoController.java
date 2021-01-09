@@ -93,7 +93,7 @@ public class AlumnoController {
 			fileService.saveFile(imagen,rootImage,name);
 			alumno.setEnabled(true);
 			alumnoService.save(alumno);
-			authService.saveAuthorities(alumno.getEmail(), "alumno");
+			authService.saveAuthoritiesAlumno(alumno.getEmail(), "alumno");
 			
 			return "redirect:/";
 		}

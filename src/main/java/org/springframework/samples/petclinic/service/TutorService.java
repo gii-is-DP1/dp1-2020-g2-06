@@ -43,6 +43,10 @@ public class TutorService {
 	public Collection<Noticia> findTutorNoticias(int id){
 		return noticiaService.findNoticiasByTutor(id);
 	}
+
+	public Optional<Tutor> findByEmail(String email) {
+		return tutoRepo.findByEmail(email);
+	}
 	
 	
 }
