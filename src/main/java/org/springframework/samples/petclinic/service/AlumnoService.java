@@ -46,5 +46,9 @@ public class AlumnoService {
 		return alumnoRepository.problemasResueltosBySeason(id, Utils.getActualSeason().getId(), Utils.getActualYearofSeason());
 	}
 
+	public Optional<Alumno> findByEmail(String email) {
+		return alumnoRepository.findById(email);
+	}
+
 
 }

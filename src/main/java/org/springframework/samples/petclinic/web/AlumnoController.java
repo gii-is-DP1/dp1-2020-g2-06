@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Problema;
 import org.springframework.samples.petclinic.service.AlumnoService;
+import org.springframework.samples.petclinic.service.AuthService;
 import org.springframework.samples.petclinic.service.FileService;
 import org.springframework.samples.petclinic.util.Utils;
 import org.springframework.stereotype.Controller;
@@ -39,6 +40,9 @@ public class AlumnoController {
 	
 	@Autowired
 	FileService fileService;
+	
+	@Autowired
+	AuthService authService;
 	
 	@GetMapping("")
 	public String listAlumnos(ModelMap model) {
@@ -87,9 +91,11 @@ public class AlumnoController {
 			String name = Utils.diferenciador(extensionImagen[extensionImagen.length-1]);
 			alumno.setImagen("resources/images/alumnos/"  + name);
 			fileService.saveFile(imagen,rootImage,name);
+			alumno.setEnabled(true);
 			alumnoService.save(alumno);
+			authService.saveAuthorities(alumno.getEmail(), "alumno");
 			
-			return "redirect:/alumnos/";
+			return "redirect:/";
 		}
 	}
 	
