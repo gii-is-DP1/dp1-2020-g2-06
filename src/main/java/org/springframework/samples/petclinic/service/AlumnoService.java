@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Problema;
 import org.springframework.samples.petclinic.repository.AlumnoRepository;
@@ -27,6 +28,10 @@ public class AlumnoService {
 	
 	public Optional<Alumno> findById(int id){
 		return alumnoRepository.findById(id);
+	}
+	
+	public Integer findIdByEmail(String email){
+		return alumnoRepository.findIdByEmail(email);
 	}
 	
 	public void save(Alumno alumno) {
