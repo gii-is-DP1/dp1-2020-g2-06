@@ -96,6 +96,7 @@ class CreadorServiceTests {
 		Integer numProblemasAntiguos = problemaService.findAllByCreador(creador.getId()).size();
 		
 		Problema problemaNuevo = new Problema();
+		problemaNuevo.setName("Test problem");
 		problemaNuevo.setCreador(creador);
 		problemaService.saveProblema(problemaNuevo);
 		
