@@ -48,8 +48,7 @@ public class TutorController {
 	@Autowired
 	NoticiaService noticiaService;
 	
-	@Autowired
-	private FileService fileService;
+	FileService fileService;
 	
 	@Autowired
 	AuthService authService;
