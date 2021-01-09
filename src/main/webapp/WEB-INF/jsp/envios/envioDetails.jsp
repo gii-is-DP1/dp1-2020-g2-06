@@ -32,7 +32,7 @@
         <tr>
             <th>Código</th>
             <c:choose>
-            <c:when test="${envio.problema.vigente || !envio.alumno.compartir}">
+            <c:when test="${envio.problema.vigente}">
             
              <td>Problema vigente: código no disponible
                </td>

@@ -1,11 +1,13 @@
 package org.springframework.samples.petclinic.service;
 
 import java.io.File;
+import java.nio.charset.Charset;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.samples.petclinic.domjudge.Judgement;
 import org.springframework.samples.petclinic.domjudge.ProblemResponse;
 import org.springframework.samples.petclinic.domjudge.Run;
 import org.springframework.samples.petclinic.repository.JudgeRepository;
@@ -22,27 +24,30 @@ public class JudgeService implements JudgeRepository {
 	
 	private final String host = "http://localhost:12345";
 	
-	public Run getResult(int id, int contest) {
+	public Judgement getResult(int id, int contest) {
 		//restTemplate = new RestTemplate();
-		return restTemplate.getForObject(host+"/api/v4/contests/"+contest+"/runs/"+id+"?strict=false", Run.class);
+		return restTemplate.getForObject(host+"/api/v4/contests/"+contest+"/judgements/"+id+"?strict=false", Judgement.class);
 	}
 	
 	public Integer addSubmission(int contest,String filePath, String language, String entryPoint, int problem) {
 		//restTemplate = new RestTemplate();
 
 		MultiValueMap<String, Object> parameters = new LinkedMultiValueMap<String, Object>();
-		parameters.add("code", new FileSystemResource(new File(filePath)));
 		
+		parameters.add("entry_point", entryPoint);
 		parameters.add("problem", String.valueOf(problem));
 		parameters.add("language", language);
-		parameters.add("entry_point", entryPoint);
+		parameters.add("code", new FileSystemResource(new File(filePath)));
+		
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Content-Type", "multipart/form-data");
-		headers.set("Accept", "text/plain");
+//		headers.set("Accept", "text/plain");
+		HttpEntity<MultiValueMap<String, Object>> entity = new HttpEntity<MultiValueMap<String, Object>>(parameters, headers);
+
 
 		return Integer.parseInt(restTemplate.postForObject(host+"/api/v4/contests/"+contest+"/submissions", 
-			new HttpEntity<MultiValueMap<String, Object>>(parameters, headers), 
+			entity, 
 		    String.class));
 	
 	}
@@ -67,20 +72,20 @@ public class JudgeService implements JudgeRepository {
 	
 
 	
-	public String sendAndJudge(int contest, String filePath, String language, String entryPoint, int problem) throws InterruptedException {
+	public String judge(int contest, int runNumber) throws InterruptedException {
 
-		Integer runNumber = addSubmission(contest,filePath,language,entryPoint,problem);
-		Integer seconds = 15;
-		String veredict = "Error inesperado, inténtalo de nuevo más tarde.";
+		Integer seconds = 25;
+		String veredict = "Error inesperado, inténtelo de nuevo más tarde.";
 		
-		while(seconds>=0) {
+		while(seconds>=0 && (!veredict.equals("AC")||!veredict.equals("CE")||!veredict.equals("WA")||!veredict.equals("TLE"))) {
 		try {
 			veredict = getResult(runNumber,contest).getJudgementTypeId();
-			break;
+			if(veredict==null)
+				veredict="Error inesperado, inténtelo de nuevo más tarde.";
 		}catch (Exception e) {
-			Thread.sleep(1000);
+			
 		}
-		
+		Thread.sleep(1000);
 		seconds--;
 		}
 		return veredict;

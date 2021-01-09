@@ -5,6 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
@@ -61,10 +62,34 @@
    			</c:forEach>
         </tr>
     </table>
-	 <c:if test="${editarTrue == 1}">
+
     <spring:url value="{problemaId}/edit" var="editUrl"> <spring:param name="problemaId" value="${problema.id}"/> </spring:url>
     <a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar Problema</a>
-    </c:if>
+
+    
+    <br>
+    <br>
+    
+    <h3>Realizar envío</h3>
+    
+    <form:form action='/envios/send/${problema.id}' enctype="multipart/form-data">
+    
+        <div class="form-group has-feedback">
+           
+            
+            <table>
+         
+             <tr><td><input type="file" name="archivo" /></td></tr>  
+             
+           
+			</table>
+        </div>
+        
+       
+            <button class="btn btn-default" type="submit">Enviar</button>
+      
+    </form:form>
+    
     
     <c:forEach items="${ultimosEnvios}" var="envio">
     	<spring:url value="envios/{envioId}" var="editUrl"> <spring:param name="envioId" value="${envio.id}"/> </spring:url>
