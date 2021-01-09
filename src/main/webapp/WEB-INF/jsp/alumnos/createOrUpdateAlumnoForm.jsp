@@ -16,7 +16,9 @@
             <petclinic:inputField label="Apellidos" name="apellidos"/>
             <petclinic:inputField label="Email" name="email"/>
             <petclinic:inputField label="Contraseña" name="pass" type="password"/>
-            <form:checkbox path="compartir" label ="Compartir soluciones de Problemas resueltos" />
+            <c:if test="${not alumno['new']}">
+            	<form:checkbox path="compartir" label ="Compartir soluciones de Problemas resueltos" />
+            </c:if>
             <table>
             <form:form enctype="multipart/form-data">
              <tr><td>Image to upload:</td><td><input type="file" name="image" /></td></tr>
