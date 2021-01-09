@@ -34,5 +34,8 @@ public interface AlumnoRepository extends Repository<Alumno, Integer>{
 	@Query("SELECT DISTINCT p FROM Problema p JOIN p.envios e WHERE e.alumno.id LIKE :id AND e.resolucion LIKE 'AC' "
 			+ "AND p.season.id LIKE e.season.id AND p.seasonYear LIKE e.seasonYear AND YEAR(e.fecha) LIKE :year")
 	public Collection<Problema> problemasResueltosDateFilter(@Param("id") int id,@Param("year")int year);
+
+	@Query("SELECT DISTINCT a FROM Alumno a WHERE a.email LIKE :email")
+	Optional<Alumno> findById(@Param("email") String email);
 	
 }
