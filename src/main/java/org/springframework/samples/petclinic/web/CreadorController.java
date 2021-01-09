@@ -14,6 +14,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Creador;
+import org.springframework.samples.petclinic.service.AuthService;
 import org.springframework.samples.petclinic.service.CreadorService;
 import org.springframework.samples.petclinic.service.FileService;
 import org.springframework.samples.petclinic.util.Utils;
@@ -38,6 +39,9 @@ public class CreadorController {
 	
 	@Autowired
 	private FileService fileService;
+	
+	@Autowired
+	AuthService authService;
 	
 	@GetMapping("")
 	public String listCreadores(ModelMap model) {
@@ -77,7 +81,9 @@ public class CreadorController {
 			String name = Utils.diferenciador(extensionImagen[extensionImagen.length-1]);
 			creador.setImagen("resources/images/creadores/"  + name);
 			fileService.saveFile(imagen,rootImage,name);
+			creador.setEnabled(true);
 			this.creadorService.save(creador);
+			this.authService.saveAuthoritiesCreador(creador.getEmail(), "creador");
 			return "redirect:/creadores";
 		}
 	}

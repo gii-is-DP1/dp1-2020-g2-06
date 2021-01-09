@@ -52,7 +52,7 @@ public class AlumnoService {
 	}
 
 	public Optional<Alumno> findByEmail(String email) {
-		return alumnoRepository.findById(email);
+		return alumnoRepository.findByEmail(email);
 	}
 
 
