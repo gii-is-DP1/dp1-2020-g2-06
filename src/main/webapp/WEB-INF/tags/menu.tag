@@ -38,28 +38,22 @@
 					<span>PROBLEMAS</span>
 				</petclinic:menuItem>
 
-				<petclinic:menuItem active="${name eq 'COMPETICION'}" url="/competiciones"
-					title="trigger a RuntimeException to see how it is handled">
-				<!--
-					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-				-->
-					<span>COMPETICIONES</span>
-				</petclinic:menuItem>
+				
 
 				<petclinic:menuItem active="${name eq 'APRENDIZAJE'}" url="/articulos"
-					title="APRENDIZAJE">
+					title="ARTICULOS">
 				<!--
 					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
 				-->
-					<span>APRENDIZAJE</span>
+					<span>ARTICULOS</span>
 				</petclinic:menuItem>
 				
-				<petclinic:menuItem active="${name eq 'COMUNIDAD'}" url="/oups"
-					title="trigger a RuntimeException to see how it is handled">
+				<petclinic:menuItem active="${name eq 'FORO'}" url="/foro"
+					title="FORO">
 				<!--
 					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
 				-->
-					<span>COMUNIDAD</span>
+					<span>FORO</span>
 				</petclinic:menuItem>
 
 			</ul>

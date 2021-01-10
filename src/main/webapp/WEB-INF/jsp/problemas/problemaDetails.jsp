@@ -6,6 +6,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>  
 
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
@@ -41,38 +42,47 @@
             <th>Salida Esperada</th>
             <td><c:out value="${problema.salida_esperada}" escapeXml="false"/></td>
         </tr>
-     
-        <tr>
-            <th>Valoración de los alumnos</th>
-            	<c:if test="${puntuacionMedia != -1.0}">
-            		<td><c:out value="${puntuacionMedia}"/></td>
-            	</c:if>
-            	<c:if test="${puntuacionMedia == -1.0}">
-            		<td>Problema sin puntuación por el momento</td>
-            	</c:if>
-        </tr>
-        
-        <tr>
-            <th>Aclaraciones de los tutores</th>
-            <c:forEach items="${problema.aclaraciones}" var="aclaracion">
-            	<td><c:out value="${aclaracion.tutor.nombre}"/> <c:out value=" ${aclaracion.tutor.apellidos}"/> 
-            	<br> 
-            	<c:out value="${aclaracion.texto}"/>
-            	<br></td>
-   			</c:forEach>
-        </tr>
+      
     </table>
+    
+     <h2>Aclaraciones</h2>
+     
+           
+      <c:forEach items="${problema.aclaraciones}" var="aclaracion">
+	<table class="table table-striped">
+    <tr>
+    <td><img src="/<c:out value="${aclaracion.tutor.imagen}"/>" id="Imagen" width="50" style="border-radius:100%"/>&nbsp;
+    <a href="/alumnos/${aclaracion.tutor.id}">
+    <c:out value="${aclaracion.tutor.nombre} ${aclaracion.tutor.apellidos}"/>
+    </a></td>
+    </tr>
+  
+    	<tr>
+    	<td><c:out value="${aclaracion.texto}"/><td></tr>
+    	
+    	</table>
+	</c:forEach>
 
     <spring:url value="{problemaId}/edit" var="editUrl"> <spring:param name="problemaId" value="${problema.id}"/> </spring:url>
-    <a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar Problema</a>
+    <sec:authorize access="hasAuthority('creador')"> 
+    	<a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar Problema</a>
+    	<br>
+    </sec:authorize>
+    
+   <sec:authorize access="hasAuthority('tutor')"> 
+    	<a class="btn btn-default" href='<spring:url value="aclaraciones/new" htmlEscape="true"/>'>Añadir Aclaración</a>
+    	<br>
+	</sec:authorize>
+    
+    
+    
+    
+    <h2>Realizar envío</h2>
+    
 
-    
-    <br>
-    <br>
-    
-    <h3>Realizar envío</h3>
-    
-    <form:form action='/envios/send/${problema.id}' enctype="multipart/form-data">
+            <sec:authorize access="hasAuthority('alumno')"> 
+            
+            <form:form action='/envios/send/${problema.id}' enctype="multipart/form-data">
     
         <div class="form-group has-feedback">
            
@@ -84,40 +94,57 @@
            
 			</table>
         </div>
-        
-       
-            <button class="btn btn-default" type="submit">Enviar</button>
+        <button class="btn btn-default" type="submit">Enviar</button>
       
     </form:form>
-    
-    
-    <c:forEach items="${ultimosEnvios}" var="envio">
-    	<spring:url value="envios/{envioId}" var="editUrl"> <spring:param name="envioId" value="${envio.id}"/> </spring:url>
-    </c:forEach>
-			
-	<a class="btn btn-default" href='<spring:url value="aclaraciones/new" htmlEscape="true"/>'>Añadir Aclaración</a>
+               </sec:authorize>
+               
+               <sec:authorize access="!hasAuthority('alumno')"> 
+               <div class="form-group has-feedback">
+               <table>
+         
+             <tr><td>Sólo los alumnos pueden realizar envíos. Inicia sesión para enviar un script.</td></tr>  
+             
+           
+			</table>
+        </div>
+               
+               </sec:authorize>
+               
+              
+<h2> Últimos envíos</h2>
+    <table class="table table-striped">
+  
+    	<tr>
+    	<th> Envío
+    	</th>
+    	<th>
+    	Fecha y hora
+    	</th>
+    	<th>
+    	Veredicto
+    	</th>
+    	</tr>
+    	<tr>
+    	  <c:forEach items="${problema.envios}" var="envio">
+    		<td>
+    		<a href="/envios/${envio.id}">
+    		<c:out value="${envio.id}"/>
+    		</a>
+    		</td>
+    		
+    		<td>
+    		<c:out value="${envio.fecha}"/>
+    		</td>
+    		<td>
+    		<c:out value="${envio.resolucion}"/>
+    		
+    	</tr>
+   		</c:forEach>
+    </table>
 	
-	<select id="isTitles" name="isTitles">
-   			<c:forEach items="${alumnos}" var="alumno">
-			    <option value="${alumno.nombre}"><c:out value="${alumno.nombre}"/></option>
-   			</c:forEach>
-			</select>
-			<select id="isTitles" name="isTitles">
-   				<option value="0">0</option>
-   				<option value="1">1</option>
-   				<option value="2">2</option>
-   				<option value="3">3</option>
-   				<option value="4">4</option>
-   				<option value="5">5</option>
-   				<option value="6">6</option>
-   				<option value="7">7</option>
-   				<option value="8">8</option>
-   				<option value="9">9</option>
-   				<option value="10">10</option>
-			</select>
-	<br>
-	<br>
-	<h2>Estadisticas</h2>
+	
+	<h2>Estadísticas</h2>
 	<div id="graficaDonut" style="height: 250px;"></div>
 	<script>
 	var morris1 = new Morris.Donut({
@@ -127,6 +154,7 @@
 		    	{label: '<c:out value="${resolucion.key}"></c:out>', value: <c:out value="${resolucion.value}"></c:out>},
 		    </c:forEach>
 		  ],
+		  colors: ['#891637','#be9d56','#b1b1b1','#603c63','#3c635b'],
 		  resize: true
 		});
 	</script>
