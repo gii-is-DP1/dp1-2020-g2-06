@@ -48,7 +48,7 @@
      <h2>Aclaraciones</h2>
      
            
-      <c:forEach items="${problema.aclaraciones}" var="aclaracion">
+     <c:forEach items="${problema.aclaraciones}" var="aclaracion">
 	<table class="table table-striped">
     <tr>
     <td><img src="/<c:out value="${aclaracion.tutor.imagen}"/>" id="Imagen" width="50" style="border-radius:100%"/>&nbsp;
@@ -68,16 +68,21 @@
     	<a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar Problema</a>
     	<br>
     </sec:authorize>
-    
-   <sec:authorize access="hasAuthority('tutor')"> 
-    	<a class="btn btn-default" href='<spring:url value="aclaraciones/new" htmlEscape="true"/>'>Añadir Aclaración</a>
-    	<br>
+
+	<sec:authorize access="hasAuthority('tutor')">
+		<div>
+			<form:form action="/aclaraciones/new" modelAttribute="aclaracion" class="form-horizontal" id="add-owner-form">
+				<petclinic:textArea label="Aclaracion" name="texto" rows="6" />
+				<input type="hidden" name="idProblema" value="${problema.id}" />
+				<button class="btn btn-default" type="submit">Añadir Aclaracion</button>
+			</form:form>
+		</div>
 	</sec:authorize>
-    
-    
-    
-    
-    <h2>Realizar envío</h2>
+
+
+
+
+	<h2>Realizar envío</h2>
     
 
             <sec:authorize access="hasAuthority('alumno')"> 
