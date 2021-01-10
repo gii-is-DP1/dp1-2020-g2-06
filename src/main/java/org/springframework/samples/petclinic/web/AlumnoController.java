@@ -17,6 +17,7 @@ import org.springframework.samples.petclinic.model.Problema;
 import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.AuthService;
 import org.springframework.samples.petclinic.service.FileService;
+import org.springframework.samples.petclinic.service.PreguntaTutorService;
 import org.springframework.samples.petclinic.util.Utils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -44,6 +45,9 @@ public class AlumnoController {
 	@Autowired
 	AuthService authService;
 	
+	@Autowired
+	PreguntaTutorService preguntasTutorService;
+	
 	@GetMapping("")
 	public String listAlumnos(ModelMap model) {
 		model.addAttribute("alumnos",alumnoService.findAll());
@@ -62,6 +66,7 @@ public class AlumnoController {
 			model.addAttribute("puntostotales",problemasResueltos.stream().mapToInt(x->x.getPuntuacion()).sum());
 			model.addAttribute("puntosanuales",problemasResueltosYear.stream().mapToInt(x->x.getPuntuacion()).sum());
 			model.addAttribute("puntostemporada",problemasResueltosSeason.stream().mapToInt(x->x.getPuntuacion()).sum());
+			model.addAttribute("preguntasTutor",preguntasTutorService.findByAlumnoId(id));
 			return "alumnos/alumnoDetails";
 		}
 		else {

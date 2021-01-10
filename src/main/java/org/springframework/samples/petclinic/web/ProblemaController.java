@@ -1,31 +1,25 @@
 package org.springframework.samples.petclinic.web;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Aclaracion;
+import org.springframework.samples.petclinic.model.PreguntaTutor;
 import org.springframework.samples.petclinic.model.Problema;
-import org.springframework.samples.petclinic.model.PuntuacionProblema;
-import org.springframework.samples.petclinic.service.ProblemaService;
-import org.springframework.samples.petclinic.util.Utils;
 import org.springframework.samples.petclinic.service.EnvioService;
 import org.springframework.samples.petclinic.service.FileService;
 import org.springframework.samples.petclinic.service.JudgeService;
+import org.springframework.samples.petclinic.service.ProblemaService;
+import org.springframework.samples.petclinic.util.Utils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -34,7 +28,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
@@ -73,13 +66,12 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 			if(problema.get().isVigente()) {
 				model.addAttribute("editarTrue",1);
 			}
-			model.addAttribute("puntuacionNueva", new PuntuacionProblema());
 			model.addAttribute("aclaracion", new Aclaracion());
 			model.addAttribute("problema", problema.get());
-			model.addAttribute("puntuacionMedia", problemaService.valoracionMediaAlumnno(problema.get()));
 			model.addAttribute("ultimosEnvios", problema.get().getEnvios());
 			model.addAttribute("resoluciones",resoluciones);
 			model.addAttribute("totalEnvios",envioService.findAllByProblema(id).size());
+			model.addAttribute("preguntaTutor", new PreguntaTutor());
 			return "problemas/problemaDetails";
 		}
 		else {
@@ -109,7 +101,6 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 			else {
 				String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
 				String namezip = Utils.diferenciador("zip");
-				problema.setZip(rootZip + "/" + namezip);
 				fileService.saveFile(zip,rootZip,namezip);
 				String name = Utils.diferenciador(extensionImagen[extensionImagen.length-1]);
 				problema.setImagen("resources/images/problemas/"  + name);
@@ -117,7 +108,7 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 				
 				Integer idJudge = judgeService.addProblem(2, rootZip + "/" + namezip).getProblemIds().get(0);
 				problema.setIdJudge(idJudge);
-				
+				fileService.delete(rootZip.resolve(namezip));
 				problema.setFechaPublicacion(LocalDate.now());
 				problemaService.saveProblema(problema);
 				String message = "Uploaded the files successfully: ";
@@ -151,12 +142,6 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 				return VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM;
 			}
 			else {
-				if(!zip.isEmpty()) {
-					String aux = problema.get().getZip();
-					problema.get().setZip(rootZip + "/" + Utils.diferenciador("zip"));
-					fileService.delete(Paths.get(aux));
-					fileService.saveFile(zip,rootZip,Utils.diferenciador("zip"));
-				}
 				if(!imagen.isEmpty()) {
 					String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
 					String aux = problema.get().getImagen();
