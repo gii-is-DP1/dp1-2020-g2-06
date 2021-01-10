@@ -28,7 +28,7 @@ public class EnvioServiceTest {
 	
 	@Test
 	public void shouldFindAll() {
-		assertThat(envioService.findAll().size()).isEqualTo(11);
+		assertThat(envioService.findAll().size()).isEqualTo(19);
 	}
 	
 	@Test
