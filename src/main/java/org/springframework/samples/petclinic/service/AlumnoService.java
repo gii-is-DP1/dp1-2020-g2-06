@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Problema;
 import org.springframework.samples.petclinic.repository.AlumnoRepository;
@@ -29,6 +30,10 @@ public class AlumnoService {
 		return alumnoRepository.findById(id);
 	}
 	
+	public Integer findIdByEmail(String email){
+		return alumnoRepository.findIdByEmail(email);
+	}
+	
 	public void save(Alumno alumno) {
 		alumnoRepository.save(alumno);
 	}
@@ -44,6 +49,10 @@ public class AlumnoService {
 	
 	public Collection<Problema> problemasResueltosThisSeason(int id){
 		return alumnoRepository.problemasResueltosBySeason(id, Utils.getActualSeason().getId(), Utils.getActualYearofSeason());
+	}
+
+	public Optional<Alumno> findByEmail(String email) {
+		return alumnoRepository.findByEmail(email);
 	}
 
 

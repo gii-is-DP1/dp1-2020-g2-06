@@ -11,6 +11,8 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Articulo;
+import org.springframework.samples.petclinic.model.Envio;
 import org.springframework.samples.petclinic.model.Problema;
 import org.springframework.samples.petclinic.repository.ProblemaRepository;
 import org.springframework.samples.petclinic.util.Utils;
@@ -76,5 +78,9 @@ public class ProblemaService {
 			return -1.0;
 		}
 		return pr.getPuntuacionesProblema().stream().mapToDouble(x->x.getPuntuacion()).average().getAsDouble();
+	}
+	
+	public Collection<Problema> findAllByCreador(int id) {
+		return problemaRepository.findAllByCreador(id);
 	}
 }

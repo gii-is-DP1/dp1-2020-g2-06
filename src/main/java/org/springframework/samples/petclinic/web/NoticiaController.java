@@ -16,6 +16,7 @@ import org.springframework.samples.petclinic.service.FileService;
 import org.springframework.samples.petclinic.service.NoticiaService;
 import org.springframework.samples.petclinic.service.TutorService;
 import org.springframework.samples.petclinic.util.Utils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -66,6 +67,8 @@ public class NoticiaController {
 		Noticia noticia = new Noticia();
 		model.put("noticia", noticia);
 		model.put("autores", tutorService.findAll());
+		model.addAttribute("pruebaLog",Utils.idLoggedIn());
+
 		return  "noticias/createOrUpdateNoticiaForm";
 	}
 
