@@ -6,7 +6,7 @@
 
 <petclinic:layout pageName="envios">
 
-    <h2>Tablón de mensajes</h2>
+    <h2>Mensajes</h2>
           
       <c:forEach items="${publicaciones}" var="publicacion">
 	<table class="table table-striped">

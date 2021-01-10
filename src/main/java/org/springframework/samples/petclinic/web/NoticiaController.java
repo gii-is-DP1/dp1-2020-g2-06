@@ -14,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Noticia;
 import org.springframework.samples.petclinic.service.FileService;
 import org.springframework.samples.petclinic.service.NoticiaService;
+import org.springframework.samples.petclinic.service.TutorService;
 import org.springframework.samples.petclinic.util.Utils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -33,6 +35,9 @@ public class NoticiaController {
 	
 	@Autowired
 	NoticiaService noticiaService;
+	
+	@Autowired
+	TutorService tutorService;
 	
 	@Autowired
 	private FileService fileService;
@@ -57,18 +62,22 @@ public class NoticiaController {
 		}
 	}
 	
-	@GetMapping(value = "/new")
+	@GetMapping("/new")
 	public String initCreationForm(ModelMap model) {
 		Noticia noticia = new Noticia();
-		model.addAttribute("noticia", noticia);
+		model.put("noticia", noticia);
+		model.put("autores", tutorService.findAll());
+		model.addAttribute("pruebaLog",Utils.idLoggedIn());
+
 		return  "noticias/createOrUpdateNoticiaForm";
 	}
 
-	@PostMapping(value = "/new")
+	@PostMapping("/new")
 	public String processCreationForm(@Valid Noticia noticia,BindingResult result,ModelMap model,@RequestParam("image") MultipartFile imagen) throws IOException {
 		if (result.hasErrors() || imagen.getBytes().length/(1024*1024)>10 || imagen.isEmpty()) {
 			model.clear();
 			model.addAttribute("noticia", noticia);
+			model.addAttribute("autores", tutorService.findAll());
 			model.addAttribute("message",result.getFieldError().getField());
 			return  "noticias/createOrUpdateNoticiaForm";
 		}
@@ -79,7 +88,6 @@ public class NoticiaController {
 			fileService.saveFile(imagen,rootImage,name);
 			noticia.setFechaPublicacion(LocalDate.now());
 			noticiaService.save(noticia);
-			
 			return "redirect:/noticias/";
 		}
 	}
@@ -89,6 +97,7 @@ public class NoticiaController {
 		Optional<Noticia> noticia = noticiaService.findById(id);
 		if(noticia.isPresent()) {
 			model.addAttribute("noticia", noticia.get());
+			model.addAttribute("autores", tutorService.findAll());
 			return "noticias/createOrUpdateNoticiaForm";
 		}
 		else {
@@ -104,6 +113,7 @@ public class NoticiaController {
 		if(binding.hasErrors() || imagen.getBytes().length/(1024*1024)>10) {
 			model.clear();
 			model.addAttribute("noticia", noticia.get());
+			model.addAttribute("autores", tutorService.findAll());
 			model.addAttribute("message",binding.getFieldError().getField());
 			return "noticias/createOrUpdateNoticiaForm";
 		}
