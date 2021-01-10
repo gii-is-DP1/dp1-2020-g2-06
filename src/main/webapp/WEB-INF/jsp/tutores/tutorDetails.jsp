@@ -3,6 +3,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <petclinic:layout pageName="tutor">
 
 	<h2>
@@ -53,7 +54,7 @@
     	<c:forEach items="${articulosTutor}" var="articulo">
     	<tr>
     		<td>
-    		<a href="/noticias/${articulo.id}">
+    		<a href="/articulos/${articulo.id}">
     		<c:out value="${articulo.name}"/>&nbsp;&nbsp;<c:out value="${articulo.fechaPublicacion}"></c:out>
     		</a>
     		</td>
@@ -69,5 +70,28 @@
     	<c:if test="${!esUltimaPaginaArticulo}">
     		<a id="siguiente" href="/tutores/${tutor.id}/?page-art=${nparticulo}&page-not=${pagenotactual}">»</a>
     	</c:if>
+    </div>
+    
+    <div>
+    <table class="table table-striped">
+    	<c:forEach items="${preguntasTutor}" var="pregunta">
+    	<tr>
+    		<td>
+   				<c:out value="Alumno : ${pregunta.alumno.email}"/>
+    		<br>
+    			<a href="/problemas/${pregunta.problema.id}"> Problema : <c:out value="${pregunta.problema.name}"/> </a>
+    		<br>
+    		<c:out value="Pregunta : ${pregunta.pregunta}"></c:out>
+    		<br>
+    		<form:form class="form-horizontal" id="add-problema-form" action="/preguntatutor/answer">
+    			<input type=hidden name=idTutor value="${tutor.id}"/>
+    			<input type=hidden name=preguntaTutor value="${pregunta.id}"/>
+    			<textarea name="respuesta" rows="6"> </textarea>
+    			<button class="btn btn-default" type="submit">Responder</button>
+    		</form:form>
+    		</td>
+    	</tr>
+   	</c:forEach>
+    </table>
     </div>
 </petclinic:layout>

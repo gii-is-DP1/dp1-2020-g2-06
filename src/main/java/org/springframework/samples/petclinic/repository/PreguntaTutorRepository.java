@@ -24,4 +24,10 @@ public interface PreguntaTutorRepository extends Repository<PreguntaTutor, Strin
 
 	@Query(value="SELECT * FROM pregunta WHERE pregunta.id_problema=:id", nativeQuery = true)
 	Collection<PreguntaTutor> findAllByProblema(@Param("id") int id) throws DataAccessException;
+
+	@Query(value="SELECT DISTINCT p FROM PreguntaTutor p WHERE p.tutor=null")
+	Collection<PreguntaTutor> findByProblemaNotAnswered();
+
+	@Query(value="SELECT DISTINCT p FROM PreguntaTutor p WHERE p.alumno.id=:id")
+	Collection<PreguntaTutor> findByAlumnoId(@Param("id") int id);
 }

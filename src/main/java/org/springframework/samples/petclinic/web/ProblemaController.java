@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.samples.petclinic.model.PreguntaTutor;
 import org.springframework.samples.petclinic.model.Problema;
 import org.springframework.samples.petclinic.service.ProblemaService;
 import org.springframework.samples.petclinic.util.Utils;
@@ -72,10 +73,10 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 				model.addAttribute("editarTrue",1);
 			}
 			model.addAttribute("problema", problema.get());
-			model.addAttribute("puntuacionMedia", problemaService.valoracionMediaAlumnno(problema.get()));
 			model.addAttribute("ultimosEnvios", problema.get().getEnvios());
 			model.addAttribute("resoluciones",resoluciones);
 			model.addAttribute("totalEnvios",envioService.findAllByProblema(id).size());
+			model.addAttribute("preguntaTutor", new PreguntaTutor());
 			return "problemas/problemaDetails";
 		}
 		else {

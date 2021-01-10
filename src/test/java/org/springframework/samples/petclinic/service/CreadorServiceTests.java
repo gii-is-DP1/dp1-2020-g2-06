@@ -26,8 +26,6 @@ class CreadorServiceTests {
 	@Autowired
 	ProblemaService problemaService;
 
-	@Autowired
-	CompeticionService competicionService;
 	
 	
 	@Test

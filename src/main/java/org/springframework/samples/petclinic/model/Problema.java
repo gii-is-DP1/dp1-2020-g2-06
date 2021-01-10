@@ -71,12 +71,6 @@ public class Problema extends NamedEntity {
 	@Column(name = "season_year")
 	private Integer seasonYear;
 	
-	@ManyToOne
-	@JoinColumn(name="id_competicion")
-	private Competicion competicion;
-	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "problema")
-	private List<PuntuacionProblema> puntuacionesProblema;
 		
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "problema")
 	private List<Aclaracion> aclaraciones;
