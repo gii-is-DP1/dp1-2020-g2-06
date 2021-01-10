@@ -79,31 +79,6 @@ public class Utils {
 		
 	}
 	
-	public static Integer idLoggedIn() {
-		String rol = authLoggedIn();
-		
-		if(rol.equals("ROLE_ANONYMOUS"))
-			return -1;
-		else {
-			SecurityContext sc = SecurityContextHolder.getContext();
-			String email = sc.getAuthentication().getName();
-			if(rol.equals("alumno")) {
-				AlumnoService alumnoService = new AlumnoService();
-				Integer id = alumnoService.findIdByEmail(email);
-				return alumnoService.findIdByEmail(email);
-			}
-			else if(rol.equals("creador")) {
-				CreadorService creadorService = new CreadorService();
-				return creadorService.findIdByEmail(email);
-			}
-			else {
-				TutorService tutorService = new TutorService();
-				return tutorService.findIdByEmail(email);
-			}
-			
-		}
-	}
-	
 
 
 

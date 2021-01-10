@@ -27,8 +27,6 @@ class CreadorServiceTests {
 	@Autowired
 	ProblemaService problemaService;
 
-	@Autowired
-	CompeticionService competicionService;
 	
 	
 	@Test
@@ -84,11 +82,6 @@ class CreadorServiceTests {
 	@Test
 	void shouldFindById(){
 		assertThat(creadorService.findById(0));
-	}
-
-	@Test
-	void shouldFindIdByEmail(){
-		assertThat(creadorService.findIdByEmail("davbrican@us.es"));
 	}
 	
 	

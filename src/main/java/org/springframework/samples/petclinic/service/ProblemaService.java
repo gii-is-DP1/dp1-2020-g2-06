@@ -49,7 +49,7 @@ public class ProblemaService {
 	}	
 	
 	public Collection<Problema> ProblemasVigentes() {
-		return problemaRepository.findAll().stream().filter(x->x.isVigente()&&x.getCompeticion()==null).collect(Collectors.toList());
+		return problemaRepository.findAll().stream().filter(x->x.isVigente()).collect(Collectors.toList());
 	}
 	
 	public Collection<Problema> ProblemasNoVigentes(Collection<Problema> cp) {
@@ -57,7 +57,7 @@ public class ProblemaService {
 		List<Problema> res = new ArrayList<>();
 		
 		for(Problema p: all) {
-			if(!p.isVigente() && p.getCompeticion()==null) {
+			if(!p.isVigente()) {
 				if(p.getSeasonYear().compareTo(LocalDate.now().getYear())<0) {
 					res.add(p);
 				}
@@ -73,12 +73,6 @@ public class ProblemaService {
 		return res;
 	}
 	
-	public Double valoracionMediaAlumnno(Problema pr) {
-		if(pr.getPuntuacionesProblema().isEmpty()) {
-			return -1.0;
-		}
-		return pr.getPuntuacionesProblema().stream().mapToDouble(x->x.getPuntuacion()).average().getAsDouble();
-	}
 	
 	public Collection<Problema> findAllByCreador(int id) {
 		return problemaRepository.findAllByCreador(id);

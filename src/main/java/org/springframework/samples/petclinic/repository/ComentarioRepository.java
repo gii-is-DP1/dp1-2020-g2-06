@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.samples.petclinic.model.Comentario;
-import org.springframework.samples.petclinic.model.PuntuacionProblema;
 
 public interface ComentarioRepository extends Repository<Comentario, String>{
 	

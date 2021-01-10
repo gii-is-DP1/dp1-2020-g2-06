@@ -57,10 +57,10 @@ public class Problema extends NamedEntity {
 	@Column(name = "salida_esperada")
 	private String salida_esperada;
 	
+	@Column(name = "dificultad")
+	private String dificultad;
+	
 	private String imagen;
-	
-	
-	private String zip;
 	
 	@ManyToOne
 	@NotNull
@@ -71,12 +71,6 @@ public class Problema extends NamedEntity {
 	@Column(name = "season_year")
 	private Integer seasonYear;
 	
-	@ManyToOne
-	@JoinColumn(name="id_competicion")
-	private Competicion competicion;
-	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "problema")
-	private List<PuntuacionProblema> puntuacionesProblema;
 		
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "problema")
 	private List<Aclaracion> aclaraciones;

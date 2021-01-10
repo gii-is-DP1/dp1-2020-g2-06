@@ -16,11 +16,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.samples.petclinic.model.PreguntaTutor;
 import org.springframework.samples.petclinic.model.Tutor;
 import org.springframework.samples.petclinic.service.ArticuloService;
 import org.springframework.samples.petclinic.service.AuthService;
 import org.springframework.samples.petclinic.service.FileService;
 import org.springframework.samples.petclinic.service.NoticiaService;
+import org.springframework.samples.petclinic.service.PreguntaTutorService;
 import org.springframework.samples.petclinic.service.TutorService;
 import org.springframework.samples.petclinic.util.Utils;
 import org.springframework.stereotype.Controller;
@@ -52,6 +54,9 @@ public class TutorController {
 	
 	@Autowired
 	AuthService authService;
+	
+	@Autowired
+	PreguntaTutorService preguntaTutorService;
 	
 	
 	@GetMapping("")
@@ -144,6 +149,7 @@ public class TutorController {
 			model.addAttribute("esPrimeraPaginaArticulo", articuloService.findArticulosByTutorPage(id, pageableA).isFirst());
 			model.addAttribute("esUltimaPaginaNoticia", noticiaService.findNoticiasByTutorPage(id, pageableN).isLast());
 			model.addAttribute("esPrimeraPaginaNoticia", noticiaService.findNoticiasByTutorPage(id, pageableN).isFirst());
+			model.addAttribute("preguntasTutor",preguntaTutorService.findByProblemaNotAnswered());
 			return "tutores/tutorDetails";
 			
 		}else {

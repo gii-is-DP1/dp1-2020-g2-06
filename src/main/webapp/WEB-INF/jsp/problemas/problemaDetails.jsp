@@ -1,6 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+<%@ page language="java" 
     pageEncoding="ISO-8859-1"%>
-<%@ page session="false" trimDirectiveWhitespaces="true" %>
+<%@ page session="false" trimDirectiveWhitespaces="true" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -27,6 +27,10 @@
             <td><c:out value="${problema.descripcion}" escapeXml="false"/></td>
         </tr>
         <tr>
+            <th>Dificultad</th>
+            <td><c:out value="${problema.dificultad}"/></td>
+        </tr>
+        <tr>
             <th>Puntos</th>
             <td><c:out value="${problema.puntuacion}"/></td>
         </tr>
@@ -42,6 +46,34 @@
             <th>Salida Esperada</th>
             <td><c:out value="${problema.salida_esperada}" escapeXml="false"/></td>
         </tr>
+        <!-- 
+        <tr>
+            <th>Dificultad</th>
+            	
+            <td><c:out value="${puntuacionMedia}" escapeXml="false"/></td>
+            <sec:authorize access="hasAuthority('alumno')">
+				<div>
+					<form:form action="/puntuaciones/new" modelAttribute="puntuacionNueva" class="form-horizontal" id="add-owner-form">
+						<select name="puntuacion">	
+						<option value="0">0</option>
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<option value="7">7</option>
+						<option value="8">8</option>
+						<option value="9">9</option>
+						<option value="10">10</option>
+						</select>
+						<input type="hidden" name="idProblema" value="${problema.id}" />
+						<button class="btn btn-default" type="submit">Puntuar dificultad del problema</button>
+					</form:form>
+				</div>
+			</sec:authorize>
+        </tr>
+         -->
       
     </table>
     
@@ -74,81 +106,93 @@
 			<form:form action="/aclaraciones/new" modelAttribute="aclaracion" class="form-horizontal" id="add-owner-form">
 				<petclinic:textArea label="Aclaracion" name="texto" rows="6" />
 				<input type="hidden" name="idProblema" value="${problema.id}" />
-				<button class="btn btn-default" type="submit">Añadir Aclaracion</button>
+				<button class="btn btn-default" type="submit">Añadir Aclaración</button>
 			</form:form>
 		</div>
 	</sec:authorize>
 
-
-
-
 	<h2>Realizar envío</h2>
-    
 
-            <sec:authorize access="hasAuthority('alumno')"> 
-            
-            <form:form action='/envios/send/${problema.id}' enctype="multipart/form-data">
-    
-        <div class="form-group has-feedback">
-           
-            
-            <table>
-         
-             <tr><td><input type="file" name="archivo" /></td></tr>  
-             
-           
+
+	<sec:authorize access="hasAuthority('alumno')">
+
+		<form:form action='/envios/send/${problema.id}'
+			enctype="multipart/form-data">
+
+			<div class="form-group has-feedback">
+
+
+				<table>
+
+					<tr>
+						<td><input type="file" name="archivo" /></td>
+					</tr>
+
+
+				</table>
+			</div>
+			<button class="btn btn-default" type="submit">Enviar</button>
+
+		</form:form>
+	</sec:authorize>
+
+	<sec:authorize access="!hasAuthority('alumno')">
+		<div class="form-group has-feedback">
+			<table>
+
+				<tr>
+					<td>Sólo los alumnos pueden realizar envíos. Inicia sesión
+						para enviar un script.</td>
+				</tr>
+
+
 			</table>
-        </div>
-        <button class="btn btn-default" type="submit">Enviar</button>
-      
-    </form:form>
-               </sec:authorize>
-               
-               <sec:authorize access="!hasAuthority('alumno')"> 
-               <div class="form-group has-feedback">
-               <table>
-         
-             <tr><td>Sólo los alumnos pueden realizar envíos. Inicia sesión para enviar un script.</td></tr>  
-             
-           
+		</div>
+
+	</sec:authorize>
+	<br>
+	<sec:authorize access="hasAuthority('alumno')">
+		<div class="form-group has-feedback">
+			<table>
+
+				
+				<tr>
+					<form:form modelAttribute="preguntaTutor" class="form-horizontal" id="add-problema-form" action="/preguntatutor/new" >
+						<petclinic:textArea label="Pregúntanos lo que quieras" name="pregunta" rows="6" />
+						<input type="hidden" name="idProblema" value="${problema.id}"/>
+						<button class="btn btn-default" type="submit">Enviar</button>
+					</form:form>
+				</tr>
+				
+
+
 			</table>
-        </div>
-               
-               </sec:authorize>
-               
-              
-<h2> Últimos envíos</h2>
-    <table class="table table-striped">
-  
-    	<tr>
-    	<th> Envío
-    	</th>
-    	<th>
-    	Fecha y hora
-    	</th>
-    	<th>
-    	Veredicto
-    	</th>
-    	</tr>
-    	<tr>
-    	  <c:forEach items="${problema.envios}" var="envio">
-    		<td>
-    		<a href="/envios/${envio.id}">
-    		<c:out value="${envio.id}"/>
-    		</a>
-    		</td>
-    		
-    		<td>
-    		<c:out value="${envio.fecha}"/>
-    		</td>
-    		<td>
-    		<c:out value="${envio.resolucion}"/>
-    		
-    	</tr>
-   		</c:forEach>
-    </table>
-	
-	
+		</div>
+
+	</sec:authorize>
+
+
+	<h2>Úšltimos envíos</h2>
+	<table class="table table-striped">
+
+		<tr>
+			<th>Envío</th>
+			<th>Fecha y hora</th>
+			<th>Veredicto</th>
+		</tr>
+		<tr>
+			<c:forEach items="${problema.envios}" var="envio">
+				<td><a href="/envios/${envio.id}"> <c:out
+							value="${envio.id}" />
+				</a></td>
+
+				<td><c:out value="${envio.fecha}" /></td>
+				<td><c:out value="${envio.resolucion}" />
+		</tr>
+		</c:forEach>
+	</table>
+
+
 	<h2>Estadísticas</h2>
 	<div id="graficaDonut" style="height: 250px;"></div>
 	<script>
