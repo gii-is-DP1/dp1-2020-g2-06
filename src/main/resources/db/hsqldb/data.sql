@@ -223,6 +223,7 @@ INSERT INTO puntuacion_problema(id,id_alumno,id_problema,puntuacion) VALUES (2,0
 
 INSERT INTO comentarios(id,id_envio,id_alumno,texto) VALUES (0,10,0,'Muy buena resolución del ejercicio, muy simple y muy claro.');
 INSERT INTO comentarios(id,id_envio,id_alumno,texto) VALUES (1,10,2,'Estoy deseando ver como lo has conseguido!!');
+INSERT INTO comentarios(id,id_envio,id_alumno,texto) VALUES (2,3,2,'Como???');
 
 INSERT INTO aclaraciones(id,id_tutor,id_problema,texto) VALUES (0,2,2,'Encontrar la moneda consiste en hacer un bucle infinito con el que reviente el PC');
 

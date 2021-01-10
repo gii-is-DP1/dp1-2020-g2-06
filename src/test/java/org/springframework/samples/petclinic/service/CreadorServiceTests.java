@@ -13,6 +13,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Creador;
 import org.springframework.samples.petclinic.model.Noticia;
 import org.springframework.samples.petclinic.model.Problema;
+import org.springframework.samples.petclinic.model.Temporada;
 import org.springframework.samples.petclinic.model.Tutor;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +43,8 @@ class CreadorServiceTests {
 		assertThat(creador.getNombre()).isEqualTo("David");
 		assertThat(creador.getApellidos()).isEqualTo("Brincau Cano");
 		assertThat(creador.getEmail()).isEqualTo("davbrican@us.es");
-		assertThat(creador.getImagen()).isEqualTo("https://yt3.ggpht.com/ytc/AAUvwnh3yE2BgOZmepJht3T-k6LRzPih9KwV4mbk1g4dYg=s88-c-k-c0x00ffffff-no-rj");
+		
+		assertThat(creador.getImagen()).isEqualTo("resources/images/creadores/2020122317244979000000.jpg");
 		assertThat(creador.getPass()).isEqualTo("dbgames5DD@f5");
 	}
 	
@@ -96,8 +98,18 @@ class CreadorServiceTests {
 		Integer numProblemasAntiguos = problemaService.findAllByCreador(creador.getId()).size();
 		
 		Problema problemaNuevo = new Problema();
+		Temporada t = new Temporada();
+		t.setId(0);
+		t.setNombre("PRIMAVERA");
 		problemaNuevo.setName("Test problem");
 		problemaNuevo.setCreador(creador);
+		problemaNuevo.setPuntuacion(2);
+		problemaNuevo.setSeason(t);
+		problemaNuevo.setSalida_esperada("0 2 1 12 12");
+		problemaNuevo.setCasos_prueba("2 3 34 23 2 23");
+		problemaNuevo.setDescripcion("Problema de prueba.Pruébame :P");
+		problemaNuevo.setSeasonYear(2021);
+		
 		problemaService.saveProblema(problemaNuevo);
 		
 		creador = this.creadorService.findById(0).get();
