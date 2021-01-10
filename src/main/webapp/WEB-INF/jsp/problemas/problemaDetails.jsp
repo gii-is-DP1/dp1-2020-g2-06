@@ -52,7 +52,7 @@
 	<table class="table table-striped">
     <tr>
     <td><img src="/<c:out value="${aclaracion.tutor.imagen}"/>" id="Imagen" width="50" style="border-radius:100%"/>&nbsp;
-    <a href="/alumnos/${aclaracion.tutor.id}">
+    <a href="/tutores/${aclaracion.tutor.id}">
     <c:out value="${aclaracion.tutor.nombre} ${aclaracion.tutor.apellidos}"/>
     </a></td>
     </tr>

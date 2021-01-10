@@ -40,5 +40,7 @@
             </tr>
              </table>
         </c:forEach>
+        <sec:authorize access="hasAuthority('tutor')"> 
        <a class="btn btn-default" href='<spring:url value="/articulos/new" htmlEscape="true"/>'>Crear Articulo</a>
+       </sec:authorize>
 </petclinic:layout> 
