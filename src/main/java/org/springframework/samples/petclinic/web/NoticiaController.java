@@ -62,7 +62,6 @@ public class NoticiaController {
 	public String initCreationForm(ModelMap model) {
 		Noticia noticia = new Noticia();
 		model.addAttribute("noticia", noticia);
-		model.addAttribute("pruebaLog",Utils.idLoggedIn());
 		return  "noticias/createOrUpdateNoticiaForm";
 	}
 
