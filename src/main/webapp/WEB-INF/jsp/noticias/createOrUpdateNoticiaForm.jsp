@@ -7,19 +7,49 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="noticias">
+
+	
+	<jsp:attribute name="customScript">
+        <script>
+			$(function() {
+				$("#fechaPublicacion").datepicker({
+					dateFormat : 'yy/mm/dd'
+				});
+			});
+		</script>
+    </jsp:attribute>
+	<jsp:body>
+
 <c:out value="${pruebaLog}"/>
+
     <h2>
         <c:if test="${noticia['new']}">New </c:if> Noticia
     </h2>
-    <form:form modelAttribute="noticia" class="form-horizontal" id="add-owner-form" enctype="multipart/form-data">
+    <form:form modelAttribute="noticia" class="form-horizontal" 
+    		id="add-owner-form" enctype="multipart/form-data">
         <div class="form-group has-feedback">
             <petclinic:inputField label="Título" name="name"/>
             <petclinic:textArea label="Texto" name="texto" rows="12"/>
             <table>
             <form:form enctype="multipart/form-data">
-             <tr><td>Image to upload:</td><td><input type="file" name="image" /></td></tr>
-            </form:form>
+             <tr>
+             	<td>Image to upload:</td>
+             	<td><input type="file" name="image" /></td>
+             </tr>
+            	</form:form>
 			</table>
+			
+			<br>
+			<br>	
+			
+			<div class="formGroup">
+				<div class="col-sm-10">
+					<label>Autores:</label>
+					<form:checkboxes items="${autores}" path="autores"
+							delimiter="&nbsp;&nbsp;&nbsp;" itemLabel="nombre"
+							style="border:10px;" />
+				</div>
+			</div>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
@@ -34,4 +64,5 @@
             </div>
         </div>
     </form:form>
+    </jsp:body>
 </petclinic:layout> 
