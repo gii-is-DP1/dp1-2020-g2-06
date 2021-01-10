@@ -18,10 +18,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
-import org.springframework.samples.petclinic.model.Articulo;
-import org.springframework.samples.petclinic.model.Noticia;
 import org.springframework.samples.petclinic.model.Tutor;
 import org.springframework.samples.petclinic.service.ArticuloService;
+import org.springframework.samples.petclinic.service.AuthService;
 import org.springframework.samples.petclinic.service.NoticiaService;
 import org.springframework.samples.petclinic.service.TutorService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
@@ -30,7 +29,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 
 @WebMvcTest(controllers=TutorController.class,
-			excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class))
+			excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
+			excludeAutoConfiguration= SecurityConfiguration.class)
 public class TutorControllerTests {
 
 	private static final int TEST_TUTOR_ID = 0;
@@ -46,6 +46,9 @@ public class TutorControllerTests {
 	
 	@MockBean
 	private NoticiaService noticiaService;
+	
+	@MockBean
+	private AuthService authService;
 	
 	private Tutor tutor;
 	
