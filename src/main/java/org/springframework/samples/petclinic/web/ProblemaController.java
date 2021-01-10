@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.samples.petclinic.model.Aclaracion;
 import org.springframework.samples.petclinic.model.Problema;
 import org.springframework.samples.petclinic.service.ProblemaService;
 import org.springframework.samples.petclinic.util.Utils;
@@ -71,6 +72,7 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 			if(problema.get().isVigente()) {
 				model.addAttribute("editarTrue",1);
 			}
+			model.addAttribute("aclaracion", new Aclaracion());
 			model.addAttribute("problema", problema.get());
 			model.addAttribute("puntuacionMedia", problemaService.valoracionMediaAlumnno(problema.get()));
 			model.addAttribute("ultimosEnvios", problema.get().getEnvios());
