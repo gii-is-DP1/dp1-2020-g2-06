@@ -57,27 +57,15 @@ public class AlumnoServiceTests {
 		@Test
 		public void shouldReturnProblemasResueltos() {
 			Collection<Problema> problemas = this.alumnoService.problemasResueltos(0);
-			Optional<Alumno> alumno = this.alumnoService.findById(0);
-			Set<Problema> st = new HashSet<Problema> ();
-			for(Envio a : alumno.get().getEnvios()) {
-				if(a.getResolucion().equals("AC") && a.getProblema().getSeason().getId().toString().equals(Utils.getActualSeason().getId().toString()) && a.getProblema().getSeasonYear().equals(Utils.getActualYearofSeason())) {
-					st.add(a.getProblema());
-				}
-			}
-			assertThat(problemas.stream().collect(Collectors.toSet())).isEqualTo(st);
+			
+			assertThat(problemas.size()).isEqualTo(1);
 		}
 		
 		@Test
 		public void shouldReturnProblemasResueltosThisYear() {
 			Collection<Problema> problemas = this.alumnoService.problemasResueltos(0);
-			Optional<Alumno> alumno = this.alumnoService.findById(0);
-			Set<Problema> st = new HashSet<Problema> ();
-			for(Envio a : alumno.get().getEnvios()) {
-				if(a.getResolucion().equals("AC") && a.getSeason().equals(Utils.getActualSeason())) {
-					st.add(a.getProblema());
-				}
-			}
-			assertThat(problemas.stream().collect(Collectors.toSet())).isEqualTo(st);
+				
+			assertThat(problemas.size()).isEqualTo(1);
 		}
 		
 		public void problemasResueltosThisSeason(){

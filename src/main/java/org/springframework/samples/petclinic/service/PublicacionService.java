@@ -36,7 +36,7 @@ public class PublicacionService {
 	}
 	
 	@Transactional(rollbackFor = ConstraintViolationException.class)
-	public void savepublicacion(@Valid Publicacion publicacion){
+	public void save(@Valid Publicacion publicacion){
 		publicacionRepository.save(publicacion);
 	}	
 

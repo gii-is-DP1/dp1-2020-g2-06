@@ -67,7 +67,6 @@ public class NoticiaController {
 		Noticia noticia = new Noticia();
 		model.put("noticia", noticia);
 		model.put("autores", tutorService.findAll());
-		model.addAttribute("pruebaLog",Utils.idLoggedIn());
 
 		return  "noticias/createOrUpdateNoticiaForm";
 	}

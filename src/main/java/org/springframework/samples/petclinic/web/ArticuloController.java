@@ -77,7 +77,7 @@ public class ArticuloController {
 			model.addAttribute("autores", tutorService.findAll());
 			model.addAttribute("message",result.getFieldError().getField());
 			return "articulos/createOrUpdateArticuloForm";
-		}else {
+		} else {
 			String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
 			String name = Utils.diferenciador(extensionImagen[extensionImagen.length-1]);
 			articulo.setImagen("resources/images/articulos/"  + name);
