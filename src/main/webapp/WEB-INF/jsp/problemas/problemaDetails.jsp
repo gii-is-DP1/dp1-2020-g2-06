@@ -172,11 +172,12 @@
 	</sec:authorize>
 
 
-	<h2>Úšltimos envíos</h2>
+	<h2>Últimos envíos</h2>
 	<table class="table table-striped">
 
 		<tr>
 			<th>Envío</th>
+			<th>Alumno</th>
 			<th>Fecha y hora</th>
 			<th>Veredicto</th>
 		</tr>
@@ -185,7 +186,9 @@
 				<td><a href="/envios/${envio.id}"> <c:out
 							value="${envio.id}" />
 				</a></td>
-
+				<td><a href="/alumnos/${envio.alumno.id}">
+            <c:out value="${envio.alumno.nombre}"/>&nbsp;<c:out value="${envio.alumno.apellidos}"/>
+            </a></td>
 				<td><c:out value="${envio.fecha}" /></td>
 				<td><c:out value="${envio.resolucion}" />
 		</tr>
