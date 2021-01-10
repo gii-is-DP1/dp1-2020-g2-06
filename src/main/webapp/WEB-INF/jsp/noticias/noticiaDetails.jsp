@@ -34,5 +34,17 @@
 
             </tr>
              </table>
+             
+             <h2>Realizado por:</h2>
+             <table>
+             <c:forEach items="${noticia.autores}" var="autor">
+             	<tr>
+             		<td>
+             			<c:out value="${autor.nombre}"/>&nbsp;<c:out value="${autor.apellidos}"/>
+             		</td>             
+             	</tr>
+             </c:forEach>
+             
+             </table>
 	
 </petclinic:layout>

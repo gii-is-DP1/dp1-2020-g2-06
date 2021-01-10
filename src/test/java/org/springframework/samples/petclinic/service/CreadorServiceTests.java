@@ -89,20 +89,20 @@ class CreadorServiceTests {
 		assertThat(creadorService.findIdByEmail("davbrican@us.es"));
 	}
 	
-	/*
+	
 	@Test
 	void shoulInsertProblema() {
 		Creador creador = this.creadorService.findById(0).get();
-		Integer numProblemasAntiguos = problemaService.findNoticiasByCreador(creador.getId()).size();
+		Integer numProblemasAntiguos = problemaService.findAllByCreador(creador.getId()).size();
 		
 		Problema problemaNuevo = new Problema();
-		problemaNuevo.setName("");
+		problemaNuevo.setName("Test problem");
+		problemaNuevo.setCreador(creador);
 		problemaService.saveProblema(problemaNuevo);
 		
 		creador = this.creadorService.findById(0).get();
-		Integer numProblemasNuevo = problemaService.findNoticiasByTutor(creador.getId()).size();
-		assertThat(numNoticiasNuevo).isEqualTo(numNoticiasAntiguos+1);
-		assertNotEquals(numNoticiasAntiguos, numNoticiasNuevo, "El número de noticias asociado a este tutor no es correcto");
+		Integer numProblemasNuevo = problemaService.findAllByCreador(creador.getId()).size();
+		assertThat(numProblemasNuevo).isEqualTo(numProblemasAntiguos+1);
+		assertNotEquals(numProblemasAntiguos, numProblemasNuevo, "El número de problemas asociado a este creador no es correcto");
 	}
-	*/
 }
