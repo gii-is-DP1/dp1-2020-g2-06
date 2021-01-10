@@ -9,7 +9,6 @@ import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Problema;
-import org.springframework.samples.petclinic.model.Temporada;
 
 public interface AlumnoRepository extends Repository<Alumno, Integer>{
 	
