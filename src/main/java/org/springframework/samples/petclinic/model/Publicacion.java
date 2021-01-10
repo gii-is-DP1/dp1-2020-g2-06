@@ -29,7 +29,7 @@ public class Publicacion extends BaseEntity{
 	private String texto;
 	
 
-	@NotNull
+	
 	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm:ss")
 	private LocalDateTime fecha;
 	

@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Aclaracion;
+import org.springframework.samples.petclinic.model.Comentario;
 import org.springframework.samples.petclinic.model.Envio;
 import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.EnvioService;
@@ -50,6 +52,7 @@ public class EnvioController {
 	public String envioDetails(@PathVariable("id") int id, ModelMap model) throws IOException {
 		Optional<Envio> envio = envioService.findById(id);
 		if(envio.isPresent()) {
+			model.addAttribute("comentarioNuevo", new Comentario());
 			model.addAttribute("comentarios", envio.get().getListaComentarios());
 			model.addAttribute("envio",envio.get());
 			model.addAttribute("codigo",envio.get().getCodigoString());
