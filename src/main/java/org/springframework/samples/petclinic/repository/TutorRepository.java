@@ -16,9 +16,6 @@ public interface TutorRepository extends Repository<Tutor, String> {
 	
 	Optional<Tutor> findById(int id) throws DataAccessException;
 	
-	@Query(value="SELECT ID FROM TUTORES WHERE EMAIL LIKE :email", nativeQuery = true)
-	Integer findIdByEmail(String email) throws DataAccessException;
-	
 	void save(Tutor tutor) throws DataAccessException;
 
 	@Query("SELECT DISTINCT t FROM Tutor t WHERE t.email LIKE :email")

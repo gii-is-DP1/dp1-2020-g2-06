@@ -16,9 +16,6 @@ public interface CreadorRepository extends Repository<Creador, String> {
 	
 	Optional<Creador> findById(int id) throws DataAccessException;
 	
-	@Query(value="SELECT ID FROM CREADORES WHERE EMAIL LIKE :email", nativeQuery = true)
-	Integer findIdByEmail(String email) throws DataAccessException;
-	
 	void save(Creador tutor) throws DataAccessException;
 
 	@Query("SELECT DISTINCT c FROM Creador c WHERE c.email LIKE :email")
