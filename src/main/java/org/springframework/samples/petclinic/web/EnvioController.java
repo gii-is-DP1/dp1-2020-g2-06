@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.domjudge.Run;
 import org.springframework.samples.petclinic.model.Envio;
 import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.EnvioService;
@@ -96,6 +95,7 @@ public class EnvioController {
 			String email = SecurityContextHolder.getContext().getAuthentication().getName();
 			Envio e = new Envio();
 			fileService.saveFile(archivo, rootCodes, diferenciador);
+			fileService.saveFile(archivo, rootCodes, filename);
 			
 			e.setAlumno(alumnoService.findByEmail(email).get());	
 			e.setFecha(LocalDateTime.now());
@@ -105,16 +105,14 @@ public class EnvioController {
 			e.setCodigoPath(rootCodes + "/" + diferenciador);
 			Integer idJudge;
 			String entryPoint = filename.substring(0, filename.length()-5);
-			if(!extension.equals("java"))
-				idJudge = judgeService.addSubmission(2, e.getCodigoPath(), extension, "", problemaService.findById(problema).get().getIdJudge());
-			else
-				idJudge = judgeService.addSubmission(2, e.getCodigoPath(), extension, entryPoint, problemaService.findById(problema).get().getIdJudge());
-			e.setIdJudge(idJudge);
 			
+			idJudge = judgeService.addSubmission(2, rootCodes + "/" + filename, extension, entryPoint, problemaService.findById(problema).get().getIdJudge());
+			e.setIdJudge(idJudge);
+			fileService.delete(Paths.get(rootCodes + "/" + filename));
 			String veredict = judgeService.judge(2,idJudge);
 			e.setResolucion(veredict);
 			envioService.save(e);
-			return envioDetails(e.getId(),model);
+			return "redirect:/envios/"+e.getId();
 		}
 	}
 

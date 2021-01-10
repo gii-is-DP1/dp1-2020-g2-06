@@ -34,10 +34,10 @@ public class JudgeService implements JudgeRepository {
 
 		MultiValueMap<String, Object> parameters = new LinkedMultiValueMap<String, Object>();
 		
-		parameters.add("entry_point", entryPoint);
+//		parameters.add("entry_point", entryPoint.chars());
 		parameters.add("problem", String.valueOf(problem));
 		parameters.add("language", language);
-		parameters.add("code", new FileSystemResource(new File(filePath)));
+		parameters.add("code[]", new FileSystemResource(new File(filePath)));
 		
 
 		HttpHeaders headers = new HttpHeaders();

@@ -1,7 +1,10 @@
 package org.springframework.samples.petclinic.repository;
 
+import java.io.IOException;
+
 import org.springframework.samples.petclinic.domjudge.Judgement;
 import org.springframework.samples.petclinic.domjudge.ProblemResponse;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface JudgeRepository {
 	
