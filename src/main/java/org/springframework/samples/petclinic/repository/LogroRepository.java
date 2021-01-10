@@ -4,9 +4,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.dao.DataAccessException;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
-import org.springframework.data.repository.query.Param;
 import org.springframework.samples.petclinic.model.Logro;
 
 public interface LogroRepository extends Repository<Logro, Integer>{
@@ -16,7 +14,4 @@ public interface LogroRepository extends Repository<Logro, Integer>{
 	Optional<Logro> findById(int id) throws DataAccessException;
 	
 	
-	@Query()
-	public Collection<Logro> logroAcceptedByAlumno(@Param("id") int id);
-
 }

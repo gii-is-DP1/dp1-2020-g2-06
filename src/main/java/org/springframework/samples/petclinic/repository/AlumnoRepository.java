@@ -37,4 +37,6 @@ public interface AlumnoRepository extends Repository<Alumno, Integer>{
 	@Query("SELECT DISTINCT a FROM Alumno a WHERE a.email LIKE :email")
 	Optional<Alumno> findByEmail(@Param("email") String email);
 	
+	
+	
 }

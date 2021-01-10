@@ -33,6 +33,14 @@ public class EnvioService {
 		return envioRepository.findAllByAlumno(id);
 	}
 	
+	public Collection<Envio> findAllByAlumnoAc(int id){
+		return envioRepository.findAllByAlumnoAc(id);
+	}
+	
+	public Collection<Envio> findAllByAlumnoWa(int id){
+		return envioRepository.findAllByAlumnoWa(id);
+	}
+	
 	public Collection<Envio> findAllByProblema(int id){
 		return envioRepository.findAllByProblema(id);
 	}
