@@ -42,7 +42,7 @@ class TutorServiceTests {
 		assertThat(tutor.getNombre()).isEqualTo("Alejandro");
 		assertThat(tutor.getApellidos()).isEqualTo("Barranco Ledesma");
 		assertThat(tutor.getEmail()).isEqualTo("alebarled@alum.us.es");
-		assertThat(tutor.getImagen()).isEqualTo("https://estaticos.elperiodico.com/resources/jpg/6/4/img-8878-1585501756946.jpg");
+		assertThat(tutor.getImagen()).isEqualTo("resources/images/tutores/20201223174110190000000.jpg");
 		assertThat(tutor.getPass()).isEqualTo("r4rm0nAAAaf1sf@");
 	}
 	

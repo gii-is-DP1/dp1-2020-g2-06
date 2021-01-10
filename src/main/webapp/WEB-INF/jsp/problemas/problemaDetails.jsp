@@ -23,7 +23,7 @@
 
     <table class="table table-striped">
     	<tr>
-            <th>Descripción</th>
+            <th>DescripciÃ³n</th>
             <td><c:out value="${problema.descripcion}" escapeXml="false"/></td>
         </tr>
         <tr>
@@ -42,17 +42,45 @@
             <th>Salida Esperada</th>
             <td><c:out value="${problema.salida_esperada}" escapeXml="false"/></td>
         </tr>
+        <!-- 
+        <tr>
+            <th>Dificultad</th>
+            	
+            <td><c:out value="${puntuacionMedia}" escapeXml="false"/></td>
+            <sec:authorize access="hasAuthority('alumno')">
+				<div>
+					<form:form action="/puntuaciones/new" modelAttribute="puntuacionNueva" class="form-horizontal" id="add-owner-form">
+						<select name="puntuacion">	
+						<option value="0">0</option>
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<option value="7">7</option>
+						<option value="8">8</option>
+						<option value="9">9</option>
+						<option value="10">10</option>
+						</select>
+						<input type="hidden" name="idProblema" value="${problema.id}" />
+						<button class="btn btn-default" type="submit">Puntuar dificultad del problema</button>
+					</form:form>
+				</div>
+			</sec:authorize>
+        </tr>
+         -->
       
     </table>
     
      <h2>Aclaraciones</h2>
      
            
-      <c:forEach items="${problema.aclaraciones}" var="aclaracion">
+     <c:forEach items="${problema.aclaraciones}" var="aclaracion">
 	<table class="table table-striped">
     <tr>
     <td><img src="/<c:out value="${aclaracion.tutor.imagen}"/>" id="Imagen" width="50" style="border-radius:100%"/>&nbsp;
-    <a href="/alumnos/${aclaracion.tutor.id}">
+    <a href="/tutores/${aclaracion.tutor.id}">
     <c:out value="${aclaracion.tutor.nombre} ${aclaracion.tutor.apellidos}"/>
     </a></td>
     </tr>
@@ -68,13 +96,18 @@
     	<a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar Problema</a>
     	<br>
     </sec:authorize>
-    
-   <sec:authorize access="hasAuthority('tutor')"> 
-    	<a class="btn btn-default" href='<spring:url value="aclaraciones/new" htmlEscape="true"/>'>Añadir Aclaración</a>
-    	<br>
+
+	<sec:authorize access="hasAuthority('tutor')">
+		<div>
+			<form:form action="/aclaraciones/new" modelAttribute="aclaracion" class="form-horizontal" id="add-owner-form">
+				<petclinic:textArea label="Aclaracion" name="texto" rows="6" />
+				<input type="hidden" name="idProblema" value="${problema.id}" />
+				<button class="btn btn-default" type="submit">AÃ±adir Aclaracion</button>
+			</form:form>
+		</div>
 	</sec:authorize>
 
-	<h2>Realizar envío</h2>
+	<h2>Realizar envÃ­o</h2>
 
 
 	<sec:authorize access="hasAuthority('alumno')">
@@ -104,7 +137,7 @@
 			<table>
 
 				<tr>
-					<td>Sólo los alumnos pueden realizar envíos. Inicia sesión
+					<td>SÃ³lo los alumnos pueden realizar envÃ­os. Inicia sesiÃ³n
 						para enviar un script.</td>
 				</tr>
 
@@ -119,7 +152,7 @@
 			<table>
 
 				<tr>
-					<td>Pregúntanos lo que quieras! </td>
+					<td>PregÃºntanos lo que quieras! </td>
 				</tr>
 				<tr>
 					<form:form modelAttribute="preguntaTutor" class="form-horizontal" id="add-problema-form" action="/preguntaTutor/new" >
@@ -137,11 +170,11 @@
 	</sec:authorize>
 
 
-	<h2>Últimos envíos</h2>
+	<h2>Ãšltimos envÃ­os</h2>
 	<table class="table table-striped">
 
 		<tr>
-			<th>Envío</th>
+			<th>EnvÃ­o</th>
 			<th>Fecha y hora</th>
 			<th>Veredicto</th>
 		</tr>
@@ -158,7 +191,7 @@
 	</table>
 
 
-	<h2>Estadísticas</h2>
+	<h2>EstadÃ­sticas</h2>
 	<div id="graficaDonut" style="height: 250px;"></div>
 	<script>
 	var morris1 = new Morris.Donut({
