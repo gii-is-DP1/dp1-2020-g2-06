@@ -23,7 +23,7 @@ public interface ProblemaRepository extends Repository<Problema,Integer>{
 	
 	int count() throws DataAccessException;
 
-	@Query(value="SELECT idJudge,creador,envios,fechaPublicacion,puntuacion,descripcion,casos_prueba,salida_esperada,imagen,zip,season,seasonYear,competicion,puntuacionesProblema,aclaraciones FROM Problemas as a LEFT JOIN Problemas_Creadores at WHERE a.id = at.creador and at.creador = :id", nativeQuery = true)
+	@Query(value="SELECT p FROM Problema p WHERE p.creador.id LIKE :id")
 	public Collection<Problema> findAllByCreador(@Param("id") int id);
 
 }
