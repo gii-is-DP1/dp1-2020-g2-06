@@ -1,6 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+<%@ page language="java" 
     pageEncoding="ISO-8859-1"%>
-<%@ page session="false" trimDirectiveWhitespaces="true" %>
+<%@ page session="false" trimDirectiveWhitespaces="true" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -23,7 +23,7 @@
 
     <table class="table table-striped">
     	<tr>
-            <th>DescripciÃ³n</th>
+            <th>Descripción</th>
             <td><c:out value="${problema.descripcion}" escapeXml="false"/></td>
         </tr>
         <tr>
@@ -106,12 +106,12 @@
 			<form:form action="/aclaraciones/new" modelAttribute="aclaracion" class="form-horizontal" id="add-owner-form">
 				<petclinic:textArea label="Aclaracion" name="texto" rows="6" />
 				<input type="hidden" name="idProblema" value="${problema.id}" />
-				<button class="btn btn-default" type="submit">AÃ±adir Aclaracion</button>
+				<button class="btn btn-default" type="submit">Añadir Aclaración</button>
 			</form:form>
 		</div>
 	</sec:authorize>
 
-	<h2>Realizar envÃ­o</h2>
+	<h2>Realizar envío</h2>
 
 
 	<sec:authorize access="hasAuthority('alumno')">
@@ -141,7 +141,7 @@
 			<table>
 
 				<tr>
-					<td>SÃ³lo los alumnos pueden realizar envÃ­os. Inicia sesiÃ³n
+					<td>Sólo los alumnos pueden realizar envíos. Inicia sesión
 						para enviar un script.</td>
 				</tr>
 
@@ -150,17 +150,15 @@
 		</div>
 
 	</sec:authorize>
-	
+	<br>
 	<sec:authorize access="hasAuthority('alumno')">
 		<div class="form-group has-feedback">
 			<table>
 
+				
 				<tr>
-					<td>PregÃºntanos lo que quieras! </td>
-				</tr>
-				<tr>
-					<form:form modelAttribute="preguntaTutor" class="form-horizontal" id="add-problema-form" action="/preguntaTutor/new" >
-						<petclinic:textArea label="Texto" name="pregunta" rows="6" />
+					<form:form modelAttribute="preguntaTutor" class="form-horizontal" id="add-problema-form" action="/preguntatutor/new" >
+						<petclinic:textArea label="Pregúntanos lo que quieras" name="pregunta" rows="6" />
 						<input type="hidden" name="idProblema" value="${problema.id}"/>
 						<button class="btn btn-default" type="submit">Enviar</button>
 					</form:form>
@@ -174,11 +172,11 @@
 	</sec:authorize>
 
 
-	<h2>Ãšltimos envÃ­os</h2>
+	<h2>Úšltimos envíos</h2>
 	<table class="table table-striped">
 
 		<tr>
-			<th>EnvÃ­o</th>
+			<th>Envío</th>
 			<th>Fecha y hora</th>
 			<th>Veredicto</th>
 		</tr>
@@ -195,7 +193,7 @@
 	</table>
 
 
-	<h2>EstadÃ­sticas</h2>
+	<h2>Estadísticas</h2>
 	<div id="graficaDonut" style="height: 250px;"></div>
 	<script>
 	var morris1 = new Morris.Donut({
