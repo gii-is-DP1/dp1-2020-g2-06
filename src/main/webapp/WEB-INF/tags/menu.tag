@@ -75,7 +75,7 @@
 						<ul class="dropdown-menu">
 							<li>
 								<div class="navbar-login">
-									<div class="row">
+									
 										<div class="col-lg-4">
 											<p class="text-center">
 												<span class="glyphicon glyphicon-user icon-size"></span>
@@ -84,7 +84,7 @@
 										<div class="col-lg-8">
 											<p class="text-left">
 												<a href="<c:url value="/perfil" />">
-													<strong><sec:authentication property="name" />
+													<strong>Perfil
 													</strong>
 												</a>
 											</p>
@@ -94,7 +94,7 @@
 											</p>
 										</div>
 									</div>
-								</div>
+							
 							</li>
 							<li class="divider"></li>
 <!-- 							

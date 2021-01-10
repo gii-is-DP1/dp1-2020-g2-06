@@ -45,7 +45,7 @@ public class PublicacionServiceTests {
 		publicacion.setFecha(LocalDateTime.now());
 		publicacion.setTexto("Hola esto es una prueba, repito esto es una prueba un poco larga");
 		
-		publicacionService.savepublicacion(publicacion);
+		publicacionService.save(publicacion);
 		Integer nNew = publicacionService.findAll().size();
 		assertNotEquals(nOld, nNew);
 		assertThat(nNew).isEqualTo(nOld+1);

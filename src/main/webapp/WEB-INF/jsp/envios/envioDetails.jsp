@@ -3,6 +3,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>  
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <petclinic:layout pageName="envios">
 
@@ -73,6 +75,16 @@
     	
     	</table>
 	</c:forEach>
+	
+	<sec:authorize access="hasAuthority('alumno')">
+		<div>
+			<form:form action="/comentarios/new" modelAttribute="comentarioNuevo" class="form-horizontal" id="add-owner-form">
+				<petclinic:textArea label="Comentario" name="texto" rows="6" />
+				<input type="hidden" name="idEnvio" value="${envio.id}" />
+				<button class="btn btn-default" type="submit">Añadir Comentario</button>
+			</form:form>
+		</div>
+	</sec:authorize>
     
     
 	

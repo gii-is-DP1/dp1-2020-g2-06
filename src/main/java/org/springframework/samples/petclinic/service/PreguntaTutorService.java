@@ -32,4 +32,12 @@ public class PreguntaTutorService {
 		return preguntaTutorRepository.findAllByProblema(id);
 	}
 	
+	public Collection<PreguntaTutor> findByProblemaNotAnswered(){
+		return preguntaTutorRepository.findByProblemaNotAnswered();
+	}
+	
+	public Collection<PreguntaTutor> findByAlumnoId(int id){
+		return preguntaTutorRepository.findByAlumnoId(id);
+	}
+	
 }

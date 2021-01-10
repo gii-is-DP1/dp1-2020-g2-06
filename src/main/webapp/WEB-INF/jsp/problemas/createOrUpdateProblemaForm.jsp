@@ -14,6 +14,7 @@
         <div class="form-group has-feedback">
             <petclinic:inputField label="Nombre del problema" name="name"/>
             <petclinic:inputField label="Descripción" name="descripcion"/>
+            <petclinic:inputField label="Dificultad" name="dificultad"/>
             <petclinic:inputField label="Puntuacion" name="puntuacion"/>
             <petclinic:inputField label="Casos_prueba" name="casos_prueba"/>
             <petclinic:inputField label="Salida_esperada" name="salida_esperada"/>

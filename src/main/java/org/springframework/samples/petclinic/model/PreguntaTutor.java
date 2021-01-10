@@ -23,12 +23,12 @@ public class PreguntaTutor extends BaseEntity{
 	@JoinColumn(name="id_tutor")
 	private Tutor tutor;
 	
-	@NonNull
+	
 	@ManyToOne
 	@JoinColumn(name="id_alumno")
 	private Alumno alumno;
 	
-	@NonNull
+	
 	@ManyToOne
 	@JoinColumn(name="id_problema")
 	private Problema problema;

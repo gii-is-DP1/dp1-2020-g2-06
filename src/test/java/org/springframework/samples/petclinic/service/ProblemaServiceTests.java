@@ -108,16 +108,5 @@ public class ProblemaServiceTests {
 		assertThat(problema.getDescripcion()).isEqualTo(newDescripcion);
 	}
 	
-	@Test
-	public void shouldDeleteproblema() {
-		Collection<Problema> problemas = this.ProblemaService.findAll();
-		int found = problemas.size();
-                
-		Problema problema = ProblemaService.findById(0).get();
-		this.ProblemaService.delete(problema);
-		
-		Collection<Problema> problemas2 = this.ProblemaService.findAll();
-		
-		assertThat(problemas2.size()).isEqualTo(found - 1);
-	}
+
 }

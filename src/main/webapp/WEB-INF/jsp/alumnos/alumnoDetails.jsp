@@ -85,14 +85,34 @@
     <h2> Problemas resueltos (estando vigentes)</h2>
     <table class="table table-striped">
   
-    	
+    	<c:forEach items="${problemasresueltos}" var="problem">
     	<tr>
-    	  <c:forEach items="${problemasresueltos}" var="problem">
     		<td>
     		<a href="/problemas/${problem.id}">
     		<c:out value="${problem.name}"/>
     		</a>
     		</td>
+    		
+    	</tr>
+   		</c:forEach>
+    </table>
+    
+    <h2> Preguntas a tutores</h2>
+    <table class="table table-striped">	
+    <c:forEach items="${preguntasTutor}" var="pregunta">
+    	<tr>
+    		<td>
+    		<a href="/problemas/${pregunta.problema.id}"> Problema : <c:out value="${pregunta.problema.name}"/> </a>
+    		<br>
+    		<c:out value="Pregunta : ${pregunta.pregunta}"/>
+    		<c:if test="${pregunta.tutor!=null}">
+    		<br>
+    		<c:out value="Tutor que responde : ${pregunta.tutor.email}"/>
+    		<br>
+    		<c:out value="Respuesta : ${pregunta.respuesta}"/>
+    		</c:if>
+    		</td>
+    		
     		
     	</tr>
    		</c:forEach>
