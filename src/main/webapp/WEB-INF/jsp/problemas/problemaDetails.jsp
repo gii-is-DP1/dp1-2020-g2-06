@@ -27,6 +27,10 @@
             <td><c:out value="${problema.descripcion}" escapeXml="false"/></td>
         </tr>
         <tr>
+            <th>Dificultad</th>
+            <td><c:out value="${problema.dificultad}"/></td>
+        </tr>
+        <tr>
             <th>Puntos</th>
             <td><c:out value="${problema.puntuacion}"/></td>
         </tr>

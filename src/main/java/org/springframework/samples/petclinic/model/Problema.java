@@ -57,6 +57,9 @@ public class Problema extends NamedEntity {
 	@Column(name = "salida_esperada")
 	private String salida_esperada;
 	
+	@Column(name = "dificultad")
+	private String dificultad;
+	
 	private String imagen;
 	
 	

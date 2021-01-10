@@ -1,32 +1,25 @@
 package org.springframework.samples.petclinic.web;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.samples.petclinic.model.PreguntaTutor;
 import org.springframework.samples.petclinic.model.Aclaracion;
+import org.springframework.samples.petclinic.model.PreguntaTutor;
 import org.springframework.samples.petclinic.model.Problema;
-import org.springframework.samples.petclinic.model.PuntuacionProblema;
-import org.springframework.samples.petclinic.service.ProblemaService;
-import org.springframework.samples.petclinic.util.Utils;
 import org.springframework.samples.petclinic.service.EnvioService;
 import org.springframework.samples.petclinic.service.FileService;
 import org.springframework.samples.petclinic.service.JudgeService;
+import org.springframework.samples.petclinic.service.ProblemaService;
+import org.springframework.samples.petclinic.util.Utils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -35,7 +28,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
@@ -74,7 +66,6 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 			if(problema.get().isVigente()) {
 				model.addAttribute("editarTrue",1);
 			}
-			model.addAttribute("puntuacionNueva", new PuntuacionProblema());
 			model.addAttribute("aclaracion", new Aclaracion());
 			model.addAttribute("problema", problema.get());
 			model.addAttribute("ultimosEnvios", problema.get().getEnvios());
