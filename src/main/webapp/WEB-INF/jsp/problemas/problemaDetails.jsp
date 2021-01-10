@@ -23,7 +23,7 @@
 
     <table class="table table-striped">
     	<tr>
-            <th>Descripci�n</th>
+            <th>Descripción</th>
             <td><c:out value="${problema.descripcion}" escapeXml="false"/></td>
         </tr>
         <tr>
@@ -102,82 +102,96 @@
 			<form:form action="/aclaraciones/new" modelAttribute="aclaracion" class="form-horizontal" id="add-owner-form">
 				<petclinic:textArea label="Aclaracion" name="texto" rows="6" />
 				<input type="hidden" name="idProblema" value="${problema.id}" />
-				<button class="btn btn-default" type="submit">A�adir Aclaracion</button>
+				<button class="btn btn-default" type="submit">Añadir Aclaracion</button>
 			</form:form>
 		</div>
 	</sec:authorize>
 
+	<h2>Realizar envío</h2>
 
 
+	<sec:authorize access="hasAuthority('alumno')">
 
-	<h2>Realizar env�o</h2>
-    
+		<form:form action='/envios/send/${problema.id}'
+			enctype="multipart/form-data">
 
-            <sec:authorize access="hasAuthority('alumno')"> 
-            
-            <form:form action='/envios/send/${problema.id}' enctype="multipart/form-data">
-    
-        <div class="form-group has-feedback">
-           
-            
-            <table>
-         
-             <tr><td><input type="file" name="archivo" /></td></tr>  
-             
-           
+			<div class="form-group has-feedback">
+
+
+				<table>
+
+					<tr>
+						<td><input type="file" name="archivo" /></td>
+					</tr>
+
+
+				</table>
+			</div>
+			<button class="btn btn-default" type="submit">Enviar</button>
+
+		</form:form>
+	</sec:authorize>
+
+	<sec:authorize access="!hasAuthority('alumno')">
+		<div class="form-group has-feedback">
+			<table>
+
+				<tr>
+					<td>Sólo los alumnos pueden realizar envíos. Inicia sesión
+						para enviar un script.</td>
+				</tr>
+
+
 			</table>
-        </div>
-        <button class="btn btn-default" type="submit">Enviar</button>
-      
-    </form:form>
-               </sec:authorize>
-               
-               <sec:authorize access="!hasAuthority('alumno')"> 
-               <div class="form-group has-feedback">
-               <table>
-         
-             <tr><td>S�lo los alumnos pueden realizar env�os. Inicia sesi�n para enviar un script.</td></tr>  
-             
-           
+		</div>
+
+	</sec:authorize>
+	
+	<sec:authorize access="hasAuthority('alumno')">
+		<div class="form-group has-feedback">
+			<table>
+
+				<tr>
+					<td>Pregúntanos lo que quieras! </td>
+				</tr>
+				<tr>
+					<form:form modelAttribute="preguntaTutor" class="form-horizontal" id="add-problema-form" action="/preguntaTutor/new" >
+						<petclinic:textArea label="Texto" name="pregunta" rows="6" />
+						<input type="hidden" name="idProblema" value="${problema.id}"/>
+						<button class="btn btn-default" type="submit">Enviar</button>
+					</form:form>
+				</tr>
+				
+
+
 			</table>
-        </div>
-               
-               </sec:authorize>
-               
-              
-<h2> �ltimos env�os</h2>
-    <table class="table table-striped">
-  
-    	<tr>
-    	<th> Env�o
-    	</th>
-    	<th>
-    	Fecha y hora
-    	</th>
-    	<th>
-    	Veredicto
-    	</th>
-    	</tr>
-    	<tr>
-    	  <c:forEach items="${problema.envios}" var="envio">
-    		<td>
-    		<a href="/envios/${envio.id}">
-    		<c:out value="${envio.id}"/>
-    		</a>
-    		</td>
-    		
-    		<td>
-    		<c:out value="${envio.fecha}"/>
-    		</td>
-    		<td>
-    		<c:out value="${envio.resolucion}"/>
-    		
-    	</tr>
-   		</c:forEach>
-    </table>
-	
-	
-	<h2>Estad�sticas</h2>
+		</div>
+
+	</sec:authorize>
+
+
+	<h2>Últimos envíos</h2>
+	<table class="table table-striped">
+
+		<tr>
+			<th>Envío</th>
+			<th>Fecha y hora</th>
+			<th>Veredicto</th>
+		</tr>
+		<tr>
+			<c:forEach items="${problema.envios}" var="envio">
+				<td><a href="/envios/${envio.id}"> <c:out
+							value="${envio.id}" />
+				</a></td>
+
+				<td><c:out value="${envio.fecha}" /></td>
+				<td><c:out value="${envio.resolucion}" />
+		</tr>
+		</c:forEach>
+	</table>
+
+
+	<h2>Estadísticas</h2>
 	<div id="graficaDonut" style="height: 250px;"></div>
 	<script>
 	var morris1 = new Morris.Donut({
