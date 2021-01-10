@@ -170,6 +170,11 @@ INSERT INTO articulos(id,name,fecha_publicacion,texto,imagen_articulo) VALUES (3
 INSERT INTO articulos(id,name,fecha_publicacion,texto,imagen_articulo) VALUES (4,'No creerás este artículo sobre la programación',DATE'2020-07-22','Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?','resources/images/articulos/20201223171314927000000.jpg');
 INSERT INTO articulos(id,name,fecha_publicacion,texto,imagen_articulo) VALUES (5,'No creerás este artículo frio',DATE'2020-07-22','Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?','resources/images/articulos/20201223171351187000000.jpg');
 
+INSERT INTO NOTICIAS_AUTORES(NOTICIA_ID,AUTORES_ID) VALUES (0,1);
+INSERT INTO NOTICIAS_AUTORES(NOTICIA_ID,AUTORES_ID) VALUES (0,2);
+INSERT INTO NOTICIAS_AUTORES(NOTICIA_ID,AUTORES_ID) VALUES (0,3);
+INSERT INTO NOTICIAS_AUTORES(NOTICIA_ID,AUTORES_ID) VALUES (1,1);
+INSERT INTO NOTICIAS_AUTORES(NOTICIA_ID,AUTORES_ID) VALUES (1,3);
 
 
 
@@ -230,6 +235,9 @@ INSERT INTO pregunta(id,id_tutor,id_alumno,id_problema, pregunta, respuesta) VAL
 INSERT INTO pregunta(id,id_tutor,id_alumno,id_problema, pregunta, respuesta) VALUES (1,null,1,0,'¿La moneda es de 2 euros?', null);
 INSERT INTO pregunta(id,id_tutor,id_alumno,id_problema, pregunta, respuesta) VALUES (2,1,1,1,'¿Dónde está Fuente Palmera?', 'Eso no es relevante para la resolución del problema.');
 
+INSERT INTO logros(id,nombre_logro,tipo_logro,cantidad_logro) VALUES (0,'Por algun lado se empieza','envio',10);
+INSERT INTO logros(id,nombre_logro,tipo_logro,cantidad_logro) VALUES (1,'El camino al exito','accepted',10);
+INSERT INTO logros(id,nombre_logro,tipo_logro,cantidad_logro) VALUES (2,'¿Necesitas ayuda?','wrong',10);
 
 
 
