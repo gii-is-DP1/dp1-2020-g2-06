@@ -51,12 +51,12 @@ public class AclaracionController {
 	public String processCreationForm(@Valid Aclaracion aclaracion, BindingResult result, ModelMap model, @RequestParam("idProblema") Integer idProblema) throws IOException {
 		if(result.hasErrors()) {
 			model.addAttribute("message",result.getFieldError().getField());
-			return "problemas";
+			return "/problemas/"+idProblema;
 		} else {
 			aclaracion.setProblema(problemaService.findById(idProblema).get());
 			aclaracion.setTutor(tutorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get());
 			this.aclaracionService.save(aclaracion);
-			return "redirect:/problemas";
+			return "redirect:/problemas/"+idProblema;
 		}
 	}
 	
