@@ -109,19 +109,16 @@ INSERT INTO normas_web(id,name,descripcion) VALUES (1,'Bien', 'Se deben tratar b
 INSERT INTO normas_web(id,name,descripcion) VALUES (2,'Disfruta', 'Lo importante es pasarselo bien');
 
 
-INSERT INTO competicion(id,nombre_competicion,descripcion,imagen,fecha_inicio,fecha_fin,hora_inicio,hora_fin) VALUES (0,'Concurso payaso','Un concurso para los verdaderos payasos recursivos','resources/images/competiciones/2020122317127570000000.jpg','2020-12-30','2020-12-30','18:00','18:01');
-INSERT INTO competicion(id,nombre_competicion,descripcion,imagen,fecha_inicio,fecha_fin,hora_inicio,hora_fin) VALUES (1,'Ensayo AdaByron','Un concurso para tener un primer contacto con el concurso de AdaByron','resources/images/competiciones/20201223171314927000000.jpg','2020-10-24','2020-10-27','18:00','18:01');
-
 INSERT INTO temporada(id,nombre) VALUES (0,'PRIMAVERA');
 INSERT INTO temporada(id,nombre) VALUES (1,'VERANO');
 INSERT INTO temporada(id,nombre) VALUES (2,'OTOÑO');
 INSERT INTO temporada(id,nombre) VALUES (3,'INVIERNO');
 
 
-INSERT INTO problema(id,id_judge,name,puntuacion,descripcion,casos_prueba,salida_esperada,fecha_publicacion,id_season,season_year,id_competicion,imagen) VALUES (0,1,'¡Hola mundo!', 2 , '
+INSERT INTO problema(id,id_judge,name,dificultad,puntuacion,descripcion,casos_prueba,salida_esperada,fecha_publicacion,id_season,season_year,imagen) VALUES (0,1,'¡Hola mundo!', 5 , 2 , '
 Debes escribir el programa más básico; solo debería mostrar "Hello World!" en un
-línea única, no importa cuál sea la entrada.', '1' , 'Hello World!','2000-04-30',2,2020,1,'resources/images/problemas/2020122317127570000000.jpg');
-INSERT INTO problema(id,id_judge,name,puntuacion,descripcion,casos_prueba,salida_esperada,fecha_publicacion,id_season,season_year,id_competicion,imagen) VALUES (1,2,'Comparación Flotante', 5 , 'Este programa prueba el script de comparación de coma flotante especial que acompaña a DOMjudge.
+línea única, no importa cuál sea la entrada.', '1' , 'Hello World!','2000-04-30',2,2020,'resources/images/problemas/2020122317127570000000.jpg');
+INSERT INTO problema(id,id_judge,name,dificultad,puntuacion,descripcion,casos_prueba,salida_esperada,fecha_publicacion,id_season,season_year,imagen) VALUES (1,2,'Comparación Flotante', 6, 5 , 'Este programa prueba el script de comparación de coma flotante especial que acompaña a DOMjudge.
 La entrada del problema consiste primero en una línea con un solo entero, luego en tantas líneas,
 con en cada línea un número de coma flotante (posiblemente también ± inf o nan). Por cada flotante
 número de punto, se debe escribir una línea que contenga el recíproco del número, dentro
@@ -141,8 +138,8 @@ nan' , 'inf</br>
 2E-1</br>
 0</br>
 NaN
-','2020-11-28',1,2020,null,'resources/images/problemas/20201223171314927000000.jpg');
-INSERT INTO problema(id,id_judge,name,puntuacion,descripcion,casos_prueba,salida_esperada,fecha_publicacion,id_season,season_year,id_competicion,imagen) VALUES (2,3,'Boolfind', 2 , 'Tenemos un array muy largo de valores booleanos y se sabe que el primer valor es verdadero.
+','2020-11-28',1,2020,'resources/images/problemas/20201223171314927000000.jpg');
+INSERT INTO problema(id,id_judge,name,dificultad,puntuacion,descripcion,casos_prueba,salida_esperada,fecha_publicacion,id_season,season_year,imagen) VALUES (2,3,'Boolfind', 3, 2 , 'Tenemos un array muy largo de valores booleanos y se sabe que el primer valor es verdadero.
 y el último valor falso. Se le pide que busque una posición en la matriz donde el valor verdadero es reemplazado por falso.
 </br>La entrada es la siguiente:</br>
 La primera línea contiene un entero: el número de casos de prueba.
@@ -158,9 +155,9 @@ que tiene valor verdadero y va seguido de falso y se dará el siguiente caso de 
 true' , 'READ 2
 </br>READ 1
 </br>OUTPUT 1
-','2000-04-30',2,2020,null,'resources/images/problemas/20201223171314927000000.jpg');
-INSERT INTO problema(id,id_judge,name,puntuacion,descripcion,casos_prueba,salida_esperada,fecha_publicacion,id_season,season_year,id_competicion,imagen) VALUES (3,3,'La fuga de Rarmon v.2', 5 , 'Debe encontrar la manera de escapar de FuentePalmera', '0 1 2' , '1','2000-04-30',3,2020,null,'resources/images/problemas/2020122317810299000000.jpg');
-INSERT INTO problema(id,id_judge,name,puntuacion,descripcion,casos_prueba,salida_esperada,fecha_publicacion,id_season,season_year,id_competicion,imagen) VALUES (4,3,'Hello World!', 1 , 'Imprimir n veces "Hello World!"', 'Hello World! \nHello World! \nHello World!' , '1','2000-04-30',2,2019,null,'resources/images/problemas/2020122317827911000000.jpg');
+','2000-04-30',2,2020,'resources/images/problemas/20201223171314927000000.jpg');
+INSERT INTO problema(id,id_judge,name,dificultad,puntuacion,descripcion,casos_prueba,salida_esperada,fecha_publicacion,id_season,season_year,imagen) VALUES (3,3,'La fuga de Rarmon v.2', 3, 5 , 'Debe encontrar la manera de escapar de FuentePalmera', '0 1 2' , '1','2000-04-30',3,2020,'resources/images/problemas/2020122317810299000000.jpg');
+INSERT INTO problema(id,id_judge,name,dificultad,puntuacion,descripcion,casos_prueba,salida_esperada,fecha_publicacion,id_season,season_year,imagen) VALUES (4,3,'Hello World!', 1 , 1 , 'Imprimir n veces "Hello World!"', 'Hello World! \nHello World! \nHello World!' , '1','2000-04-30',2,2019,'resources/images/problemas/2020122317827911000000.jpg');
 
 
 INSERT INTO articulos(id,name,fecha_publicacion,texto,imagen_articulo) VALUES (0,'Articulo sobre DBGames',DATE'2020-07-22','Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum', 'resources/images/articulos/2020122317810299000000.jpg');
@@ -216,10 +213,6 @@ INSERT INTO envios(id,id_judge,fecha,codigo_path,resolucion,id_alumno,id_problem
 INSERT INTO envios(id,id_judge,fecha,codigo_path,resolucion,id_alumno,id_problema,id_season,season_year) VALUES (9,9,'2018-11-21T11:13:13.274','codes/prueba.c','AC',0,0,2,2018);
 INSERT INTO envios(id,id_judge,fecha,codigo_path,resolucion,id_alumno,id_problema,id_season,season_year) VALUES (10,10,'2019-05-22T11:13:13.274','codes/prueba.java','AC',1,3,1,2019);
 
-
-INSERT INTO puntuacion_problema(id,id_alumno,id_problema,puntuacion) VALUES (0,2,2,3);
-INSERT INTO puntuacion_problema(id,id_alumno,id_problema,puntuacion) VALUES (1,2,1,3);
-INSERT INTO puntuacion_problema(id,id_alumno,id_problema,puntuacion) VALUES (2,0,2,7);
 
 INSERT INTO comentarios(id,id_envio,id_alumno,texto) VALUES (0,10,0,'Muy buena resolución del ejercicio, muy simple y muy claro.');
 INSERT INTO comentarios(id,id_envio,id_alumno,texto) VALUES (1,10,2,'Estoy deseando ver como lo has conseguido!!');
