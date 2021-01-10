@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
-<!-- %@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %-->  
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>  
 
 <petclinic:layout pageName="noticias">
     <h2>Noticias</h2>
@@ -18,6 +18,7 @@
                     <c:out value="${noticia.name}"/>&nbsp;<c:out value="${noticia.fechaPublicacion}"/>
                     </a>
                 </th>
+                <sec:authorize access="hasAuthority('tutor')"> 
                 <th>
                 	<a href="/noticias/${noticia.id}/edit">
                 	<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
@@ -28,6 +29,7 @@
                 		<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                 	</a>
                 </th>
+                </sec:authorize>
             </tr>
                 
             <tr>
@@ -40,8 +42,8 @@
              </table>
         </c:forEach>
         
-        <%-- <sec:authorize access="hasAuthority('admin')">  --%>
+        <sec:authorize access="hasAuthority('tutor')"> 
 			<a class="btn btn-default" href='<spring:url value="/noticias/new" htmlEscape="true"/>'>Añadir Noticia</a>
-		<%-- </sec:authorize> --%>
+		</sec:authorize>
 
 </petclinic:layout> 

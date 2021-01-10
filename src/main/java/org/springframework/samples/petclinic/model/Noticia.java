@@ -1,10 +1,12 @@
 package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
@@ -13,6 +15,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 @Getter
@@ -21,6 +24,11 @@ import lombok.Setter;
 @Entity
 @Table(name = "noticias")
 public class Noticia extends NamedEntity{
+	
+	
+	@ManyToMany
+	@NonNull
+	Set<Tutor> autores;
 	
 	@ManyToOne
 	@JoinColumn(name="autor_id")
