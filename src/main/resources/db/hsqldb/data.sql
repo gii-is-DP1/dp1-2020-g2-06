@@ -212,7 +212,14 @@ INSERT INTO envios(id,id_judge,fecha,codigo_path,resolucion,id_alumno,id_problem
 INSERT INTO envios(id,id_judge,fecha,codigo_path,resolucion,id_alumno,id_problema,id_season,season_year) VALUES (8,8,'2018-11-22T11:13:13.274','codes/prueba.java','TLE',0,1,2,2018);
 INSERT INTO envios(id,id_judge,fecha,codigo_path,resolucion,id_alumno,id_problema,id_season,season_year) VALUES (9,9,'2018-11-21T11:13:13.274','codes/prueba.c','AC',0,0,2,2018);
 INSERT INTO envios(id,id_judge,fecha,codigo_path,resolucion,id_alumno,id_problema,id_season,season_year) VALUES (10,10,'2019-05-22T11:13:13.274','codes/prueba.java','AC',1,3,1,2019);
-
+INSERT INTO envios(id,id_judge,fecha,codigo_path,resolucion,id_alumno,id_problema,id_season,season_year) VALUES (11,11,'2020-08-21T11:13:13.274','codes/prueba.java','AC',1,1,0,2020);
+INSERT INTO envios(id,id_judge,fecha,codigo_path,resolucion,id_alumno,id_problema,id_season,season_year) VALUES (12,12,'2020-08-21T11:13:13.274','codes/prueba.java','AC',1,1,0,2020);
+INSERT INTO envios(id,id_judge,fecha,codigo_path,resolucion,id_alumno,id_problema,id_season,season_year) VALUES (13,13,'2020-08-21T11:13:13.274','codes/prueba.java','AC',1,1,0,2020);
+INSERT INTO envios(id,id_judge,fecha,codigo_path,resolucion,id_alumno,id_problema,id_season,season_year) VALUES (14,14,'2020-08-21T11:13:13.274','codes/prueba.java','AC',1,1,0,2020);
+INSERT INTO envios(id,id_judge,fecha,codigo_path,resolucion,id_alumno,id_problema,id_season,season_year) VALUES (15,15,'2020-08-21T11:13:13.274','codes/prueba.java','AC',1,1,0,2020);
+INSERT INTO envios(id,id_judge,fecha,codigo_path,resolucion,id_alumno,id_problema,id_season,season_year) VALUES (16,16,'2020-08-21T11:13:13.274','codes/prueba.java','AC',1,1,0,2020);
+INSERT INTO envios(id,id_judge,fecha,codigo_path,resolucion,id_alumno,id_problema,id_season,season_year) VALUES (17,17,'2020-08-21T11:13:13.274','codes/prueba.java','AC',1,1,0,2020);
+INSERT INTO envios(id,id_judge,fecha,codigo_path,resolucion,id_alumno,id_problema,id_season,season_year) VALUES (18,18,'2020-08-21T11:13:13.274','codes/prueba.java','AC',1,1,0,2020);
 
 INSERT INTO comentarios(id,id_envio,id_alumno,texto) VALUES (0,10,0,'Muy buena resolución del ejercicio, muy simple y muy claro.');
 INSERT INTO comentarios(id,id_envio,id_alumno,texto) VALUES (1,10,2,'Estoy deseando ver como lo has conseguido!!');
@@ -229,9 +236,18 @@ INSERT INTO pregunta(id,id_tutor,id_alumno,id_problema, pregunta, respuesta) VAL
 INSERT INTO pregunta(id,id_tutor,id_alumno,id_problema, pregunta, respuesta) VALUES (1,null,1,0,'¿La moneda es de 2 euros?', null);
 INSERT INTO pregunta(id,id_tutor,id_alumno,id_problema, pregunta, respuesta) VALUES (2,1,1,1,'¿Dónde está Fuente Palmera?', 'Eso no es relevante para la resolución del problema.');
 
-INSERT INTO logros(id,nombre_logro,tipo_logro,cantidad_logro) VALUES (0,'Por algun lado se empieza','envio',10);
-INSERT INTO logros(id,nombre_logro,tipo_logro,cantidad_logro) VALUES (1,'El camino al exito','accepted',10);
-INSERT INTO logros(id,nombre_logro,tipo_logro,cantidad_logro) VALUES (2,'¿Necesitas ayuda?','wrong',10);
+INSERT INTO logros(id,nombre_logro,imagen) VALUES (0,'10 envios realizados','resources/images/logros/logroEnvio.jpg'); --envio
+INSERT INTO logros(id,nombre_logro,imagen) VALUES (1,'50 envios realizados','resources/images/logros/logroEnvio.jpg'); --envio
+INSERT INTO logros(id,nombre_logro,imagen) VALUES (2,'100 envios realizados','resources/images/logros/logroEnvio.jpg'); --envio
+INSERT INTO logros(id,nombre_logro,imagen) VALUES (3,'500 envios realizados','resources/images/logros/logroEnvio.jpg'); --envio
+INSERT INTO logros(id,nombre_logro,imagen) VALUES (4,'1000 envios realizados','resources/images/logros/logroEnvio.jpg'); --envio
+INSERT INTO logros(id,nombre_logro,imagen) VALUES (5,'10 envios con accepted','resources/images/logros/logroAccept.jpg');  --accepted
+INSERT INTO logros(id,nombre_logro,imagen) VALUES (6,'25 envios con accepted','resources/images/logros/logroAccept.jpg'); --accepted
+INSERT INTO logros(id,nombre_logro,imagen) VALUES (7,'50 envios con accepted','resources/images/logros/logroAccept.jpg'); --accepted
+INSERT INTO logros(id,nombre_logro,imagen) VALUES (8,'10 envios con wrong answer','resources/images/logros/logroWrong.jpg'); --wrong
+INSERT INTO logros(id,nombre_logro,imagen) VALUES (9,'25 envios con wrong answer','resources/images/logros/logroWrong.jpg'); --wrong
+INSERT INTO logros(id,nombre_logro,imagen) VALUES (10,'50 envios con wrong answer','resources/images/logros/logroWrong.jpg'); --wrong
+
 
 
 

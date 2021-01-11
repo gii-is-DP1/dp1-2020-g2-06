@@ -21,7 +21,7 @@ public class WelcomeController {
 	@Autowired
 	private AlumnoService alumnoService;
 	
-	  @GetMapping("/")
+	  @GetMapping("/welcome")
 	  public String welcome(Map<String, Object> model) {
 		  
 		  List<Person> persons = new ArrayList<Person>();

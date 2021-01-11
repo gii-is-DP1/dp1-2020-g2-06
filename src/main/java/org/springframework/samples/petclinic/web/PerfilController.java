@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/perfil")
 public class PerfilController {
 
-	@Autowired
-	ProblemaService problemaService;
 	
 	@Autowired
 	AlumnoService alumnoService;
