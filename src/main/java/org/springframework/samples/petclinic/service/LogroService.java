@@ -1,10 +1,12 @@
 package org.springframework.samples.petclinic.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Alumno;
+import org.springframework.samples.petclinic.model.Envio;
 import org.springframework.samples.petclinic.model.Logro;
 import org.springframework.samples.petclinic.repository.LogroRepository;
 import org.springframework.stereotype.Service;
@@ -26,47 +28,41 @@ public class LogroService {
 		return logroRepository.findById(id);
 	}
 	
-	public Logro obtenerLogroEnvio(Alumno alumno) {
-		Integer envios = envioService.findAllByAlumno(alumno.getId()).size();
-		Logro result = null;
-		if(envios>=10 && envios<50) {
-			result = logroRepository.findById(0).get();
-		}else if(envios>=50 && envios<100) {
-			result = logroRepository.findById(1).get();
-		}else if(envios>=100 && envios<500) {
-			result = logroRepository.findById(2).get();
-		}else if(envios>=500 && envios<1000){
-			result = logroRepository.findById(3).get();
-		}else if(envios>=1000) {
-			result = logroRepository.findById(4).get();
+	public Collection<Logro> obtenerLogros(Alumno alumno) {
+		Collection<Envio> envios = envioService.findAllByAlumno(alumno.getId());
+		Collection<Envio> enviosAc = envioService.findAllByAlumnoAc(alumno.getId());
+		Collection<Logro> result = new ArrayList<Logro>();
+		if(envios.size()>=1000) {
+			result.add(logroRepository.findById(4).get());
+			result.add(logroRepository.findById(3).get());
+			result.add(logroRepository.findById(2).get());
+			result.add(logroRepository.findById(1).get());
+			result.add(logroRepository.findById(0).get());
+		}else if(envios.size()>=500) {
+			result.add(logroRepository.findById(3).get());
+			result.add(logroRepository.findById(2).get());
+			result.add(logroRepository.findById(1).get());
+			result.add(logroRepository.findById(0).get());
+		}else if(envios.size()>=100) {
+			result.add(logroRepository.findById(2).get());
+			result.add(logroRepository.findById(1).get());
+			result.add(logroRepository.findById(0).get());
+		}else if(envios.size()>=50){
+			result.add(logroRepository.findById(1).get());
+			result.add(logroRepository.findById(0).get());
+		}else if(envios.size()>=10) {
+			result.add(logroRepository.findById(0).get());
 		}
+		
+		if(enviosAc.size()>=100) {
+			result.add(logroRepository.findById(8).get());
+			result.add(logroRepository.findById(7).get());
+			result.add(logroRepository.findById(6).get());
+			result.add(logroRepository.findById(5).get());
+		}
+		
 		return result;
 		
 	}
-	
-	public Logro obtenerLogroAccepted(Alumno alumno) {
-		Integer envios = envioService.findAllByAlumnoAc(alumno.getId()).size();
-		Logro result = null;
-		if(envios>=10 && envios<25) {
-			result = logroRepository.findById(5).get();
-		}else if(envios>=25 && envios<50) {
-			result = logroRepository.findById(6).get();
-		}else if(envios>=50){
-			result = logroRepository.findById(7).get();
-		}
-		return result;
-	}
-	
-	public Logro obtenerLogroWrong(Alumno alumno) {
-		Integer envios = envioService.findAllByAlumnoWa(alumno.getId()).size();
-		Logro result = null;
-		if(envios>=10 && envios<25) {
-			result = logroRepository.findById(5).get();
-		}else if(envios>=25 && envios<50) {
-			result = logroRepository.findById(6).get();
-		}else if(envios>=50){
-			result = logroRepository.findById(7).get();
-		}
-		return result;
-	}
+
 }
