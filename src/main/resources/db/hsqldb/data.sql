@@ -236,17 +236,19 @@ INSERT INTO pregunta(id,id_tutor,id_alumno,id_problema, pregunta, respuesta) VAL
 INSERT INTO pregunta(id,id_tutor,id_alumno,id_problema, pregunta, respuesta) VALUES (1,null,1,0,'¿La moneda es de 2 euros?', null);
 INSERT INTO pregunta(id,id_tutor,id_alumno,id_problema, pregunta, respuesta) VALUES (2,1,1,1,'¿Dónde está Fuente Palmera?', 'Eso no es relevante para la resolución del problema.');
 
-INSERT INTO logros(id,nombre_logro,imagen) VALUES (0,'10 envios realizados','resources/images/logros/logroEnvio.jpg'); --envio
-INSERT INTO logros(id,nombre_logro,imagen) VALUES (1,'50 envios realizados','resources/images/logros/logroEnvio.jpg'); --envio
-INSERT INTO logros(id,nombre_logro,imagen) VALUES (2,'100 envios realizados','resources/images/logros/logroEnvio.jpg'); --envio
-INSERT INTO logros(id,nombre_logro,imagen) VALUES (3,'500 envios realizados','resources/images/logros/logroEnvio.jpg'); --envio
-INSERT INTO logros(id,nombre_logro,imagen) VALUES (4,'1000 envios realizados','resources/images/logros/logroEnvio.jpg'); --envio
-INSERT INTO logros(id,nombre_logro,imagen) VALUES (5,'10 envios con accepted','resources/images/logros/logroAccept.jpg');  --accepted
-INSERT INTO logros(id,nombre_logro,imagen) VALUES (6,'25 envios con accepted','resources/images/logros/logroAccept.jpg'); --accepted
-INSERT INTO logros(id,nombre_logro,imagen) VALUES (7,'50 envios con accepted','resources/images/logros/logroAccept.jpg'); --accepted
-INSERT INTO logros(id,nombre_logro,imagen) VALUES (8,'10 envios con wrong answer','resources/images/logros/logroWrong.jpg'); --wrong
-INSERT INTO logros(id,nombre_logro,imagen) VALUES (9,'25 envios con wrong answer','resources/images/logros/logroWrong.jpg'); --wrong
-INSERT INTO logros(id,nombre_logro,imagen) VALUES (10,'50 envios con wrong answer','resources/images/logros/logroWrong.jpg'); --wrong
+INSERT INTO logros(id,nombre_logro,imagen) VALUES (0,'10 envios realizados','resources/images/logros/logro_10e.jpg'); --envio
+INSERT INTO logros(id,nombre_logro,imagen) VALUES (1,'50 envios realizados','resources/images/logros/logro_50e.jpg'); --envio
+INSERT INTO logros(id,nombre_logro,imagen) VALUES (2,'100 envios realizados','resources/images/logros/logro_100e.jpg'); --envio
+INSERT INTO logros(id,nombre_logro,imagen) VALUES (3,'500 envios realizados','resources/images/logros/logro_500e.jpg'); --envio
+INSERT INTO logros(id,nombre_logro,imagen) VALUES (4,'1000 envios realizados','resources/images/logros/logro_1000e.jpg'); --envio
+INSERT INTO logros(id,nombre_logro,imagen) VALUES (5,'10 envios con accepted','resources/images/logros/logro_10AC.jpg');  --accepted
+INSERT INTO logros(id,nombre_logro,imagen) VALUES (6,'25 envios con accepted','resources/images/logros/logro_25AC.jpg'); --accepted
+INSERT INTO logros(id,nombre_logro,imagen) VALUES (7,'50 envios con accepted','resources/images/logros/logro_50AC.jpg'); --accepted
+INSERT INTO logros(id,nombre_logro,imagen) VALUES (8,'100 envios con accepted','resources/images/logros/logro_100AC.jpg'); --accepted
+INSERT INTO logros(id,nombre_logro,imagen) VALUES (9,'10 envios con wrong answer','resources/images/logros/logro_10WA.jpg'); --wrong
+INSERT INTO logros(id,nombre_logro,imagen) VALUES (10,'25 envios con wrong answer','resources/images/logros/logro_25WA.jpg'); --wrong
+INSERT INTO logros(id,nombre_logro,imagen) VALUES (11,'50 envios con wrong answer','resources/images/logros/logro_50WA.jpg'); --wrong
+INSERT INTO logros(id,nombre_logro,imagen) VALUES (12,'100 envios con wrong answer','resources/images/logros/logro_100WA.jpg'); --wrong
 
 
 
