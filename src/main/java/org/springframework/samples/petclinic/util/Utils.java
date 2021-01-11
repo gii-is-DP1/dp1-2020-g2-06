@@ -3,7 +3,9 @@ package org.springframework.samples.petclinic.util;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Temporada;
+import org.springframework.samples.petclinic.service.AdministradorService;
 import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.CreadorService;
 import org.springframework.samples.petclinic.service.TutorService;
@@ -72,6 +74,26 @@ public class Utils {
 				
 		}
 		
+	}
+	
+	public static boolean CorreoExistente(String email,AlumnoService alumnoService,TutorService tutorService,CreadorService creadorService,AdministradorService administradorService) {
+		boolean alumno = alumnoService.findByEmail(email).isPresent();
+		if(alumno) {
+			return true;
+		}
+		boolean tutor = tutorService.findByEmail(email).isPresent();
+		if(tutor) {
+			return true;
+		}
+		boolean creador = creadorService.findByEmail(email).isPresent();
+		if(creador) {
+			return true;
+		}
+		boolean administrador = administradorService.findByEmail(email).isPresent();
+		if(administrador) {
+			return true;
+		}
+		return false;
 	}
 	
 

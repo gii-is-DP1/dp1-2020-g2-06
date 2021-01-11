@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -73,11 +74,11 @@ public class NoticiaController {
 
 	@PostMapping("/new")
 	public String processCreationForm(@Valid Noticia noticia,BindingResult result,ModelMap model,@RequestParam("image") MultipartFile imagen) throws IOException {
-		if (result.hasErrors() || imagen.getBytes().length/(1024*1024)>10 || imagen.isEmpty()) {
+		if (result.hasErrors() || imagen.isEmpty() || imagen.getBytes().length/(1024*1024)>10 ) {
 			model.clear();
 			model.addAttribute("noticia", noticia);
 			model.addAttribute("autores", tutorService.findAll());
-			model.addAttribute("message",result.getFieldError().getField());
+			model.addAttribute("message",result.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList()));
 			return  "noticias/createOrUpdateNoticiaForm";
 		}
 		else {
@@ -95,6 +96,10 @@ public class NoticiaController {
 	public String editNoticia(@PathVariable("id") int id, ModelMap model) {
 		Optional<Noticia> noticia = noticiaService.findById(id);
 		if(noticia.isPresent()) {
+			if(!noticia.get().getAutores().contains(tutorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get())) {
+				model.addAttribute("message","Pide permiso a un autor para editar esta noticia");
+				return listNoticias(model);
+			}
 			model.addAttribute("noticia", noticia.get());
 			model.addAttribute("autores", tutorService.findAll());
 			return "noticias/createOrUpdateNoticiaForm";
@@ -137,6 +142,10 @@ public class NoticiaController {
 	public String deleteNoticia(@PathVariable("id") int id, ModelMap model) {
 		Optional<Noticia> noticia = noticiaService.findById(id);
 		if(noticia.isPresent()) {
+			if(!noticia.get().getAutores().contains(tutorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get())) {
+				model.addAttribute("message","Pide permiso a un autor para editar esta noticia");
+				return listNoticias(model);
+			}
 			noticiaService.delete(noticia.get());
 			model.addAttribute("message", "La noticia se ha borrado con exito");
 		}

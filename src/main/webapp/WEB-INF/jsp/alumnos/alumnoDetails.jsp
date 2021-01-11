@@ -32,11 +32,14 @@
         </tr>
        
     </table>
+
+	<c:if test="${me==true}">
+		<spring:url value="/alumnos/${alumno.id}/edit" var="editUrl">
+		</spring:url>
+		<a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar
+			Alumno</a>
+	</c:if>
 	
-   
-    <spring:url value="/alumnos/${alumno.id}/edit" var="editUrl"> </spring:url>
-    <a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar Alumno</a>
-    
 	<br>
 	<br>
    
@@ -82,6 +85,7 @@
     <br>
 	<br>
    
+	<c:if test="${me==true}">
     <h2> Problemas resueltos (estando vigentes)</h2>
     <table class="table table-striped">
   
@@ -97,20 +101,14 @@
    		</c:forEach>
     </table>
     
-    <h2> Preguntas a tutores</h2>
+    <h2> Preguntas a tutores No Respondidas</h2>
     <table class="table table-striped">	
-    <c:forEach items="${preguntasTutor}" var="pregunta">
+    <c:forEach items="${preguntasTutorNoRespondidas}" var="pregunta">
     	<tr>
     		<td>
     		<a href="/problemas/${pregunta.problema.id}"> Problema : <c:out value="${pregunta.problema.name}"/> </a>
     		<br>
     		<c:out value="Pregunta : ${pregunta.pregunta}"/>
-    		<c:if test="${pregunta.tutor!=null}">
-    		<br>
-    		<c:out value="Tutor que responde : ${pregunta.tutor.email}"/>
-    		<br>
-    		<c:out value="Respuesta : ${pregunta.respuesta}"/>
-    		</c:if>
     		</td>
     		
     		
@@ -118,5 +116,24 @@
    		</c:forEach>
     </table>
     
+    <h2> Preguntas a tutores Respondidas</h2>
+    <table class="table table-striped">	
+    <c:forEach items="${preguntasTutorRespondidas}" var="pregunta">
+    	<tr>
+    		<td>
+    		<a href="/problemas/${pregunta.problema.id}"> Problema : <c:out value="${pregunta.problema.name}"/> </a>
+    		<br>
+    		<c:out value="Pregunta : ${pregunta.pregunta}"/>
+    		<br>
+    		<c:out value="Tutor que responde : ${pregunta.tutor.email}"/>
+    		<br>
+    		<c:out value="Respuesta : ${pregunta.respuesta}"/>
+    		</td>
+    		
+    		
+    	</tr>
+   		</c:forEach>
+    </table>
+    </c:if>
 
 </petclinic:layout>

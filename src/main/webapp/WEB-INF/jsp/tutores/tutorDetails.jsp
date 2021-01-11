@@ -87,7 +87,7 @@
     		<form:form class="form-horizontal" id="add-problema-form" action="/preguntatutor/answer">
     			<input type=hidden name=idTutor value="${tutor.id}"/>
     			<input type=hidden name=preguntaTutor value="${pregunta.id}"/>
-    			<textArea  name="respuesta" rows="6"> </textArea>/> 
+    			<textArea  name="respuesta" rows="6"> </textArea>
     			<button class="btn btn-default" type="submit">Responder</button>
     		</form:form>
     		</td>

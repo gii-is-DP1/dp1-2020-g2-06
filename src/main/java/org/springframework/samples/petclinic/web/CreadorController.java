@@ -14,9 +14,12 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Creador;
+import org.springframework.samples.petclinic.service.AdministradorService;
+import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.AuthService;
 import org.springframework.samples.petclinic.service.CreadorService;
 import org.springframework.samples.petclinic.service.FileService;
+import org.springframework.samples.petclinic.service.TutorService;
 import org.springframework.samples.petclinic.util.Utils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -34,6 +37,15 @@ public class CreadorController {
 	
 	private final Path rootImage = Paths.get("src/main/resources/static/resources/images/creadores");
 
+	@Autowired
+	AlumnoService alumnoService;
+	
+	@Autowired
+	TutorService tutorService;
+	
+	@Autowired
+	AdministradorService administradorService;
+	
 	@Autowired
 	CreadorService creadorService;
 	
@@ -71,6 +83,13 @@ public class CreadorController {
 	
 	@PostMapping("/new")
 	public String processCreationForm(@Valid Creador creador, BindingResult result,ModelMap model,@RequestParam("image") MultipartFile imagen) throws IOException {
+		boolean emailExistente = Utils.CorreoExistente(creador.getEmail(),alumnoService,tutorService,creadorService,administradorService);
+		if(emailExistente) {
+			model.clear();
+			model.addAttribute("creador", creador);
+			model.addAttribute("message", "Ya existe una cuenta con ese correo asociado");
+			return "creadores/createOrUpdateCreadorForm";
+		}
 		if(result.hasErrors()|| imagen.getBytes().length/(1024*1024)>10 || imagen.isEmpty()) {
 			model.clear();
 			model.addAttribute("creador", creador);
@@ -104,6 +123,13 @@ public class CreadorController {
 	@PostMapping("/{id}/edit")
 	public String editCreador(@PathVariable("id") int id, @Valid Creador modifiedCreador, BindingResult binding, ModelMap model,@RequestParam("image") MultipartFile imagen) throws BeansException, IOException {
 		Optional<Creador> creador = creadorService.findById(id);
+		boolean emailExistente = Utils.CorreoExistente(modifiedCreador.getEmail(),alumnoService,tutorService,creadorService,administradorService);
+		if(emailExistente) {
+			model.clear();
+			model.addAttribute("creador", modifiedCreador);
+			model.addAttribute("message", "Ya existe una cuenta con ese correo asociado");
+			return "creadores/createOrUpdateCreadorForm";
+		}
 		if(binding.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
 			model.clear();
 			model.addAttribute("creador", creador);
