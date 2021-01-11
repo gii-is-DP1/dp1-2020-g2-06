@@ -21,6 +21,7 @@ import org.springframework.samples.petclinic.service.CreadorService;
 import org.springframework.samples.petclinic.service.FileService;
 import org.springframework.samples.petclinic.service.TutorService;
 import org.springframework.samples.petclinic.util.Utils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -75,7 +76,11 @@ public class CreadorController {
 	}
 	
 	@GetMapping("/new")
-	public String initCreationForm(Map<String, Object> model) {
+	public String initCreationForm(ModelMap model) {
+		if(!Utils.authLoggedIn().equals("administrador")) {
+			model.addAttribute("message","Para crear un creador debes estar registrado como administrador");
+			return listCreadores(model);
+		}
 		Creador creador = new Creador();
 		model.put("creador", creador);
 		return "creadores/createOrUpdateCreadorForm";
@@ -109,6 +114,10 @@ public class CreadorController {
 	
 	@GetMapping("/{id}")
 	public String creadorDetails(@PathVariable("id") int id, ModelMap model) {
+		if(!creadorService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+			model.addAttribute("message","Solo puedes editar tu propio perfil");
+			return listCreadores(model);
+		}
 		Optional<Creador> creador = creadorService.findById(id);
 		if(creador.isPresent()) {
 			model.addAttribute("creador", creador.get());

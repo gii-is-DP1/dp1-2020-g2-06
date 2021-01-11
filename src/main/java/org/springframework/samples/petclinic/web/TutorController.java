@@ -28,6 +28,7 @@ import org.springframework.samples.petclinic.service.NoticiaService;
 import org.springframework.samples.petclinic.service.PreguntaTutorService;
 import org.springframework.samples.petclinic.service.TutorService;
 import org.springframework.samples.petclinic.util.Utils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -78,7 +79,11 @@ public class TutorController {
 	}
 	
 	@GetMapping("/new")
-	public String initCreationForm(Map<String, Object> model) {
+	public String initCreationForm(ModelMap model) {
+		if(!Utils.authLoggedIn().equals("administrador")) {
+			model.addAttribute("message","Para crear un tutor debes estar registrado como administrador");
+			return listTutores(model);
+		}
 		Tutor tutor = new Tutor();
 		model.put("tutor", tutor);
 		return "tutores/createOrUpdateTutorForm";
@@ -113,6 +118,10 @@ public class TutorController {
 	
 	@GetMapping("/{id}/edit")
 	public String editTutor(@PathVariable("id") int id, ModelMap model) {
+		if(!tutorService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+			model.addAttribute("message","Solo puedes editar tu propio perfil");
+			return listTutores(model);
+		}
 		Optional<Tutor> tutor = tutorService.findById(id);
 		if(tutor.isPresent()) {
 			model.addAttribute("tutor", tutor.get());
@@ -157,6 +166,11 @@ public class TutorController {
 	@GetMapping("/{id}")
 	public String tutorDetails(@PathVariable("id") int id,@RequestParam(name="page-art", defaultValue="1") int pagea, @RequestParam(name="page-not", defaultValue="1") int pagen, ModelMap model) {
 		Optional<Tutor> tutor = tutorService.findById(id);
+		if(tutor.get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+			model.addAttribute("me",true);
+		}else {
+			model.addAttribute("me",false);
+		}
 		Integer pa = pagea;
 		Integer pn = pagen;
 		Pageable pageableA = PageRequest.of(pagea-1, 3, Sort.by("fecha_publicacion"));
