@@ -83,11 +83,6 @@ class CreadorServiceTests {
 	void shouldFindById(){
 		assertThat(creadorService.findById(0));
 	}
-
-	@Test
-	void shouldFindIdByEmail(){
-		assertThat(creadorService.findIdByEmail("davbrican@us.es"));
-	}
 	
 	
 	@Test

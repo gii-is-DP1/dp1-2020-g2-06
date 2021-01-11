@@ -30,10 +30,6 @@ public class AlumnoService {
 		return alumnoRepository.findById(id);
 	}
 	
-	public Integer findIdByEmail(String email){
-		return alumnoRepository.findIdByEmail(email);
-	}
-	
 	public void save(Alumno alumno) {
 		alumnoRepository.save(alumno);
 	}

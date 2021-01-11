@@ -16,8 +16,6 @@ public interface AlumnoRepository extends Repository<Alumno, Integer>{
 	
 	Optional<Alumno> findById(int id) throws DataAccessException;
 	
-	@Query(value="SELECT ID FROM ALUMNOS WHERE EMAIL LIKE :email", nativeQuery = true)
-	Integer findIdByEmail(@Param("email") String email) throws DataAccessException;
 	
 	void save(Alumno alumno) throws DataAccessException;
 	

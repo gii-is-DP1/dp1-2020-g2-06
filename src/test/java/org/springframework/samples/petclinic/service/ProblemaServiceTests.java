@@ -54,7 +54,6 @@ public class ProblemaServiceTests {
 		MultipartFile file = new MockMultipartFile(name,
                 originalFileName, contentType, content);
 		
-		problema.setZip("uploads/" + file.getOriginalFilename());
                 
 		this.ProblemaService.saveProblema(problema);	
 		
@@ -86,7 +85,6 @@ public class ProblemaServiceTests {
 		MultipartFile file = new MockMultipartFile(name,
                 originalFileName, contentType, content);
 		
-		problema.setZip("uploads/" + file.getOriginalFilename());
 		
 		Assertions.assertThrows(ConstraintViolationException.class, () ->{
 			this.ProblemaService.saveProblema(problema);	;

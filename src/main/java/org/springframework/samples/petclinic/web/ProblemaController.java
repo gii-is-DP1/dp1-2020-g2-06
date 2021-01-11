@@ -101,7 +101,6 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 			else {
 				String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
 				String namezip = Utils.diferenciador("zip");
-				problema.setZip(rootZip + "/" + namezip);
 				fileService.saveFile(zip,rootZip,namezip);
 				String name = Utils.diferenciador(extensionImagen[extensionImagen.length-1]);
 				problema.setImagen("resources/images/problemas/"  + name);
@@ -109,7 +108,7 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 				
 				Integer idJudge = judgeService.addProblem(2, rootZip + "/" + namezip).getProblemIds().get(0);
 				problema.setIdJudge(idJudge);
-				
+				fileService.delete(rootZip.resolve(namezip));
 				problema.setFechaPublicacion(LocalDate.now());
 				problemaService.saveProblema(problema);
 				String message = "Uploaded the files successfully: ";
@@ -143,12 +142,6 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 				return VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM;
 			}
 			else {
-				if(!zip.isEmpty()) {
-					String aux = problema.get().getZip();
-					problema.get().setZip(rootZip + "/" + Utils.diferenciador("zip"));
-					fileService.delete(Paths.get(aux));
-					fileService.saveFile(zip,rootZip,Utils.diferenciador("zip"));
-				}
 				if(!imagen.isEmpty()) {
 					String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
 					String aux = problema.get().getImagen();
