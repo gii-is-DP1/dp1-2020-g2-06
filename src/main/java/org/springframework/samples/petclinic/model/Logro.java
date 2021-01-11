@@ -20,12 +20,4 @@ public class Logro extends BaseEntity{
 	private String nombre;
 	
 	private String imagen; 
-	
-	@Column(name="tipo_logro")
-	@NotEmpty
-	private String tipo;
-	
-	@Column(name="cantidad_logro")
-	@NotEmpty
-	private Integer cantidad;
 }

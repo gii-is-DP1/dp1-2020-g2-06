@@ -62,9 +62,6 @@ public class Problema extends NamedEntity {
 	
 	private String imagen;
 	
-	
-	private String zip;
-	
 	@ManyToOne
 	@NotNull
 	@JoinColumn(name="id_season")

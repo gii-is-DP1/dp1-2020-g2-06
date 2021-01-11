@@ -19,6 +19,12 @@ public interface EnvioRepository extends Repository<Envio, String>{
 	
 	@Query(value="SELECT * FROM ENVIOS envio WHERE envio.id_alumno=:id", nativeQuery = true)
 	Collection<Envio> findAllByAlumno(@Param("id") int id) throws DataAccessException;
+	
+	@Query(value="SELECT * FROM ENVIOS envio WHERE envio.id_alumno=:id AND envio.resolucion = 'AC'", nativeQuery = true)
+	Collection<Envio> findAllByAlumnoAc(@Param("id") int id) throws DataAccessException;
+	
+	@Query(value="SELECT * FROM ENVIOS envio WHERE envio.id_alumno=:id AND envio.resolucion = 'WA'", nativeQuery = true)
+	Collection<Envio> findAllByAlumnoWa(@Param("id") int id) throws DataAccessException;
 
 	@Query(value="SELECT * FROM ENVIOS envio WHERE envio.id_problema=:id", nativeQuery = true)
 	Collection<Envio> findAllByProblema(@Param("id") int id) throws DataAccessException;

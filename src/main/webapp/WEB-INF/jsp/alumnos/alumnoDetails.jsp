@@ -8,11 +8,13 @@
 
 <petclinic:layout pageName="alumno">
 
-	<h2>
-    <img src="/<c:out value="${alumno.imagen}"/>" id="Imagen" width="200" style="border-radius:100%"/>&nbsp;
-	<c:out value="${alumno.nombre}"/>&nbsp;<c:out value="${alumno.apellidos}"/>
-	</h2>
-
+		<h2>
+    	<img src="/<c:out value="${alumno.imagen}"/>" id="Imagen" width="200" style="border-radius:100%"/>&nbsp;
+		<c:out value="${alumno.nombre}"/>&nbsp;<c:out value="${alumno.apellidos}"/>
+		</h2>
+	
+		
+	
 	 <table class="table table-striped">
 	 <tr>
             <th>Email</th>
@@ -39,6 +41,16 @@
     
 	<br>
 	<br>
+	
+	<h2>Logros</h2>
+    <table class="table table-striped">
+    <c:forEach items="${logros}" var="logro">
+  		<tr>
+			<th><img alt="" src="/<c:out value="${logro.imagen}"/>" id="Imagen" width="50" style="border-radius:100%"/>&nbsp;&nbsp;<c:out value="${logro.nombre}"/></th>
+  		</tr>
+  	</c:forEach>
+    </table>
+	
    
     <h2> Últimos envíos</h2>
     <table class="table table-striped">
