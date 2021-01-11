@@ -19,8 +19,10 @@
         </tr>
     </table>
     
+    <c:if test="${me}">
     <spring:url value="/tutores/${tutor.id}/edit" var="editUrl"> </spring:url>
     <a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar Tutor</a>
+   	</c:if>
    
     <br> <br>
     <br> <br>
@@ -73,6 +75,7 @@
     	</c:if>
     </div>
     
+    <c:if test="${me}">
     <div>
     <table class="table table-striped">
     	<c:forEach items="${preguntasTutor}" var="pregunta">
@@ -95,4 +98,5 @@
    	</c:forEach>
     </table>
     </div>
+    </c:if>
 </petclinic:layout>

@@ -140,6 +140,10 @@ public class AlumnoController {
 	
 	@GetMapping("/{id}/edit")
 	public String editAlumno(@PathVariable("id") int id, ModelMap model) {
+		if(!alumnoService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+			model.addAttribute("message","Solo puedes editar tu propio perfil");
+			return listAlumnos(model);
+		}
 		Optional<Alumno> alumno = alumnoService.findById(id);
 		if(alumno.isPresent()) {
 			model.addAttribute("alumno", alumno.get());
