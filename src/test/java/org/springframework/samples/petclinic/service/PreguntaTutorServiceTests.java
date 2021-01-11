@@ -77,9 +77,15 @@ public class PreguntaTutorServiceTests {
 	}
 	
 	@Test
-	public void shouldFindPreguntaTutorByAlumno() {
-		Collection<PreguntaTutor> preguntas = this.preguntaTutorService.findByAlumnoId(1);
-		assertThat( preguntas.size()).isEqualTo(2);
+	public void shouldFindPreguntaTutorByAlumnoRespondidas() {
+		Collection<PreguntaTutor> preguntas = this.preguntaTutorService.findByAlumnoIdRespondidas(1);
+		assertThat( preguntas.size()).isEqualTo(1);
+	}
+	
+	@Test
+	public void shouldFindPreguntaTutorByAlumnoNoRespondidas() {
+		Collection<PreguntaTutor> preguntas = this.preguntaTutorService.findByAlumnoIdNoRespondidas(1);
+		assertThat( preguntas.size()).isEqualTo(1);
 	}
 
 }

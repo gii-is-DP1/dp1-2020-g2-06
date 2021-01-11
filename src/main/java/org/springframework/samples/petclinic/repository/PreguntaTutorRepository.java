@@ -30,4 +30,10 @@ public interface PreguntaTutorRepository extends Repository<PreguntaTutor, Strin
 
 	@Query(value="SELECT DISTINCT p FROM PreguntaTutor p WHERE p.alumno.id=:id")
 	Collection<PreguntaTutor> findByAlumnoId(@Param("id") int id);
+
+	@Query(value="SELECT DISTINCT p FROM PreguntaTutor p WHERE p.alumno.id=:id AND p.tutor=null")
+	Collection<PreguntaTutor> findByAlumnoIdNoRespondidas(int id);
+	
+	@Query(value="SELECT DISTINCT p FROM PreguntaTutor p WHERE p.alumno.id=:id AND p.tutor!=null")
+	Collection<PreguntaTutor> findByAlumnoIdRespondidas(int id);
 }

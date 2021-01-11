@@ -18,8 +18,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.samples.petclinic.model.PreguntaTutor;
 import org.springframework.samples.petclinic.model.Tutor;
+import org.springframework.samples.petclinic.service.AdministradorService;
+import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.ArticuloService;
 import org.springframework.samples.petclinic.service.AuthService;
+import org.springframework.samples.petclinic.service.CreadorService;
 import org.springframework.samples.petclinic.service.FileService;
 import org.springframework.samples.petclinic.service.NoticiaService;
 import org.springframework.samples.petclinic.service.PreguntaTutorService;
@@ -42,7 +45,16 @@ public class TutorController {
 	private final Path rootImage = Paths.get("src/main/resources/static/resources/images/tutores");
 
 	@Autowired
+	AlumnoService alumnoService;
+	
+	@Autowired
+	CreadorService creadorService;
+	
+	@Autowired
 	TutorService tutorService;
+	
+	@Autowired
+	AdministradorService administradorService;
 	
 	@Autowired
 	ArticuloService articuloService;
@@ -75,6 +87,13 @@ public class TutorController {
 	
 	@PostMapping("/new")
 	public String processCreationForm(@Valid Tutor tutor,BindingResult result,ModelMap model,@RequestParam("image") MultipartFile imagen) throws IOException {
+		boolean emailExistente = Utils.CorreoExistente(tutor.getEmail(),alumnoService,tutorService,creadorService,administradorService);
+		if(emailExistente) {
+			model.clear();
+			model.addAttribute("tutor", tutor);
+			model.addAttribute("message", "Ya existe una cuenta con ese correo asociado");
+			return "tutores/createOrUpdateTutorForm";
+		}
 		if(result.hasErrors()|| imagen.getBytes().length/(1024*1024)>10 || imagen.isEmpty()) {
 			model.clear();
 			model.addAttribute("tutor", tutor);
@@ -108,6 +127,13 @@ public class TutorController {
 	@PostMapping("/{id}/edit")
 	public String editTutor(@PathVariable("id") int id, @Valid Tutor modifiedTutor, BindingResult binding, ModelMap model,@RequestParam("image") MultipartFile imagen) throws BeansException, IOException {
 		Optional<Tutor> tutor = tutorService.findById(id);
+		boolean emailExistente = Utils.CorreoExistente(modifiedTutor.getEmail(),alumnoService,tutorService,creadorService,administradorService);
+		if(emailExistente) {
+			model.clear();
+			model.addAttribute("tutor", modifiedTutor);
+			model.addAttribute("message", "Ya existe una cuenta con ese correo asociado");
+			return "tutores/createOrUpdateTutorForm";
+		}
 		if(binding.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
 			model.clear();
 			model.addAttribute("tutor", tutor.get());
