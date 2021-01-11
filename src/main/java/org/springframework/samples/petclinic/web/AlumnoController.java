@@ -63,15 +63,12 @@ public class AlumnoController {
 	@GetMapping("/{id}")
 	public String alumnoDetails(@PathVariable("id") int id, ModelMap model) {
 		Optional<Alumno> alumno = alumnoService.findById(id);
-		Collection<Logro> logros = new ArrayList<Logro>();
+		Collection<Logro> logros = logroService.obtenerLogros(alumno.get());
 		if(alumno.isPresent()) {
 			model.addAttribute("alumno",alumno.get());
 			Collection<Problema> problemasResueltos = alumnoService.problemasResueltos(id);
 			Collection<Problema> problemasResueltosYear = alumnoService.problemasResueltosThisYear(id);
 			Collection<Problema> problemasResueltosSeason = alumnoService.problemasResueltosThisSeason(id);
-			logros.add(logroService.obtenerLogroEnvio(alumno.get()));
-			logros.add(logroService.obtenerLogroAccepted(alumno.get())); 
-			logros.add(logroService.obtenerLogroWrong(alumno.get()));
 			model.addAttribute("logros", logros);
 			model.addAttribute("problemasresueltos",problemasResueltos);
 			model.addAttribute("puntostotales",problemasResueltos.stream().mapToInt(x->x.getPuntuacion()).sum());

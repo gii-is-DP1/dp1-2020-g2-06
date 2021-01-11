@@ -29,36 +29,62 @@ public class LogroService {
 	}
 	
 	public Collection<Logro> obtenerLogros(Alumno alumno) {
-		Collection<Envio> envios = envioService.findAllByAlumno(alumno.getId());
-		Collection<Envio> enviosAc = envioService.findAllByAlumnoAc(alumno.getId());
+		Integer envios = envioService.findAllByAlumno(alumno.getId()).size();
+		Integer enviosAc = envioService.findAllByAlumnoAc(alumno.getId()).size();
+		Integer enviosWa = envioService.findAllByAlumnoWa(alumno.getId()).size();
 		Collection<Logro> result = new ArrayList<Logro>();
-		if(envios.size()>=1000) {
+		if(envios>=1000) {
 			result.add(logroRepository.findById(4).get());
 			result.add(logroRepository.findById(3).get());
 			result.add(logroRepository.findById(2).get());
 			result.add(logroRepository.findById(1).get());
 			result.add(logroRepository.findById(0).get());
-		}else if(envios.size()>=500) {
+		}else if(envios>=500) {
 			result.add(logroRepository.findById(3).get());
 			result.add(logroRepository.findById(2).get());
 			result.add(logroRepository.findById(1).get());
 			result.add(logroRepository.findById(0).get());
-		}else if(envios.size()>=100) {
+		}else if(envios>=100) {
 			result.add(logroRepository.findById(2).get());
 			result.add(logroRepository.findById(1).get());
 			result.add(logroRepository.findById(0).get());
-		}else if(envios.size()>=50){
+		}else if(envios>=50){
 			result.add(logroRepository.findById(1).get());
 			result.add(logroRepository.findById(0).get());
-		}else if(envios.size()>=10) {
+		}else if(envios>=10) {
 			result.add(logroRepository.findById(0).get());
 		}
 		
-		if(enviosAc.size()>=100) {
+		if(enviosAc>=100) {
 			result.add(logroRepository.findById(8).get());
 			result.add(logroRepository.findById(7).get());
 			result.add(logroRepository.findById(6).get());
 			result.add(logroRepository.findById(5).get());
+		}else if(enviosAc>=50) {
+			result.add(logroRepository.findById(7).get());
+			result.add(logroRepository.findById(6).get());
+			result.add(logroRepository.findById(5).get());
+		}else if(enviosAc>=25) {
+			result.add(logroRepository.findById(6).get());
+			result.add(logroRepository.findById(5).get());
+		}else if(enviosAc>=10) {
+			result.add(logroRepository.findById(5).get());
+		}
+		
+		if(enviosWa>=100) {
+			result.add(logroRepository.findById(12).get());
+			result.add(logroRepository.findById(11).get());
+			result.add(logroRepository.findById(10).get());
+			result.add(logroRepository.findById(9).get());
+		}else if(enviosWa>=50) {
+			result.add(logroRepository.findById(11).get());
+			result.add(logroRepository.findById(10).get());
+			result.add(logroRepository.findById(9).get());
+		}else if(enviosWa>=25) {
+			result.add(logroRepository.findById(10).get());
+			result.add(logroRepository.findById(9).get());
+		}else if(envios>10) {
+			result.add(logroRepository.findById(9).get());
 		}
 		
 		return result;
