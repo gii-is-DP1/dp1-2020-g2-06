@@ -16,12 +16,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Logro;
 import org.springframework.samples.petclinic.model.Problema;
+import org.springframework.samples.petclinic.service.AdministradorService;
 import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.AuthService;
+import org.springframework.samples.petclinic.service.CreadorService;
 import org.springframework.samples.petclinic.service.FileService;
 import org.springframework.samples.petclinic.service.LogroService;
 import org.springframework.samples.petclinic.service.PreguntaTutorService;
+import org.springframework.samples.petclinic.service.TutorService;
 import org.springframework.samples.petclinic.util.Utils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -41,6 +45,15 @@ public class AlumnoController {
 	
 	@Autowired
 	AlumnoService alumnoService;
+	
+	@Autowired
+	TutorService tutorService;
+	
+	@Autowired
+	CreadorService creadorService;
+	
+	@Autowired
+	AdministradorService administradorService;
 	
 	@Autowired
 	FileService fileService;
@@ -63,21 +76,24 @@ public class AlumnoController {
 	@GetMapping("/{id}")
 	public String alumnoDetails(@PathVariable("id") int id, ModelMap model) {
 		Optional<Alumno> alumno = alumnoService.findById(id);
-		Collection<Logro> logros = new ArrayList<Logro>();
+		Collection<Logro> logros = logroService.obtenerLogros(alumno.get());
 		if(alumno.isPresent()) {
+			if(alumno.get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+				model.addAttribute("me",true);
+			}else {
+				model.addAttribute("me",false);
+			}
 			model.addAttribute("alumno",alumno.get());
 			Collection<Problema> problemasResueltos = alumnoService.problemasResueltos(id);
 			Collection<Problema> problemasResueltosYear = alumnoService.problemasResueltosThisYear(id);
 			Collection<Problema> problemasResueltosSeason = alumnoService.problemasResueltosThisSeason(id);
-			logros.add(logroService.obtenerLogroEnvio(alumno.get()));
-			logros.add(logroService.obtenerLogroAccepted(alumno.get())); 
-			logros.add(logroService.obtenerLogroWrong(alumno.get()));
 			model.addAttribute("logros", logros);
 			model.addAttribute("problemasresueltos",problemasResueltos);
 			model.addAttribute("puntostotales",problemasResueltos.stream().mapToInt(x->x.getPuntuacion()).sum());
 			model.addAttribute("puntosanuales",problemasResueltosYear.stream().mapToInt(x->x.getPuntuacion()).sum());
 			model.addAttribute("puntostemporada",problemasResueltosSeason.stream().mapToInt(x->x.getPuntuacion()).sum());
-			model.addAttribute("preguntasTutor",preguntasTutorService.findByAlumnoId(id));
+			model.addAttribute("preguntasTutorNoRespondidas",preguntasTutorService.findByAlumnoIdNoRespondidas(id));
+			model.addAttribute("preguntasTutorRespondidas",preguntasTutorService.findByAlumnoIdRespondidas(id));
 			return "alumnos/alumnoDetails";
 		}
 		else {
@@ -96,7 +112,14 @@ public class AlumnoController {
 
 	@PostMapping(value = "/new")
 	public String processCreationForm(@Valid Alumno alumno,BindingResult result,ModelMap model,@RequestParam("image") MultipartFile imagen) throws IOException {
-		if (result.hasErrors() || imagen.isEmpty() || imagen.getBytes().length/(1024*1024)>10) {
+		boolean emailExistente = Utils.CorreoExistente(alumno.getEmail(),alumnoService,tutorService,creadorService,administradorService);
+		if(emailExistente) {
+			model.clear();
+			model.addAttribute("alumno", alumno);
+			model.addAttribute("message", "Ya existe una cuenta con ese correo asociado");
+			return VIEWS_ALUMNO_CREATE_OR_UPDATE_FORM;
+		}
+		if (result.hasErrors() || imagen.isEmpty() || imagen.getBytes().length/(1024*1024)>10 ) {
 			model.clear();
 			model.addAttribute("alumno", alumno);
 			model.addAttribute("message", result.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList()));
@@ -117,6 +140,10 @@ public class AlumnoController {
 	
 	@GetMapping("/{id}/edit")
 	public String editAlumno(@PathVariable("id") int id, ModelMap model) {
+		if(!alumnoService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+			model.addAttribute("message","Solo puedes editar tu propio perfil");
+			return listAlumnos(model);
+		}
 		Optional<Alumno> alumno = alumnoService.findById(id);
 		if(alumno.isPresent()) {
 			model.addAttribute("alumno", alumno.get());
@@ -132,6 +159,13 @@ public class AlumnoController {
 	@PostMapping("/{id}/edit")
 	public String editAlumno(@PathVariable("id") int id, @Valid Alumno modifiedAlumno, BindingResult binding, ModelMap model,@RequestParam("image") MultipartFile imagen) throws BeansException, IOException {
 		Optional<Alumno> alumno = alumnoService.findById(id);
+		boolean emailExistente = Utils.CorreoExistente(modifiedAlumno.getEmail(),alumnoService,tutorService,creadorService,administradorService);
+		if(emailExistente) {
+			model.clear();
+			model.addAttribute("alumno", modifiedAlumno);
+			model.addAttribute("message", "Ya existe una cuenta con ese correo asociado");
+			return VIEWS_ALUMNO_CREATE_OR_UPDATE_FORM;
+		}
 		if(binding.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
 			model.clear();
 			model.addAttribute("alumno", alumno.get());

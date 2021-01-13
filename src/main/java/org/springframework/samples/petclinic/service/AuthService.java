@@ -44,6 +44,7 @@ public class AuthService {
 	private AlumnoService alumnoService;
 	private TutorService tutorService;
 	private CreadorService creadorService;
+	private AdministradorService administradorService;
 
 	@Autowired
 	public AuthService(AuthRepository authRepository,AlumnoService alumnoService,TutorService tutorService,CreadorService creadorService) {

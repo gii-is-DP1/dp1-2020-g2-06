@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -16,6 +17,7 @@ import org.springframework.samples.petclinic.service.ArticuloService;
 import org.springframework.samples.petclinic.service.FileService;
 import org.springframework.samples.petclinic.service.TutorService;
 import org.springframework.samples.petclinic.util.Utils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -75,7 +77,7 @@ public class ArticuloController {
 			model.clear();
 			model.addAttribute("articulo", articulo);
 			model.addAttribute("autores", tutorService.findAll());
-			model.addAttribute("message",result.getFieldError().getField());
+			model.addAttribute("message",result.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList()));
 			return "articulos/createOrUpdateArticuloForm";
 		} else {
 			String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
@@ -90,6 +92,10 @@ public class ArticuloController {
 	@GetMapping("/{id}/edit")
 	public String editArticulo(@PathVariable("id") int id, ModelMap model) {
 		Optional<Articulo> articulo = articuloService.findById(id);
+		if(!articulo.get().getAutores().contains(tutorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get())) {
+			model.addAttribute("message","Pide permiso a un autor para editar este artículo");
+			return listArticulos(model);
+		}
 		if(articulo.isPresent()) {
 			model.addAttribute("articulo", articulo.get());
 			model.addAttribute("autores", tutorService.findAll());
@@ -132,6 +138,10 @@ public class ArticuloController {
 	@GetMapping("/{id}/delete")
 	public String deleteArticulo(@PathVariable("id") int id, ModelMap model) {
 		Optional<Articulo> articulo = articuloService.findById(id);
+		if(!articulo.get().getAutores().contains(tutorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get())) {
+			model.addAttribute("message","Pide permiso a un autor para borrar este artículo");
+			return listArticulos(model);
+		}
 		if(articulo.isPresent()) {
 			articuloService.delete(articulo.get());
 			model.addAttribute("message", "El articulo se ha borrado con exito");
