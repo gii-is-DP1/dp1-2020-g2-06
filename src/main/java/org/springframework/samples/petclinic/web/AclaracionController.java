@@ -32,20 +32,7 @@ public class AclaracionController {
 	
 	@Autowired
 	private AclaracionService aclaracionService;
-	
-	@GetMapping("/{id}")
-	public String aclaracionDetails(@PathVariable("id") int id, ModelMap model) throws IOException {
-		Optional<Aclaracion> aclaracion = aclaracionService.findById(id);
-		if(aclaracion.isPresent()) {
-			model.addAttribute("aclaracion",aclaracion.get());
-			return "aclaraciones/aclaracionDetails";
-		}
-		else {
-			model.addAttribute("message","No podemos encontrar la aclaración que intenta visualizar");
-			return null;
-		}
-		
-	}
+
 	
 	@PostMapping("/new")
 	public String processCreationForm(@Valid Aclaracion aclaracion, BindingResult result, ModelMap model, @RequestParam("idProblema") Integer idProblema) throws IOException {
@@ -55,6 +42,7 @@ public class AclaracionController {
 		} else {
 			aclaracion.setProblema(problemaService.findById(idProblema).get());
 			aclaracion.setTutor(tutorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get());
+			System.out.println("hola");
 			this.aclaracionService.save(aclaracion);
 			return "redirect:/problemas/"+idProblema;
 		}
