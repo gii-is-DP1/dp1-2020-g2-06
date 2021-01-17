@@ -29,7 +29,5 @@
             
 	</c:forEach>
  </table>
-	<%-- <sec:authorize access="hasAuthority('admin')">  --%>
-			<a class="btn btn-default" href='<spring:url value="/alumnos/new" htmlEscape="true"/>'>Añadir Alumno</a>
-		<%-- </sec:authorize> --%>
+
 </petclinic:layout>

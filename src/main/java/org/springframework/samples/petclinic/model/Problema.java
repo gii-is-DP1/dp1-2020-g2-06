@@ -31,7 +31,7 @@ public class Problema extends NamedEntity {
 	private Integer idJudge;
 	
 	@ManyToOne
-	@JoinColumn(name="creador")
+	@JoinColumn(name="id_creador")
 	private Creador creador;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "problema")

@@ -96,10 +96,10 @@
 	</c:forEach>
 
     <spring:url value="{problemaId}/edit" var="editUrl"> <spring:param name="problemaId" value="${problema.id}"/> </spring:url>
-    <sec:authorize access="hasAuthority('creador')"> 
+    <c:if test="${me}">
     	<a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar Problema</a>
     	<br>
-    </sec:authorize>
+    </c:if>
 
 	<sec:authorize access="hasAuthority('tutor')">
 		<div>

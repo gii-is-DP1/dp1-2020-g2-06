@@ -15,11 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Aclaracion;
 import org.springframework.samples.petclinic.model.PreguntaTutor;
 import org.springframework.samples.petclinic.model.Problema;
+import org.springframework.samples.petclinic.service.CreadorService;
 import org.springframework.samples.petclinic.service.EnvioService;
 import org.springframework.samples.petclinic.service.FileService;
 import org.springframework.samples.petclinic.service.JudgeService;
 import org.springframework.samples.petclinic.service.ProblemaService;
 import org.springframework.samples.petclinic.util.Utils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -50,6 +52,9 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 	@Autowired
 	private JudgeService judgeService;
 	
+	@Autowired
+	private CreadorService creadorService;
+	
 	@GetMapping()
 	public String listProblemas(ModelMap modelMap) {
 		Collection<Problema> cp= problemaService.ProblemasVigentes();
@@ -63,6 +68,11 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 		Optional<Problema> problema = problemaService.findById(id);
 		Map<String, Long> resoluciones = envioService.resolucionProblema(id);
 		if(problema.isPresent()) {
+			if(problema.get().getCreador().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+				model.addAttribute("me",true);
+			}else {
+				model.addAttribute("me",false);
+			}
 			if(problema.get().isVigente()) {
 				model.addAttribute("editarTrue",1);
 			}
@@ -83,6 +93,10 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 	
 	@GetMapping(value = "/new")
 	public String initCreationForm(ModelMap model) {
+		if(!Utils.authLoggedIn().equals("creador")) {
+			model.addAttribute("message","Para crear un problema debes estar registrado como creador");
+			return listProblemas(model);
+		}
 		Problema problema = new Problema();
 		model.addAttribute("problema", problema);
 		return VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM;
@@ -110,9 +124,10 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 				problema.setIdJudge(idJudge);
 				fileService.delete(rootZip.resolve(namezip));
 				problema.setFechaPublicacion(LocalDate.now());
+				problema.setCreador(creadorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get());
 				problemaService.saveProblema(problema);
-				String message = "Uploaded the files successfully: ";
-				return "redirect:/problemas/";
+				model.addAttribute("message","Problema creado con exito");
+				return listProblemas(model);
 			}
 		
 	}
@@ -120,6 +135,10 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 	@GetMapping("/{id}/edit")
 	public String editProblema(@PathVariable("id") int id, ModelMap model) {
 		Optional<Problema> problema = problemaService.findById(id);
+		if(!problema.get().getCreador().equals(creadorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get())) {
+			model.addAttribute("message","No puedes editar problemas de otros creadores");
+			return listProblemas(model);
+		}
 		if(problema.isPresent()) {
 			model.addAttribute("problema", problema.get());
 			return VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM;
@@ -133,7 +152,6 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 	
 	@PostMapping("/{id}/edit")
 	public String editProblemas(@PathVariable("id") int id, @Valid Problema modifiedProblema, BindingResult binding, ModelMap model,@RequestParam("zipo") MultipartFile zip,@RequestParam("image") MultipartFile imagen) throws IOException {
-			System.out.println("hello");
 			Optional<Problema> problema = problemaService.findById(id);
 			if(binding.hasErrors() || zip.getBytes().length/(1024*1024)>20 || imagen.getBytes().length/(1024*1024)>10) {
 				model.clear();
