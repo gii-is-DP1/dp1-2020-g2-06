@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.web;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -13,12 +14,14 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Alumno;
+import org.springframework.samples.petclinic.model.Logro;
 import org.springframework.samples.petclinic.model.Problema;
 import org.springframework.samples.petclinic.service.AdministradorService;
 import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.AuthService;
 import org.springframework.samples.petclinic.service.CreadorService;
 import org.springframework.samples.petclinic.service.FileService;
+import org.springframework.samples.petclinic.service.LogroService;
 import org.springframework.samples.petclinic.service.PreguntaTutorService;
 import org.springframework.samples.petclinic.service.TutorService;
 import org.springframework.samples.petclinic.util.Utils;
@@ -61,6 +64,9 @@ public class AlumnoController {
 	@Autowired
 	PreguntaTutorService preguntasTutorService;
 	
+	@Autowired
+	LogroService logroService;
+	
 	@GetMapping("")
 	public String listAlumnos(ModelMap model) {
 		model.addAttribute("alumnos",alumnoService.findAll());
@@ -70,6 +76,7 @@ public class AlumnoController {
 	@GetMapping("/{id}")
 	public String alumnoDetails(@PathVariable("id") int id, ModelMap model) {
 		Optional<Alumno> alumno = alumnoService.findById(id);
+		Collection<Logro> logros = logroService.obtenerLogros(alumno.get());
 		if(alumno.isPresent()) {
 			if(alumno.get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
 				model.addAttribute("me",true);
@@ -80,6 +87,7 @@ public class AlumnoController {
 			Collection<Problema> problemasResueltos = alumnoService.problemasResueltos(id);
 			Collection<Problema> problemasResueltosYear = alumnoService.problemasResueltosThisYear(id);
 			Collection<Problema> problemasResueltosSeason = alumnoService.problemasResueltosThisSeason(id);
+			model.addAttribute("logros", logros);
 			model.addAttribute("problemasresueltos",problemasResueltos);
 			model.addAttribute("puntostotales",problemasResueltos.stream().mapToInt(x->x.getPuntuacion()).sum());
 			model.addAttribute("puntosanuales",problemasResueltosYear.stream().mapToInt(x->x.getPuntuacion()).sum());

@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
-@RequestMapping("/noticias")
+@RequestMapping(value= {"/noticias","/"})
 public class NoticiaController {
 	
 	private final Path rootImage = Paths.get("src/main/resources/static/resources/images/noticias");
