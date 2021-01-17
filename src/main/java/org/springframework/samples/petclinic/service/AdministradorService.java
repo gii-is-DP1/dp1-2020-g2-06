@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Administrador;
+import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Noticia;
 import org.springframework.samples.petclinic.model.Tutor;
 import org.springframework.samples.petclinic.repository.AdministradorRepository;
@@ -30,6 +31,10 @@ public class AdministradorService {
 	
 	public void save(@Valid Administrador administrador) {
 		administradorRepo.save(administrador);
+	}
+
+	public Optional<Administrador> findByEmail(String email) {
+		return administradorRepo.findByEmail(email);
 	}
 	
 	
