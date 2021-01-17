@@ -36,6 +36,9 @@ public class TutorControllerTests {
 	private static final int TEST_TUTOR_ID = 0;
 	
 	@Autowired
+	private TutorController tutorController;
+	
+	@Autowired
 	private MockMvc mockMvc;
 	
 	@MockBean
