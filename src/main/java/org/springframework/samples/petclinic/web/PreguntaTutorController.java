@@ -48,11 +48,9 @@ public class PreguntaTutorController {
 		}
 		else {
 			String email = SecurityContextHolder.getContext().getAuthentication().getName();
-			System.out.println(alumnoService.findByEmail(email).get().getApellidos());
 			preguntaTutor.setAlumno(alumnoService.findByEmail(email).get());
 			preguntaTutor.setProblema(problemaService.findById(idProblema).get());
 			preguntaTutorService.save(preguntaTutor);
-			
 			model.addAttribute("message","Pregunta enviada con éxito");
 			return problemaController.problemaDetails(idProblema,model);
 		}
