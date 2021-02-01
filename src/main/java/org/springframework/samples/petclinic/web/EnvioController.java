@@ -47,6 +47,9 @@ public class EnvioController {
 	@Autowired
 	private JudgeService judgeService;
 	
+	@Autowired
+	private ProblemaController problemaController;
+	
 	
 	@GetMapping("/{id}")
 	public String envioDetails(@PathVariable("id") int id, ModelMap model) throws IOException {
@@ -69,11 +72,11 @@ public class EnvioController {
 	public String envioSend(@PathVariable("problema") int problema, @RequestParam("archivo") MultipartFile archivo, ModelMap model) throws IOException, InterruptedException {
 		if(!Utils.authLoggedIn().equals("alumno")) {
 			model.addAttribute("message","Sólo los alumnos pueden realizar envíos");
-			return null;  ///redirect al problema
+			return problemaController.problemaDetails(problema, model);  ///redirect al problema
 		}
 		else if(archivo.getBytes().length/(1024*1024)>10){
 			model.addAttribute("message","Archivo demasiado grande");
-			return null;  ///redirect al problema
+			return problemaController.problemaDetails(problema, model);  ///redirect al problema
 		}
 		else {
 			String diferenciador = "";
@@ -93,7 +96,7 @@ public class EnvioController {
 			}
 			else {
 				model.addAttribute("message","Tipo de archivo incorrecto");
-				return null; //redirect al problema
+				return problemaController.problemaDetails(problema, model); //redirect al problema
 			}
 			String email = SecurityContextHolder.getContext().getAuthentication().getName();
 			Envio e = new Envio();
