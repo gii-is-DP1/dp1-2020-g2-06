@@ -14,10 +14,14 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Creador;
+import org.springframework.samples.petclinic.service.AdministradorService;
+import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.AuthService;
 import org.springframework.samples.petclinic.service.CreadorService;
 import org.springframework.samples.petclinic.service.FileService;
+import org.springframework.samples.petclinic.service.TutorService;
 import org.springframework.samples.petclinic.util.Utils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -34,6 +38,15 @@ public class CreadorController {
 	
 	private final Path rootImage = Paths.get("src/main/resources/static/resources/images/creadores");
 
+	@Autowired
+	AlumnoService alumnoService;
+	
+	@Autowired
+	TutorService tutorService;
+	
+	@Autowired
+	AdministradorService administradorService;
+	
 	@Autowired
 	CreadorService creadorService;
 	
@@ -63,7 +76,11 @@ public class CreadorController {
 	}
 	
 	@GetMapping("/new")
-	public String initCreationForm(Map<String, Object> model) {
+	public String initCreationForm(ModelMap model) {
+		if(!Utils.authLoggedIn().equals("administrador")) {
+			model.addAttribute("message","Para crear un creador debes estar registrado como administrador");
+			return listCreadores(model);
+		}
 		Creador creador = new Creador();
 		model.put("creador", creador);
 		return "creadores/createOrUpdateCreadorForm";
@@ -71,6 +88,13 @@ public class CreadorController {
 	
 	@PostMapping("/new")
 	public String processCreationForm(@Valid Creador creador, BindingResult result,ModelMap model,@RequestParam("image") MultipartFile imagen) throws IOException {
+		boolean emailExistente = Utils.CorreoExistente(creador.getEmail(),alumnoService,tutorService,creadorService,administradorService);
+		if(emailExistente) {
+			model.clear();
+			model.addAttribute("creador", creador);
+			model.addAttribute("message", "Ya existe una cuenta con ese correo asociado");
+			return "creadores/createOrUpdateCreadorForm";
+		}
 		if(result.hasErrors()|| imagen.getBytes().length/(1024*1024)>10 || imagen.isEmpty()) {
 			model.clear();
 			model.addAttribute("creador", creador);
@@ -90,6 +114,10 @@ public class CreadorController {
 	
 	@GetMapping("/{id}")
 	public String creadorDetails(@PathVariable("id") int id, ModelMap model) {
+		if(!creadorService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+			model.addAttribute("message","Solo puedes editar tu propio perfil");
+			return listCreadores(model);
+		}
 		Optional<Creador> creador = creadorService.findById(id);
 		if(creador.isPresent()) {
 			model.addAttribute("creador", creador.get());
@@ -104,6 +132,13 @@ public class CreadorController {
 	@PostMapping("/{id}/edit")
 	public String editCreador(@PathVariable("id") int id, @Valid Creador modifiedCreador, BindingResult binding, ModelMap model,@RequestParam("image") MultipartFile imagen) throws BeansException, IOException {
 		Optional<Creador> creador = creadorService.findById(id);
+		boolean emailExistente = Utils.CorreoExistente(modifiedCreador.getEmail(),alumnoService,tutorService,creadorService,administradorService);
+		if(emailExistente) {
+			model.clear();
+			model.addAttribute("creador", modifiedCreador);
+			model.addAttribute("message", "Ya existe una cuenta con ese correo asociado");
+			return "creadores/createOrUpdateCreadorForm";
+		}
 		if(binding.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
 			model.clear();
 			model.addAttribute("creador", creador);

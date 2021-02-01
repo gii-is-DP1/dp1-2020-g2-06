@@ -18,13 +18,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.samples.petclinic.model.PreguntaTutor;
 import org.springframework.samples.petclinic.model.Tutor;
+import org.springframework.samples.petclinic.service.AdministradorService;
+import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.ArticuloService;
 import org.springframework.samples.petclinic.service.AuthService;
+import org.springframework.samples.petclinic.service.CreadorService;
 import org.springframework.samples.petclinic.service.FileService;
 import org.springframework.samples.petclinic.service.NoticiaService;
 import org.springframework.samples.petclinic.service.PreguntaTutorService;
 import org.springframework.samples.petclinic.service.TutorService;
 import org.springframework.samples.petclinic.util.Utils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -42,7 +46,16 @@ public class TutorController {
 	private final Path rootImage = Paths.get("src/main/resources/static/resources/images/tutores");
 
 	@Autowired
+	AlumnoService alumnoService;
+	
+	@Autowired
+	CreadorService creadorService;
+	
+	@Autowired
 	TutorService tutorService;
+	
+	@Autowired
+	AdministradorService administradorService;
 	
 	@Autowired
 	ArticuloService articuloService;
@@ -50,7 +63,7 @@ public class TutorController {
 	@Autowired
 	NoticiaService noticiaService;
 	
-	
+	@Autowired
 	FileService fileService;
 	
 	@Autowired
@@ -67,7 +80,11 @@ public class TutorController {
 	}
 	
 	@GetMapping("/new")
-	public String initCreationForm(Map<String, Object> model) {
+	public String initCreationForm(ModelMap model) {
+//		if(!Utils.authLoggedIn().equals("administrador")) {
+//			model.addAttribute("message","Para crear un tutor debes estar registrado como administrador");
+//			return listTutores(model);
+//		}
 		Tutor tutor = new Tutor();
 		model.put("tutor", tutor);
 		return "tutores/createOrUpdateTutorForm";
@@ -75,6 +92,13 @@ public class TutorController {
 	
 	@PostMapping("/new")
 	public String processCreationForm(@Valid Tutor tutor,BindingResult result,ModelMap model,@RequestParam("image") MultipartFile imagen) throws IOException {
+		boolean emailExistente = Utils.CorreoExistente(tutor.getEmail(),alumnoService,tutorService,creadorService,administradorService);
+		if(emailExistente) {
+			model.clear();
+			model.addAttribute("tutor", tutor);
+			model.addAttribute("message", "Ya existe una cuenta con ese correo asociado");
+			return "tutores/createOrUpdateTutorForm";
+		}
 		if(result.hasErrors()|| imagen.getBytes().length/(1024*1024)>10 || imagen.isEmpty()) {
 			model.clear();
 			model.addAttribute("tutor", tutor);
@@ -88,13 +112,18 @@ public class TutorController {
 			tutor.setEnabled(true);
 			tutorService.save(tutor);
 			authService.saveAuthoritiesTutor(tutor.getEmail(), "tutor");
-			return "redirect:/tutores";
+			model.addAttribute("message", "Tutor creado con éxito");
+			return listTutores(model);
 		}
 	}
 	
 	
 	@GetMapping("/{id}/edit")
 	public String editTutor(@PathVariable("id") int id, ModelMap model) {
+		if(!tutorService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+			model.addAttribute("message","Solo puedes editar tu propio perfil");
+			return listTutores(model);
+		}
 		Optional<Tutor> tutor = tutorService.findById(id);
 		if(tutor.isPresent()) {
 			model.addAttribute("tutor", tutor.get());
@@ -108,6 +137,13 @@ public class TutorController {
 	@PostMapping("/{id}/edit")
 	public String editTutor(@PathVariable("id") int id, @Valid Tutor modifiedTutor, BindingResult binding, ModelMap model,@RequestParam("image") MultipartFile imagen) throws BeansException, IOException {
 		Optional<Tutor> tutor = tutorService.findById(id);
+		boolean emailExistente = Utils.CorreoExistente(modifiedTutor.getEmail(),alumnoService,tutorService,creadorService,administradorService);
+		if(emailExistente) {
+			model.clear();
+			model.addAttribute("tutor", modifiedTutor);
+			model.addAttribute("message", "Ya existe una cuenta con ese correo asociado");
+			return "tutores/createOrUpdateTutorForm";
+		}
 		if(binding.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
 			model.clear();
 			model.addAttribute("tutor", tutor.get());
@@ -132,6 +168,11 @@ public class TutorController {
 	@GetMapping("/{id}")
 	public String tutorDetails(@PathVariable("id") int id,@RequestParam(name="page-art", defaultValue="1") int pagea, @RequestParam(name="page-not", defaultValue="1") int pagen, ModelMap model) {
 		Optional<Tutor> tutor = tutorService.findById(id);
+		if(tutor.get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+			model.addAttribute("me",true);
+		}else {
+			model.addAttribute("me",false);
+		}
 		Integer pa = pagea;
 		Integer pn = pagen;
 		Pageable pageableA = PageRequest.of(pagea-1, 3, Sort.by("fecha_publicacion"));

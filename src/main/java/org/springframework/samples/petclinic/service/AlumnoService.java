@@ -51,5 +51,7 @@ public class AlumnoService {
 		return alumnoRepository.findByEmail(email);
 	}
 
-
+	public Collection<Alumno> sortedByPunctuation() {
+		return alumnoRepository.findAll();
+	}
 }

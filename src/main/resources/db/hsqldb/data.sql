@@ -114,11 +114,14 @@ INSERT INTO temporada(id,nombre) VALUES (1,'VERANO');
 INSERT INTO temporada(id,nombre) VALUES (2,'OTOÑO');
 INSERT INTO temporada(id,nombre) VALUES (3,'INVIERNO');
 
+INSERT INTO creadores(id,enabled,nombre,apellidos,email,pass,imagen) VALUES (0,true,'David','Brincau Cano','davbrican@us.es','dbgames5DD@f5','resources/images/creadores/2020122317244979000000.jpg');
+INSERT INTO auths(id,id_alumno,id_tutor,id_creador,authority) VALUES (3,null,null,0,'creador');
 
-INSERT INTO problema(id,id_judge,name,dificultad,puntuacion,descripcion,casos_prueba,salida_esperada,fecha_publicacion,id_season,season_year,imagen) VALUES (0,1,'¡Hola mundo!', 5 , 2 , '
+
+INSERT INTO problema(id,id_creador,id_judge,name,dificultad,puntuacion,descripcion,casos_prueba,salida_esperada,fecha_publicacion,id_season,season_year,imagen) VALUES (0,0,1,'¡Hola mundo!', 5 , 2 , '
 Debes escribir el programa más básico; solo debería mostrar "Hello World!" en un
 línea única, no importa cuál sea la entrada.', '1' , 'Hello World!','2000-04-30',2,2020,'resources/images/problemas/2020122317127570000000.jpg');
-INSERT INTO problema(id,id_judge,name,dificultad,puntuacion,descripcion,casos_prueba,salida_esperada,fecha_publicacion,id_season,season_year,imagen) VALUES (1,2,'Comparación Flotante', 6, 5 , 'Este programa prueba el script de comparación de coma flotante especial que acompaña a DOMjudge.
+INSERT INTO problema(id,id_creador,id_judge,name,dificultad,puntuacion,descripcion,casos_prueba,salida_esperada,fecha_publicacion,id_season,season_year,imagen) VALUES (1,0,2,'Comparación Flotante', 6, 5 , 'Este programa prueba el script de comparación de coma flotante especial que acompaña a DOMjudge.
 La entrada del problema consiste primero en una línea con un solo entero, luego en tantas líneas,
 con en cada línea un número de coma flotante (posiblemente también ± inf o nan). Por cada flotante
 número de punto, se debe escribir una línea que contenga el recíproco del número, dentro
@@ -139,7 +142,7 @@ nan' , 'inf</br>
 0</br>
 NaN
 ','2020-11-28',1,2020,'resources/images/problemas/20201223171314927000000.jpg');
-INSERT INTO problema(id,id_judge,name,dificultad,puntuacion,descripcion,casos_prueba,salida_esperada,fecha_publicacion,id_season,season_year,imagen) VALUES (2,3,'Boolfind', 3, 2 , 'Tenemos un array muy largo de valores booleanos y se sabe que el primer valor es verdadero.
+INSERT INTO problema(id,id_creador,id_judge,name,dificultad,puntuacion,descripcion,casos_prueba,salida_esperada,fecha_publicacion,id_season,season_year,imagen) VALUES (2,0,3,'Boolfind', 3, 2 , 'Tenemos un array muy largo de valores booleanos y se sabe que el primer valor es verdadero.
 y el último valor falso. Se le pide que busque una posición en la matriz donde el valor verdadero es reemplazado por falso.
 </br>La entrada es la siguiente:</br>
 La primera línea contiene un entero: el número de casos de prueba.
@@ -156,8 +159,8 @@ true' , 'READ 2
 </br>READ 1
 </br>OUTPUT 1
 ','2000-04-30',2,2020,'resources/images/problemas/20201223171314927000000.jpg');
-INSERT INTO problema(id,id_judge,name,dificultad,puntuacion,descripcion,casos_prueba,salida_esperada,fecha_publicacion,id_season,season_year,imagen) VALUES (3,3,'La fuga de Rarmon v.2', 3, 5 , 'Debe encontrar la manera de escapar de FuentePalmera', '0 1 2' , '1','2000-04-30',3,2020,'resources/images/problemas/2020122317810299000000.jpg');
-INSERT INTO problema(id,id_judge,name,dificultad,puntuacion,descripcion,casos_prueba,salida_esperada,fecha_publicacion,id_season,season_year,imagen) VALUES (4,3,'Hello World!', 1 , 1 , 'Imprimir n veces "Hello World!"', 'Hello World! \nHello World! \nHello World!' , '1','2000-04-30',2,2019,'resources/images/problemas/2020122317827911000000.jpg');
+INSERT INTO problema(id,id_creador,id_judge,name,dificultad,puntuacion,descripcion,casos_prueba,salida_esperada,fecha_publicacion,id_season,season_year,imagen) VALUES (3,0,3,'La fuga de Rarmon v.2', 3, 5 , 'Debe encontrar la manera de escapar de FuentePalmera', '0 1 2' , '1','2000-04-30',3,2020,'resources/images/problemas/2020122317810299000000.jpg');
+INSERT INTO problema(id,id_creador,id_judge,name,dificultad,puntuacion,descripcion,casos_prueba,salida_esperada,fecha_publicacion,id_season,season_year,imagen) VALUES (4,0,3,'Hello World!', 1 , 1 , 'Imprimir n veces "Hello World!"', 'Hello World! \nHello World! \nHello World!' , '1','2000-04-30',2,2019,'resources/images/problemas/2020122317827911000000.jpg');
 
 
 INSERT INTO articulos(id,name,fecha_publicacion,texto,imagen_articulo) VALUES (0,'Articulo sobre DBGames',DATE'2020-07-22','Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum', 'resources/images/articulos/2020122317810299000000.jpg');
@@ -197,10 +200,6 @@ INSERT INTO auths(id,id_alumno,id_tutor,id_creador,authority) VALUES (1,1,null,n
 INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir) VALUES (2,true,'Alexis','Balboa','alexisbalbo@alum.us.es','resources/images/alumnos/20201223155630996653000.jpeg','nothiWW#ng2lose',true);
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,authority) VALUES (2,2,null,null,'alumno');
 
-
-INSERT INTO creadores(id,enabled,nombre,apellidos,email,pass,imagen) VALUES (0,true,'David','Brincau Cano','davbrican@us.es','dbgames5DD@f5','resources/images/creadores/2020122317244979000000.jpg');
-INSERT INTO auths(id,id_alumno,id_tutor,id_creador,authority) VALUES (3,null,null,0,'creador');
-
 INSERT INTO envios(id,id_judge,fecha,codigo_path,resolucion,id_alumno,id_problema,id_season,season_year) VALUES (0,0,'2020-08-21T11:13:13.274','codes/prueba.java','AC',0,1,0,2020);
 INSERT INTO envios(id,id_judge,fecha,codigo_path,resolucion,id_alumno,id_problema,id_season,season_year) VALUES (1,1,'2010-11-21T11:13:13.274','codes/prueba.c','AC',0,1,2,2010);
 INSERT INTO envios(id,id_judge,fecha,codigo_path,resolucion,id_alumno,id_problema,id_season,season_year) VALUES (2,2,'2020-11-21T11:13:13.274','codes/prueba.java','AC',0,0,2,2020);
@@ -236,17 +235,19 @@ INSERT INTO pregunta(id,id_tutor,id_alumno,id_problema, pregunta, respuesta) VAL
 INSERT INTO pregunta(id,id_tutor,id_alumno,id_problema, pregunta, respuesta) VALUES (1,null,1,0,'¿La moneda es de 2 euros?', null);
 INSERT INTO pregunta(id,id_tutor,id_alumno,id_problema, pregunta, respuesta) VALUES (2,1,1,1,'¿Dónde está Fuente Palmera?', 'Eso no es relevante para la resolución del problema.');
 
-INSERT INTO logros(id,nombre_logro,imagen) VALUES (0,'10 envios realizados','resources/images/logros/logroEnvio.jpg'); --envio
-INSERT INTO logros(id,nombre_logro,imagen) VALUES (1,'50 envios realizados','resources/images/logros/logroEnvio.jpg'); --envio
-INSERT INTO logros(id,nombre_logro,imagen) VALUES (2,'100 envios realizados','resources/images/logros/logroEnvio.jpg'); --envio
-INSERT INTO logros(id,nombre_logro,imagen) VALUES (3,'500 envios realizados','resources/images/logros/logroEnvio.jpg'); --envio
-INSERT INTO logros(id,nombre_logro,imagen) VALUES (4,'1000 envios realizados','resources/images/logros/logroEnvio.jpg'); --envio
-INSERT INTO logros(id,nombre_logro,imagen) VALUES (5,'10 envios con accepted','resources/images/logros/logroAccept.jpg');  --accepted
-INSERT INTO logros(id,nombre_logro,imagen) VALUES (6,'25 envios con accepted','resources/images/logros/logroAccept.jpg'); --accepted
-INSERT INTO logros(id,nombre_logro,imagen) VALUES (7,'50 envios con accepted','resources/images/logros/logroAccept.jpg'); --accepted
-INSERT INTO logros(id,nombre_logro,imagen) VALUES (8,'10 envios con wrong answer','resources/images/logros/logroWrong.jpg'); --wrong
-INSERT INTO logros(id,nombre_logro,imagen) VALUES (9,'25 envios con wrong answer','resources/images/logros/logroWrong.jpg'); --wrong
-INSERT INTO logros(id,nombre_logro,imagen) VALUES (10,'50 envios con wrong answer','resources/images/logros/logroWrong.jpg'); --wrong
+INSERT INTO logros(id,nombre_logro,imagen) VALUES (0,'10 envios realizados','resources/images/logros/logro_10e.png'); --envio
+INSERT INTO logros(id,nombre_logro,imagen) VALUES (1,'50 envios realizados','resources/images/logros/logro_50e.png'); --envio
+INSERT INTO logros(id,nombre_logro,imagen) VALUES (2,'100 envios realizados','resources/images/logros/logro_100e.png'); --envio
+INSERT INTO logros(id,nombre_logro,imagen) VALUES (3,'500 envios realizados','resources/images/logros/logro_500e.png'); --envio
+INSERT INTO logros(id,nombre_logro,imagen) VALUES (4,'1000 envios realizados','resources/images/logros/logro_1000e.png'); --envio
+INSERT INTO logros(id,nombre_logro,imagen) VALUES (5,'10 envios con accepted','resources/images/logros/logro_10AC.png');  --accepted
+INSERT INTO logros(id,nombre_logro,imagen) VALUES (6,'25 envios con accepted','resources/images/logros/logro_25AC.png'); --accepted
+INSERT INTO logros(id,nombre_logro,imagen) VALUES (7,'50 envios con accepted','resources/images/logros/logro_50AC.png'); --accepted
+INSERT INTO logros(id,nombre_logro,imagen) VALUES (8,'100 envios con accepted','resources/images/logros/logro_100AC.png'); --accepted
+INSERT INTO logros(id,nombre_logro,imagen) VALUES (9,'10 envios con wrong answer','resources/images/logros/logro_10WA.png'); --wrong
+INSERT INTO logros(id,nombre_logro,imagen) VALUES (10,'25 envios con wrong answer','resources/images/logros/logro_25WA.png'); --wrong
+INSERT INTO logros(id,nombre_logro,imagen) VALUES (11,'50 envios con wrong answer','resources/images/logros/logro_50WA.png'); --wrong
+INSERT INTO logros(id,nombre_logro,imagen) VALUES (12,'100 envios con wrong answer','resources/images/logros/logro_100WA.png'); --wrong
 
 
 

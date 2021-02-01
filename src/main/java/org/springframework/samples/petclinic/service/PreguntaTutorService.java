@@ -36,8 +36,12 @@ public class PreguntaTutorService {
 		return preguntaTutorRepository.findByProblemaNotAnswered();
 	}
 	
-	public Collection<PreguntaTutor> findByAlumnoId(int id){
-		return preguntaTutorRepository.findByAlumnoId(id);
+	public Collection<PreguntaTutor> findByAlumnoIdRespondidas(int id){
+		return preguntaTutorRepository.findByAlumnoIdRespondidas(id);
+	}
+	
+	public Collection<PreguntaTutor> findByAlumnoIdNoRespondidas(int id){
+		return preguntaTutorRepository.findByAlumnoIdNoRespondidas(id);
 	}
 	
 }
