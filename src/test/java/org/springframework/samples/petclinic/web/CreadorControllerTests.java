@@ -117,5 +117,23 @@ public class CreadorControllerTests {
 		.andExpect(status().isOk())
 		.andExpect(view().name("exception"));
 	}
+	
+	/*
+    @WithMockUser(value = "spring")
+	@Test
+	void testProcessUpdateCreadorFormHasErrors() throws Exception {
+		mockMvc.perform(post("/creadores/{id}/edit", TEST_CREADOR_ID)
+							.with(csrf())
+							.param("apellidos", "García Villar")
+							.param("nombre", "Juan")
+							.param("email", "juaostrub@alum.us.es")
+							.param("imagen", "resources/images/NoImage.png"))
+				.andExpect(status().isOk())
+				.andExpect(model().attributeHasErrors("creador"))
+				.andExpect(model().attributeHasFieldErrors("creador", "email"))
+				.andExpect(model().attributeHasFieldErrors("creador", "imagen"))
+				.andExpect(view().name("creadores/createOrUpdateCreadorForm"));
+	}
+	*/
 
 }
