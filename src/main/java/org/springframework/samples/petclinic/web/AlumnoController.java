@@ -134,7 +134,7 @@ public class AlumnoController {
 			alumnoService.save(alumno);
 			authService.saveAuthoritiesAlumno(alumno.getEmail(), "alumno");
 			
-			return "redirect:/";
+			return "redirect:/alumnos/"+alumno.getId();
 		}
 	}
 	
