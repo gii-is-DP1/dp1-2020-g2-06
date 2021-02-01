@@ -63,7 +63,7 @@ public class EnvioController {
 		}
 		else {
 			model.addAttribute("message","No podemos encontrar el envío que intenta visualizar");
-			return null;
+			return problemaController.listProblemas(model);
 		}
 		
 	}
@@ -89,7 +89,7 @@ public class EnvioController {
 			else if(filename.endsWith("c")) {
 				extension = "c";
 				diferenciador = Utils.diferenciador(extension);
-		}
+			}
 			else if(filename.endsWith("cpp")) {
 				extension = "cpp";
 				diferenciador = Utils.diferenciador(extension);
