@@ -128,7 +128,7 @@ public class TutorControllerTests {
 							.param("nombre", "Juanra")
 							.param("apellidos", "Ostos")
 							.param("email", "rarmon@alum.us.es")
-							.param("pass", "Esto@@esUnaKK")
+							.param("pass", "Esto@@esUna4")
 							)
 		.andExpect(status().isOk()).andExpect(view().name("/tutores/tutoresList"));
 	}
