@@ -4,6 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <petclinic:layout pageName="envios">
 
@@ -24,20 +25,19 @@
     	</table>
 	</c:forEach>
 	
-	<h2>Escribe tu mensaje</h2>
-	<form:form modelAttribute="publicacion" class="form-horizontal" id="add-owner-form">
-        <div class="form-group has-feedback">
-            
-            <petclinic:textArea label="Texto" name="texto" rows="12"/>
-           
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                        <button class="btn btn-default" type="submit">Publicar</button>
-
-            </div>
-        </div>
-    </form:form>
+	<sec:authorize access="hasAuthority('alumno')">
+		<h2>Escribe tu mensaje</h2>
+		<form:form action="/foro/new" modelAttribute="publicacion" class="form-horizontal" id="add-owner-form">
+	        <div class="form-group has-feedback">
+	            <petclinic:textArea label="Texto" name="texto" rows="12"/>
+	        </div>
+	        <div class="form-group">
+	            <div class="col-sm-offset-2 col-sm-10">
+	                  <button class="btn btn-default" type="submit">Publicar</button>
+	            </div>
+	        </div>
+	    </form:form>
+	 </sec:authorize>
     
     
 	

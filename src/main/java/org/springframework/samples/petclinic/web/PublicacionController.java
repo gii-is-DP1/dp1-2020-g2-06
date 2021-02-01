@@ -8,9 +8,11 @@ import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Articulo;
+import org.springframework.samples.petclinic.model.Problema;
 import org.springframework.samples.petclinic.model.Publicacion;
 import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.PublicacionService;
+import org.springframework.samples.petclinic.util.Utils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -37,7 +39,7 @@ public class PublicacionController {
 		return "publicaciones/publicacionesList";
 	}
 	
-	@PostMapping()
+	@PostMapping(value = "/new")
 	public String postPublicacion(@Valid Publicacion publicacion,BindingResult result,ModelMap model) {
 		if(result.hasErrors()) {
 			model.addAttribute("message","Mensaje inválido");

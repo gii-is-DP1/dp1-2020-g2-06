@@ -92,11 +92,11 @@ public class ArticuloController {
 	@GetMapping("/{id}/edit")
 	public String editArticulo(@PathVariable("id") int id, ModelMap model) {
 		Optional<Articulo> articulo = articuloService.findById(id);
-		if(!articulo.get().getAutores().contains(tutorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get())) {
-			model.addAttribute("message","Pide permiso a un autor para editar este artículo");
-			return listArticulos(model);
-		}
 		if(articulo.isPresent()) {
+			if(!articulo.get().getAutores().contains(tutorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get())) {
+				model.addAttribute("message","Pide permiso a un autor para editar este artículo");
+				return listArticulos(model);
+			}
 			model.addAttribute("articulo", articulo.get());
 			model.addAttribute("autores", tutorService.findAll());
 			return "articulos/createOrUpdateArticuloForm";
@@ -111,6 +111,10 @@ public class ArticuloController {
 	@PostMapping("/{id}/edit")
 	public String editArticulo(@PathVariable("id") int id, @Valid Articulo modifiedArticulo, BindingResult binding, ModelMap model,@RequestParam("image") MultipartFile imagen) throws BeansException, IOException {
 		Optional<Articulo> articulo = articuloService.findById(id);
+		if(!articulo.get().getAutores().contains(tutorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get())) {
+			model.addAttribute("message","Pide permiso a un autor para editar este artículo");
+			return listArticulos(model);
+		}
 		if(binding.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
 			model.clear();
 			model.addAttribute("articulo", articulo.get());
@@ -138,11 +142,11 @@ public class ArticuloController {
 	@GetMapping("/{id}/delete")
 	public String deleteArticulo(@PathVariable("id") int id, ModelMap model) {
 		Optional<Articulo> articulo = articuloService.findById(id);
-		if(!articulo.get().getAutores().contains(tutorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get())) {
-			model.addAttribute("message","Pide permiso a un autor para borrar este artículo");
-			return listArticulos(model);
-		}
 		if(articulo.isPresent()) {
+			if(!articulo.get().getAutores().contains(tutorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get())) {
+				model.addAttribute("message","Pide permiso a un autor para borrar este artículo");
+				return listArticulos(model);
+			}
 			articuloService.delete(articulo.get());
 			model.addAttribute("message", "El articulo se ha borrado con exito");
 		}
