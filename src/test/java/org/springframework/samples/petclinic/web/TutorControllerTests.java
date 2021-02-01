@@ -23,6 +23,7 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.data.domain.Sort;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
@@ -102,13 +103,16 @@ public class TutorControllerTests {
 			tutor.setPass("Codeus@49lsañkfjnsafsa");
 			tutor.setEnabled(true);
 			t = Optional.of(tutor);
+			
+			
 			given(this.tutorService.findById(TEST_TUTOR_ID)).willReturn(t);
-//			given(this.noticiaService.findNoticiasByTutorPage(TEST_TUTOR_ID, Mockito.any(Pageable.class)).getContent()).willReturn(new ArrayList<Noticia>());
-//			given(this.noticiaService.findNoticiasByTutorPage(TEST_TUTOR_ID, Mockito.any(Pageable.class)).isLast()).willReturn(false);
-//			given(this.noticiaService.findNoticiasByTutorPage(TEST_TUTOR_ID, Mockito.any(Pageable.class)).isFirst()).willReturn(false);
-//			given(this.articuloService.findArticulosByTutorPage(TEST_TUTOR_ID, Mockito.any(Pageable.class)).getContent()).willReturn(new ArrayList<Articulo>());
-//			given(this.articuloService.findArticulosByTutorPage(TEST_TUTOR_ID, Mockito.any(Pageable.class)).isFirst()).willReturn(false);
-//			given(this.articuloService.findArticulosByTutorPage(TEST_TUTOR_ID, Mockito.any(Pageable.class)).isLast()).willReturn(false);
+			
+			given(this.noticiaService.findNoticiasByTutorPage(Mockito.anyInt(), Mockito.any(Pageable.class)))
+			.willReturn(new SliceImpl<Noticia>(new ArrayList<Noticia>()));
+			
+			given(this.articuloService.findArticulosByTutorPage(Mockito.anyInt(), Mockito.any(Pageable.class)))
+			.willReturn(new SliceImpl<Articulo>(new ArrayList<Articulo>()));
+			
 			given(this.preguntaTutorService.findByProblemaNotAnswered()).willReturn(new ArrayList<PreguntaTutor>());
 			mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 			
@@ -171,7 +175,7 @@ public class TutorControllerTests {
 				.param("page-art", "1")
 				.param("page-not", "1"))
 		.andExpect(status().isOk())
-		.andExpect(model().attributeExists("tutor"));
+		.andExpect(view().name("tutores/tutorDetails"));
 		
 	}
 	
