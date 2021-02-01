@@ -63,7 +63,7 @@ public class TutorController {
 	@Autowired
 	NoticiaService noticiaService;
 	
-	
+	@Autowired
 	FileService fileService;
 	
 	@Autowired
@@ -81,10 +81,10 @@ public class TutorController {
 	
 	@GetMapping("/new")
 	public String initCreationForm(ModelMap model) {
-		if(!Utils.authLoggedIn().equals("administrador")) {
-			model.addAttribute("message","Para crear un tutor debes estar registrado como administrador");
-			return listTutores(model);
-		}
+//		if(!Utils.authLoggedIn().equals("administrador")) {
+//			model.addAttribute("message","Para crear un tutor debes estar registrado como administrador");
+//			return listTutores(model);
+//		}
 		Tutor tutor = new Tutor();
 		model.put("tutor", tutor);
 		return "tutores/createOrUpdateTutorForm";
@@ -112,7 +112,8 @@ public class TutorController {
 			tutor.setEnabled(true);
 			tutorService.save(tutor);
 			authService.saveAuthoritiesTutor(tutor.getEmail(), "tutor");
-			return "redirect:/tutores";
+			model.addAttribute("message", "Tutor creado con éxito");
+			return listTutores(model);
 		}
 	}
 	
