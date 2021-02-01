@@ -19,16 +19,16 @@
                     </a>
                 </th>
                 <sec:authorize access="hasAuthority('tutor')"> 
-                <th>
-                	<a href="/noticias/${noticia.id}/edit">
-                	<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                	</a>
-                </th>
-                <th>
-                	<a href="/noticias/${noticia.id}/delete">
-                		<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                	</a>
-                </th>
+	                <th>
+	                	<a href="/noticias/${noticia.id}/edit">
+	                	<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+	                	</a>
+	                </th>
+	                <th>
+	                	<a href="/noticias/${noticia.id}/delete">
+	                		<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+	                	</a>
+	                </th>
                 </sec:authorize>
             </tr>
                 
