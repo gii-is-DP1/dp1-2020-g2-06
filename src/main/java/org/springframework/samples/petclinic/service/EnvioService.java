@@ -33,11 +33,11 @@ public class EnvioService {
 		return envioRepository.findAllByAlumno(id);
 	}
 	
-	public Collection<Envio> findAllByAlumnoAc(int id){
+	public Collection<Integer> findAllByAlumnoAc(int id){
 		return envioRepository.findAllByAlumnoAc(id);
 	}
 	
-	public Collection<Envio> findAllByAlumnoWa(int id){
+	public Collection<Integer> findAllByAlumnoWa(int id){
 		return envioRepository.findAllByAlumnoWa(id);
 	}
 	

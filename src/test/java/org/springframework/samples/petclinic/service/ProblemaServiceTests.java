@@ -28,6 +28,9 @@ public class ProblemaServiceTests {
 	@Autowired
 	ProblemaService ProblemaService;
 	
+	@Autowired
+	CreadorService creadorService;
+	
 	public void shouldInsertProblema() throws IOException {
 		Collection<Problema> normasWeb = this.ProblemaService.findAll();
 		int found = normasWeb.size();
@@ -35,6 +38,7 @@ public class ProblemaServiceTests {
 		Problema problema = new Problema();
 		problema.setName("La piscina olimpica");
 		problema.setDescripcion("Una piscina olimica tiene 50 metros de largo...");
+		problema.setCreador(creadorService.findById(0).get());
 		problema.setPuntuacion(5);
 		problema.setIdJudge(1);
 		problema.setCasos_prueba("50 2 1");
@@ -68,6 +72,7 @@ public class ProblemaServiceTests {
 		problema.setName("La piscina olimpica");
 		problema.setDescripcion("Una piscina olimica tiene 50 metros de largo...");
 		problema.setPuntuacion(5);
+		problema.setCreador(creadorService.findById(0).get());
 		problema.setIdJudge(1);
 		problema.setSalida_esperada("Si");
 		problema.setImagen("https://www.imagendeprueba.com/2");
