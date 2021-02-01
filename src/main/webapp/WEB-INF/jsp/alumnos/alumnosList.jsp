@@ -6,6 +6,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>  
 
 <petclinic:layout pageName="alumnos">
     <h2>Alumnos</h2>
@@ -19,11 +20,13 @@
 					<c:out value="${alumno.nombre}"/>&nbsp;<c:out value="${alumno.apellidos}"/> 
                     </a>
                 </td>
-                <td>
-                	<a href="/alumnos/${alumno.id}/edit">
-                	<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                	</a>
-                </td>
+                <sec:authorize access="hasAuthority('alumno')">
+	                <td>
+	                	<a href="/alumnos/${alumno.id}/edit">
+	                	<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+	                	</a>
+	                </td>
+	            </sec:authorize>
             </tr>
                 
             

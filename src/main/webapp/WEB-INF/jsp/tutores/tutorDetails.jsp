@@ -76,27 +76,27 @@
     </div>
     
     <c:if test="${me}">
-    <div>
-    <table class="table table-striped">
-    	<c:forEach items="${preguntasTutor}" var="pregunta">
-    	<tr>
-    		<td>
-   				<c:out value="Alumno : ${pregunta.alumno.email}"/>
-    		<br>
-    			<a href="/problemas/${pregunta.problema.id}"> Problema : <c:out value="${pregunta.problema.name}"/> </a>
-    		<br>
-    		<c:out value="Pregunta : ${pregunta.pregunta}"></c:out>
-    		<br>
-    		<form:form class="form-horizontal" id="add-problema-form" action="/preguntatutor/answer">
-    			<input type=hidden name=idTutor value="${tutor.id}"/>
-    			<input type=hidden name=preguntaTutor value="${pregunta.id}"/>
-    			<textArea  name="respuesta" rows="6"> </textArea>
-    			<button class="btn btn-default" type="submit">Responder</button>
-    		</form:form>
-    		</td>
-    	</tr>
-   	</c:forEach>
-    </table>
-    </div>
+	    <div>
+	    <table class="table table-striped">
+	    	<c:forEach items="${preguntasTutor}" var="pregunta">
+	    	<tr>
+	    		<td>
+	   				<c:out value="Alumno : ${pregunta.alumno.email}"/>
+	    		<br>
+	    			<a href="/problemas/${pregunta.problema.id}"> Problema : <c:out value="${pregunta.problema.name}"/> </a>
+	    		<br>
+	    		<c:out value="Pregunta : ${pregunta.pregunta}"></c:out>
+	    		<br>
+	    		<form:form class="form-horizontal" id="add-problema-form" action="/preguntatutor/answer">
+	    			<input type=hidden name=idTutor value="${tutor.id}"/>
+	    			<input type=hidden name=preguntaTutor value="${pregunta.id}"/>
+	    			<textArea  name="respuesta" rows="6"> </textArea>
+	    			<button class="btn btn-default" type="submit">Responder</button>
+	    		</form:form>
+	    		</td>
+	    	</tr>
+	   	</c:forEach>
+	    </table>
+	    </div>
     </c:if>
 </petclinic:layout>
