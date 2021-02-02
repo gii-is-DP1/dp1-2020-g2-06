@@ -21,11 +21,11 @@ import lombok.Setter;
 public class Creador extends BaseEntity{
 	
 	@Column(name = "nombre")
-	@NotEmpty(message= "El campo nombre no puede estar vacío")
+	@NotEmpty
 	private String nombre;
 	
 	@Column(name = "apellidos")
-	@NotEmpty(message= "El campo apellidos no puede estar vacío")
+	@NotEmpty
 	private String apellidos;
 	
 	private Boolean enabled;

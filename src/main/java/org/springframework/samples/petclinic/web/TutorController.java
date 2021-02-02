@@ -176,6 +176,7 @@ public class TutorController {
 			model.addAttribute("tutor", tutor.get());
 			model.addAttribute("preguntasTutor",preguntaTutorService.findByProblemaNotAnswered());
 			return "tutores/tutorDetails";
+			
 		}else {
 			model.addAttribute("message", "El tutor al que intenta acceder no existe");
 			return listTutores(model);
