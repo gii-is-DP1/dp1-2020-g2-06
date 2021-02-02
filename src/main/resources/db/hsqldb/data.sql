@@ -235,16 +235,16 @@ INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) V
 INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir) VALUES (2,true,'Alexis','Balboa','alexisbalbo@alum.us.es','resources/images/alumnos/20201223155630996653000.jpeg','nothiWW#ng2lose',true);
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (9,2,null,null,null,'alumno');
 
-INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir) VALUES (3,true,'Amador','Duran','amadordur@alum.us.es','resources/images/alumnos/20201223155630996654000.jpeg','nothiWW#ng2lose',true);
+INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir) VALUES (3,true,'Amador','Duran','amadordur@alum.us.es','resources/images/alumnos/20201223155630996654000.jpg','nothiWW#ng2lose',true);
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (10,3,null,null,null,'alumno');
 
-INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir) VALUES (4,true,'Benito','Perez','benitper@alum.us.es','resources/images/alumnos/20201223155630996655000.jpeg','nothiWW#ng2lose',true);
+INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir) VALUES (4,true,'Benito','Perez','benitper@alum.us.es','resources/images/alumnos/20201223155630996655000.jpg','nothiWW#ng2lose',true);
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (11,4,null,null,null,'alumno');
 
-INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir) VALUES (5,true,'Lucia','Peña','lucype@alum.us.es','resources/images/alumnos/20201223155630996656000.jpeg','nothiWW#ng2lose',true);
+INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir) VALUES (5,true,'Lucia','Peña','lucype@alum.us.es','resources/images/alumnos/20201223155630996656000.jpg','nothiWW#ng2lose',true);
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (12,5,null,null,null,'alumno');
 
-INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir) VALUES (6,true,'Maria','Moya','marmoya@alum.us.es','resources/images/alumnos/20201223155630996657000.jpeg','nothiWW#ng2lose',true);
+INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir) VALUES (6,true,'Maria','Moya','marmoya@alum.us.es','resources/images/alumnos/20201223155630996657000.jpg','nothiWW#ng2lose',true);
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (13,6,null,null,null,'alumno');
 
 INSERT INTO envios(id,id_judge,fecha,codigo_path,resolucion,id_alumno,id_problema,id_season,season_year) VALUES (0,0,'2020-08-21T11:13:13.274','codes/prueba.java','AC',0,1,0,2020);

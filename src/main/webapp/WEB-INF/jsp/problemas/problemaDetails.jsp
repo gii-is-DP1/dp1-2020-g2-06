@@ -198,7 +198,7 @@
 	</c:forEach>
 	</table>
 	
-	<p>Lo han conseguido: </p>&nbsp;<c:out value="${conseguidos}"></c:out>&nbsp;<p> alumnos</p>
+	<h2>Este problema ha sido resuelto por <c:out value="${conseguidos}"></c:out> alumnos</h2>
 	
 	
 </petclinic:layout>
