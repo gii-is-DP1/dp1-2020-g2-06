@@ -7,12 +7,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
+import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Articulo;
 import org.springframework.samples.petclinic.model.Creador;
 import org.springframework.samples.petclinic.model.Envio;
 import org.springframework.samples.petclinic.model.Noticia;
 import org.springframework.samples.petclinic.model.Publicacion;
 import org.springframework.samples.petclinic.model.Problema;
+import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.ArticuloService;
 import org.springframework.samples.petclinic.service.CreadorService;
 import org.springframework.samples.petclinic.service.EnvioService;
@@ -37,6 +39,8 @@ public class ApiRestController {
 	
 	@Autowired
 	ArticuloService articuloService;
+	@Autowired
+	AlumnoService alumnoService;
 	
 	@Autowired
 	NoticiaService noticiaService;
@@ -100,6 +104,17 @@ public class ApiRestController {
 		Pageable pageableA = PageRequest.of(pagea-1, pagsize, Sort.by("id").descending());
 		log.debug(publicacionService.findAllPageable(pageableA).getContent().toString() + "listaa");
 		return publicacionService.findAllPageable(pageableA).getContent();
+	}
+
+	@GetMapping(value="/articulospage",produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Articulo> getArticulos(@RequestParam(name="page", defaultValue="1") int pagea, @RequestParam(name="page-not", defaultValue="1") int pagen, ModelMap model) {
+		Pageable pageableA = PageRequest.of(pagea-1, pagsize, Sort.by("fecha_publicacion").descending());
+		return articuloService.findAllArticulosPage(pageableA).getContent();
+	}
+	@GetMapping(value="/alumnospage",produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Alumno> getALumnos(@RequestParam(name="page", defaultValue="1") int pagea, @RequestParam(name="page-not", defaultValue="1") int pagen, ModelMap model) {
+		Pageable pageableA = PageRequest.of(pagea-1, pagsize, Sort.by("id").descending());
+		return alumnoService.findAllPage(pageableA).getContent();
 	}
 
 }
