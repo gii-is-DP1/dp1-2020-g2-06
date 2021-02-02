@@ -26,5 +26,8 @@ public interface ArticuloRepository extends Repository<Articulo, Integer>{
 
 	@Query(value="SELECT id,name,fecha_publicacion,imagen_articulo,texto FROM Articulos as a LEFT JOIN Articulos_Autores at WHERE a.id = at.articulo_id and at.autores_id = :id", nativeQuery = true)
 	public Slice<Articulo> findArticulosByTutorPageable(@Param("id") int id, Pageable pageable);
+	
+	@Query(value="SELECT * FROM Articulos articulo", nativeQuery=true)
+	public Slice<Articulo> findAllArticulosPageable(Pageable pageable);
 
 }
