@@ -10,20 +10,6 @@
 
     <h2>Mensajes</h2>
           
-      <c:forEach items="${publicaciones}" var="publicacion">
-	<table class="table table-striped">
-    <tr>
-    <td><img src="/<c:out value="${publicacion.alumno.imagen}"/>" id="Imagen" width="50" style="border-radius:100%"/>&nbsp;
-    <a href="/alumnos/${publicacion.alumno.id}">
-    <c:out value="${publicacion.alumno.nombre} ${publicacion.alumno.apellidos}"/>
-    </a></td>
-    </tr>
-  
-    	<tr>
-    	<td><c:out value="${publicacion.texto}"/><td></tr>
-    	
-    	</table>
-	</c:forEach>
 	
 	<sec:authorize access="hasAuthority('alumno')">
 		<h2>Escribe tu mensaje</h2>
@@ -39,6 +25,71 @@
 	    </form:form>
 	 </sec:authorize>
     
+    
+    
+    
+    <table class='table table-striped' id="ListaPublicaciones">
+    	
+    </table>
+    
+    <div style="text-align: center;" id="paginas">
+    	<img id="izquierda-publicacion" width="11px"></img> <span id="numero-publicacion"></span> <img id="derecha-publicacion" width="11px"></img>
+    </div>
+    
+    <script>
+//////////////////////////////////
+    
+	///// paginacion publicaciones 
+	
+    function publicacionespaginable(page){
+    	var publicacionespag = paginate(page,'/api/PageablePublicaciones?page=');
+    	var nextpublicacionpag = paginate(page+1,'/api/PageablePublicaciones?page=');
+
+	    $("#numero-publicacion").text(page);
+	    if(page>1){
+	    	$("#izquierda-publicacion").attr("src","/resources/images/leftrow.svg");
+	    }
+	    else
+	    	{
+	    	$("#izquierda-publicacion").attr("src","");
+	    	}
+
+	    if(nextpublicacionpag.length!=0){
+	     $("#derecha-publicacion").attr("src","/resources/images/rightrow.svg");
+	    }
+	    else{
+	    	$("#derecha-publicacion").attr("src","");
+	    }
+
+	    $("#ListaPublicaciones").html("");
+
+	    $("#ListaPublicaciones").append("<tbody>");
+	    for(var i = 0; i < publicacionespag.length; i++){
+
+	    	$("#ListaPublicaciones").append("<tr> <td> <a href='/alumnos/"+publicacionespag[i]['alumno']['id']+"'>"+ publicacionespag[i]['alumno']['nombre'] + "  " + publicacionespag[i]['alumno']['apellidos'] +"</a> </td> </tr>" + "<tr> <td> <p>" + publicacionespag[i]['texto'] + "</p> </td> </tr> ");
+	    		  
+	    }
+	   
+	    $("#ListaPublicaciones").append("</tbody>");
+	    
+    }
+    
+    var publicacionespage = 1;
+    
+    publicacionespaginable(publicacionespage);
+    
+    document.getElementById("izquierda-publicacion").onclick = function(){
+    	publicacionespage--;
+    	publicacionespaginable(publicacionespage);
+    }
+    document.getElementById("derecha-publicacion").onclick = function(){
+    	publicacionespage++;
+    	publicacionespaginable(publicacionespage);
+    };
+    
+    
+   //////////////////////////////////
+    </script>
     
 	
 </petclinic:layout>

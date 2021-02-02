@@ -7,6 +7,9 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.samples.petclinic.model.Creador;
 import org.springframework.samples.petclinic.model.Publicacion;
 import org.springframework.samples.petclinic.repository.PublicacionRepository;
 import org.springframework.stereotype.Service;
@@ -39,5 +42,10 @@ public class PublicacionService {
 	public void save(@Valid Publicacion publicacion){
 		publicacionRepository.save(publicacion);
 	}	
+
+	public Slice<Publicacion> findAllPageable(Pageable pageable) {
+		return publicacionRepository.findAllPageable(pageable);
+	}
+
 
 }
