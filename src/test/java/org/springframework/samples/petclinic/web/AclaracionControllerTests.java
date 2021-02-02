@@ -17,7 +17,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
-import org.springframework.samples.petclinic.model.Aclaracion;
 import org.springframework.samples.petclinic.model.Problema;
 import org.springframework.samples.petclinic.model.Temporada;
 import org.springframework.samples.petclinic.model.Tutor;
@@ -36,7 +35,6 @@ import org.springframework.test.web.servlet.MockMvc;
 			excludeAutoConfiguration= SecurityConfiguration.class)
 public class AclaracionControllerTests {
 	
-	private static final int TEST_ACLARACION_ID = 0;
 	private static final int TEST_TUTOR_ID = 0;
 	private static final int TEST_PROBLEMA_ID = 0;
 	
@@ -55,13 +53,10 @@ public class AclaracionControllerTests {
 	@MockBean
 	private AuthService authService;
 	
-	private Aclaracion aclaracion;
-	
 	private Tutor tutor;
 	
 	private Problema problema;
 
-	private Temporada temporada;
 	
 	
 	@BeforeEach
@@ -79,6 +74,8 @@ public class AclaracionControllerTests {
 			aux.setNombre("Invierno");
 			problema.setSeason(aux);
 			
+			given(problemaService.findById(any(Integer.class))).willReturn(Optional.of(problema));
+			given(tutorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName())).willReturn(Optional.of(tutor));
 			
 	
 	}
@@ -86,14 +83,23 @@ public class AclaracionControllerTests {
 	@WithMockUser(value = "spring",authorities="tutor")
     @Test
     void testProcessCreationFormSuccess() throws Exception {
-		given(problemaService.findById(any(Integer.class))).willReturn(Optional.of(problema));
-		given(tutorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName())).willReturn(Optional.of(tutor));
 		mockMvc.perform(post("/aclaraciones/new")
 						.with(csrf())
 						.param("texto", "El tipo a usar es long")
 						.param("idProblema", "0"))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(view().name("redirect:/problemas/0"));
-}
+	}
+	
+	@WithMockUser(value = "spring",authorities="creador")
+    @Test
+    void testProcessCreationFormAsCreador() throws Exception {
+		mockMvc.perform(post("/aclaraciones/new")
+						.with(csrf())
+						.param("texto", "El tipo a usar es long")
+						.param("idProblema", "0"))
+			.andExpect(status().is3xxRedirection())
+			.andExpect(view().name("redirect:/problemas/0"));
+	}
 	
 }

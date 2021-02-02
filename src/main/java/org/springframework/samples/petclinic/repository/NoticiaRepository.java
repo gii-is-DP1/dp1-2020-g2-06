@@ -27,4 +27,7 @@ public interface NoticiaRepository extends Repository<Noticia, Integer>{
 	
 	@Query(value="SELECT * FROM NOTICIAS noticia WHERE noticia.autor_id = :id", nativeQuery = true)
 	public Slice<Noticia> findNoticiasByTutorPageable(@Param("id") int id, Pageable pageable);
+
+	@Query(value="SELECT DISTINCT n FROM Noticia n")
+	public Slice<Noticia> findAllPage(Pageable pageable);
 }
