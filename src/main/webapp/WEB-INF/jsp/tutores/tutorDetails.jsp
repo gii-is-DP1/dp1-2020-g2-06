@@ -141,8 +141,8 @@
 	
     function articulospaginable(page){
     	
-    	var articulospag = paginate(page,'/api/articulos/bytutor/'+${tutor.id}+'?page=');
-    	var nextarticulospag = paginate(page+1,'/api/articulos/bytutor/'+${tutor.id}+'?page=');
+    	var articulospag = paginate(page,'http://localhost/api/articulos/bytutor/'+${tutor.id}+'?page=');
+    	var nextarticulospag = paginate(page+1,'http://localhost/api/articulos/bytutor/'+${tutor.id}+'?page=');
     
     	if(page==1 && nextarticulospag.length==0 && articulospag.length==0)
     		$("#numero-art").text("No hay articulos para mostrar");
