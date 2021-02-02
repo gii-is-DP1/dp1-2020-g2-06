@@ -79,10 +79,6 @@ public class TutorController {
 	
 	@GetMapping("/new")
 	public String initCreationForm(ModelMap model) {
-//		if(!Utils.authLoggedIn().equals("administrador")) {
-//			model.addAttribute("message","Para crear un tutor debes estar registrado como administrador");
-//			return listTutores(model);
-//		}
 		Tutor tutor = new Tutor();
 		model.put("tutor", tutor);
 		return "tutores/createOrUpdateTutorForm";
@@ -118,12 +114,12 @@ public class TutorController {
 	
 	@GetMapping("/{id}/edit")
 	public String editTutor(@PathVariable("id") int id, ModelMap model) {
-		if(!tutorService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
-			model.addAttribute("message","Solo puedes editar tu propio perfil");
-			return listTutores(model);
-		}
 		Optional<Tutor> tutor = tutorService.findById(id);
 		if(tutor.isPresent()) {
+			if(!tutorService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+				model.addAttribute("message","Solo puedes editar tu propio perfil");
+				return listTutores(model);
+			}
 			model.addAttribute("tutor", tutor.get());
 			return"tutores/createOrUpdateTutorForm";
 		}else {
@@ -136,6 +132,10 @@ public class TutorController {
 	public String editTutor(@PathVariable("id") int id, @Valid Tutor modifiedTutor, BindingResult binding, ModelMap model,@RequestParam("image") MultipartFile imagen) throws BeansException, IOException {
 		Optional<Tutor> tutor = tutorService.findById(id);
 		boolean emailExistente = Utils.CorreoExistente(modifiedTutor.getEmail(),alumnoService,tutorService,creadorService,administradorService);
+		if(!tutorService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+			model.addAttribute("message","Solo puedes editar tu propio perfil");
+			return listTutores(model);
+		}
 		if(emailExistente) {
 			model.clear();
 			model.addAttribute("tutor", modifiedTutor);
@@ -171,7 +171,10 @@ public class TutorController {
 		}else {
 			model.addAttribute("me",false);
 		}
+<<<<<<< HEAD
 		
+=======
+>>>>>>> branch 'alebarled' of https://github.com/gii-is-DP1/dp1-2020-g2-06.git
 		if(tutor.isPresent()) {
 			model.addAttribute("tutor", tutor.get());
 			model.addAttribute("preguntasTutor",preguntaTutorService.findByProblemaNotAnswered());

@@ -33,20 +33,6 @@ public class ComentarioController {
 	@Autowired
 	private AlumnoService alumnoService;
 	
-	@GetMapping("/{id}")
-	public String comentarioDetails(@PathVariable("id") int id, ModelMap model) throws IOException {
-		Optional<Comentario> comentario = comentarioService.findById(id);
-		if(comentario.isPresent()) {
-			model.addAttribute("comentario",comentario.get());
-			return "comentario/comentarioDetails";
-		}
-		else {
-			model.addAttribute("message","No podemos encontrar el comentario que intenta visualizar");
-			return null;
-		}
-		
-	}
-	
 
 	@PostMapping("/new")
 	public String processCreationForm(@Valid Comentario comentarioNuevo, BindingResult result, ModelMap model, @RequestParam("idEnvio") Integer idEnvio) throws IOException {
@@ -61,5 +47,4 @@ public class ComentarioController {
 		}
 	}
 	
-
 }

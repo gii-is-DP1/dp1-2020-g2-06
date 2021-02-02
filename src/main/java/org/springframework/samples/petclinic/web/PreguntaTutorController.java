@@ -58,7 +58,6 @@ public class PreguntaTutorController {
 	
 	@PostMapping(value = "/answer")
 	public String answer(ModelMap model,@RequestParam("idTutor") Integer idTutor,@RequestParam("preguntaTutor") Integer idpreguntaTutor,@RequestParam("respuesta") String respuesta) throws IOException {
-		System.out.println(respuesta);
 		if (respuesta.equals(" ")) {
 			model.addAttribute("message","La respuesta no puede estar vacía");
 			return tutorController.tutorDetails(idTutor, 1, 1, model);

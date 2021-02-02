@@ -92,7 +92,6 @@ public class TutorControllerTests {
 	
 	@BeforeEach
 		void setup() {
-			Pageable pageableX = PageRequest.of(1, 3);
 			Optional<Tutor> t = Optional.empty();
 			tutor = new Tutor();
 			tutor.setId(TEST_TUTOR_ID);
@@ -171,10 +170,9 @@ public class TutorControllerTests {
 	@WithMockUser(value = "spring", authorities= {"tutor", "administrador"})
 	@Test
 	void testFindProcessTutor() throws Exception {
-		mockMvc.perform(get("/tutores/"+TEST_TUTOR_ID)
-				.param("page-art", "1")
-				.param("page-not", "1"))
+		mockMvc.perform(get("/tutores/"+TEST_TUTOR_ID))
 		.andExpect(status().isOk())
+		.andExpect(model().attributeExists("tutor"))
 		.andExpect(view().name("tutores/tutorDetails"));
 		
 	}

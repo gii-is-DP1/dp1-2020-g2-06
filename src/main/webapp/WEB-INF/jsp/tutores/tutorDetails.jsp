@@ -50,6 +50,7 @@
     </div>
     
     <c:if test="${me}">
+
     <div>
     <table class="table table-striped" >
     	<c:forEach items="${preguntasTutor}" var="pregunta">
@@ -83,7 +84,7 @@
 	
     function noticiaspaginable(page){
     	
-    	var noticiaspag = paginate(page,'http://localhost/api/noticias/bytutor/'+${tutor.id}+'?page=');
+    	var noticiaspag = paginate(page,'/api/noticias/bytutor/'+${tutor.id}+'?page=');
     	var nextnoticiaspag = paginate(page+1,'http://localhost/api/noticias/bytutor/'+${tutor.id}+'?page=');
     
 	    $("#numero-not").text(page);
