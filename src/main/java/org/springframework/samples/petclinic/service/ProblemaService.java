@@ -11,6 +11,8 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.samples.petclinic.model.Articulo;
 import org.springframework.samples.petclinic.model.Envio;
 import org.springframework.samples.petclinic.model.Problema;
@@ -49,30 +51,16 @@ public class ProblemaService {
 	}	
 	
 	public Collection<Problema> ProblemasVigentes() {
-		return problemaRepository.findAll().stream().filter(x->x.isVigente()).collect(Collectors.toList());
+		return problemaRepository.findAllVigente(Utils.getActualYearofSeason(),Utils.getActualSeason().getId());
 	}
 	
 	public Collection<Problema> ProblemasNoVigentes(Collection<Problema> cp) {
-		Collection<Problema> all = problemaRepository.findAll();
-		List<Problema> res = new ArrayList<>();
-		
-		for(Problema p: all) {
-			if(!p.isVigente()) {
-				if(p.getSeasonYear().compareTo(LocalDate.now().getYear())<0) {
-					res.add(p);
-				}
-				else {
-					if(p.getSeasonYear().compareTo(LocalDate.now().getYear())==0) {
-						if(p.getSeason().getId().compareTo(Utils.getActualSeason().getId())<=0)
-							res.add(p);
-					}
-				}
-			}
-		}
-		
-		return res;
+		return problemaRepository.findAllNoVigente(Utils.getActualYearofSeason(),Utils.getActualSeason().getId());
 	}
 	
+	public Slice<Problema> ProblemasNoVigentePage(Pageable pageable){
+		return problemaRepository.findAllNoVigentePage(pageable, Utils.getActualYearofSeason(),Utils.getActualSeason().getId());
+	}
 	
 	public Collection<Problema> findAllByCreador(int id) {
 		return problemaRepository.findAllByCreador(id);
