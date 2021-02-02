@@ -36,6 +36,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("/alumnos")
 public class AlumnoController {
@@ -117,6 +120,7 @@ public class AlumnoController {
 			model.clear();
 			model.addAttribute("alumno", alumno);
 			model.addAttribute("message", "Ya existe una cuenta con ese correo asociado");
+			log.warn("Un alumno esta intentando crear una cuenta con un correo que ya existe");
 			return VIEWS_ALUMNO_CREATE_OR_UPDATE_FORM;
 		}
 		if (result.hasErrors() || imagen.isEmpty() || imagen.getBytes().length/(1024*1024)>10 ) {
@@ -144,6 +148,7 @@ public class AlumnoController {
 		if(alumno.isPresent()) {
 			if(!alumnoService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
 				model.addAttribute("message","Solo puedes editar tu propio perfil");
+				log.warn("Un usuario esta intentando modificar un perfil que no es el suyo");
 				return listAlumnos(model);
 			}
 			model.addAttribute("alumno", alumno.get());
@@ -161,6 +166,7 @@ public class AlumnoController {
 		Optional<Alumno> alumno = alumnoService.findById(id);
 		if(!alumnoService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
 			model.addAttribute("message","Solo puedes editar tu propio perfil");
+			log.warn("Un usuario esta intentado editar un perfil que no es el suyo");
 			return listAlumnos(model);
 		}
 		boolean emailExistente = Utils.CorreoExistente(modifiedAlumno.getEmail(),alumnoService,tutorService,creadorService,administradorService);
