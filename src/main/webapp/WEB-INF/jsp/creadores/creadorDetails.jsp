@@ -19,8 +19,9 @@
        
     </table>
 	
-   
-    <spring:url value="/creadores/${creador.id}/edit" var="editUrl"> </spring:url>
-    <a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar Creador</a>
+   <c:if test="${me==true}">
+   	 	<spring:url value="/creadores/${creador.id}/edit" var="editUrl"> </spring:url>
+    	<a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar Creador</a>
+	</c:if>
 
 </petclinic:layout>

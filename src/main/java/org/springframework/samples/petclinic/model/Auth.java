@@ -29,6 +29,10 @@ public class Auth extends BaseEntity{
 	@JoinColumn(name = "id_creador")
 	Creador creador;
 	
+	@OneToOne
+	@JoinColumn(name = "id_administrador")
+	Administrador administrador;
+	
 	@Size(min = 3, max = 50)
 	String authority;
 	

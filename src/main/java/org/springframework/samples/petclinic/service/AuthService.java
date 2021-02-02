@@ -20,6 +20,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Administrador;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Auth;
 import org.springframework.samples.petclinic.model.Authorities;
@@ -47,11 +48,12 @@ public class AuthService {
 	private AdministradorService administradorService;
 
 	@Autowired
-	public AuthService(AuthRepository authRepository,AlumnoService alumnoService,TutorService tutorService,CreadorService creadorService) {
+	public AuthService(AuthRepository authRepository,AlumnoService alumnoService,TutorService tutorService,CreadorService creadorService,AdministradorService administradorService) {
 		this.authRepository = authRepository;
 		this.alumnoService = alumnoService;
 		this.tutorService = tutorService;
 		this.creadorService = creadorService;
+		this.administradorService = administradorService;
 	}
 
 	@Transactional
@@ -91,6 +93,19 @@ public class AuthService {
 		Optional<Creador> creador = creadorService.findByEmail(email);
 		if(creador.isPresent()) {
 			auth.setCreador(creador.get());
+			auth.setAuthority(role);
+			//user.get().getAuthorities().add(authority);
+			authRepository.save(auth);
+		}else
+			throw new DataAccessException("Email '"+email+"' not found!") {};
+	}
+	
+	@Transactional
+	public void saveAuthoritiesAdministrador(String email, String role) throws DataAccessException {
+		Auth auth = new Auth();
+		Optional<Administrador> administrador = administradorService.findByEmail(email);
+		if(administrador.isPresent()) {
+			auth.setAdministrador(administrador.get());
 			auth.setAuthority(role);
 			//user.get().getAuthorities().add(authority);
 			authRepository.save(auth);

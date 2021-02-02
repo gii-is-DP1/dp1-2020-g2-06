@@ -50,6 +50,7 @@
     </div>
     
     <c:if test="${me}">
+
     <div>
     <table class="table table-striped" >
     	<c:forEach items="${preguntasTutor}" var="pregunta">
