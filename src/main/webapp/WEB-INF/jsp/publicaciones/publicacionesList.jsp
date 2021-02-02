@@ -40,5 +40,71 @@
 	 </sec:authorize>
     
     
+    
+    
+    <table class="table table-striped" id="ListaPublicaciones">
+    	
+    </table>
+    
+    <div style="text-align: center;" id="paginas">
+    	<img id="izquierda-publicacion" width="11px"></img> <span id="numero-publicacion"></span> <img id="derecha-publicacion" width="11px"></img>
+    </div>
+    
+    <script>
+//////////////////////////////////
+    
+	///// paginacion publicaciones 
+	
+    function creadorespaginable(page){
+    	var publicacionespag = paginate(page,'/api/PageablePublicaciones?page=');
+    	var nextpublicacionpag = paginate(page+1,'/api/PageablePublicaciones?page=');
+
+	    $("#numero-publicacion").text(page);
+	    if(page>1){
+	    	$("#izquierda-publicacion").attr("src","/resources/images/leftrow.svg");
+	    }
+	    else
+	    	{
+	    	$("#izquierda-publicacion").attr("src","");
+	    	}
+
+	    if(nextcreadorpag.length!=0){
+	     $("#derecha-publicacion").attr("src","/resources/images/rightrow.svg");
+	    }
+	    else{
+	    	$("#derecha-publicacion").attr("src","");
+	    }
+
+	    
+	    $("#ListaPublicaciones").html("");
+	    
+	    $("#ListaPublicaciones").append("<tbody>");
+	    for(var i = 0; i < creadorespag.length; i++){
+	    	
+	    	$("#ListaPublicaciones").append("<tr> <td> <a href='/foro/"+publicacionespag[i]['id']+"'>"+ publicacionespag[i]['texto'] + "  " + publicacionespag[i]['fecha'] +"</a> </td> </tr>");
+
+	    }
+	   
+	    $("#ListaPublicaciones").append("</tbody>");
+	    
+    }
+    
+    var publicacionespage = 1;
+    
+    publicacionespaginable(publicacionespage);
+    
+    document.getElementById("izquierda-publicacion").onclick = function(){
+    	publicacionespage--;
+    	publicacionespaginable(publicacionespage);
+    }
+    document.getElementById("derecha-publicacion").onclick = function(){
+    	publicacionespage++;
+    	publicacionespaginable(publicacionespage);
+    };
+    
+    
+   //////////////////////////////////
+    </script>
+    
 	
 </petclinic:layout>
