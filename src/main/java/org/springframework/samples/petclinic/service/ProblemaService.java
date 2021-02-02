@@ -49,7 +49,7 @@ public class ProblemaService {
 	}	
 	
 	public Collection<Problema> ProblemasVigentes() {
-		return problemaRepository.findAll().stream().filter(x->x.isVigente()).collect(Collectors.toList());
+		return problemaRepository.findAllVigente(Utils.getActualYearofSeason(),Utils.getActualSeason().getId());
 	}
 	
 	public Collection<Problema> ProblemasNoVigentes(Collection<Problema> cp) {

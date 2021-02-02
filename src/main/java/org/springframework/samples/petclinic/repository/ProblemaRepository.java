@@ -25,5 +25,9 @@ public interface ProblemaRepository extends Repository<Problema,Integer>{
 
 	@Query(value="SELECT p FROM Problema p WHERE p.creador.id LIKE :id")
 	public Collection<Problema> findAllByCreador(@Param("id") int id);
+	
+	@Query(value="SELECT p FROM Problema p WHERE p.seasonYear LIKE :year AND p.season.id LIKE :season_id")
+	public Collection<Problema> findAllVigente(@Param("year") int year, @Param("season_id")int seasonId);	
+	
 
 }
