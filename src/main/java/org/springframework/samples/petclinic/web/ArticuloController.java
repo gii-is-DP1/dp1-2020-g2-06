@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.web;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -12,6 +13,11 @@ import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Articulo;
 import org.springframework.samples.petclinic.service.ArticuloService;
 import org.springframework.samples.petclinic.service.FileService;
@@ -26,6 +32,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
@@ -92,11 +99,11 @@ public class ArticuloController {
 	@GetMapping("/{id}/edit")
 	public String editArticulo(@PathVariable("id") int id, ModelMap model) {
 		Optional<Articulo> articulo = articuloService.findById(id);
-		if(!articulo.get().getAutores().contains(tutorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get())) {
-			model.addAttribute("message","Pide permiso a un autor para editar este artículo");
-			return listArticulos(model);
-		}
 		if(articulo.isPresent()) {
+			if(!articulo.get().getAutores().contains(tutorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get())) {
+				model.addAttribute("message","Pide permiso a un autor para editar este artículo");
+				return listArticulos(model);
+			}
 			model.addAttribute("articulo", articulo.get());
 			model.addAttribute("autores", tutorService.findAll());
 			return "articulos/createOrUpdateArticuloForm";
@@ -111,6 +118,10 @@ public class ArticuloController {
 	@PostMapping("/{id}/edit")
 	public String editArticulo(@PathVariable("id") int id, @Valid Articulo modifiedArticulo, BindingResult binding, ModelMap model,@RequestParam("image") MultipartFile imagen) throws BeansException, IOException {
 		Optional<Articulo> articulo = articuloService.findById(id);
+		if(!articulo.get().getAutores().contains(tutorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get())) {
+			model.addAttribute("message","Pide permiso a un autor para editar este artículo");
+			return listArticulos(model);
+		}
 		if(binding.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
 			model.clear();
 			model.addAttribute("articulo", articulo.get());
@@ -138,11 +149,11 @@ public class ArticuloController {
 	@GetMapping("/{id}/delete")
 	public String deleteArticulo(@PathVariable("id") int id, ModelMap model) {
 		Optional<Articulo> articulo = articuloService.findById(id);
-		if(!articulo.get().getAutores().contains(tutorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get())) {
-			model.addAttribute("message","Pide permiso a un autor para borrar este artículo");
-			return listArticulos(model);
-		}
 		if(articulo.isPresent()) {
+			if(!articulo.get().getAutores().contains(tutorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get())) {
+				model.addAttribute("message","Pide permiso a un autor para borrar este artículo");
+				return listArticulos(model);
+			}
 			articuloService.delete(articulo.get());
 			model.addAttribute("message", "El articulo se ha borrado con exito");
 		}
@@ -152,6 +163,6 @@ public class ArticuloController {
 		return listArticulos(model);
 	}
 	
-
+	
 }
 

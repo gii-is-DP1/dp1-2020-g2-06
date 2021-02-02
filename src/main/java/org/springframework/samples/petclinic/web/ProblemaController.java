@@ -135,11 +135,11 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 	@GetMapping("/{id}/edit")
 	public String editProblema(@PathVariable("id") int id, ModelMap model) {
 		Optional<Problema> problema = problemaService.findById(id);
-		if(!problema.get().getCreador().equals(creadorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get())) {
-			model.addAttribute("message","No puedes editar problemas de otros creadores");
-			return listProblemas(model);
-		}
 		if(problema.isPresent()) {
+			if(!problema.get().getCreador().equals(creadorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get())) {
+				model.addAttribute("message","No puedes editar problemas de otros creadores");
+				return listProblemas(model);
+			}
 			model.addAttribute("problema", problema.get());
 			return VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM;
 		}
@@ -153,6 +153,10 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 	@PostMapping("/{id}/edit")
 	public String editProblemas(@PathVariable("id") int id, @Valid Problema modifiedProblema, BindingResult binding, ModelMap model,@RequestParam("zipo") MultipartFile zip,@RequestParam("image") MultipartFile imagen) throws IOException {
 			Optional<Problema> problema = problemaService.findById(id);
+			if(!problema.get().getCreador().equals(creadorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get())) {
+				model.addAttribute("message","No puedes editar problemas de otros creadores");
+				return listProblemas(model);
+			}
 			if(binding.hasErrors() || zip.getBytes().length/(1024*1024)>20 || imagen.getBytes().length/(1024*1024)>10) {
 				model.clear();
 				model.addAttribute("problema", problema.get());
@@ -180,6 +184,10 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 	@GetMapping("/{id}/delete")
 	public String deleteProblemas(@PathVariable("id") int id, ModelMap model) {
 		Optional<Problema> problema = problemaService.findById(id);
+		if(!problema.get().getCreador().equals(creadorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get())) {
+			model.addAttribute("message","No puedes eliminar problemas de otros creadores");
+			return listProblemas(model);
+		}
 		if(problema.isPresent()) {
 			problemaService.delete(problema.get());
 			model.addAttribute("message", "El problema se ha borrado con exito");

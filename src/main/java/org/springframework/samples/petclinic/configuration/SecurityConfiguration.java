@@ -36,17 +36,44 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/resources/**","/webjars/**","/h2-console/**").permitAll()
 				.antMatchers(HttpMethod.GET, "/","/oups").permitAll()
 				.antMatchers("/users/new").permitAll()
-				.antMatchers("/articulos").permitAll()
-				.antMatchers("/noticias").permitAll()
-				.antMatchers("/tutores/**").permitAll()
-				.antMatchers("/normasWeb").permitAll() //EN SU MOMENTO SOLO SERA EL ADMIN EL UNICO CON PERMISOS PARA ACCEDER A DICHO APARTADO
-				.antMatchers("/alumnos").permitAll() 
+
+				.antMatchers("/aclaraciones/new").hasAuthority("tutor")
+				.antMatchers("/administradores").hasAuthority("administrador")
+				.antMatchers("/alumnos/*").permitAll()
+				.antMatchers("/alumnos/{id}/edit").hasAuthority("alumno")
+				.antMatchers("/articulos/").permitAll()
+				.antMatchers("/articulos/new").hasAuthority("tutor")
+				.antMatchers("/articulos/{id}/edit").hasAuthority("tutor")
+				.antMatchers("/articulos/{id}/delete").hasAuthority("tutor")
+				.antMatchers("/comentarios/new").hasAuthority("alumno")
+				.antMatchers("/creadores/").permitAll()
+				.antMatchers("/creadores/new").hasAuthority("administrador")
+				.antMatchers("/creadores/{id}/edit").hasAuthority("creador")
 				.antMatchers("/envios/").permitAll()
-				.antMatchers("/tablon/").permitAll()
+				.antMatchers("/envios/send/{problema}").hasAuthority("alumno")
+				.antMatchers("/normasWeb/").permitAll()
+				.antMatchers("/normasWeb/new").hasAuthority("tutor")
+				.antMatchers("/normasWeb/{id}/edit").hasAuthority("tutor")
+				.antMatchers("/normasWeb/{id}/delete").hasAuthority("tutor")
+				.antMatchers("/noticias/").permitAll()
+				.antMatchers("/noticias/new").hasAuthority("tutor")
+				.antMatchers("/noticias/{id}/edit").hasAuthority("tutor")
+				.antMatchers("/noticias/{id}/delete").hasAuthority("tutor")
+				.antMatchers("/preguntatutor/new").hasAuthority("alumno")
+				.antMatchers("/preguntatutor/answer").hasAuthority("tutor")
+				.antMatchers("/problemas/").permitAll()
+				.antMatchers("/problemas/new").hasAuthority("creador")
+				.antMatchers("/problemas/{id}/edit").hasAuthority("creador")
+				.antMatchers("/problemas/{id}/delete").hasAuthority("creador")
+				.antMatchers("/foro").permitAll()
+				.antMatchers("/foro/new").hasAuthority("alumno")
+				.antMatchers("/tutores/").permitAll()
+				.antMatchers("/tutores/new").hasAuthority("tutor")
+				.antMatchers("/tutores/{id}/edit").hasAuthority("tutor")
+				.antMatchers("/welcome").permitAll()
 				.antMatchers("/admin/**").hasAnyAuthority("admin")
 				.antMatchers("/owners/**").hasAnyAuthority("owner","admin")				
 				.antMatchers("/vets/**").authenticated()
-				.antMatchers("/preguntatutor/**").permitAll()
 				.anyRequest().permitAll()
 				.and()
 				 	.formLogin()
@@ -70,12 +97,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	      .usersByUsernameQuery(
 	       "select * from (select * from (select email as user,pass as password,enabled from alumnos) union "
 	       + "(select email as user,pass as password,enabled from tutores) union "
-	       + "(select email as user,pass as password,enabled from creadores)) where user = ?")
+	       + "(select email as user,pass as password,enabled from creadores) union "
+	       + "(select email as user,pass as password,enabled from administradores)) where user = ?")
 	      .authoritiesByUsernameQuery(
 	       "select * from (select * from (select email, authority from alumnos a right join auths b on a.id = b.id_alumno) union "
 	       + "(select email, authority from creadores a right join auths b on a.id = b.id_creador) union "
-	       + "(select email, authority from tutores a right join auths b on a.id = b.id_tutor) ) where email = ?")   	      
-	      .passwordEncoder(passwordEncoder());	
+	       + "(select email, authority from tutores a right join auths b on a.id = b.id_tutor) union "
+	       + "(select email, authority from administradores a right join auths b on a.id = b.id_administrador)) where email = ?")      
+	      .passwordEncoder(passwordEncoder());
 	}
 	
 	@Bean

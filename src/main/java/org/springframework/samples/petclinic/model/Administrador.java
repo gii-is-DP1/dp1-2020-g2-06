@@ -26,4 +26,6 @@ public class Administrador extends BaseEntity{
 	@NotEmpty
 	@PassConstraint
 	private String pass;
+	
+	private Boolean enabled;
 }

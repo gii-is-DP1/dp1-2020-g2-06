@@ -4,7 +4,6 @@ package org.springframework.samples.petclinic.web;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -16,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.samples.petclinic.model.PreguntaTutor;
 import org.springframework.samples.petclinic.model.Tutor;
 import org.springframework.samples.petclinic.service.AdministradorService;
 import org.springframework.samples.petclinic.service.AlumnoService;
@@ -81,10 +79,6 @@ public class TutorController {
 	
 	@GetMapping("/new")
 	public String initCreationForm(ModelMap model) {
-//		if(!Utils.authLoggedIn().equals("administrador")) {
-//			model.addAttribute("message","Para crear un tutor debes estar registrado como administrador");
-//			return listTutores(model);
-//		}
 		Tutor tutor = new Tutor();
 		model.put("tutor", tutor);
 		return "tutores/createOrUpdateTutorForm";
@@ -120,12 +114,12 @@ public class TutorController {
 	
 	@GetMapping("/{id}/edit")
 	public String editTutor(@PathVariable("id") int id, ModelMap model) {
-		if(!tutorService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
-			model.addAttribute("message","Solo puedes editar tu propio perfil");
-			return listTutores(model);
-		}
 		Optional<Tutor> tutor = tutorService.findById(id);
 		if(tutor.isPresent()) {
+			if(!tutorService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+				model.addAttribute("message","Solo puedes editar tu propio perfil");
+				return listTutores(model);
+			}
 			model.addAttribute("tutor", tutor.get());
 			return"tutores/createOrUpdateTutorForm";
 		}else {
@@ -138,6 +132,10 @@ public class TutorController {
 	public String editTutor(@PathVariable("id") int id, @Valid Tutor modifiedTutor, BindingResult binding, ModelMap model,@RequestParam("image") MultipartFile imagen) throws BeansException, IOException {
 		Optional<Tutor> tutor = tutorService.findById(id);
 		boolean emailExistente = Utils.CorreoExistente(modifiedTutor.getEmail(),alumnoService,tutorService,creadorService,administradorService);
+		if(!tutorService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+			model.addAttribute("message","Solo puedes editar tu propio perfil");
+			return listTutores(model);
+		}
 		if(emailExistente) {
 			model.clear();
 			model.addAttribute("tutor", modifiedTutor);
@@ -179,18 +177,6 @@ public class TutorController {
 		Pageable pageableN = PageRequest.of(pagen-1, 1, Sort.by("fecha_publicacion"));
 		if(tutor.isPresent()) {
 			model.addAttribute("tutor", tutor.get());
-			model.addAttribute("noticiasTutor", noticiaService.findNoticiasByTutorPage(id, pageableN).getContent());
-			model.addAttribute("articulosTutor", articuloService.findArticulosByTutorPage(id, pageableA).getContent());
-			model.addAttribute("pagenotactual", pn);
-			model.addAttribute("pageartactual", pa);
-			model.addAttribute("npnoticia", pn+1);
-			model.addAttribute("ppnoticia", pn-1);
-			model.addAttribute("nparticulo", pa+1);
-			model.addAttribute("pparticulo", pa-1);
-			model.addAttribute("esUltimaPaginaArticulo", articuloService.findArticulosByTutorPage(id, pageableA).isLast());
-			model.addAttribute("esPrimeraPaginaArticulo", articuloService.findArticulosByTutorPage(id, pageableA).isFirst());
-			model.addAttribute("esUltimaPaginaNoticia", noticiaService.findNoticiasByTutorPage(id, pageableN).isLast());
-			model.addAttribute("esPrimeraPaginaNoticia", noticiaService.findNoticiasByTutorPage(id, pageableN).isFirst());
 			model.addAttribute("preguntasTutor",preguntaTutorService.findByProblemaNotAnswered());
 			return "tutores/tutorDetails";
 			

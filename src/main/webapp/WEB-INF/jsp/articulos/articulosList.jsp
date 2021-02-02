@@ -8,8 +8,6 @@
 <petclinic:layout pageName="articulos">
     <h2>Artículos</h2>
    
-	    
-       
         <c:forEach items="${articulos}" var="articulo">
         <table id="diseasesTable" class="table table-striped">
             <tr>
@@ -19,16 +17,16 @@
                 	</a>
                 </th>
                 <sec:authorize access="hasAuthority('tutor')"> 
-                <th>
-                	<a href="/articulos/${articulo.id}/edit">
-                	<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                	</a>
-                </th>
-                <th>
-                	<a href="/articulos/${articulo.id}/delete">
-                		<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                	</a>
-                </th>
+	                <th>
+	                	<a href="/articulos/${articulo.id}/edit">
+	                	<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+	                	</a>
+	                </th>
+	                <th>
+	                	<a href="/articulos/${articulo.id}/delete">
+	                		<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+	                	</a>
+	                </th>
                 </sec:authorize>
             </tr>
                 
@@ -40,7 +38,8 @@
             </tr>
              </table>
         </c:forEach>
+        
         <sec:authorize access="hasAuthority('tutor')"> 
-       <a class="btn btn-default" href='<spring:url value="/articulos/new" htmlEscape="true"/>'>Crear Articulo</a>
-       </sec:authorize>
+       		<a class="btn btn-default" href='<spring:url value="/articulos/new" htmlEscape="true"/>'>Crear Articulo</a>
+       	</sec:authorize>
 </petclinic:layout> 
