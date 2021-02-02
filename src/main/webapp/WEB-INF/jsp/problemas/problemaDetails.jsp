@@ -46,34 +46,6 @@
             <th>Salida Esperada</th>
             <td><c:out value="${problema.salida_esperada}" escapeXml="false"/></td>
         </tr>
-        <!-- 
-        <tr>
-            <th>Dificultad</th>
-            	
-            <td><c:out value="${puntuacionMedia}" escapeXml="false"/></td>
-            <sec:authorize access="hasAuthority('alumno')">
-				<div>
-					<form:form action="/puntuaciones/new" modelAttribute="puntuacionNueva" class="form-horizontal" id="add-owner-form">
-						<select name="puntuacion">	
-						<option value="0">0</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-						<option value="6">6</option>
-						<option value="7">7</option>
-						<option value="8">8</option>
-						<option value="9">9</option>
-						<option value="10">10</option>
-						</select>
-						<input type="hidden" name="idProblema" value="${problema.id}" />
-						<button class="btn btn-default" type="submit">Puntuar dificultad del problema</button>
-					</form:form>
-				</div>
-			</sec:authorize>
-        </tr>
-         -->
       
     </table>
     
@@ -95,8 +67,8 @@
     	</table>
 	</c:forEach>
 
-    <spring:url value="{problemaId}/edit" var="editUrl"> <spring:param name="problemaId" value="${problema.id}"/> </spring:url>
-    <c:if test="${me}">
+	<c:if test="${me}">
+    	<spring:url value="{problemaId}/edit" var="editUrl"> <spring:param name="problemaId" value="${problema.id}"/> </spring:url>
     	<a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar Problema</a>
     	<br>
     </c:if>
@@ -142,7 +114,7 @@
 
 				<tr>
 					<td>Sólo los alumnos pueden realizar envíos. Inicia sesión
-						para enviar un script.</td>
+						para realizar un envío.</td>
 				</tr>
 
 
@@ -187,15 +159,15 @@
 							value="${envio.id}" />
 				</a></td>
 				<td><a href="/alumnos/${envio.alumno.id}">
-            <c:out value="${envio.alumno.nombre}"/>&nbsp;<c:out value="${envio.alumno.apellidos}"/>
-            </a></td>
+            	<c:out value="${envio.alumno.nombre}"/>&nbsp;<c:out value="${envio.alumno.apellidos}"/>
+            	</a></td>
 				<td><c:out value="${envio.fecha}" /></td>
 				<td><c:out value="${envio.resolucion}" />
+			</c:forEach>
 		</tr>
-		</c:forEach>
 	</table>
 
-
+	
 	<h2>Estadísticas</h2>
 	<div id="graficaDonut" style="height: 250px;"></div>
 	<script>

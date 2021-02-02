@@ -61,6 +61,10 @@ public class NormaWebController {
 	@GetMapping("/{id}/edit")
 	public String editNormaWeb(@PathVariable("id") int id, ModelMap model) {
 		Optional<NormaWeb> normaWeb = normaWebService.findById(id);
+		if(!tutorService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+			model.addAttribute("message","Solo puedes editar tus normas");
+			return listNormasWeb(model);
+		}
 		if(normaWeb.isPresent()) {
 			model.addAttribute("normaWeb", normaWeb.get());
 			return VIEWS_NORMAWEB_CREATE_OR_UPDATE_FORM;
@@ -75,6 +79,10 @@ public class NormaWebController {
 	@PostMapping("/{id}/edit")
 	public String editNormasWeb(@PathVariable("id") int id, @Valid NormaWeb modifiedNormaWeb, BindingResult binding, ModelMap model) {
 		Optional<NormaWeb> normaWeb = normaWebService.findById(id);
+		if(!tutorService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+			model.addAttribute("message","Solo puedes editar tus normas");
+			return listNormasWeb(model);
+		}
 		if(binding.hasErrors()) {
 			model.addAttribute("normaWeb", normaWeb.get());
 			model.addAttribute("message",binding.getFieldError().getField());
@@ -92,6 +100,10 @@ public class NormaWebController {
 	@GetMapping("/{id}/delete")
 	public String deleteNormasWeb(@PathVariable("id") int id, ModelMap model) {
 		Optional<NormaWeb> normaWeb = normaWebService.findById(id);
+		if(!tutorService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+			model.addAttribute("message","Solo puedes eliminar tus normas");
+			return listNormasWeb(model);
+		}
 		if(normaWeb.isPresent()) {
 			normaWebService.delete(normaWeb.get());
 			model.addAttribute("message", "La Norma Web se ha borrado con exito");

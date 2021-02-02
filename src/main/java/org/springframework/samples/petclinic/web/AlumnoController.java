@@ -140,12 +140,12 @@ public class AlumnoController {
 	
 	@GetMapping("/{id}/edit")
 	public String editAlumno(@PathVariable("id") int id, ModelMap model) {
-		if(!alumnoService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
-			model.addAttribute("message","Solo puedes editar tu propio perfil");
-			return listAlumnos(model);
-		}
 		Optional<Alumno> alumno = alumnoService.findById(id);
 		if(alumno.isPresent()) {
+			if(!alumnoService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+				model.addAttribute("message","Solo puedes editar tu propio perfil");
+				return listAlumnos(model);
+			}
 			model.addAttribute("alumno", alumno.get());
 			return VIEWS_ALUMNO_CREATE_OR_UPDATE_FORM;
 		}
@@ -159,6 +159,10 @@ public class AlumnoController {
 	@PostMapping("/{id}/edit")
 	public String editAlumno(@PathVariable("id") int id, @Valid Alumno modifiedAlumno, BindingResult binding, ModelMap model,@RequestParam("image") MultipartFile imagen) throws BeansException, IOException {
 		Optional<Alumno> alumno = alumnoService.findById(id);
+		if(!alumnoService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+			model.addAttribute("message","Solo puedes editar tu propio perfil");
+			return listAlumnos(model);
+		}
 		boolean emailExistente = Utils.CorreoExistente(modifiedAlumno.getEmail(),alumnoService,tutorService,creadorService,administradorService);
 		if(emailExistente) {
 			model.clear();
