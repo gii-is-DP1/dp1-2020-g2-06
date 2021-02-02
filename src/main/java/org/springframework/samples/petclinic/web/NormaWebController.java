@@ -8,6 +8,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.NormaWeb;
 import org.springframework.samples.petclinic.service.NormaWebService;
+import org.springframework.samples.petclinic.service.TutorService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -24,6 +26,9 @@ public class NormaWebController {
 	
 	@Autowired
 	private NormaWebService normaWebService;
+	
+	@Autowired
+	private TutorService tutorService;
 	
 	@GetMapping()
 	public String listNormasWeb(ModelMap modelMap) {
@@ -46,6 +51,7 @@ public class NormaWebController {
 		}
 		else {
 			//creating normaWeb
+			normaWeb.setAutor(tutorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get());
 			normaWebService.saveNormaWeb(normaWeb);
 			
 			return "redirect:/normasWeb/";

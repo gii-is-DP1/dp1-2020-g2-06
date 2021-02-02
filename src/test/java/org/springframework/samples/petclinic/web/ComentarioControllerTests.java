@@ -18,7 +18,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
-import org.springframework.samples.petclinic.model.Aclaracion;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Comentario;
 import org.springframework.samples.petclinic.model.Envio;
@@ -40,7 +39,6 @@ import org.springframework.test.web.servlet.MockMvc;
 			excludeAutoConfiguration= SecurityConfiguration.class)
 public class ComentarioControllerTests {
 	
-	private static final int TEST_COMENTARIO_ID = 0;
 	private static final int TEST_ALUMNO_ID = 0;
 	private static final int TEST_ENVIO_ID = 0;
 	
@@ -49,8 +47,6 @@ public class ComentarioControllerTests {
 	
 	@MockBean
 	private AuthService authService;
-	
-	private Aclaracion aclaracion;
 	
 	private Alumno alumno;
 	
@@ -98,7 +94,7 @@ public class ComentarioControllerTests {
 	
 	}
 	
-	@WithMockUser(value = "spring",authorities="alumno")
+	@WithMockUser(value = "spring",authorities={"alumno"})
     @Test
     void testProcessCreationFormSuccess() throws Exception {
 		given(envioService.findById(TEST_ALUMNO_ID)).willReturn(Optional.of(envio));

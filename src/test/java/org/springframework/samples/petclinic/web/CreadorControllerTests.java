@@ -17,6 +17,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Creador;
 import org.springframework.samples.petclinic.service.AdministradorService;
@@ -28,6 +29,7 @@ import org.springframework.samples.petclinic.service.TutorService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 @WebMvcTest(controllers=CreadorController.class,
 			excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
@@ -94,14 +96,17 @@ public class CreadorControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
-		mockMvc.perform(post("/creadores/new")
-							.with(csrf())
-							.param("apellidos", "Brincau Cano")
-							.param("email", "DBGames@us.es")
-							.param("imagen", "resources/images/creadores/2020122317244979000000.jpg")
-							.param("nombre", "David")
-							.param("pass", "1234AbCd@"))
-		.andExpect(status().isOk()).andExpect(model().hasNoErrors());
+		byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };
+		
+		mockMvc.perform(MockMvcRequestBuilders.multipart("/creadores/new")
+		.file(new MockMultipartFile("imagen", "resources/images/creadores/2020122317244979000000.jpg", "text/plain", somebytes))
+			.with(csrf())
+			.param("apellidos", "Brincau Cano")
+			.param("email", "DBGames@us.es")
+			.param("nombre", "David")
+			.param("pass", "1234AbCd@"))
+			.andExpect(status().isOk())
+			.andExpect(model().hasNoErrors());
 	}
 	
 	@WithMockUser(value = "spring")
