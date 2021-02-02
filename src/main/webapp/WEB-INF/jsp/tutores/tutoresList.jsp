@@ -4,6 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <petclinic:layout pageName="tutores">
     <h2>Tutores</h2>
@@ -18,14 +19,18 @@
 					<c:out value="${tutor.nombre}"/>&nbsp;<c:out value="${tutor.apellidos}"/> 
                		</a>
                 </td>
-                <td>
-                	<a href="/tutores/${tutor.id}/edit">
-                	<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                	</a>
-                </td>
+                <sec:authorize access="hasAuthority('tutor')">
+	                <td>
+	                	<a href="/tutores/${tutor.id}/edit">
+	                	<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+	                	</a>
+	                </td>
+	            </sec:authorize>
             </tr>     
         </c:forEach>
         </tbody>
     </table>
-    <a class="btn btn-default" href='<spring:url value="/tutores/new" htmlEscape="true"/>'>Crear Tutor</a>
+    <sec:authorize access="hasAuthority('administrador')">
+    	<a class="btn btn-default" href='<spring:url value="/tutores/new" htmlEscape="true"/>'>Crear Tutor</a>
+    </sec:authorize>
 </petclinic:layout>
