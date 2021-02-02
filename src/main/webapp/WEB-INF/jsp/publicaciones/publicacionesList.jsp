@@ -10,20 +10,6 @@
 
     <h2>Mensajes</h2>
           
-      <c:forEach items="${publicaciones}" var="publicacion">
-	<table class="table table-striped">
-    <tr>
-    <td><img src="/<c:out value="${publicacion.alumno.imagen}"/>" id="Imagen" width="50" style="border-radius:100%"/>&nbsp;
-    <a href="/alumnos/${publicacion.alumno.id}">
-    <c:out value="${publicacion.alumno.nombre} ${publicacion.alumno.apellidos}"/>
-    </a></td>
-    </tr>
-  
-    	<tr>
-    	<td><c:out value="${publicacion.texto}"/><td></tr>
-    	
-    	</table>
-	</c:forEach>
 	
 	<sec:authorize access="hasAuthority('alumno')">
 		<h2>Escribe tu mensaje</h2>
@@ -42,7 +28,7 @@
     
     
     
-    <table class="table table-striped" id="ListaPublicaciones">
+    <table class='table table-striped' id="ListaPublicaciones">
     	
     </table>
     
@@ -55,7 +41,7 @@
     
 	///// paginacion publicaciones 
 	
-    function creadorespaginable(page){
+    function publicacionespaginable(page){
     	var publicacionespag = paginate(page,'/api/PageablePublicaciones?page=');
     	var nextpublicacionpag = paginate(page+1,'/api/PageablePublicaciones?page=');
 
@@ -68,21 +54,20 @@
 	    	$("#izquierda-publicacion").attr("src","");
 	    	}
 
-	    if(nextcreadorpag.length!=0){
+	    if(nextpublicacionpag.length!=0){
 	     $("#derecha-publicacion").attr("src","/resources/images/rightrow.svg");
 	    }
 	    else{
 	    	$("#derecha-publicacion").attr("src","");
 	    }
 
-	    
 	    $("#ListaPublicaciones").html("");
-	    
-	    $("#ListaPublicaciones").append("<tbody>");
-	    for(var i = 0; i < creadorespag.length; i++){
-	    	
-	    	$("#ListaPublicaciones").append("<tr> <td> <a href='/foro/"+publicacionespag[i]['id']+"'>"+ publicacionespag[i]['texto'] + "  " + publicacionespag[i]['fecha'] +"</a> </td> </tr>");
 
+	    $("#ListaPublicaciones").append("<tbody>");
+	    for(var i = 0; i < publicacionespag.length; i++){
+
+	    	$("#ListaPublicaciones").append("<tr> <td> <a href='/alumnos/"+publicacionespag[i]['alumno']['id']+"'>"+ publicacionespag[i]['alumno']['nombre'] + "  " + publicacionespag[i]['alumno']['apellidos'] +"</a> </td> </tr>" + "<tr> <td> <p>" + publicacionespag[i]['texto'] + "</p> </td> </tr> ");
+	    		  
 	    }
 	   
 	    $("#ListaPublicaciones").append("</tbody>");
