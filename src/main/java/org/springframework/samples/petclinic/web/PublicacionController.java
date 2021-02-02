@@ -53,8 +53,6 @@ public class PublicacionController {
 			model.addAttribute("message","Mensaje añadido con éxito");
 			return listPublicaciones(model);
 		}
-		
-		
 	}
 	
 }

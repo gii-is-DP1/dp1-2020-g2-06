@@ -55,6 +55,7 @@ public class NormaWebController {
 		}
 		else {
 			//creating normaWeb
+			normaWeb.setAutor(tutorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get());
 			normaWebService.saveNormaWeb(normaWeb);
 			
 			return "redirect:/normasWeb/";
