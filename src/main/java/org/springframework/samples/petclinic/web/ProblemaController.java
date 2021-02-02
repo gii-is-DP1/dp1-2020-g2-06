@@ -81,6 +81,7 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 			model.addAttribute("ultimosEnvios", problema.get().getEnvios());
 			model.addAttribute("resoluciones",resoluciones);
 			model.addAttribute("totalEnvios",envioService.findAllByProblema(id).size());
+			model.addAttribute("conseguidos", envioService.alumnosAC(id));
 			model.addAttribute("preguntaTutor", new PreguntaTutor());
 			return "problemas/problemaDetails";
 		}

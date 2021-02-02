@@ -46,11 +46,11 @@ public class EnvioService {
 	}
 	
 	public Map<String, Long> resolucionProblema(int id){
-		Map<String, Long> result = envioRepository.findAllByProblema(id).stream().collect(Collectors.groupingBy(Envio::getResolucion, Collectors.counting()));
-		if(envioRepository.findAllByProblemaAC(id).size()!=0) {
-			result.put("AC", (long) envioRepository.findAllByProblemaAC(id).size());
-		}
-		return result;
+		return envioRepository.findAllByProblema(id).stream().collect(Collectors.groupingBy(Envio::getResolucion, Collectors.counting()));
+	}
+	
+	public Integer alumnosAC(int id) {
+		return envioRepository.findAllByProblemaAC(id).size();
 	}
 
 
