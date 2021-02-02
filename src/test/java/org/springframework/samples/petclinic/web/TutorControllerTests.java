@@ -1,24 +1,35 @@
 package org.springframework.samples.petclinic.web;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
+import org.springframework.data.domain.Sort;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
+import org.springframework.samples.petclinic.model.Articulo;
+import org.springframework.samples.petclinic.model.Noticia;
+import org.springframework.samples.petclinic.model.PreguntaTutor;
 import org.springframework.samples.petclinic.model.Tutor;
 import org.springframework.samples.petclinic.service.AdministradorService;
 import org.springframework.samples.petclinic.service.AlumnoService;
@@ -35,8 +46,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import javassist.bytecode.ByteArray;
 
 
 @WebMvcTest(controllers = TutorController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, 
@@ -83,9 +92,8 @@ public class TutorControllerTests {
 	
 	@BeforeEach
 		void setup() {
+			Pageable pageableX = PageRequest.of(1, 3);
 			Optional<Tutor> t = Optional.empty();
-//			Optional<Articulo> a = Optional.empty();
-//			Optional<Noticia> n = Optional.empty();
 			tutor = new Tutor();
 			tutor.setId(TEST_TUTOR_ID);
 			tutor.setNombre("Pepe");
@@ -95,7 +103,17 @@ public class TutorControllerTests {
 			tutor.setPass("Codeus@49lsañkfjnsafsa");
 			tutor.setEnabled(true);
 			t = Optional.of(tutor);
+			
+			
 			given(this.tutorService.findById(TEST_TUTOR_ID)).willReturn(t);
+			
+			given(this.noticiaService.findNoticiasByTutorPage(Mockito.anyInt(), Mockito.any(Pageable.class)))
+			.willReturn(new SliceImpl<Noticia>(new ArrayList<Noticia>()));
+			
+			given(this.articuloService.findArticulosByTutorPage(Mockito.anyInt(), Mockito.any(Pageable.class)))
+			.willReturn(new SliceImpl<Articulo>(new ArrayList<Articulo>()));
+			
+			given(this.preguntaTutorService.findByProblemaNotAnswered()).willReturn(new ArrayList<PreguntaTutor>());
 			mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 			
 			
@@ -130,26 +148,35 @@ public class TutorControllerTests {
 							.param("email", "rarmon@alum.us.es")
 							.param("pass", "Esto@@esUna4")
 							)
-		.andExpect(status().isOk()).andExpect(view().name("/tutores/tutoresList"));
+		.andExpect(status().isOk())
+		.andExpect(model().attributeExists("tutor"))
+		.andExpect(view().name("/tutores/tutoresList"));
 	}
 	
-	@WithMockUser(value = "spring")
+	@WithMockUser(value = "spring", authorities = "administrador")
 	@Test
 	void testProcessCreationFormFailure() throws Exception {
-		mockMvc.perform(post("/tutores/new")
+		byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };
+		mockMvc.perform(MockMvcRequestBuilders.multipart("/tutores/new")
+					.file(new MockMultipartFile("image","file.jpg", "text/plain", somebytes))
 					.with(csrf())
 					.param("nombre", "Juanra")
 					.param("apellidos", "Ostos")
-					.param("email", "hulalalala@gmail.es"))
+					.param("email", "hulalalala@gmail.es")
+					.param("pass", "Estacontraseñanonoesvalida"))
 		.andExpect(status().isOk())
-		.andExpect(view().name("exception"));
+		.andExpect(view().name("tutores/createOrUpdateTutorForm"));
 	}
 	
-//	@WithMockUser(value = "spring", authorities= {"tutor"})
-//	@Test
-//	void testFindProcessTutor() throws Exception {
-//		mockMvc.perform(get("/tutores/"+TEST_TUTOR_ID)).andExpect(status().isOk()).
-//		andExpect(model().attributeExists("me"));
-//	}
+	@WithMockUser(value = "spring", authorities= {"tutor", "administrador"})
+	@Test
+	void testFindProcessTutor() throws Exception {
+		mockMvc.perform(get("/tutores/"+TEST_TUTOR_ID)
+				.param("page-art", "1")
+				.param("page-not", "1"))
+		.andExpect(status().isOk())
+		.andExpect(view().name("tutores/tutorDetails"));
+		
+	}
 	
 }

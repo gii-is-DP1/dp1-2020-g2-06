@@ -62,19 +62,6 @@ public class CreadorController {
 		return "/creadores/creadoresList";
 	}
 	
-	
-	@GetMapping("/{id}/edit")
-	public String editCreador(@PathVariable("id") int id, ModelMap model) {
-		Optional<Creador> creador = creadorService.findById(id);
-		if(creador.isPresent()) {
-			model.addAttribute("creador", creador.get());
-			return"creadores/createOrUpdateCreadorForm";
-		}else {
-			model.addAttribute("message","No se encuentra el creador seleccionado");
-			return listCreadores(model);
-		}
-	}
-	
 	@GetMapping("/new")
 	public String initCreationForm(ModelMap model) {
 		if(!Utils.authLoggedIn().equals("administrador")) {
@@ -114,12 +101,13 @@ public class CreadorController {
 	
 	@GetMapping("/{id}")
 	public String creadorDetails(@PathVariable("id") int id, ModelMap model) {
-		if(!creadorService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
-			model.addAttribute("message","Solo puedes editar tu propio perfil");
-			return listCreadores(model);
-		}
 		Optional<Creador> creador = creadorService.findById(id);
 		if(creador.isPresent()) {
+			if(creador.get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+				model.addAttribute("me",true);
+			}else {
+				model.addAttribute("me",false);
+			}
 			model.addAttribute("creador", creador.get());
 			return "creadores/creadorDetails";
 		}else {
@@ -129,9 +117,29 @@ public class CreadorController {
 		
 	}
 	
+	@GetMapping("/{id}/edit")
+	public String editCreador(@PathVariable("id") int id, ModelMap model) {
+		Optional<Creador> creador = creadorService.findById(id);
+		if(creador.isPresent()) {
+			if(!creadorService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+				model.addAttribute("message","Solo puedes editar tu propio perfil");
+				return listCreadores(model);
+			}
+			model.addAttribute("creador", creador.get());
+			return"creadores/createOrUpdateCreadorForm";
+		}else {
+			model.addAttribute("message","No se encuentra el creador seleccionado");
+			return listCreadores(model);
+		}
+	}
+	
 	@PostMapping("/{id}/edit")
 	public String editCreador(@PathVariable("id") int id, @Valid Creador modifiedCreador, BindingResult binding, ModelMap model,@RequestParam("image") MultipartFile imagen) throws BeansException, IOException {
 		Optional<Creador> creador = creadorService.findById(id);
+		if(!creadorService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+			model.addAttribute("message","Solo puedes editar tu propio perfil");
+			return listCreadores(model);
+		}
 		boolean emailExistente = Utils.CorreoExistente(modifiedCreador.getEmail(),alumnoService,tutorService,creadorService,administradorService);
 		if(emailExistente) {
 			model.clear();
