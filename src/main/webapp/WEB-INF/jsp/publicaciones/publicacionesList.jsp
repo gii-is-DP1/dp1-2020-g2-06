@@ -28,9 +28,9 @@
     
     
     
-    <table class='table table-striped' id="ListaPublicaciones">
+    <div id="ListaPublicaciones">
     	
-    </table>
+    </div>
     
     <div style="text-align: center;" id="paginas">
     	<img id="izquierda-publicacion" width="11px"></img> <span id="numero-publicacion"></span> <img id="derecha-publicacion" width="11px"></img>
@@ -66,7 +66,7 @@
 	    $("#ListaPublicaciones").append("<tbody>");
 	    for(var i = 0; i < publicacionespag.length; i++){
 
-	    	$("#ListaPublicaciones").append("<tr> <td> <a href='/alumnos/"+publicacionespag[i]['alumno']['id']+"'>"+ publicacionespag[i]['alumno']['nombre'] + "  " + publicacionespag[i]['alumno']['apellidos'] +"</a> </td> </tr>" + "<tr> <td> <p>" + publicacionespag[i]['texto'] + "</p> </td> </tr> ");
+	    	$("#ListaPublicaciones").append("<table class='table table-striped'> <tr> <td> <img src='/" + publicacionespag[i]['alumno']['imagen'] + "'id='Imagen' width='50' style='border-radius:100%'/>&nbsp;<a href='/alumnos/"+publicacionespag[i]['alumno']['id']+"'>"+ publicacionespag[i]['alumno']['nombre'] + "  " + publicacionespag[i]['alumno']['apellidos'] +"</a> </td> </tr>" + "<tr> <td> <p>" + publicacionespag[i]['texto'] + "</p> </td> </tr> </table>");
 	    		  
 	    }
 	   
