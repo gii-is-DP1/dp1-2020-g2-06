@@ -8,8 +8,10 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.h2.engine.Session;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +35,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.condition.RequestMethodsRequestCondition;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -113,14 +117,15 @@ public class AlumnoController {
 		return VIEWS_ALUMNO_CREATE_OR_UPDATE_FORM;
 	}
 
+	
 	@PostMapping(value = "/new")
-	public String processCreationForm(@Valid Alumno alumno,BindingResult result,ModelMap model,@RequestParam("image") MultipartFile imagen) throws IOException {
+	public String processCreationForm(@Valid Alumno alumno,BindingResult result,ModelMap model,@RequestParam("image") MultipartFile imagen, HttpServletRequest request) throws IOException {
 		boolean emailExistente = Utils.CorreoExistente(alumno.getEmail(),alumnoService,tutorService,creadorService,administradorService);
 		if(emailExistente) {
 			model.clear();
 			model.addAttribute("alumno", alumno);
 			model.addAttribute("message", "Ya existe una cuenta con ese correo asociado");
-			log.warn("Un alumno esta intentando crear una cuenta con un correo que ya existe");
+			log.warn("Un alumno esta intentando crear una cuenta con un correo que ya existe "+request.getSession());
 			return VIEWS_ALUMNO_CREATE_OR_UPDATE_FORM;
 		}
 		if (result.hasErrors() || imagen.isEmpty() || imagen.getBytes().length/(1024*1024)>10 ) {
@@ -143,12 +148,12 @@ public class AlumnoController {
 	}
 	
 	@GetMapping("/{id}/edit")
-	public String editAlumno(@PathVariable("id") int id, ModelMap model) {
+	public String editAlumno(@PathVariable("id") int id, ModelMap model, HttpServletRequest request) {
 		Optional<Alumno> alumno = alumnoService.findById(id);
 		if(alumno.isPresent()) {
 			if(!alumnoService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
 				model.addAttribute("message","Solo puedes editar tu propio perfil");
-				log.warn("Un usuario esta intentando modificar un perfil que no es el suyo");
+				log.warn("Un usuario esta intentando modificar un perfil que no es el suyo, con sesion "+request.getSession());
 				return listAlumnos(model);
 			}
 			model.addAttribute("alumno", alumno.get());
@@ -162,11 +167,11 @@ public class AlumnoController {
 	}
 	
 	@PostMapping("/{id}/edit")
-	public String editAlumno(@PathVariable("id") int id, @Valid Alumno modifiedAlumno, BindingResult binding, ModelMap model,@RequestParam("image") MultipartFile imagen) throws BeansException, IOException {
+	public String editAlumno(@PathVariable("id") int id, @Valid Alumno modifiedAlumno, BindingResult binding, ModelMap model,@RequestParam("image") MultipartFile imagen, HttpServletRequest request) throws BeansException, IOException {
 		Optional<Alumno> alumno = alumnoService.findById(id);
 		if(!alumnoService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
 			model.addAttribute("message","Solo puedes editar tu propio perfil");
-			log.warn("Un usuario esta intentado editar un perfil que no es el suyo");
+			log.warn("Un usuario esta intentado editar un perfil que no es el suyo, con sesion "+request.getSession());
 			return listAlumnos(model);
 		}
 		boolean emailExistente = Utils.CorreoExistente(modifiedAlumno.getEmail(),alumnoService,tutorService,creadorService,administradorService);
