@@ -152,6 +152,21 @@ public class TutorControllerTests {
 		.andExpect(view().name("/tutores/tutoresList"));
 	}
 	
+//	@WithMockUser(value = "spring")
+//	@Test
+//	void testProcessCreationFormFailure2() throws Exception {
+//		byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };
+//		mockMvc.perform(MockMvcRequestBuilders.multipart("/tutores/new")
+//							.file(new MockMultipartFile("image","file.jpg", "text/plain", somebytes))
+//							.with(csrf())
+//							.param("nombre", "Juanra")
+//							.param("apellidos", "Ostos")
+//							.param("email", "rarmon@alum.us.es")
+//							.param("pass", "Esto@@esUna4")
+//							)
+//		.andExpect(view().name("/login"));
+//	}
+	
 	@WithMockUser(value = "spring", authorities = "administrador")
 	@Test
 	void testProcessCreationFormFailure() throws Exception {

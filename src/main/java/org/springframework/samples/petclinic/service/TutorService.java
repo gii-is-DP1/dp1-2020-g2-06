@@ -6,6 +6,8 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.samples.petclinic.model.Noticia;
 import org.springframework.samples.petclinic.model.Tutor;
 import org.springframework.samples.petclinic.repository.TutorRepository;
@@ -42,6 +44,10 @@ public class TutorService {
 
 	public Optional<Tutor> findByEmail(String email) {
 		return tutoRepo.findByEmail(email);
+	}
+	
+	public Slice<Tutor> findTutorPage(Pageable pageable){
+		return tutoRepo.findTutorPage(pageable);
 	}
 	
 	
