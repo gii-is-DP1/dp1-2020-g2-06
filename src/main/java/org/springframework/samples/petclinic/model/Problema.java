@@ -16,6 +16,8 @@ import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.petclinic.util.Utils;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,7 +36,9 @@ public class Problema extends NamedEntity {
 	@JoinColumn(name="id_creador")
 	private Creador creador;
 	
+	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "problema")
+	@JsonIgnore
 	private List<Envio> envios;
 	
 	@Column(name = "fecha_publicacion")
@@ -71,7 +75,7 @@ public class Problema extends NamedEntity {
 	@Column(name = "season_year")
 	private Integer seasonYear;
 	
-		
+	@JsonIgnore	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "problema")
 	private List<Aclaracion> aclaraciones;
 	

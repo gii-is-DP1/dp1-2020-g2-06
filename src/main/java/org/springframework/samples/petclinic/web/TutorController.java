@@ -171,10 +171,7 @@ public class TutorController {
 		}else {
 			model.addAttribute("me",false);
 		}
-		Integer pa = pagea;
-		Integer pn = pagen;
-		Pageable pageableA = PageRequest.of(pagea-1, 3, Sort.by("fecha_publicacion"));
-		Pageable pageableN = PageRequest.of(pagen-1, 1, Sort.by("fecha_publicacion"));
+
 		if(tutor.isPresent()) {
 			model.addAttribute("tutor", tutor.get());
 			model.addAttribute("preguntasTutor",preguntaTutorService.findByProblemaNotAnswered());

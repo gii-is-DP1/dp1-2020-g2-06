@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
@@ -32,6 +33,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("/creadores")
 public class CreadorController {
@@ -63,9 +67,10 @@ public class CreadorController {
 	}
 	
 	@GetMapping("/new")
-	public String initCreationForm(ModelMap model) {
+	public String initCreationForm(ModelMap model, HttpServletRequest request) {
 		if(!Utils.authLoggedIn().equals("administrador")) {
 			model.addAttribute("message","Para crear un creador debes estar registrado como administrador");
+			log.warn("Un usuario esta intentando crear un creador sin ser administrador, con sesion "+request.getSession());
 			return listCreadores(model);
 		}
 		Creador creador = new Creador();
@@ -118,11 +123,12 @@ public class CreadorController {
 	}
 	
 	@GetMapping("/{id}/edit")
-	public String editCreador(@PathVariable("id") int id, ModelMap model) {
+	public String editCreador(@PathVariable("id") int id, ModelMap model, HttpServletRequest request) {
 		Optional<Creador> creador = creadorService.findById(id);
 		if(creador.isPresent()) {
 			if(!creadorService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
 				model.addAttribute("message","Solo puedes editar tu propio perfil");
+				log.warn("Un usuario esta intentando modificar sin los permisos adecuados, con sesion "+request.getSession());
 				return listCreadores(model);
 			}
 			model.addAttribute("creador", creador.get());
@@ -134,10 +140,11 @@ public class CreadorController {
 	}
 	
 	@PostMapping("/{id}/edit")
-	public String editCreador(@PathVariable("id") int id, @Valid Creador modifiedCreador, BindingResult binding, ModelMap model,@RequestParam("image") MultipartFile imagen) throws BeansException, IOException {
+	public String editCreador(@PathVariable("id") int id, @Valid Creador modifiedCreador, BindingResult binding, ModelMap model,@RequestParam("image") MultipartFile imagen, HttpServletRequest request) throws BeansException, IOException {
 		Optional<Creador> creador = creadorService.findById(id);
 		if(!creadorService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
 			model.addAttribute("message","Solo puedes editar tu propio perfil");
+			log.warn("Un usuario esta intentando modificar sin los permisos adecuados, con sesion "+request.getSession());
 			return listCreadores(model);
 		}
 		boolean emailExistente = Utils.CorreoExistente(modifiedCreador.getEmail(),alumnoService,tutorService,creadorService,administradorService);
@@ -145,6 +152,7 @@ public class CreadorController {
 			model.clear();
 			model.addAttribute("creador", modifiedCreador);
 			model.addAttribute("message", "Ya existe una cuenta con ese correo asociado");
+			log.warn("Un usuario esta intentando crear una cuenta de creador con una email ya registrado");
 			return "creadores/createOrUpdateCreadorForm";
 		}
 		if(binding.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
