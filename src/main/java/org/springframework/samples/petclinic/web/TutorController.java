@@ -177,18 +177,6 @@ public class TutorController {
 		Pageable pageableN = PageRequest.of(pagen-1, 1, Sort.by("fecha_publicacion"));
 		if(tutor.isPresent()) {
 			model.addAttribute("tutor", tutor.get());
-			model.addAttribute("noticiasTutor", noticiaService.findNoticiasByTutorPage(id, pageableN).getContent());
-			model.addAttribute("articulosTutor", articuloService.findArticulosByTutorPage(id, pageableA).getContent());
-			model.addAttribute("pagenotactual", pn);
-			model.addAttribute("pageartactual", pa);
-			model.addAttribute("npnoticia", pn+1);
-			model.addAttribute("ppnoticia", pn-1);
-			model.addAttribute("nparticulo", pa+1);
-			model.addAttribute("pparticulo", pa-1);
-			model.addAttribute("esUltimaPaginaArticulo", articuloService.findArticulosByTutorPage(id, pageableA).isLast());
-			model.addAttribute("esPrimeraPaginaArticulo", articuloService.findArticulosByTutorPage(id, pageableA).isFirst());
-			model.addAttribute("esUltimaPaginaNoticia", noticiaService.findNoticiasByTutorPage(id, pageableN).isLast());
-			model.addAttribute("esPrimeraPaginaNoticia", noticiaService.findNoticiasByTutorPage(id, pageableN).isFirst());
 			model.addAttribute("preguntasTutor",preguntaTutorService.findByProblemaNotAnswered());
 			return "tutores/tutorDetails";
 			
