@@ -153,18 +153,20 @@
 			<th>Fecha y hora</th>
 			<th>Veredicto</th>
 		</tr>
-		<tr>
-			<c:forEach items="${problema.envios}" var="envio">
-				<td><a href="/envios/${envio.id}"> <c:out
-							value="${envio.id}" />
-				</a></td>
-				<td><a href="/alumnos/${envio.alumno.id}">
+		<c:forEach items="${problema.envios}" var="envio">
+			<tr>	
+				<td>
+				<a href="/envios/${envio.id}"> <c:out value="${envio.id}" /></a>
+				</td>
+				<td>
+				<a href="/alumnos/${envio.alumno.id}">
             	<c:out value="${envio.alumno.nombre}"/>&nbsp;<c:out value="${envio.alumno.apellidos}"/>
-            	</a></td>
+            	</a>
+            	</td>
 				<td><c:out value="${envio.fecha}" /></td>
-				<td><c:out value="${envio.resolucion}" />
-			</c:forEach>
-		</tr>
+				<td><c:out value="${envio.resolucion}" /></td>
+			</tr>
+		</c:forEach>
 	</table>
 
 	
