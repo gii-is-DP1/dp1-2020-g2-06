@@ -37,5 +37,8 @@ public interface EnvioRepository extends Repository<Envio, String>{
 	@Query(value="SELECT DISTINCT ID_ALUMNO FROM ENVIOS envio  WHERE envio.id_problema=:id AND envio.resolucion = 'AC'", nativeQuery = true)
 	Collection<Integer> findAllByProblemaAC(@Param("id") int id) throws DataAccessException;
 
+	@Query(value="SELECT e FROM Envio e WHERE e.alumno.id LIKE :id")
+	Slice<Envio> findAllByAlumnoPage(Pageable pageable, @Param("id") int id) throws DataAccessException;
+
 	
 }

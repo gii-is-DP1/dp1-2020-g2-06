@@ -22,6 +22,10 @@ public class NoticiaService {
 		return noticiaRepo.findAll();
 	}
 	
+	public Slice<Noticia> findAllPage(Pageable pageable){
+		return noticiaRepo.findAllPage(pageable);
+	}
+	
 	public Optional<Noticia> findById(int id){
 		return noticiaRepo.findById(id);
 	}

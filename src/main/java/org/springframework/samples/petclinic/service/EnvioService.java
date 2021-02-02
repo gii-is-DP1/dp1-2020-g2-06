@@ -35,6 +35,10 @@ public class EnvioService {
 		return envioRepository.findAllByAlumno(id);
 	}
 	
+	public Slice<Envio> findAllByAlumnoPage(Pageable pageable,int id){
+		return envioRepository.findAllByAlumnoPage(pageable,id);
+	}
+	
 	public Collection<Integer> findAllByAlumnoAc(int id){
 		return envioRepository.findAllByAlumnoAc(id);
 	}

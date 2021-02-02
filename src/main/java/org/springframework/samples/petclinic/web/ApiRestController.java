@@ -84,6 +84,17 @@ public class ApiRestController {
 		return envioService.findAllByProblemaPage(pageableA,id).getContent();
 	}
 	
+	@GetMapping(value="/envios/byalumno/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Envio> getEnviosByAlumno(@PathVariable("id") int id,@RequestParam(name="page", defaultValue="1") int pagea, @RequestParam(name="page-not", defaultValue="1") int pagen, ModelMap model) {
+		Pageable pageableA = PageRequest.of(pagea-1, pagsize,Sort.by("id").descending());
+		return envioService.findAllByAlumnoPage(pageableA,id).getContent();
+	}
+	
+	@GetMapping(value="/noticias",produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Noticia> getNoticias(@RequestParam(name="page", defaultValue="1") int pagea, @RequestParam(name="page-not", defaultValue="1") int pagen, ModelMap model) {
+		Pageable pageableA = PageRequest.of(pagea-1, pagsize,Sort.by("id").descending());
+		return noticiaService.findAllPage(pageableA).getContent();
+
 	@GetMapping(value="/PageablePublicaciones",produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Publicacion> getPublicaciones(@RequestParam(name="page", defaultValue="1") int pagea, @RequestParam(name="page-not", defaultValue="1") int pagen, ModelMap model) {
 		Pageable pageableA = PageRequest.of(pagea-1, pagsize, Sort.by("id").descending());
