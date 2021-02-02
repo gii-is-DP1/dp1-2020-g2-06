@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
@@ -29,8 +31,14 @@ public interface EnvioRepository extends Repository<Envio, String>{
 	@Query(value="SELECT * FROM ENVIOS envio WHERE envio.id_problema=:id ", nativeQuery = true)
 	Collection<Envio> findAllByProblema(@Param("id") int id) throws DataAccessException;
 	
+	@Query(value="SELECT e FROM Envio e WHERE e.problema.id LIKE :id")
+	Slice<Envio> findAllByProblemaPage(Pageable pageable,@Param("id") int id) throws DataAccessException;
+	
 	@Query(value="SELECT DISTINCT ID_ALUMNO FROM ENVIOS envio  WHERE envio.id_problema=:id AND envio.resolucion = 'AC'", nativeQuery = true)
 	Collection<Integer> findAllByProblemaAC(@Param("id") int id) throws DataAccessException;
+
+	@Query(value="SELECT e FROM Envio e WHERE e.alumno.id LIKE :id")
+	Slice<Envio> findAllByAlumnoPage(Pageable pageable, @Param("id") int id) throws DataAccessException;
 
 	
 }

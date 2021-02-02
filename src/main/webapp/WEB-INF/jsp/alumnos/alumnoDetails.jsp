@@ -53,46 +53,6 @@
   		</tr>
   	</c:forEach>
     </table>
-	
-   
-    <h2> Últimos envíos</h2>
-    <table class="table table-striped">
-  
-    	<tr>
-    	<th> Envío
-    	</th>
-    	<th>
-    	Problema
-    	</th>
-    	<th>
-    	Fecha y hora
-    	</th>
-    	<th>
-    	Veredicto
-    	</th>
-    	</tr>
-    	<tr>
-    	  <c:forEach items="${alumno.envios}" var="envio">
-    		<td>
-    		<a href="/envios/${envio.id}">
-    		<c:out value="${envio.id}"/>
-    		</a>
-    		</td>
-    		<td>
-    		<a href="/problemas/${envio.problema.id}">
-    		<c:out value="${envio.problema.name}"/>
-    		</a>
-    		</td>
-    		<td>
-    		<c:out value="${envio.fecha}"/>
-    		</td>
-    		<td>
-    		<c:out value="${envio.resolucion}"/>
-    		
-    	</tr>
-   		</c:forEach>
-    </table>
-    
     
     <br>
 	<br>
@@ -147,5 +107,80 @@
    		</c:forEach>
     </table>
     </c:if>
+    
+    <table class="table table-striped" id="envios">
+
+		<tr>
+			<th>Envío</th>
+			<th>Problema</th>
+			<th>Fecha y hora</th>
+			<th>Veredicto</th>
+		</tr>
+		
+	</table>
+    
+    <div style="text-align: center;" id="paginas">
+    	<img id="izquierda" width="11px"></img> <span id="numero"></span> <img id="derecha" width="11px"></img>
+    </div>
+    
+    <script>
+    
+    
+	///// paginacion envios
+	
+    function enviospaginable(page){
+    	
+    	var enviospag = paginate(page,'/api/envios/byalumno/'+${alumno.id}+'?page=');
+    	var nextenviospag = paginate(page+1,'/api/envios/byalumno/'+${alumno.id}+'?page=');
+    	if(!(page==1 && nextenviospag.length==0))
+	    	$("#numero").text(page);
+	    if(page>1){
+	    	$("#izquierda").attr("src","/resources/images/leftrow.svg");
+	    }
+	    else
+	    	{
+	    	$("#izquierda").attr("src","");
+	    	}
+	    
+	    if(nextenviospag.length!=0){
+	     $("#derecha").attr("src","/resources/images/rightrow.svg");
+	    }
+	    else{
+	    	$("#derecha").attr("src","");
+	    }
+	    
+	    
+	    $("#envios").html("");
+	    
+	    $("#envios").append("<tbody>");
+	    $("#envios").append("<tr><th>Envío</th><th>Problema</th><th>Fecha y hora</th><th>Veredicto</th></tr>");
+	    
+	    for(var i = 0; i < enviospag.length; i++){
+	    	
+	    $("#envios").append('<tr><td><a href="/envios/'+enviospag[i]["id"]+'">'+enviospag[i]["id"]+'</a></td><td><a href="/envios/'+enviospag[i]["problema"]["id"]+'">'+enviospag[i]["problema"]["name"]+'</a></td><td>'+enviospag[i]["fecha"]+'</td><td>'+enviospag[i]["resolucion"]+'</td></tr>');
+	    	
+	    }
+	    console.log(enviospag);
+	    $("#envios").append("</tbody>");
+	    
+    }
+    
+    var page = 1;
+    
+    enviospaginable(page);
+    
+    document.getElementById("izquierda").onclick = function(){
+    	page--;
+    	enviospaginable(page);
+    }
+    document.getElementById("derecha").onclick = function(){
+    	page++;
+    	enviospaginable(page);
+    };
+    
+    
+   //////////////////////////////////
+    
+	</script>
 
 </petclinic:layout>

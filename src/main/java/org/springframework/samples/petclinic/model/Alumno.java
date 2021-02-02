@@ -14,6 +14,8 @@ import org.springframework.lang.NonNull;
 import org.springframework.samples.constraint.EmailConstraint;
 import org.springframework.samples.constraint.PassConstraint;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -39,11 +41,15 @@ public class Alumno extends BaseEntity{
 	
 	private String imagen;
 	
+	
 	@NotEmpty
 	@PassConstraint
+	@JsonIgnore
 	private String pass;
 	
+	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "alumno")
+	@JsonIgnore
 	private List<Envio> envios;
 	
 	@NonNull

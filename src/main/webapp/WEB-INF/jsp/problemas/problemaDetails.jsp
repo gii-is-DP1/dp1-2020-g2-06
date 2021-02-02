@@ -23,7 +23,7 @@
 
     <table class="table table-striped">
     	<tr>
-            <th>Descripción</th>
+            <th>DescripciÃ³n</th>
             <td><c:out value="${problema.descripcion}" escapeXml="false"/></td>
         </tr>
         <tr>
@@ -78,12 +78,12 @@
 			<form:form action="/aclaraciones/new" modelAttribute="aclaracion" class="form-horizontal" id="add-owner-form">
 				<petclinic:textArea label="Aclaracion" name="texto" rows="6" />
 				<input type="hidden" name="idProblema" value="${problema.id}" />
-				<button class="btn btn-default" type="submit">Añadir Aclaración</button>
+				<button class="btn btn-default" type="submit">AÃ±adir AclaraciÃ³n</button>
 			</form:form>
 		</div>
 	</sec:authorize>
 
-	<h2>Realizar envío</h2>
+	<h2>Realizar envÃ­o</h2>
 
 
 	<sec:authorize access="hasAuthority('alumno')">
@@ -113,8 +113,8 @@
 			<table>
 
 				<tr>
-					<td>Sólo los alumnos pueden realizar envíos. Inicia sesión
-						para realizar un envío.</td>
+					<td>SÃ³lo los alumnos pueden realizar envÃ­os. Inicia sesiÃ³n
+						para realizar un envÃ­o.</td>
 				</tr>
 
 
@@ -130,7 +130,7 @@
 				
 				<tr>
 					<form:form modelAttribute="preguntaTutor" class="form-horizontal" id="add-problema-form" action="/preguntatutor/new" >
-						<petclinic:textArea label="Pregúntanos lo que quieras" name="pregunta" rows="6" />
+						<petclinic:textArea label="PregÃºntanos lo que quieras" name="pregunta" rows="6" />
 						<input type="hidden" name="idProblema" value="${problema.id}"/>
 						<button class="btn btn-default" type="submit">Enviar</button>
 					</form:form>
@@ -144,33 +144,24 @@
 	</sec:authorize>
 
 
-	<h2>Últimos envíos</h2>
-	<table class="table table-striped">
+	<h2>Ãšltimos envÃ­os</h2>
+	<table class="table table-striped" id="envios">
 
 		<tr>
-			<th>Envío</th>
+			<th>EnvÃ­o</th>
 			<th>Alumno</th>
 			<th>Fecha y hora</th>
 			<th>Veredicto</th>
 		</tr>
-		<c:forEach items="${problema.envios}" var="envio">
-			<tr>	
-				<td>
-				<a href="/envios/${envio.id}"> <c:out value="${envio.id}" /></a>
-				</td>
-				<td>
-				<a href="/alumnos/${envio.alumno.id}">
-            	<c:out value="${envio.alumno.nombre}"/>&nbsp;<c:out value="${envio.alumno.apellidos}"/>
-            	</a>
-            	</td>
-				<td><c:out value="${envio.fecha}" /></td>
-				<td><c:out value="${envio.resolucion}" /></td>
-			</tr>
-		</c:forEach>
+		
 	</table>
+	
+	<div style="text-align: center;" id="paginas">
+    	<img id="izquierda" width="11px"></img> <span id="numero"></span> <img id="derecha" width="11px"></img>
+    </div>
 
 	
-	<h2>Estadísticas</h2>
+	<h2>EstadÃ­sticas</h2>
 	<div id="graficaDonut" style="height: 250px;"></div>
 	<script>
 	var morris1 = new Morris.Donut({
@@ -198,7 +189,66 @@
 	</c:forEach>
 	</table>
 	
+
 	<h2>Este problema ha sido resuelto por <c:out value="${conseguidos}"></c:out> alumnos</h2>
 	
+		    <script>
+    
+    
+	///// paginacion envios
 	
+    function enviospaginable(page){
+    	
+    	var enviospag = paginate(page,'/api/envios/byproblema/'+${problema.id}+'?page=');
+    	var nextenviospag = paginate(page+1,'/api/envios/byproblema/'+${problema.id}+'?page=');
+    	if(!(page==1 && nextenviospag.length==0))
+	    	$("#numero").text(page);
+	    if(page>1){
+	    	$("#izquierda").attr("src","/resources/images/leftrow.svg");
+	    }
+	    else
+	    	{
+	    	$("#izquierda").attr("src","");
+	    	}
+	    
+	    if(nextenviospag.length!=0){
+	     $("#derecha").attr("src","/resources/images/rightrow.svg");
+	    }
+	    else{
+	    	$("#derecha").attr("src","");
+	    }
+	    
+	    
+	    $("#envios").html("");
+	    
+	    $("#envios").append("<tbody>");
+	    $("#envios").append("<tr><th>EnvÃ­o</th><th>Alumno</th><th>Fecha y hora</th><th>Veredicto</th></tr>");
+	    
+	    for(var i = 0; i < enviospag.length; i++){
+	    	
+	    $("#envios").append('<tr><td><a href="/envios/'+enviospag[i]["id"]+'">'+enviospag[i]["id"]+'</a></td><td><a href="/alumnos/'+enviospag[i]["alumno"]["id"]+'">'+ enviospag[i]["alumno"]["nombre"]+'&nbsp;'+enviospag[i]["alumno"]["apellidos"]+'</a></td><td>'+enviospag[i]["fecha"]+'</td><td>'+enviospag[i]["resolucion"]+'</td></tr>');
+	    	
+	    }
+	    console.log(enviospag);
+	    $("#envios").append("</tbody>");
+	    
+    }
+    
+    var page = 1;
+    
+    enviospaginable(page);
+    
+    document.getElementById("izquierda").onclick = function(){
+    	page--;
+    	enviospaginable(page);
+    }
+    document.getElementById("derecha").onclick = function(){
+    	page++;
+    	enviospaginable(page);
+    };
+    
+    
+   //////////////////////////////////
+    
+	</script>
 </petclinic:layout>
