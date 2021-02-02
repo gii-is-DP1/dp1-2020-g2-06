@@ -9,6 +9,8 @@ import javax.validation.constraints.NotEmpty;
 import org.springframework.samples.constraint.EmailConstraint;
 import org.springframework.samples.constraint.PassConstraint;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -35,6 +37,7 @@ public class Creador extends BaseEntity{
 	@Column(name = "pass")
 	@NotEmpty
 	@PassConstraint
+	@JsonIgnore
 	private String pass;
 	
 	private String imagen;

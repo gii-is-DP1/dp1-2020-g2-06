@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.web;
 
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
@@ -18,6 +19,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("/normasWeb")
 public class NormaWebController {
@@ -59,10 +63,11 @@ public class NormaWebController {
 	}
 	
 	@GetMapping("/{id}/edit")
-	public String editNormaWeb(@PathVariable("id") int id, ModelMap model) {
+	public String editNormaWeb(@PathVariable("id") int id, ModelMap model, HttpServletRequest request) {
 		Optional<NormaWeb> normaWeb = normaWebService.findById(id);
 		if(!tutorService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
 			model.addAttribute("message","Solo puedes editar tus normas");
+			log.warn("Un usuario esta intentando editar una norma sin tener los permisos necesarios, con sesion "+request.getSession());
 			return listNormasWeb(model);
 		}
 		if(normaWeb.isPresent()) {
@@ -77,10 +82,11 @@ public class NormaWebController {
 	}
 	
 	@PostMapping("/{id}/edit")
-	public String editNormasWeb(@PathVariable("id") int id, @Valid NormaWeb modifiedNormaWeb, BindingResult binding, ModelMap model) {
+	public String editNormasWeb(@PathVariable("id") int id, @Valid NormaWeb modifiedNormaWeb, BindingResult binding, ModelMap model, HttpServletRequest request) {
 		Optional<NormaWeb> normaWeb = normaWebService.findById(id);
 		if(!tutorService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
 			model.addAttribute("message","Solo puedes editar tus normas");
+			log.warn("Un usuario esta intentando editar una norma sin tener los permisos necesarios, con sesion "+request.getSession());
 			return listNormasWeb(model);
 		}
 		if(binding.hasErrors()) {
@@ -98,10 +104,11 @@ public class NormaWebController {
 	}
 	
 	@GetMapping("/{id}/delete")
-	public String deleteNormasWeb(@PathVariable("id") int id, ModelMap model) {
+	public String deleteNormasWeb(@PathVariable("id") int id, ModelMap model, HttpServletRequest request) {
 		Optional<NormaWeb> normaWeb = normaWebService.findById(id);
 		if(!tutorService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
 			model.addAttribute("message","Solo puedes eliminar tus normas");
+			log.warn("Un usuario esta intentando editar una norma sin tener los permisos necesarios, con sesion "+request.getSession());
 			return listNormasWeb(model);
 		}
 		if(normaWeb.isPresent()) {

@@ -9,7 +9,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %> 
 
 <petclinic:layout pageName="problemas">
-    <h2>Problemas vigentes</h2>
+    <h2>Problemas temporada ${temporada}&nbsp;${temporadaYear}</h2>
 
 	<c:forEach items="${problemasVigentes}" var="problemaVigente">
 		<table id="problemasTable" class="table table-striped">
@@ -26,15 +26,73 @@
 	
 	<h2>Problemas no vigentes</h2>
 	
-	<c:forEach items="${problemasNoVigentes}" var="problemaNoVigente">
-		<table id="problemasTable" class="table table-striped">
-			<tr>
-				<th><a href="/problemas/${problemaNoVigente.id}"> <c:out value="${problemaNoVigente.name}" /> </a></th>
-			</tr>
-		</table>
-	</c:forEach>
 
+		<table id="problemasnovigentes" class="table table-striped">
+			
+		</table>
+		<div style="text-align: center;" id="paginas">
+    	<img id="izquierda" width="11px"></img> <span id="numero"></span> <img id="derecha" width="11px"></img>
+    </div>
+	
 	<sec:authorize access="hasAuthority('creador')">
 			<a class="btn btn-default" href='<spring:url value="/problemas/new" htmlEscape="true"/>'>Añadir Problema</a>
 	</sec:authorize>
+	
+	    <script>
+    
+    
+	///// paginacion problemas no vigentes
+	
+    function problemasnovigentespaginable(page){
+    	
+    	var problemaspag = paginate(page,'/api/problemasnovigentes/?page=');
+    	var nextproblemaspag = paginate(page+1,'/api/problemasnovigentes/?page=');
+    	if(!(page==1 && nextproblemaspag.length==0))
+	    	$("#numero").text(page);
+	    if(page>1){
+	    	$("#izquierda").attr("src","/resources/images/leftrow.svg");
+	    }
+	    else
+	    	{
+	    	$("#izquierda").attr("src","");
+	    	}
+	    
+	    if(nextproblemaspag.length!=0){
+	     $("#derecha").attr("src","/resources/images/rightrow.svg");
+	    }
+	    else{
+	    	$("#derecha").attr("src","");
+	    }
+	    
+	    
+	    $("#problemasnovigentes").html("");
+	    
+	    $("#problemasnovigentes").append("<tbody>");
+	    for(var i = 0; i < problemaspag.length; i++){
+	    	
+	    	$("#problemasnovigentes").append("<tr> <td> <a href='/problemas/"+problemaspag[i]['id']+"'>"+ problemaspag[i]['name']+"</a> </td> </tr>");
+	    	
+	    }
+	    console.log(problemaspag);
+	    $("#problemasnovigentes").append("</tbody>");
+	    
+    }
+    
+    var page = 1;
+    
+    problemasnovigentespaginable(page);
+    
+    document.getElementById("izquierda").onclick = function(){
+    	page--;
+    	noticiaspaginable(page);
+    }
+    document.getElementById("derecha").onclick = function(){
+    	page++;
+    	noticiaspaginable(page);
+    };
+    
+    
+   //////////////////////////////////
+    
+	</script>
 </petclinic:layout>
