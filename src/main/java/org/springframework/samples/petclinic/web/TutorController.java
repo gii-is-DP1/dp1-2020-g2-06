@@ -171,10 +171,7 @@ public class TutorController {
 		}else {
 			model.addAttribute("me",false);
 		}
-<<<<<<< HEAD
-		
-=======
->>>>>>> branch 'alebarled' of https://github.com/gii-is-DP1/dp1-2020-g2-06.git
+
 		if(tutor.isPresent()) {
 			model.addAttribute("tutor", tutor.get());
 			model.addAttribute("preguntasTutor",preguntaTutorService.findByProblemaNotAnswered());
