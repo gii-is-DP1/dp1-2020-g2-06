@@ -4,7 +4,6 @@ package org.springframework.samples.petclinic.web;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -16,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.samples.petclinic.model.PreguntaTutor;
 import org.springframework.samples.petclinic.model.Tutor;
 import org.springframework.samples.petclinic.service.AdministradorService;
 import org.springframework.samples.petclinic.service.AlumnoService;
@@ -173,24 +171,8 @@ public class TutorController {
 		}else {
 			model.addAttribute("me",false);
 		}
-		Integer pa = pagea;
-		Integer pn = pagen;
-		Pageable pageableA = PageRequest.of(pagea-1, 3, Sort.by("fecha_publicacion"));
-		Pageable pageableN = PageRequest.of(pagen-1, 1, Sort.by("fecha_publicacion"));
 		if(tutor.isPresent()) {
 			model.addAttribute("tutor", tutor.get());
-			model.addAttribute("noticiasTutor", noticiaService.findNoticiasByTutorPage(id, pageableN).getContent());
-			model.addAttribute("articulosTutor", articuloService.findArticulosByTutorPage(id, pageableA).getContent());
-			model.addAttribute("pagenotactual", pn);
-			model.addAttribute("pageartactual", pa);
-			model.addAttribute("npnoticia", pn+1);
-			model.addAttribute("ppnoticia", pn-1);
-			model.addAttribute("nparticulo", pa+1);
-			model.addAttribute("pparticulo", pa-1);
-			model.addAttribute("esUltimaPaginaArticulo", articuloService.findArticulosByTutorPage(id, pageableA).isLast());
-			model.addAttribute("esPrimeraPaginaArticulo", articuloService.findArticulosByTutorPage(id, pageableA).isFirst());
-			model.addAttribute("esUltimaPaginaNoticia", noticiaService.findNoticiasByTutorPage(id, pageableN).isLast());
-			model.addAttribute("esPrimeraPaginaNoticia", noticiaService.findNoticiasByTutorPage(id, pageableN).isFirst());
 			model.addAttribute("preguntasTutor",preguntaTutorService.findByProblemaNotAnswered());
 			return "tutores/tutorDetails";
 			

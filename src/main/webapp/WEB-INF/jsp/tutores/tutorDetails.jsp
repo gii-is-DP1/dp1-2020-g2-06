@@ -28,75 +28,166 @@
     <br> <br>
    
     <h2> Noticias</h2>
-    <table class="table table-striped">
-    <c:forEach items="${noticiasTutor}" var="noticia">
-    	<tr>
-    		<td>
-    		<a href="/noticias/${noticia.id}">
-    		<c:out value="${noticia.name}"/>&nbsp;&nbsp;<c:out value="${noticia.fechaPublicacion}"></c:out>
-    		</a>
-    		</td>
-    	</tr>
-   	</c:forEach>
+    <div>
+    <table class="table table-striped" id="noticias">
+    	
     </table>
-    <div style="text-align: center;">
-    	<c:if test="${!esPrimeraPaginaNoticia}">
-    		<a id="anterior" href="/tutores/${tutor.id}/?page-art=${pageartactual}&page-not=${ppnoticia}">«</a>
-    	</c:if>
-    		<c:out value="${pagenotactual}"></c:out>
-    	<c:if test="${!esUltimaPaginaNoticia}">
-    		<a id="siguiente" href="/tutores/${tutor.id}/?page-art=${pageartactual}&page-not=${npnoticia}">»</a>
-    	</c:if>
+    </div>
+    <div style="text-align: center;" id="paginas-not">
+    	<img id="izquierda-not" width="11px"></img> <span id="numero-not"></span> <img id="derecha-not" width="11px"></img>
     </div>
    
     <br> <br>
    
     <h2> Articulos</h2>
     <div>
-    <table class="table table-striped">
-    	<c:forEach items="${articulosTutor}" var="articulo">
+    <table class="table table-striped" id="articuloss">
+    	
+    </table>
+    </div>
+    <div style="text-align: center;" id="paginas">
+    	<img id="izquierda-art" width="11px"></img> <span id="numero-art"></span> <img id="derecha-art" width="11px"></img>
+    </div>
+    
+    <c:if test="${me}">
+
+    <div>
+    <table class="table table-striped" >
+    	<c:forEach items="${preguntasTutor}" var="pregunta">
     	<tr>
     		<td>
-    		<a href="/articulos/${articulo.id}">
-    		<c:out value="${articulo.name}"/>&nbsp;&nbsp;<c:out value="${articulo.fechaPublicacion}"></c:out>
-    		</a>
+   				<c:out value="Alumno : ${pregunta.alumno.email}"/>
+    		<br>
+    			<a href="/problemas/${pregunta.problema.id}"> Problema : <c:out value="${pregunta.problema.name}"/> </a>
+    		<br>
+    		<c:out value="Pregunta : ${pregunta.pregunta}"></c:out>
+    		<br>
+    		<form:form class="form-horizontal" id="add-problema-form" action="/preguntatutor/answer">
+    			<input type=hidden name=idTutor value="${tutor.id}"/>
+    			<input type=hidden name=preguntaTutor value="${pregunta.id}"/>
+    			<textArea  name="respuesta" rows="6"> </textArea>
+    			<button class="btn btn-default" type="submit">Responder</button>
+    		</form:form>
     		</td>
     	</tr>
    	</c:forEach>
     </table>
     </div>
-    <div style="text-align: center;">
-    	<c:if test="${!esPrimeraPaginaArticulo}">
-    		<a id="anterior" href="/tutores/${tutor.id}/?page-art=${pparticulo}&page-not=${pagenotactual}">«</a>
-    	</c:if>
-    		<c:out value="${pageartactual}"></c:out>
-    	<c:if test="${!esUltimaPaginaArticulo}">
-    		<a id="siguiente" href="/tutores/${tutor.id}/?page-art=${nparticulo}&page-not=${pagenotactual}">»</a>
-    	</c:if>
-    </div>
     
-    <c:if test="${me}">
-	    <div>
-	    <table class="table table-striped">
-	    	<c:forEach items="${preguntasTutor}" var="pregunta">
-	    	<tr>
-	    		<td>
-	   				<c:out value="Alumno : ${pregunta.alumno.email}"/>
-	    		<br>
-	    			<a href="/problemas/${pregunta.problema.id}"> Problema : <c:out value="${pregunta.problema.name}"/> </a>
-	    		<br>
-	    		<c:out value="Pregunta : ${pregunta.pregunta}"></c:out>
-	    		<br>
-	    		<form:form class="form-horizontal" id="add-problema-form" action="/preguntatutor/answer">
-	    			<input type=hidden name=idTutor value="${tutor.id}"/>
-	    			<input type=hidden name=preguntaTutor value="${pregunta.id}"/>
-	    			<textArea  name="respuesta" rows="6"> </textArea>
-	    			<button class="btn btn-default" type="submit">Responder</button>
-	    		</form:form>
-	    		</td>
-	    	</tr>
-	   	</c:forEach>
-	    </table>
-	    </div>
     </c:if>
+
+    
+    <script>
+    
+    
+	///// paginacion noticias
+	
+    function noticiaspaginable(page){
+    	
+    	var noticiaspag = paginate(page,'/api/noticias/bytutor/'+${tutor.id}+'?page=');
+    	var nextnoticiaspag = paginate(page+1,'http://localhost/api/noticias/bytutor/'+${tutor.id}+'?page=');
+    
+	    $("#numero-not").text(page);
+	    if(page>1){
+	    	$("#izquierda-not").attr("src","/resources/images/leftrow.svg");
+	    }
+	    else
+	    	{
+	    	$("#izquierda-not").attr("src","");
+	    	}
+	    
+	    if(nextnoticiaspag.length!=0){
+	     $("#derecha-not").attr("src","/resources/images/rightrow.svg");
+	    }
+	    else{
+	    	$("#derecha-not").attr("src","");
+	    }
+	    
+	    
+	    $("#noticias").html("");
+	    
+	    $("#noticias").append("<tbody>");
+	    for(var i = 0; i < noticiaspag.length; i++){
+	    	
+	    	$("#noticias").append("<tr> <td> <a href='/noticias/"+noticiaspag[i]['id']+"'>"+ noticiaspag[i]['name']+" - "+noticiaspag[i]['fechaPublicacion']+"</a> </td> </tr>");
+	    	
+	    }
+	    console.log(noticiaspag);
+	    $("#noticias").append("</tbody>");
+	    
+    }
+    
+    var noticiaspage = 1;
+    
+    noticiaspaginable(noticiaspage);
+    
+    document.getElementById("izquierda-not").onclick = function(){
+    	noticiaspage--;
+    	noticiaspaginable(noticiaspage);
+    }
+    document.getElementById("derecha-not").onclick = function(){
+    	noticiaspage++;
+    	noticiaspaginable(noticiaspage);
+    };
+    
+    
+   //////////////////////////////////
+    
+	///// paginacion articulos 
+	
+    function articulospaginable(page){
+    	
+    	var articulospag = paginate(page,'http://localhost/api/articulos/bytutor/'+${tutor.id}+'?page=');
+    	var nextarticulospag = paginate(page+1,'http://localhost/api/articulos/bytutor/'+${tutor.id}+'?page=');
+    
+	    $("#numero-art").text(page);
+	    if(page>1){
+	    	$("#izquierda-art").attr("src","/resources/images/leftrow.svg");
+	    }
+	    else
+	    	{
+	    	$("#izquierda-art").attr("src","");
+	    	}
+	    
+	    if(nextarticulospag.length!=0){
+	     $("#derecha-art").attr("src","/resources/images/rightrow.svg");
+	    }
+	    else{
+	    	$("#derecha-art").attr("src","");
+	    }
+	    
+	    
+	    $("#articuloss").html("");
+	    
+	    $("#articuloss").append("<tbody>");
+	    for(var i = 0; i < articulospag.length; i++){
+	    	
+	    	$("#articuloss").append("<tr> <td> <a href='/articulos/"+articulospag[i]['id']+"'>"+ articulospag[i]['name']+" - "+articulospag[i]['fechaPublicacion']+"</a> </td> </tr>");
+	    	
+	    }
+	   
+	    $("#articuloss").append("</tbody>");
+	    
+    }
+    
+    var articulospage = 1;
+    
+    articulospaginable(articulospage);
+    
+    document.getElementById("izquierda-art").onclick = function(){
+    	articulospage--;
+    	articulospaginable(articulospage);
+    }
+    document.getElementById("derecha-art").onclick = function(){
+    	articulospage++;
+    	articulospaginable(articulospage);
+    };
+    
+    
+   //////////////////////////////////
+   
+   
+
+   	
+    </script>
 </petclinic:layout>

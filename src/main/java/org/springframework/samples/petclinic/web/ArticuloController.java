@@ -3,15 +3,22 @@ package org.springframework.samples.petclinic.web;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Articulo;
 import org.springframework.samples.petclinic.service.ArticuloService;
 import org.springframework.samples.petclinic.service.FileService;
@@ -26,8 +33,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("/articulos")
 public class ArticuloController {
@@ -90,11 +101,12 @@ public class ArticuloController {
 	}
 	
 	@GetMapping("/{id}/edit")
-	public String editArticulo(@PathVariable("id") int id, ModelMap model) {
+	public String editArticulo(@PathVariable("id") int id, ModelMap model, HttpServletRequest request) {
 		Optional<Articulo> articulo = articuloService.findById(id);
 		if(articulo.isPresent()) {
 			if(!articulo.get().getAutores().contains(tutorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get())) {
 				model.addAttribute("message","Pide permiso a un autor para editar este artículo");
+				log.warn("Un usuario esta intentando editar un articulo sin tener los permisos necesarios, con sesion "+request.getSession());
 				return listArticulos(model);
 			}
 			model.addAttribute("articulo", articulo.get());
@@ -109,10 +121,11 @@ public class ArticuloController {
 	}
 	
 	@PostMapping("/{id}/edit")
-	public String editArticulo(@PathVariable("id") int id, @Valid Articulo modifiedArticulo, BindingResult binding, ModelMap model,@RequestParam("image") MultipartFile imagen) throws BeansException, IOException {
+	public String editArticulo(@PathVariable("id") int id, @Valid Articulo modifiedArticulo, BindingResult binding, ModelMap model,@RequestParam("image") MultipartFile imagen, HttpServletRequest request) throws BeansException, IOException {
 		Optional<Articulo> articulo = articuloService.findById(id);
 		if(!articulo.get().getAutores().contains(tutorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get())) {
 			model.addAttribute("message","Pide permiso a un autor para editar este artículo");
+			log.warn("Un usuario esta intentando editar un articulo sin tener los permisos necesarios, con sesion "+request.getSession());
 			return listArticulos(model);
 		}
 		if(binding.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
@@ -140,11 +153,12 @@ public class ArticuloController {
 	}
 	
 	@GetMapping("/{id}/delete")
-	public String deleteArticulo(@PathVariable("id") int id, ModelMap model) {
+	public String deleteArticulo(@PathVariable("id") int id, ModelMap model, HttpServletRequest request) {
 		Optional<Articulo> articulo = articuloService.findById(id);
 		if(articulo.isPresent()) {
 			if(!articulo.get().getAutores().contains(tutorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get())) {
 				model.addAttribute("message","Pide permiso a un autor para borrar este artículo");
+				log.warn("Un usuario esta intentando eliminar un articulo sin tener los permisos necesarios, con sesion "+request.getSession());
 				return listArticulos(model);
 			}
 			articuloService.delete(articulo.get());
@@ -156,6 +170,5 @@ public class ArticuloController {
 		return listArticulos(model);
 	}
 	
-
+	
 }
-

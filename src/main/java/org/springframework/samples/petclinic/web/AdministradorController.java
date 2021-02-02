@@ -14,7 +14,7 @@ public class AdministradorController {
 
 	@Autowired
 	AdministradorService administradorService;
-	
+
 	
 	@GetMapping("")
 	public String listadministradores(ModelMap model) {
