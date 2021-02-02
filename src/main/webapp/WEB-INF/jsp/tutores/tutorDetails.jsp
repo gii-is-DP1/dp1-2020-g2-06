@@ -84,10 +84,14 @@
 	
     function noticiaspaginable(page){
     	
-    	var noticiaspag = paginate(page,'http://localhost/api/noticias/bytutor/'+${tutor.id}+'?page=');
+    	var noticiaspag = paginate(page,'/api/noticias/bytutor/'+${tutor.id}+'?page=');
     	var nextnoticiaspag = paginate(page+1,'http://localhost/api/noticias/bytutor/'+${tutor.id}+'?page=');
     
-	    $("#numero-not").text(page);
+    	if(page==1 && nextnoticiaspag.length==0 && noticiaspag.length==0)
+    		$("#numero-not").text("No hay noticias para mostrar");
+    	else if(!(page==1 && nextnoticiaspag.length==0))
+	    	$("#numero-not").text(page);
+   
 	    if(page>1){
 	    	$("#izquierda-not").attr("src","/resources/images/leftrow.svg");
 	    }
@@ -140,7 +144,11 @@
     	var articulospag = paginate(page,'/api/articulos/bytutor/'+${tutor.id}+'?page=');
     	var nextarticulospag = paginate(page+1,'/api/articulos/bytutor/'+${tutor.id}+'?page=');
     
-	    $("#numero-art").text(page);
+    	if(page==1 && nextarticulospag.length==0 && articulospag.length==0)
+    		$("#numero-art").text("No hay articulos para mostrar");
+    	else if(!(page==1 && nextarticulospag.length==0))
+	    	$("#numero-art").text(page);
+    	
 	    if(page>1){
 	    	$("#izquierda-art").attr("src","/resources/images/leftrow.svg");
 	    }

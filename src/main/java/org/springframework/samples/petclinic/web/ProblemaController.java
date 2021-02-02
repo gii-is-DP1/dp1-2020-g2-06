@@ -60,6 +60,8 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 		Collection<Problema> cp= problemaService.ProblemasVigentes();
 		modelMap.addAttribute("problemasVigentes",cp);
 		modelMap.addAttribute("problemasNoVigentes",problemaService.ProblemasNoVigentes(cp));
+		modelMap.addAttribute("temporada",Utils.getActualSeason().getNombre().toUpperCase());
+		modelMap.addAttribute("temporadaYear",Utils.getActualYearofSeason());
 		return "problemas/problemasList";
 	}
 	
