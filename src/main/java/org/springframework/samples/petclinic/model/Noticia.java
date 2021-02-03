@@ -10,6 +10,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -27,7 +28,8 @@ public class Noticia extends NamedEntity{
 	
 	
 	@ManyToMany
-	@NonNull
+	@NotNull
+	@NotEmpty
 	Set<Tutor> autores;
 	
 	@ManyToOne
