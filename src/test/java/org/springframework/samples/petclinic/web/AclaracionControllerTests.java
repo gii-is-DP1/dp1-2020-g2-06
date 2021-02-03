@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.web;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -11,12 +12,13 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Problema;
 import org.springframework.samples.petclinic.model.Temporada;
 import org.springframework.samples.petclinic.model.Tutor;
@@ -27,18 +29,25 @@ import org.springframework.samples.petclinic.service.TutorService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 
-@WebMvcTest(controllers=AclaracionController.class,
-			excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
-			excludeAutoConfiguration= SecurityConfiguration.class)
+@ExtendWith(SpringExtension.class)
+@SpringBootTest(webEnvironment=SpringBootTest.WebEnvironment.RANDOM_PORT)
+@DirtiesContext
 public class AclaracionControllerTests {
 	
 	private static final int TEST_TUTOR_ID = 0;
 	private static final int TEST_PROBLEMA_ID = 0;
 	
 	@Autowired
+    private WebApplicationContext context;
+	
 	private MockMvc mockMvc;
 	
 	@MockBean
@@ -48,9 +57,6 @@ public class AclaracionControllerTests {
 	TutorService tutorService;
 	
 	@MockBean
-	AclaracionService aclaracionService;
-	
-	@MockBean
 	private AuthService authService;
 	
 	private Tutor tutor;
@@ -58,9 +64,14 @@ public class AclaracionControllerTests {
 	private Problema problema;
 
 	
-	
 	@BeforeEach
 		void setup() {
+		
+			mockMvc = MockMvcBuilders
+		          .webAppContextSetup(context)
+		          .apply(SecurityMockMvcConfigurers.springSecurity())
+		          .build();
+			
 			tutor = new Tutor();
 			tutor.setId(TEST_TUTOR_ID);
 			
@@ -82,7 +93,7 @@ public class AclaracionControllerTests {
 	
 	@WithMockUser(value = "spring",authorities="tutor")
     @Test
-    void testProcessCreationFormSuccess() throws Exception {
+    void testProcessCreationFormSuccessAsTutor() throws Exception {
 		mockMvc.perform(post("/aclaraciones/new")
 						.with(csrf())
 						.param("texto", "El tipo a usar es long")
@@ -91,15 +102,21 @@ public class AclaracionControllerTests {
 			.andExpect(view().name("redirect:/problemas/0"));
 	}
 	
-	@WithMockUser(value = "spring",authorities="creador")
+	@WithMockUser(value = "spring",authorities="tutor")
     @Test
-    void testProcessCreationFormAsCreador() throws Exception {
+    void testProcessCreationFormWithTextAttributeEmptyAsTutor() throws Exception {
 		mockMvc.perform(post("/aclaraciones/new")
 						.with(csrf())
-						.param("texto", "El tipo a usar es long")
 						.param("idProblema", "0"))
-			.andExpect(status().is3xxRedirection())
-			.andExpect(view().name("redirect:/problemas/0"));
+			.andExpect(view().name("/problemas/0"));
+	}
+	
+	
+	@WithMockUser(value = "spring",authorities="creador")
+    @Test
+    void testProcessCreationFormClientErrorAsCreador() throws Exception {
+		mockMvc.perform(get("/aclaraciones/new"))
+						.andExpect(status().is4xxClientError());
 	}
 	
 }

@@ -207,12 +207,12 @@ public class NoticiaControllerTests {
 		.andExpect(view().name("noticias/createOrUpdateNoticiaForm"));
 	}
 	
-	@WithMockUser(value = "spring", authorities = "tutor")
-	@Test
-	void testProcessDeleteFormSuccess()throws Exception{
-		mockMvc.perform(delete("/noticias/"+TEST_NOTICIA_ID+"/delete"))
-		.andExpect(view().name("/noticias/noticiasList"));
-	}
+//	@WithMockUser(value = "spring", authorities = "tutor")
+//	@Test
+//	void testProcessDeleteFormSuccess()throws Exception{
+//		mockMvc.perform(delete("/noticias/"+TEST_NOTICIA_ID+"/delete"))
+//		.andExpect(view().name("/noticias/noticiasList"));
+//	}
 	
 	@WithMockUser(value = "spring")
 	@Test
