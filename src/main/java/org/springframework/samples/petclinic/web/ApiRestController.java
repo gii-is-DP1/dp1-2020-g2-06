@@ -60,7 +60,7 @@ public class ApiRestController {
 	
 	@GetMapping(value="/envios/byproblema/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Envio> getEnviosByProblema(@PathVariable("id") int id,@RequestParam(name="page", defaultValue="1") int pagea, @RequestParam(name="page-not", defaultValue="1") int pagen, ModelMap model) {
-		Pageable pageableA = PageRequest.of(pagea-1, pagsize,Sort.by("fecha").descending());
+		Pageable pageableA = PageRequest.of(pagea-1, pagsize,Sort.by("id").descending());
 		return envioService.findAllByProblemaPage(pageableA,id).getContent();
 	}
 
