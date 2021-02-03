@@ -12,8 +12,10 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
@@ -32,12 +34,17 @@ import org.springframework.samples.petclinic.service.ProblemaService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 
-@WebMvcTest(controllers=ComentarioController.class,
-			excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
-			excludeAutoConfiguration= SecurityConfiguration.class)
+@ExtendWith(SpringExtension.class)
+@SpringBootTest(webEnvironment=SpringBootTest.WebEnvironment.RANDOM_PORT)
+@DirtiesContext
 public class ComentarioControllerTests {
 	
 	private static final int TEST_COMENTARIO_ID = 0;
@@ -45,7 +52,10 @@ public class ComentarioControllerTests {
 	private static final int TEST_ENVIO_ID = 0;
 	
 	@Autowired
+    private WebApplicationContext context; 
+	
 	private MockMvc mockMvc;
+	
 	
 	@MockBean
 	private AuthService authService;
@@ -73,6 +83,12 @@ public class ComentarioControllerTests {
 	
 	@BeforeEach
 		void setup() {
+		mockMvc = MockMvcBuilders
+		          .webAppContextSetup(context)
+		          .apply(SecurityMockMvcConfigurers.springSecurity())
+		          .build();
+		
+		
 			alumno = new Alumno();
 			alumno.setId(TEST_ALUMNO_ID);
 			
@@ -109,6 +125,18 @@ public class ComentarioControllerTests {
 						.param("idEnvio", "0"))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(view().name("redirect:/envios/0"));
+	}
+	
+	@WithMockUser(value = "spring",authorities={"tutor", "creador", "administrador"})
+    @Test
+    void testProcessCreationFormErrorAuth() throws Exception {
+		given(envioService.findById(TEST_ALUMNO_ID)).willReturn(Optional.of(envio));
+		given(alumnoService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName())).willReturn(Optional.of(alumno));
+		mockMvc.perform(post("/comentarios/new")
+						.with(csrf())
+						.param("texto", "Muy buen envio")
+						.param("idEnvio", "0"))
+			.andExpect(status().isForbidden());
 	}
 	
 }
