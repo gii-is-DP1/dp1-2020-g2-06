@@ -126,7 +126,7 @@ public class TutorControllerTests {
 		.andExpect(view().name("tutores/createOrUpdateTutorForm"));
 	}
 	
-	@WithMockUser(value = "spring")
+	@WithMockUser(value = "spring", authorities= {"tutor"})
 	@Test
 	void testcomprobarUrls() throws Exception {
 		mockMvc.perform(get("/tutores")).andExpect(status().isOk());
