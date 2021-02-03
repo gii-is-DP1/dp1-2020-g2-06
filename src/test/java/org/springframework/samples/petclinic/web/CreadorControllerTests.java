@@ -14,15 +14,18 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.data.domain.Sort;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Articulo;
 import org.springframework.samples.petclinic.model.Creador;
@@ -34,18 +37,26 @@ import org.springframework.samples.petclinic.service.FileService;
 import org.springframework.samples.petclinic.service.TutorService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
-@WebMvcTest(controllers=CreadorController.class,
-			excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
-			excludeAutoConfiguration= SecurityConfiguration.class)
+@ExtendWith(SpringExtension.class)
+@SpringBootTest(webEnvironment=SpringBootTest.WebEnvironment.MOCK)
+@DirtiesContext
 public class CreadorControllerTests {
 
 	private static final int TEST_CREADOR_ID = 0;
 	
-	@Autowired
 	private MockMvc mockMvc;
-	
+
+	 @Autowired
+	    private WebApplicationContext context;
+	 
 	@MockBean
 	private CreadorService creadorService;
 	
@@ -69,6 +80,11 @@ public class CreadorControllerTests {
 	
 	@BeforeEach
 		void setup() {
+		mockMvc = MockMvcBuilders
+		          .webAppContextSetup(context)
+		          .apply(SecurityMockMvcConfigurers.springSecurity())
+		          .build();
+		
 			Optional<Creador> c = Optional.empty();
 			creador = new Creador();
 			creador.setApellidos("Brincau");
@@ -89,7 +105,7 @@ public class CreadorControllerTests {
 		.andExpect(view().name("creadores/createOrUpdateCreadorForm"));
 	}
 	
-	@WithMockUser(value = "spring", authorities= {"administrador"})
+	@WithMockUser(value = "spring", authorities= {"creador", "administrador"})
 	@Test
 	void testcomprobarUrls() throws Exception {
 		mockMvc.perform(get("/creadores")).andExpect(status().isOk());
@@ -98,61 +114,72 @@ public class CreadorControllerTests {
 		mockMvc.perform(get("/creadores/"+TEST_CREADOR_ID+"/edit")).andExpect(status().isOk());
 	}
 	
-	@WithMockUser(value = "spring", authorities= {"administrador"})
+	@WithMockUser(username = "DBGames@us.es", authorities= {"creador", "administrador"})
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
-		mockMvc.perform(post("/creadores/new")
-							.with(csrf())
-							.param("apellidos", "Brincau Cano")
-							.param("email", "DBGames@us.es")
-							.param("imagen", "resources/images/creadores/2020122317244979000000.jpg")
-							.param("nombre", "David")
-							.param("pass", "1234AbCd@"))
-		.andExpect(status().isOk()).andExpect(model().hasNoErrors());
+		byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };
+		mockMvc.perform(MockMvcRequestBuilders.multipart("/creadores/new")
+				.file(new MockMultipartFile("image","file.jpg", "image/jpeg", somebytes))
+				.with(csrf())
+				.param("apellidos", "Brincau Cano")
+				.param("email", "DBGames@us.es")
+				.param("nombre", "David")
+				.param("pass", "1234AbCd@"))
+				.andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/creadores"));
+		
 	}
 	
-	@WithMockUser(value = "spring", authorities= {"administrador"})
-	@Test
-	void testProcessCreationFormFailure() throws Exception {
-		mockMvc.perform(post("/creadores/new")
-					.with(csrf())
-					.param("apellidos", "Brincau Cano")
-					.param("email", "DBGames@youtube.com")
-					.param("imagen", "resources/images/creadores/2020122317244979000000.jpg")
-					.param("nombre", "David")
-					.param("pass", "contraseña1"))
-		.andExpect(status().isOk())
-		.andExpect(view().name("exception"));
-	}
-	
-	@WithMockUser(value = "spring", authorities= {"administrador"})
+	@WithMockUser(username = "DBGames@us.es", authorities= {"creador", "administrador"})
 	@Test
 	void testProcessUpdateCreadorFormSuccess() throws Exception {
-		mockMvc.perform(post("/creadores/{id}/edit", TEST_CREADOR_ID)
-							.with(csrf())
-							.param("apellidos", "García Villar")
-							.param("nombre", "Juan")
-							.param("email", "juaostrub@alum.us.es")
-							.param("imagen", "resources/images/NoImage.png"))
+		byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };
+		mockMvc.perform(MockMvcRequestBuilders.multipart("/creadores/0/edit")
+				.file(new MockMultipartFile("image","file.jpg", "image/jpeg", somebytes))
+				.with(csrf())
+				.param("apellidos", "Brincau Cano")
+				.param("email", "DBGamesss@us.es")
+				.param("nombre", "Davidd")
+				.param("pass", "4321AbCd@"))
+				.andExpect(status().is2xxSuccessful())
 				.andExpect(status().isOk());
 	}
 	
-	/*
-    @WithMockUser(value = "spring")
+	@WithMockUser(username = "DBGames@us.es", authorities= {"creador", "administrador"})
 	@Test
-	void testProcessUpdateCreadorFormHasErrors() throws Exception {
-		mockMvc.perform(post("/creadores/{id}/edit", TEST_CREADOR_ID)
-							.with(csrf())
-							.param("apellidos", "García Villar")
-							.param("nombre", "Juan")
-							.param("email", "juaostrub@alum.us.es")
-							.param("imagen", "resources/images/NoImage.png"))
+	void testProcessCreationFormFailure() throws Exception {
+		byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };
+		mockMvc.perform(MockMvcRequestBuilders.multipart("/creadores/new")
+				.file(new MockMultipartFile("image","file.jpg", "image/jpeg", somebytes))
+				.with(csrf())
+				.param("nombre", "David")
+				.param("pass", "1234AbCd@"))
 				.andExpect(status().isOk())
-				.andExpect(model().attributeHasErrors("creador"))
-				.andExpect(model().attributeHasFieldErrors("creador", "email"))
-				.andExpect(model().attributeHasFieldErrors("creador", "imagen"))
 				.andExpect(view().name("creadores/createOrUpdateCreadorForm"));
 	}
-	*/
+	
+    @WithMockUser(authorities = {"alumno", "tutor"})
+	@Test
+	void testProcessCreateAndUpdateCreadorFormAuthErrors() throws Exception {
+    	byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };
+		mockMvc.perform(MockMvcRequestBuilders.multipart("/creadores/new")
+				.file(new MockMultipartFile("image","file.jpg", "image/jpeg", somebytes))
+				.with(csrf())
+				.param("apellidos", "Brincau Cano")
+				.param("email", "DBGames@us.es")
+				.param("nombre", "David")
+				.param("pass", "1234AbCd@"))
+				.andExpect(status().isForbidden());
+		
+		mockMvc.perform(MockMvcRequestBuilders.multipart("/creadores/0/edit")
+				.file(new MockMultipartFile("image","file.jpg", "image/jpeg", somebytes))
+				.with(csrf())
+				.param("apellidos", "Brincau Cano")
+				.param("email", "DBGamesss@us.es")
+				.param("nombre", "Davidd")
+				.param("pass", "4321AbCd@"))
+				.andExpect(status().isForbidden());
+		
+	}
 
 }
