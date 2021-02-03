@@ -57,9 +57,6 @@ public class AclaracionControllerTests {
 	TutorService tutorService;
 	
 	@MockBean
-	AclaracionService aclaracionService;
-	
-	@MockBean
 	private AuthService authService;
 	
 	private Tutor tutor;
