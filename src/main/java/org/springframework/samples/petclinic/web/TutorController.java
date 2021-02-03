@@ -164,7 +164,7 @@ public class TutorController {
 	}
 	
 	@GetMapping("/{id}")
-	public String tutorDetails(@PathVariable("id") int id,@RequestParam(name="page-art", defaultValue="1") int pagea, @RequestParam(name="page-not", defaultValue="1") int pagen, ModelMap model) {
+	public String tutorDetails(@PathVariable("id") int id, ModelMap model) {
 		Optional<Tutor> tutor = tutorService.findById(id);
 		if(tutor.get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
 			model.addAttribute("me",true);
