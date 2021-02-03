@@ -13,6 +13,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Noticia;
+import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.FileService;
 import org.springframework.samples.petclinic.service.NoticiaService;
 import org.springframework.samples.petclinic.service.TutorService;
@@ -43,9 +44,17 @@ public class NoticiaController {
 	@Autowired
 	private FileService fileService;
 	
+	@Autowired
+	private AlumnoService alumnoService;
+	
 	@GetMapping("")
 	public String listNoticias(ModelMap model) {
 		model.addAttribute("noticias", noticiaService.findAll());
+		model.addAttribute("ranking_total",alumnoService.rankingTotal());
+		model.addAttribute("ranking_temp",alumnoService.rankingTemporada());
+		model.addAttribute("ranking_anual",alumnoService.rankingAnual());
+		model.addAttribute("temporada",Utils.getActualSeason().getNombre().toUpperCase());
+		model.addAttribute("temporadaYear",Utils.getActualYearofSeason());
 		return "/noticias/noticiasList";
 	}
 	
