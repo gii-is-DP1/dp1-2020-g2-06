@@ -84,11 +84,11 @@
     
     document.getElementById("izquierda").onclick = function(){
     	page--;
-    	noticiaspaginable(page);
+    	problemasnovigentespaginable(page);
     }
     document.getElementById("derecha").onclick = function(){
     	page++;
-    	noticiaspaginable(page);
+    	problemasnovigentespaginable(page);
     };
     
     
