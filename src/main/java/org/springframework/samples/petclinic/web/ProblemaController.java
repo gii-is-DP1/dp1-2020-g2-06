@@ -114,6 +114,7 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 				return VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM;
 			}
 			else {
+				
 				String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
 				String namezip = Utils.diferenciador("zip");
 				fileService.saveFile(zip,rootZip,namezip);

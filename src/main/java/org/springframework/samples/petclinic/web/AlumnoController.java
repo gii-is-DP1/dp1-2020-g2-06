@@ -28,6 +28,7 @@ import org.springframework.samples.petclinic.service.PreguntaTutorService;
 import org.springframework.samples.petclinic.service.TutorService;
 import org.springframework.samples.petclinic.util.Utils;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -138,7 +139,9 @@ public class AlumnoController {
 			String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
 			String name = Utils.diferenciador(extensionImagen[extensionImagen.length-1]);
 			alumno.setImagen("resources/images/alumnos/"  + name);
+			
 			fileService.saveFile(imagen,rootImage,name);
+			Utils.imageCrop("resources/images/alumnos/"  + name, fileService);
 			alumno.setEnabled(true);
 			alumnoService.save(alumno);
 			authService.saveAuthoritiesAlumno(alumno.getEmail(), "alumno");
@@ -195,6 +198,7 @@ public class AlumnoController {
 				alumno.get().setImagen("resources/images/alumnos/"  + name);
 				fileService.delete(Paths.get("src/main/resources/static/" + aux));
 				fileService.saveFile(imagen,rootImage,name);
+				Utils.imageCrop("resources/images/alumnos/"  + name, fileService);
 			}
 			BeanUtils.copyProperties(modifiedAlumno, alumno.get(), "id","imagen");
 			alumnoService.save(alumno.get());

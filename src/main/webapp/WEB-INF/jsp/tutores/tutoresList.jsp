@@ -27,7 +27,7 @@
     <script>
     
 function tutorespageable(page){
-    	
+		scroll(0,0);
     	var tutorespag = paginate(page,'/api/tutores/?page=');
     	var nexttutorespag = paginate(page+1,'/api/tutores/?page=');
     
