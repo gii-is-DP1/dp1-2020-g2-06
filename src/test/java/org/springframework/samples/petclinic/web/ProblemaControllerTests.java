@@ -155,7 +155,7 @@ public class ProblemaControllerTests {
 	}
 	
 	
-	@WithMockUser(value = "davbrican@us.es", authorities= "creador")
+	@WithMockUser(username = "davbrican@us.es", authorities= "creador")
 	@Test
 	void testProblemaCreate() throws Exception {
 		byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };
