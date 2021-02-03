@@ -44,7 +44,7 @@ public class PerfilController {
 		if(tipoPerfil.equals("alumno")) {
 			return alumnoController.alumnoDetails(alumnoService.findByEmail(email).get().getId(), model);
 		}else if(tipoPerfil.equals("tutor")){
-			return tutorController.tutorDetails(tutorService.findByEmail(email).get().getId(), 1, 1, model);
+			return tutorController.tutorDetails(tutorService.findByEmail(email).get().getId(), model);
 		}else if(tipoPerfil.equals("creador")) {
 			return creadorController.creadorDetails(creadorService.findByEmail(email).get().getId(), model);
 		}else {

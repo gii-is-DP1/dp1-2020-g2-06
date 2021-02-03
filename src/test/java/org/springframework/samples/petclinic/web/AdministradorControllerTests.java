@@ -32,9 +32,6 @@ public class AdministradorControllerTests {
 	
 	
 	private MockMvc mockMvc;
-
-	@MockBean
-	AdministradorService AdministradorService;
 	
 	@MockBean
 	private AuthService authService;
