@@ -8,16 +8,23 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.awt.print.Pageable;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.SliceImpl;
+import org.springframework.data.domain.Sort;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
+import org.springframework.samples.petclinic.model.Articulo;
 import org.springframework.samples.petclinic.model.Creador;
 import org.springframework.samples.petclinic.service.AdministradorService;
 import org.springframework.samples.petclinic.service.AlumnoService;
@@ -82,7 +89,7 @@ public class CreadorControllerTests {
 		.andExpect(view().name("creadores/createOrUpdateCreadorForm"));
 	}
 	
-	@WithMockUser(value = "spring")
+	@WithMockUser(value = "spring", authorities= {"administrador"})
 	@Test
 	void testcomprobarUrls() throws Exception {
 		mockMvc.perform(get("/creadores")).andExpect(status().isOk());
@@ -91,7 +98,7 @@ public class CreadorControllerTests {
 		mockMvc.perform(get("/creadores/"+TEST_CREADOR_ID+"/edit")).andExpect(status().isOk());
 	}
 	
-	@WithMockUser(value = "spring")
+	@WithMockUser(value = "spring", authorities= {"administrador"})
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
 		mockMvc.perform(post("/creadores/new")
@@ -104,7 +111,7 @@ public class CreadorControllerTests {
 		.andExpect(status().isOk()).andExpect(model().hasNoErrors());
 	}
 	
-	@WithMockUser(value = "spring")
+	@WithMockUser(value = "spring", authorities= {"administrador"})
 	@Test
 	void testProcessCreationFormFailure() throws Exception {
 		mockMvc.perform(post("/creadores/new")
@@ -116,6 +123,18 @@ public class CreadorControllerTests {
 					.param("pass", "contraseña1"))
 		.andExpect(status().isOk())
 		.andExpect(view().name("exception"));
+	}
+	
+	@WithMockUser(value = "spring", authorities= {"administrador"})
+	@Test
+	void testProcessUpdateCreadorFormSuccess() throws Exception {
+		mockMvc.perform(post("/creadores/{id}/edit", TEST_CREADOR_ID)
+							.with(csrf())
+							.param("apellidos", "García Villar")
+							.param("nombre", "Juan")
+							.param("email", "juaostrub@alum.us.es")
+							.param("imagen", "resources/images/NoImage.png"))
+				.andExpect(status().isOk());
 	}
 	
 	/*

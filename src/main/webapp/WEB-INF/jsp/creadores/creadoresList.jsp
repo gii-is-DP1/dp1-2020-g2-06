@@ -55,7 +55,7 @@
 	    $("#creadoress").append("<tbody>");
 	    for(var i = 0; i < creadorespag.length; i++){
 	    	
-	    	$("#creadoress").append("<tr> <td> <a href='/creadores/"+creadorespag[i]['id']+"'>"+ creadorespag[i]['nombre'] + "  " + creadorespag[i]['apellidos'] +"</a> </td> </tr>");
+	    	$("#creadoress").append("<tr> <td> <img src="+creadorespag[i]['imagen']+"  width='50px' style='border-radius:100%'/> <a href='/creadores/"+creadorespag[i]['id']+"'>"+ creadorespag[i]['nombre'] + "  " + creadorespag[i]['apellidos'] +"</a> </td> </tr>");
 
 	    }
 	   
