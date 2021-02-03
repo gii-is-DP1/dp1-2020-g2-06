@@ -43,4 +43,7 @@ public class ArticuloService {
 		return articuloRepo.findArticulosByTutorPageable(id, pageable);
 	}
 
+	public Slice<Articulo> findAllArticulosPage(Pageable pageable){
+		return articuloRepo.findAllArticulosPageable(pageable);
+	}
 }
