@@ -123,7 +123,7 @@ public class TutorControllerTests {
 			.willReturn(new SliceImpl<Articulo>(new ArrayList<Articulo>()));
 			
 			given(this.preguntaTutorService.findByProblemaNotAnswered()).willReturn(new ArrayList<PreguntaTutor>());
-			mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
+			
 			
 			
 	
@@ -136,7 +136,7 @@ public class TutorControllerTests {
 		.andExpect(view().name("tutores/createOrUpdateTutorForm"));
 	}
 	
-	@WithMockUser(value = "spring", authorities= {"tutor"})
+	@WithMockUser(value = "spring", authorities= {"tutor", "administrador"})
 	@Test
 	void testcomprobarUrls() throws Exception {
 		mockMvc.perform(get("/tutores")).andExpect(status().isOk());
@@ -162,21 +162,6 @@ public class TutorControllerTests {
 		.andExpect(view().name("/tutores/tutoresList"));
 	}
 	
-	@WithMockUser(value = "spring")
-	@Test
-	void testProcessCreationFormFailure2() throws Exception {
-		byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };
-		mockMvc.perform(MockMvcRequestBuilders.multipart("/tutores/new")
-							.file(new MockMultipartFile("image","file.jpg", "text/plain", somebytes))
-							.with(csrf())
-							.param("nombre", "Juanra")
-							.param("apellidos", "Ostos")
-							.param("email", "rarmon@alum.us.es")
-							.param("pass", "Esto@@esUna4")
-							)
-		.andExpect(view().name("/login"));
-	}
-	
 	@WithMockUser(value = "spring", authorities = "administrador")
 	@Test
 	void testProcessCreationFormFailure() throws Exception {
@@ -191,6 +176,39 @@ public class TutorControllerTests {
 		.andExpect(status().isOk())
 		.andExpect(view().name("tutores/createOrUpdateTutorForm"));
 	}
+	
+//	@WithMockUser(username = "juanito@us.es", authorities= "administrador")
+//	@Test
+//	void testProcessUpdateFormFailure() throws Exception {
+//		byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };
+//		mockMvc.perform(MockMvcRequestBuilders.multipart("/tutores/0/edit")
+//							.file(new MockMultipartFile("image","file.jpg", "text/plain", somebytes))
+//							.with(csrf())
+//							.param("nombre", "Juanra")
+//							.param("apellidos", "Ostos")
+//							.param("pass", "EstoesUna4")
+//							)
+//		.andExpect(status().isOk())
+//		.andExpect(view().name("/tutores/tutoresList"));
+//	}
+	
+	@WithMockUser(username = "alebarled@alum.us.es", authorities= "tutor")
+	@Test
+	void testProcessUpdateFormSuccess() throws Exception {
+		byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };
+		mockMvc.perform(MockMvcRequestBuilders.multipart("/tutores/0/edit")
+							.file(new MockMultipartFile("image","file.jpg", "text/plain", somebytes))
+							.with(csrf())
+							.param("nombre", "Juanra")
+							.param("apellidos", "Ostos")
+							.param("email", "rarmon@alum.us.es")
+							.param("pass", "Esto@@esUna4")
+							)
+		.andExpect(status().isOk())
+		.andExpect(model().attributeExists("tutor"))
+		.andExpect(view().name("/tutores/tutoresList"));
+	}
+
 	
 	@WithMockUser(value = "spring", authorities= {"tutor", "administrador"})
 	@Test
