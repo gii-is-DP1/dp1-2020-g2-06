@@ -10,9 +10,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -68,7 +66,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/foro").permitAll()
 				.antMatchers("/foro/new").hasAuthority("alumno")
 				.antMatchers("/tutores/").permitAll()
-				.antMatchers("/tutores/new").hasAuthority("tutor")
+				.antMatchers("/tutores/new").hasAuthority("administrador")
 				.antMatchers("/tutores/{id}/edit").hasAuthority("tutor")
 				.antMatchers("/welcome").permitAll()
 				.antMatchers("/admin/**").hasAnyAuthority("admin")
@@ -108,9 +106,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 	
 	@Bean
-	public PasswordEncoder passwordEncoder() {	    
-		PasswordEncoder encoder =  NoOpPasswordEncoder.getInstance();
-	    return encoder;
+	public BCryptPasswordEncoder  passwordEncoder() {	    
+		return new BCryptPasswordEncoder();
 	}
 	
 }

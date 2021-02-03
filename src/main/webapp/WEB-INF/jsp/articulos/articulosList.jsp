@@ -29,6 +29,7 @@
 	///// paginacion articulos 
 	
     function articulospaginable(page){
+    	scroll(0,0);
     	
     	var articulospag = paginate(page,'/api/articulospage'+'?page=');
     	var nextarticulospag = paginate(page+1,'/api/articulospage'+'?page=');
@@ -55,7 +56,7 @@
 	    $("#articuloss").append("<tbody>");
 	    for(var i = 0; i < articulospag.length; i++){
 	    	
-	    	$("#articuloss").append("<tr> <td> <a href='/articulos/"+articulospag[i]['id']+"'>"+ articulospag[i]['name']+" - "+articulospag[i]['fechaPublicacion']+"</a> </td> </tr> <tr><td>"+ articulospag[i]['texto'] +"</td></tr>");
+	    	$("#articuloss").append("<tr> <td> <a href='/articulos/"+articulospag[i]['id']+"'>"+ articulospag[i]['name']+" - "+articulospag[i]['fechaPublicacion']+"</a> </td> </tr> <tr><td>"+ articulospag[i]['texto'].substring(0,500) +"... <a href='/articulos/"+articulospag[i]['id']+"'> Seguir leyendo </a> </td></tr>");
 	    	
 	    }
 	   

@@ -27,7 +27,7 @@
 	///// paginacion problemas no vigentes
 	
     function noticiaspaginable(page){
-    	
+    	scroll(0,0);
     	var noticiaspag = paginate(page,'/api/noticias/?page=');
     	var nextnoticiaspag = paginate(page+1,'/api/noticias/?page=');
     	if(!(page==1 && nextnoticiaspag.length==0))
@@ -54,7 +54,7 @@
 	    for(var i = 0; i < noticiaspag.length; i++){
 	    	
 	    	$("#noticias").append("<table class='table table-striped'> <tr> <td> <a href='/noticias/"+noticiaspag[i]['id']+"'>"+ noticiaspag[i]['name'] + "  " + noticiaspag[i]['fechaPublicacion'] +
-	    			 "</a> </td> </tr> <tr> <td> <p style='text-align:center'> <img src='/"+noticiaspag[i]['imagen']+"'width='400px'> </p> </td> </tr> <tr> <td> "+ noticiaspag[i]['texto']+"</td> </tr> </table>");
+	    			 "</a> </td> </tr> <tr> <td> <p style='text-align:center'> <img src='/"+noticiaspag[i]['imagen']+"'width='400px'> </p> </td> </tr> <tr><td>"+ noticiaspag[i]['texto'].substring(0,500) +"... <a href='/noticias/"+noticiaspag[i]['id']+"'> Seguir leyendo </a> </td></tr></table>");
 	    	
 	    }
 	    console.log(noticias);
