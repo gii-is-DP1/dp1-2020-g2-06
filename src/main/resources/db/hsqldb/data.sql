@@ -92,37 +92,48 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03',
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
 */
 
-INSERT INTO creadores(id,enabled,nombre,apellidos,email,pass,imagen) VALUES (0,true,'David','Brincau Cano','davbrican@us.es','dbgames5DD@f5','resources/images/creadores/2020122317244979000000.jpg');
+INSERT INTO creadores(id,enabled,nombre,apellidos,email,pass,imagen) VALUES (0,true,'David','Brincau Cano','davbrican@us.es','$2a$10$p25p6pDKzt4O/ez2VhFWFuu6P7e9HDNYxFIURR/r0ZoTi9NnKUJgO','resources/images/creadores/2020122317244979000000.jpg');
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (17,null,null,0,null,'creador');
-INSERT INTO creadores(id,enabled,nombre,apellidos,email,pass,imagen) VALUES (1,true,'Marco','Aurelio Jimenez','maraurjim@us.es','marAurJim5DD@f5','resources/images/creadores/2020122317244980000000.jpg');
+INSERT INTO creadores(id,enabled,nombre,apellidos,email,pass,imagen) VALUES (1,true,'Marco','Aurelio Jimenez','maraurjim@us.es','$2a$10$3gu6htBlOsmqmPqSiMKBjOU.hZxTLqOXtO/QB5rd8b293ZB4.KRem','resources/images/creadores/2020122317244980000000.jpg');
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (18,null,null,1,null,'creador');
-INSERT INTO creadores(id,enabled,nombre,apellidos,email,pass,imagen) VALUES (2,true,'Yolanda','Revilla Gil','yolrevgil@us.es','YolrevGil5DD@f5','resources/images/creadores/2020122317244981000000.jpg');
+INSERT INTO creadores(id,enabled,nombre,apellidos,email,pass,imagen) VALUES (2,true,'Yolanda','Revilla Gil','yolrevgil@us.es','$2a$10$dsjXBJcjmqKf5Yt069ik.uFIYaEb822OAKeDzl7lKS0MSPZndjfOy','resources/images/creadores/2020122317244981000000.jpg');
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (19,null,null,2,null,'creador');
-INSERT INTO creadores(id,enabled,nombre,apellidos,email,pass,imagen) VALUES (3,true,'Antonio','Revilla Reverte','antrevrev@us.es','Antrevrev5DD@f5','resources/images/creadores/2020122317244982000000.jpg');
+INSERT INTO creadores(id,enabled,nombre,apellidos,email,pass,imagen) VALUES (3,true,'Antonio','Revilla Reverte','antrevrev@us.es','$2a$10$ztAOzpnBdt1inGJg7H3i3e8zY6dSAIouCam0RCXDHJQLP5HQQYpYK','resources/images/creadores/2020122317244982000000.jpg');
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (20,null,null,3,null,'creador');
-INSERT INTO creadores(id,enabled,nombre,apellidos,email,pass,imagen) VALUES (4,true,'Lucas','Ostos Gomez','lucaosgo@us.es','YolrevGil5DD@f5','resources/images/creadores/2020122317244983000000.jpg');
+INSERT INTO creadores(id,enabled,nombre,apellidos,email,pass,imagen) VALUES (4,true,'Lucas','Ostos Gomez','lucaosgo@us.es','$2a$10$dsjXBJcjmqKf5Yt069ik.uFIYaEb822OAKeDzl7lKS0MSPZndjfOy','resources/images/creadores/2020122317244983000000.jpg');
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (21,null,null,4,null,'creador');
-INSERT INTO creadores(id,enabled,nombre,apellidos,email,pass,imagen) VALUES (5,true,'Luna','Llena Nueva','lunllenue@us.es','LunLlenue5DD@f5','resources/images/creadores/2020122317244984000000.jpg');
+INSERT INTO creadores(id,enabled,nombre,apellidos,email,pass,imagen) VALUES (5,true,'Luna','Llena Nueva','lunllenue@us.es','$2a$10$MtDkSbM6TrRqUIP/6mSBtuOEHn8dTrIx0GtjLpSHLRe9HGJDFF/FS','resources/images/creadores/2020122317244984000000.jpg');
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (22,null,null,5,null,'creador');
 
-INSERT INTO tutores(id,enabled,nombre,apellidos,email,pass,imagen) VALUES (0,true,'Alejandro','Barranco Ledesma','alebarled@alum.us.es','r4rm0nAAAaf1sf@','resources/images/tutores/20201223174110190000000.jpg');
+INSERT INTO tutores(id,enabled,nombre,apellidos,email,pass,imagen) VALUES (0,true,'Alejandro','Barranco Ledesma','alebarled@alum.us.es','$2a$10$vjhltx6E7lkeOjw4IgXGU.OKnzXoqeUxAsIR3RxYE8CEg1bD.sAMq','resources/images/tutores/20201223174110190000000.jpg');
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (0,null,0,null,null,'tutor');
-INSERT INTO tutores(id,enabled,nombre,apellidos,email,pass,imagen) VALUES (1,true,'Juan Ramón','Ostos Rubio','juaostrub@alum.us.es','adminaklsf@gEf1','resources/images/tutores/20201223174011976000000.jpg');
+INSERT INTO tutores(id,enabled,nombre,apellidos,email,pass,imagen) VALUES (1,true,'Juan Ramón','Ostos Rubio','juaostrub@alum.us.es','$2a$10$yq0R6aRDIKIB25xYCHk9Hee1vDjV7AnBlsah4/VLPYaQGODlqi6zq','resources/images/tutores/20201223174011976000000.jpg');
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (1,null,1,null,null,'tutor');
-INSERT INTO tutores(id,enabled,nombre,apellidos,email,pass,imagen) VALUES (2,true,'David','Brincau Cano','davbrincan@alum.us.es','1234Haksdjfab@','resources/images/tutores/2020122317244979000000.jpg');
+INSERT INTO tutores(id,enabled,nombre,apellidos,email,pass,imagen) VALUES (2,true,'David','Brincau Cano','davbrincan@alum.us.es','$2a$10$zudMaeWGdKmVVXSiaF4Pyu8jZSOezEcy2qAtHR2f/O4owJqqGjsme','resources/images/tutores/2020122317244979000000.jpg');
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (2,null,2,null,null,'tutor');
-INSERT INTO tutores(id,enabled,nombre,apellidos,email,pass,imagen) VALUES (3,true,'Jesús','Aparicio Ortiz','jesaport@alum.us.es','j3s u1saskdgfD','resources/images/tutores/20201223173921376000000.jpg');
+INSERT INTO tutores(id,enabled,nombre,apellidos,email,pass,imagen) VALUES (3,true,'Jesús','Aparicio Ortiz','jesaport@alum.us.es','$2a$10$W1QU8/4qKwJilKpysGMYxuSlkEqdPwgeXjJG27i9LA317fbf.y.XK','resources/images/tutores/20201223173921376000000.jpg');
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (3,null,3,null,null,'tutor');
-INSERT INTO tutores(id,enabled,nombre,apellidos,email,pass,imagen) VALUES (4,true,'Manuel','Parejo Ortiz','manparort@us.es','EstoNoesunacontrasena22@','resources/images/tutores/20201223174110191000000.jpg');
+INSERT INTO tutores(id,enabled,nombre,apellidos,email,pass,imagen) VALUES (4,true,'Manuel','Parejo Ortiz','manparort@us.es','$2a$10$nqoJh59QWeLr2kCX2MzZ/.iM8xPZcYA2tXY9U83X0A5ECG1YUN/FS','resources/images/tutores/20201223174110191000000.jpg');
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (4,null,4,null,null,'tutor');
-INSERT INTO tutores(id,enabled,nombre,apellidos,email,pass,imagen) VALUES (5,true,'Pedro','Cañete Lopez','pedcañlop@us.es','Holaestoes44€','resources/images/tutores/20201223174110192000000.jpg');
+INSERT INTO tutores(id,enabled,nombre,apellidos,email,pass,imagen) VALUES (5,true,'Pedro','Cañete Lopez','pedcañlop@us.es','$2a$10$FfkJbDZOunnFIQshx..R0eqM1xP9sVHvM/mmAILwxIz1IboLM.Pcm','resources/images/tutores/20201223174110192000000.jpg');
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (5,null,5,null,null,'tutor');
-INSERT INTO tutores(id,enabled,nombre,apellidos,email,pass,imagen) VALUES (6,true,'Evaristo','Gil Arrans','evagilarr@us.es','Megustael3543-55','resources/images/tutores/20201223174110193000000.jpg');
+INSERT INTO tutores(id,enabled,nombre,apellidos,email,pass,imagen) VALUES (6,true,'Evaristo','Gil Arrans','evagilarr@us.es','$2a$10$zAYmthG0.nUgYz/eUtnJZ.gA9B2IoBCBK62SN4Yr3kN4dHGpZQXMm','resources/images/tutores/20201223174110193000000.jpg');
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (6,null,6,null,null,'tutor');
 
 
 INSERT INTO noticias(id,name,autor_id,fecha_publicacion,texto,imagen) VALUES (0,'Noticias Frescas',0,DATE'2020-07-22','Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum','resources/images/noticias/2020122317827911000000.jpg');
-INSERT INTO noticias(id,name,autor_id,fecha_publicacion,texto,imagen) VALUES (1,'Noticias Falsas',0,DATE'2020-07-22','Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?','resources/images/noticias/2020122317841918000000.jpg');
+INSERT INTO noticias(id,name,autor_id,fecha_publicacion,texto,imagen) VALUES (1,'Noticias Falsas',1,DATE'2020-07-22','Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?','resources/images/noticias/2020122317841918000000.jpg');
+INSERT INTO noticias(id,name,autor_id,fecha_publicacion,texto,imagen) VALUES (2,'Noticias a media noche',1,DATE'2020-07-22','Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum','resources/images/noticias/2020122317827911000000.jpg');
+INSERT INTO noticias(id,name,autor_id,fecha_publicacion,texto,imagen) VALUES (3,'Noticias a medio hacer',1,DATE'2020-07-22','Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?','resources/images/noticias/2020122317841918000000.jpg');
+INSERT INTO noticias(id,name,autor_id,fecha_publicacion,texto,imagen) VALUES (4,'Noticias no muy frescas',3,DATE'2020-07-22','Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum','resources/images/noticias/2020122317827911000000.jpg');
+INSERT INTO noticias(id,name,autor_id,fecha_publicacion,texto,imagen) VALUES (5,'Noticias calientes',4,DATE'2020-07-22','Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?','resources/images/noticias/2020122317841918000000.jpg');
+INSERT INTO noticias(id,name,autor_id,fecha_publicacion,texto,imagen) VALUES (6,'Noticias frias',5,DATE'2020-07-22','Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum','resources/images/noticias/2020122317827911000000.jpg');
+INSERT INTO noticias(id,name,autor_id,fecha_publicacion,texto,imagen) VALUES (7,'Noticias templadas',5,DATE'2020-07-22','Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?','resources/images/noticias/2020122317841918000000.jpg');
+INSERT INTO noticias(id,name,autor_id,fecha_publicacion,texto,imagen) VALUES (8,'Noticias al dente',6,DATE'2020-07-22','Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum','resources/images/noticias/2020122317827911000000.jpg');
+INSERT INTO noticias(id,name,autor_id,fecha_publicacion,texto,imagen) VALUES (9,'Noticias al punto',0,DATE'2020-07-22','Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?','resources/images/noticias/2020122317841918000000.jpg');
+INSERT INTO noticias(id,name,autor_id,fecha_publicacion,texto,imagen) VALUES (10,'Noticias a la carbonara',0,DATE'2020-07-22','Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum','resources/images/noticias/2020122317827911000000.jpg');
+INSERT INTO noticias(id,name,autor_id,fecha_publicacion,texto,imagen) VALUES (11,'Noticias crudas',0,DATE'2020-07-22','Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?','resources/images/noticias/2020122317841918000000.jpg');
+
 
 
 INSERT INTO normas_web(id,name,descripcion) VALUES (0,'Respeta', 'Se debe respetar a todos los alumnos que participen en la página');
@@ -201,7 +212,20 @@ INSERT INTO NOTICIAS_AUTORES(NOTICIA_ID,AUTORES_ID) VALUES (0,1);
 INSERT INTO NOTICIAS_AUTORES(NOTICIA_ID,AUTORES_ID) VALUES (0,2);
 INSERT INTO NOTICIAS_AUTORES(NOTICIA_ID,AUTORES_ID) VALUES (0,3);
 INSERT INTO NOTICIAS_AUTORES(NOTICIA_ID,AUTORES_ID) VALUES (1,1);
-INSERT INTO NOTICIAS_AUTORES(NOTICIA_ID,AUTORES_ID) VALUES (1,3);
+INSERT INTO NOTICIAS_AUTORES(NOTICIA_ID,AUTORES_ID) VALUES (1,0);
+INSERT INTO NOTICIAS_AUTORES(NOTICIA_ID,AUTORES_ID) VALUES (2,0);
+INSERT INTO NOTICIAS_AUTORES(NOTICIA_ID,AUTORES_ID) VALUES (3,1);
+INSERT INTO NOTICIAS_AUTORES(NOTICIA_ID,AUTORES_ID) VALUES (4,1);
+INSERT INTO NOTICIAS_AUTORES(NOTICIA_ID,AUTORES_ID) VALUES (5,6);
+INSERT INTO NOTICIAS_AUTORES(NOTICIA_ID,AUTORES_ID) VALUES (6,5);
+INSERT INTO NOTICIAS_AUTORES(NOTICIA_ID,AUTORES_ID) VALUES (7,5);
+INSERT INTO NOTICIAS_AUTORES(NOTICIA_ID,AUTORES_ID) VALUES (8,5);
+INSERT INTO NOTICIAS_AUTORES(NOTICIA_ID,AUTORES_ID) VALUES (9,4);
+INSERT INTO NOTICIAS_AUTORES(NOTICIA_ID,AUTORES_ID) VALUES (10,4);
+INSERT INTO NOTICIAS_AUTORES(NOTICIA_ID,AUTORES_ID) VALUES (11,2);
+
+
+
 
 
 
@@ -227,25 +251,25 @@ INSERT INTO ARTICULOS_AUTORES(ARTICULO_ID,AUTORES_ID) VALUES (13,0);
 
 
 
-INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir) VALUES (0,true,'Daniel','Montes','rarmon@alum.us.es','resources/images/alumnos/20201223154714879157200.jpg','octave¬11El0ver',true);
+INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir) VALUES (0,true,'Daniel','Montes','rarmon@alum.us.es','resources/images/alumnos/20201223154714879157200.jpg','$2a$10$saNfL08X/Pnekubb3jgRYudKJWuudOc07VCu5iV9u80aqq5vrx0vW',true);
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (7,0,null,null,null,'alumno');
 
-INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir) VALUES (1,true,'Marina','Moya','marmozam@alum.us.es','resources/images/alumnos/20201223155839395152900.jpg','coding@4food',false);
+INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir) VALUES (1,true,'Marina','Moya','marmozam@alum.us.es','resources/images/alumnos/20201223155839395152900.jpg','$2a$10$d.yXv5TvwE0cJBiBJSph/.G1dkUPRD3tOxGsk5ova6W0GI7xfeBYy',false);
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (8,1,null,null,null,'alumno');
 
-INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir) VALUES (2,true,'Alexis','Balboa','alexisbalbo@alum.us.es','resources/images/alumnos/20201223155630996653000.jpeg','nothiWW#ng2lose',true);
+INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir) VALUES (2,true,'Alexis','Balboa','alexisbalbo@alum.us.es','resources/images/alumnos/20201223155630996653000.jpeg','$2a$10$H86UgOI2vQSDWKohZGu8dutlkZMIGJUQ9rZ7PBUGcg7YSKNL21Pmi',true);
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (9,2,null,null,null,'alumno');
 
-INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir) VALUES (3,true,'Amador','Duran','amadordur@alum.us.es','resources/images/alumnos/20201223155630996654000.jpg','nothiWW#ng2lose',true);
+INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir) VALUES (3,true,'Amador','Duran','amadordur@alum.us.es','resources/images/alumnos/20201223155630996654000.jpg','$2a$10$H86UgOI2vQSDWKohZGu8dutlkZMIGJUQ9rZ7PBUGcg7YSKNL21Pmi',true);
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (10,3,null,null,null,'alumno');
 
-INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir) VALUES (4,true,'Benito','Perez','benitper@alum.us.es','resources/images/alumnos/20201223155630996655000.jpg','nothiWW#ng2lose',true);
+INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir) VALUES (4,true,'Benito','Perez','benitper@alum.us.es','resources/images/alumnos/20201223155630996655000.jpg','$2a$10$H86UgOI2vQSDWKohZGu8dutlkZMIGJUQ9rZ7PBUGcg7YSKNL21Pmi',true);
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (11,4,null,null,null,'alumno');
 
-INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir) VALUES (5,true,'Lucia','Peña','lucype@alum.us.es','resources/images/alumnos/20201223155630996656000.jpg','nothiWW#ng2lose',true);
+INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir) VALUES (5,true,'Lucia','Peña','lucype@alum.us.es','resources/images/alumnos/20201223155630996656000.jpg','$2a$10$H86UgOI2vQSDWKohZGu8dutlkZMIGJUQ9rZ7PBUGcg7YSKNL21Pmi',true);
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (12,5,null,null,null,'alumno');
 
-INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir) VALUES (6,true,'Maria','Moya','marmoya@alum.us.es','resources/images/alumnos/20201223155630996657000.jpg','nothiWW#ng2lose',true);
+INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir) VALUES (6,true,'Maria','Moya','marmoya@alum.us.es','resources/images/alumnos/20201223155630996657000.jpg','$2a$10$H86UgOI2vQSDWKohZGu8dutlkZMIGJUQ9rZ7PBUGcg7YSKNL21Pmi',true);
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (13,6,null,null,null,'alumno');
 
 INSERT INTO envios(id,id_judge,fecha,codigo_path,resolucion,id_alumno,id_problema,id_season,season_year) VALUES (0,0,'2020-08-21T11:13:13.274','codes/prueba.java','AC',0,1,0,2020);
@@ -275,11 +299,11 @@ INSERT INTO comentarios(id,id_envio,id_alumno,texto) VALUES (2,3,2,'Como???');
 
 INSERT INTO aclaraciones(id,id_tutor,id_problema,texto) VALUES (0,2,2,'Encontrar la moneda consiste en hacer un bucle infinito con el que reviente el PC');
 
-INSERT INTO administradores(id,email,pass,enabled) VALUES (0, 'administrador1@us.es', 'adm1asdfWW%n1234',true);
+INSERT INTO administradores(id,email,pass,enabled) VALUES (0, 'administrador1@us.es', '$2a$10$jLoYA3ElNlg.TKQmkXhlkuVflo6X8Sq3pcYmNvDIKBjrijZRsEwqK',true);
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (14,null,null,null,0,'administrador');
-INSERT INTO administradores(id,email,pass,enabled) VALUES (1, 'administrador2@us.es', 'adm1asdfWW%n1234',true);
+INSERT INTO administradores(id,email,pass,enabled) VALUES (1, 'administrador2@us.es', '$2a$10$jLoYA3ElNlg.TKQmkXhlkuVflo6X8Sq3pcYmNvDIKBjrijZRsEwqK',true);
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (15,null,null,null,1,'administrador');
-INSERT INTO administradores(id,email,pass,enabled) VALUES (2, 'administrador3@us.es', 'adm1asdfWW%n1234',true);
+INSERT INTO administradores(id,email,pass,enabled) VALUES (2, 'administrador3@us.es', '$2a$10$jLoYA3ElNlg.TKQmkXhlkuVflo6X8Sq3pcYmNvDIKBjrijZRsEwqK',true);
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (16,null,null,null,2,'administrador');
 
 

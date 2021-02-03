@@ -11,6 +11,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.samples.petclinic.model.Noticia;
 import org.springframework.samples.petclinic.model.Tutor;
 import org.springframework.samples.petclinic.repository.TutorRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -35,6 +36,8 @@ public class TutorService {
 	}
 	
 	public void save(@Valid Tutor tutor) {
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		tutor.setPass(encoder.encode(tutor.getPass()));
 		tutoRepo.save(tutor);
 	}
 	
