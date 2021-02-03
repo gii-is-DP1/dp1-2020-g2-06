@@ -15,6 +15,7 @@ import org.springframework.samples.petclinic.model.Articulo;
 import org.springframework.samples.petclinic.model.Problema;
 import org.springframework.samples.petclinic.repository.AlumnoRepository;
 import org.springframework.samples.petclinic.util.Utils;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +35,8 @@ public class AlumnoService {
 	}
 	
 	public void save(Alumno alumno) {
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		alumno.setPass(encoder.encode(alumno.getPass()));
 		alumnoRepository.save(alumno);
 	}
 	

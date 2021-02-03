@@ -27,6 +27,7 @@
 	
     function alumnospaginable(page){
     	
+    	scroll(0,0);
     	var alumnospag = paginate(page,'/api/alumnospage'+'?page=');
     	var nextalumnospag = paginate(page+1,'/api/alumnospage'+'?page=');
 	    $("#numero-art").text(page);

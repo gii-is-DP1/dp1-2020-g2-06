@@ -30,6 +30,8 @@
 	///// paginacion creadores 
 	
     function creadorespaginable(page){
+	   
+    	scroll(0,0);
     	var creadorespag = paginate(page,'/api/PageableCreadores?page=');
     	var nextcreadorpag = paginate(page+1,'/api/PageableCreadores?page=');
 
