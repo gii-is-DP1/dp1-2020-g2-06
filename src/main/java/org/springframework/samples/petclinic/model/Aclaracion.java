@@ -18,12 +18,10 @@ import lombok.Setter;
 @Table(name="aclaraciones")
 public class Aclaracion extends BaseEntity{	
 	
-	@NonNull
 	@ManyToOne
 	@JoinColumn(name="id_tutor")
 	private Tutor tutor;
 	
-	@NonNull
 	@ManyToOne
 	@JoinColumn(name="id_problema")
 	private Problema problema;

@@ -42,7 +42,6 @@ public class AclaracionController {
 		} else {
 			aclaracion.setProblema(problemaService.findById(idProblema).get());
 			aclaracion.setTutor(tutorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get());
-			System.out.println("hola");
 			this.aclaracionService.save(aclaracion);
 			return "redirect:/problemas/"+idProblema;
 		}

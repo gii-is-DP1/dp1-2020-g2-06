@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -59,7 +60,6 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 	public String listProblemas(ModelMap modelMap) {
 		Collection<Problema> cp= problemaService.ProblemasVigentes();
 		modelMap.addAttribute("problemasVigentes",cp);
-		modelMap.addAttribute("problemasNoVigentes",problemaService.ProblemasNoVigentes(cp));
 		modelMap.addAttribute("temporada",Utils.getActualSeason().getNombre().toUpperCase());
 		modelMap.addAttribute("temporadaYear",Utils.getActualYearofSeason());
 		return "problemas/problemasList";
@@ -80,9 +80,8 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 			}
 			model.addAttribute("aclaracion", new Aclaracion());
 			model.addAttribute("problema", problema.get());
-			model.addAttribute("ultimosEnvios", problema.get().getEnvios());
 			model.addAttribute("resoluciones",resoluciones);
-			model.addAttribute("totalEnvios",envioService.findAllByProblema(id).size());
+			model.addAttribute("totalEnvios",resoluciones.entrySet().stream().mapToLong(x->x.getValue()).sum());
 			model.addAttribute("preguntaTutor", new PreguntaTutor());
 			return "problemas/problemaDetails";
 		}
@@ -138,7 +137,7 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 	public String editProblema(@PathVariable("id") int id, ModelMap model) {
 		Optional<Problema> problema = problemaService.findById(id);
 		if(problema.isPresent()) {
-			if(!problema.get().getCreador().equals(creadorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get())) {
+			if(!problema.get().getCreador().getId().equals(creadorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get().getId())) {
 				model.addAttribute("message","No puedes editar problemas de otros creadores");
 				return listProblemas(model);
 			}
@@ -155,10 +154,10 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 	@PostMapping("/{id}/edit")
 	public String editProblemas(@PathVariable("id") int id, @Valid Problema modifiedProblema, BindingResult binding, ModelMap model,@RequestParam("zipo") MultipartFile zip,@RequestParam("image") MultipartFile imagen) throws IOException {
 			Optional<Problema> problema = problemaService.findById(id);
-			if(!problema.get().getCreador().equals(creadorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get())) {
-				model.addAttribute("message","No puedes editar problemas de otros creadores");
-				return listProblemas(model);
-			}
+//			if(!problema.get().getCreador().equals(creadorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get())) {
+//				model.addAttribute("message","No puedes editar problemas de otros creadores");
+//				return listProblemas(model);
+//			}
 			if(binding.hasErrors() || zip.getBytes().length/(1024*1024)>20 || imagen.getBytes().length/(1024*1024)>10) {
 				model.clear();
 				model.addAttribute("problema", problema.get());
@@ -174,7 +173,9 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 					fileService.delete(Paths.get("src/main/resources/static/" + aux));
 					fileService.saveFile(imagen,rootImage,name);
 				}
-				BeanUtils.copyProperties(modifiedProblema, problema.get(), "id","zip","imagen","fechaPublicacion");
+				
+				BeanUtils.copyProperties(modifiedProblema, problema.get(), "id","zip","imagen","fechaPublicacion","creador");
+				
 				problemaService.saveProblema(problema.get());
 				model.addAttribute("message","Problema actualizado con éxito");
 				return listProblemas(model);
@@ -186,7 +187,7 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 	@GetMapping("/{id}/delete")
 	public String deleteProblemas(@PathVariable("id") int id, ModelMap model) {
 		Optional<Problema> problema = problemaService.findById(id);
-		if(!problema.get().getCreador().equals(creadorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get())) {
+		if(!problema.get().getCreador().getId().equals(creadorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get().getId())) {
 			model.addAttribute("message","No puedes eliminar problemas de otros creadores");
 			return listProblemas(model);
 		}

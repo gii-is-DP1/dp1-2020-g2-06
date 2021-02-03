@@ -6,31 +6,73 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
+
+
 <petclinic:layout pageName="tutores">
     <h2>Tutores</h2>
 
-    <table id="tutoresTable" class="table table-striped">
-    	<tbody>
-       <c:forEach items="${tutores}" var="tutor">
-        	<tr>
-                <td>                    
-                    <img src="/<c:out value="${tutor.imagen}"/>" id="Imagen" width="100px" style="border-radius:100%;"/>&nbsp;
-					<a href="/tutores/${tutor.id}">
-					<c:out value="${tutor.nombre}"/>&nbsp;<c:out value="${tutor.apellidos}"/> 
-               		</a>
-                </td>
-                <sec:authorize access="hasAuthority('tutor')">
-	                <td>
-	                	<a href="/tutores/${tutor.id}/edit">
-	                	<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-	                	</a>
-	                </td>
-	            </sec:authorize>
-            </tr>     
-        </c:forEach>
-        </tbody>
-    </table>
+    <div>
+    	<table class="table table-striped" id="tutores">
+    	
+    	</table>
+    </div>
+    <div style="text-align: center;" id="paginas">
+    	<img id="izquierda-tut" width="11px"></img> <span id="numero-tut"></span> <img id="derecha-tut" width="11px"></img>
+    </div>
+    
     <sec:authorize access="hasAuthority('administrador')">
     	<a class="btn btn-default" href='<spring:url value="/tutores/new" htmlEscape="true"/>'>Crear Tutor</a>
     </sec:authorize>
+    
+    <script>
+    
+function tutorespageable(page){
+    	
+    	var tutorespag = paginate(page,'/api/tutores/?page=');
+    	var nexttutorespag = paginate(page+1,'/api/tutores/?page=');
+    
+	    $("#numero-tut").text(page);
+	    if(page>1){
+	    	$("#izquierda-tut").attr("src","/resources/images/leftrow.svg");
+	    }
+	    else
+	    	{
+	    	$("#izquierda-tut").attr("src","");
+	    	}
+	    
+	    if(nexttutorespag.length!=0){
+	     $("#derecha-tut").attr("src","/resources/images/rightrow.svg");
+	    }
+	    else{
+	    	$("#derecha-tut").attr("src","");
+	    }
+	    
+	    
+	    $("#tutores").html("");
+	    
+	    $("#tutores").append("<tbody>");
+	    for(var i = 0; i < tutorespag.length; i++){
+	    	
+	    	$("#tutores").append("<tr> <td> <img src="+tutorespag[i]['imagen']+" ' width='150' style='border-radius:100%'/>"+" "+"<a href='/tutores/"+tutorespag[i]['id']+"'>"+ tutorespag[i]['nombre']+"</a> </td> </tr>");
+	    	
+	    }
+	    console.log(tutorespag);
+	    $("#tutores").append("</tbody>");
+	    
+    }
+    
+    var tutorespage = 1;
+    
+    tutorespageable(tutorespage);
+    
+    document.getElementById("izquierda-tut").onclick = function(){
+    	tutorespage--;
+    	tutorespageable(tutorespage);
+    }
+    document.getElementById("derecha-tut").onclick = function(){
+    	tutorespage++;
+    	tutorespageable(tutorespage);
+    };
+    </script>
+    
 </petclinic:layout>

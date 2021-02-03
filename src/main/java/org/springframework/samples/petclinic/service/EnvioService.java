@@ -35,6 +35,10 @@ public class EnvioService {
 		return envioRepository.findAllByAlumno(id);
 	}
 	
+	public Slice<Envio> findAllByAlumnoPage(Pageable pageable,int id){
+		return envioRepository.findAllByAlumnoPage(pageable,id);
+	}
+	
 	public Collection<Integer> findAllByAlumnoAc(int id){
 		return envioRepository.findAllByAlumnoAc(id);
 	}
@@ -52,11 +56,11 @@ public class EnvioService {
 	}
 	
 	public Map<String, Long> resolucionProblema(int id){
-		Map<String, Long> result = envioRepository.findAllByProblema(id).stream().collect(Collectors.groupingBy(Envio::getResolucion, Collectors.counting()));
-		if(envioRepository.findAllByProblemaAC(id).size()!=0) {
-			result.put("AC", (long) envioRepository.findAllByProblemaAC(id).size());
-		}
-		return result;
+		return envioRepository.findAllByProblema(id).stream().collect(Collectors.groupingBy(Envio::getResolucion, Collectors.counting()));
+	}
+	
+	public Integer alumnosAC(int id) {
+		return envioRepository.findAllByProblemaAC(id).size();
 	}
 
 
