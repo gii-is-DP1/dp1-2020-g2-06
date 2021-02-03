@@ -44,7 +44,7 @@
 	///// paginacion problemas no vigentes
 	
     function problemasnovigentespaginable(page){
-    	
+    	scroll(0,0);
     	var problemaspag = paginate(page,'/api/problemasnovigentes/?page=');
     	var nextproblemaspag = paginate(page+1,'/api/problemasnovigentes/?page=');
     	if(!(page==1 && nextproblemaspag.length==0))
