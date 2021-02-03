@@ -81,6 +81,7 @@ public class ApiRestController {
 	public List<Tutor> getTutores(@RequestParam(name="page", defaultValue="1") int pagea, ModelMap model) {
 		Pageable pageableT = PageRequest.of(pagea-1, 5, Sort.by("apellidos"));
 		return tutorService.findTutorPage(pageableT).getContent();
+	}
 
 	@GetMapping(value="/problemasnovigentes",produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Problema> getProblemasNoVigentes(@RequestParam(name="page", defaultValue="1") int pagea, @RequestParam(name="page-not", defaultValue="1") int pagen, ModelMap model) {
@@ -109,9 +110,11 @@ public class ApiRestController {
 	
 	@GetMapping(value="/noticias",produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Noticia> getNoticias(@RequestParam(name="page", defaultValue="1") int pagea, @RequestParam(name="page-not", defaultValue="1") int pagen, ModelMap model) {
-		Pageable pageableA = PageRequest.of(pagea-1, pagsize,Sort.by("id").descending());
+		Pageable pageableA = PageRequest.of(pagea-1, 5,Sort.by("id").descending());
 		return noticiaService.findAllPage(pageableA).getContent();
-
+		
+	}
+	
 	@GetMapping(value="/PageablePublicaciones",produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Publicacion> getPublicaciones(@RequestParam(name="page", defaultValue="1") int pagea, @RequestParam(name="page-not", defaultValue="1") int pagen, ModelMap model) {
 		Pageable pageableA = PageRequest.of(pagea-1, pagsize, Sort.by("id").descending());
@@ -124,6 +127,7 @@ public class ApiRestController {
 		Pageable pageableA = PageRequest.of(pagea-1, pagsize, Sort.by("fecha_publicacion").descending());
 		return articuloService.findAllArticulosPage(pageableA).getContent();
 	}
+	
 	@GetMapping(value="/alumnospage",produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Alumno> getALumnos(@RequestParam(name="page", defaultValue="1") int pagea, @RequestParam(name="page-not", defaultValue="1") int pagen, ModelMap model) {
 		Pageable pageableA = PageRequest.of(pagea-1, pagsize, Sort.by("id").descending());
