@@ -13,14 +13,12 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.FilterType;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Envio;
 import org.springframework.samples.petclinic.model.Problema;
@@ -30,22 +28,25 @@ import org.springframework.samples.petclinic.service.EnvioService;
 import org.springframework.samples.petclinic.service.FileService;
 import org.springframework.samples.petclinic.service.JudgeService;
 import org.springframework.samples.petclinic.service.ProblemaService;
-import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.context.WebApplicationContext;
 
-@WebMvcTest(controllers = EnvioController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, 
-classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
+@ExtendWith(SpringExtension.class)
+@SpringBootTest(webEnvironment=SpringBootTest.WebEnvironment.RANDOM_PORT)
+@DirtiesContext
 public class EnvioControllerTests {
 	
 	@Autowired
-	private MockMvc mockMvc;
+    private WebApplicationContext context; 
 	
-	@Autowired
-	private WebApplicationContext webApplicationContext;
+	private MockMvc mockMvc;
 	
 	@MockBean
 	private EnvioService envioService;
@@ -67,6 +68,11 @@ public class EnvioControllerTests {
 
 	@BeforeEach
 		void setup() throws InterruptedException, IOException {
+		mockMvc = MockMvcBuilders
+		          .webAppContextSetup(context)
+		          .apply(SecurityMockMvcConfigurers.springSecurity())
+		          .build();
+		
 		Envio envio = new Envio();
 		envio.setId(0);
 		envio.setIdJudge(0);
@@ -80,6 +86,7 @@ public class EnvioControllerTests {
 		
 		//Mock de un envio existente, con id == 0
 		given(this.envioService.findById(120)).willReturn(Optional.of(envio));
+		given(this.envioService.findById(0)).willReturn(Optional.of(envio));
 		
 		//Mock del controlador de problema al pedir una vista de todos los problemas
 		given(this.problemaController.listProblemas(Mockito.any(ModelMap.class))).willReturn("problemas/problemasList");
@@ -105,21 +112,21 @@ public class EnvioControllerTests {
 		
 	}
 	
-	@WithMockUser(value = "spring", authorities="alumno")
+	@WithMockUser(authorities="alumno")
 	@Test
 	void testShowEnvioDetails() throws Exception {
 		mockMvc.perform(get("/envios/120")).andExpect(status().isOk()).andExpect(model().attributeExists("envio"))
 		.andExpect(view().name("envios/envioDetails"));
 	}
 	
-	@WithMockUser(value = "spring", authorities="alumno")
+	@WithMockUser(authorities="alumno")
 	@Test
 	void testDoesNotShowEnvioDetails() throws Exception {
 		mockMvc.perform(get("/envios/150")).andExpect(status().isOk()).andExpect(model().attributeDoesNotExist("envio"))
 		.andExpect(view().name("problemas/problemasList"));
 	}
 	
-	@WithMockUser(value = "spring", authorities="alumno")
+	@WithMockUser(authorities="alumno")
 	@Test
 	void testEnvioSendSuccess() throws Exception {
 		byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };
@@ -129,7 +136,7 @@ public class EnvioControllerTests {
 				.andExpect(status().is3xxRedirection());
 	}
 	
-	@WithMockUser(value = "spring", authorities="alumno")
+	@WithMockUser(authorities="alumno")
 	@Test
 	void testEnvioSendFailedBecauseOfFileType() throws Exception {
 		byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };
@@ -139,14 +146,14 @@ public class EnvioControllerTests {
 				.andExpect(view().name("problemas/problemaDetails"));
 	}
 	
-	@WithMockUser(value = "spring", authorities="tutor")
+	@WithMockUser(authorities="tutor")
 	@Test
 	void testEnvioSendFailedBecauseOfUser() throws Exception {
 		byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };
 		mockMvc.perform(MockMvcRequestBuilders.multipart("/envios/send/0")
-				.file(new MockMultipartFile("archivo","archivo.zip", "text/plain", somebytes))
+				.file(new MockMultipartFile("archivo","archivo.cpp", "text/plain", somebytes))
 				.with(csrf()))
-				.andExpect(view().name("problemas/problemaDetails"));
+				.andExpect(status().is4xxClientError());
 	}
 
 }

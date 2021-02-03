@@ -10,27 +10,76 @@
 
 <petclinic:layout pageName="alumnos">
     <h2>Alumnos</h2>
-<table id="noticiasTable" class="table table-striped">
-	<c:forEach items="${alumnos}" var="alumno">
-		
-            <tr>
-                <td>                    
-                    <img src="/<c:out value="${alumno.imagen}"/>" id="Imagen" width="100px" style="border-radius:100%;"/>&nbsp;
-                    <a href="/alumnos/${alumno.id}">
-					<c:out value="${alumno.nombre}"/>&nbsp;<c:out value="${alumno.apellidos}"/> 
-                    </a>
-                </td>
-                <sec:authorize access="hasAuthority('alumno')">
-	                <td>
-	                	<a href="/alumnos/${alumno.id}/edit">
-	                	<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-	                	</a>
-	                </td>
-	            </sec:authorize>
-            </tr>
-                
-            
-	</c:forEach>
- </table>
+    <div>
+    <table class="table table-striped" id="alumnoss">
+    	
+    </table>
+    </div>
+    <div style="text-align: center;" id="paginas">
+    	<img id="izquierda-art" width="11px"></img> <span id="numero-art"></span> <img id="derecha-art" width="11px"></img>
+    </div>
+ 
+ <script>
+
+    //////////////////////////////////
+    
+	///// paginacion alumnos 
+	
+    function alumnospaginable(page){
+    	
+    	var alumnospag = paginate(page,'/api/alumnospage'+'?page=');
+    	var nextalumnospag = paginate(page+1,'/api/alumnospage'+'?page=');
+	    $("#numero-art").text(page);
+	    if(page>1){
+	    	$("#izquierda-art").attr("src","/resources/images/leftrow.svg");
+	    }
+	    else
+	    	{
+	    	$("#izquierda-art").attr("src","");
+	    	}
+	    
+	    if(nextalumnospag.length!=0){
+	     $("#derecha-art").attr("src","/resources/images/rightrow.svg");
+	    }
+	    else{
+	    	$("#derecha-art").attr("src","");
+	    }
+	    
+	    
+	    $("#alumnoss").html("");
+	    
+	    $("#alumnoss").append("<tbody>");
+
+	    for(var i = 0; i < alumnospag.length; i++){
+	    	
+	    	$("#alumnoss").append("<tr> <td> <img src="+alumnospag[i]['imagen']+" ' width='100px' style='border-radius:100%'/>"+" "+"<a href='/alumnos/"+alumnospag[i]['id']+"'>"+alumnospag[i]['nombre']+" - "+alumnospag[i]['apellidos']+"</a> </td> </tr>");
+	  
+	    }
+	   
+	    $("#alumnoss").append("</tbody>");
+	    
+    }
+    
+    var alumnospage = 1;
+    
+    alumnospaginable(alumnospage);
+    
+    document.getElementById("izquierda-art").onclick = function(){
+    	alumnospage--;
+    	alumnospaginable(alumnospage);
+    }
+    document.getElementById("derecha-art").onclick = function(){
+    	alumnospage++;
+    	alumnospaginable(alumnospage);
+    };
+    
+    
+   //////////////////////////////////
+   
+   
+
+   	
+    </script>       	
+       	
 
 </petclinic:layout>

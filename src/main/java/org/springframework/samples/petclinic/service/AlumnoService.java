@@ -8,7 +8,10 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.samples.petclinic.model.Alumno;
+import org.springframework.samples.petclinic.model.Articulo;
 import org.springframework.samples.petclinic.model.Problema;
 import org.springframework.samples.petclinic.repository.AlumnoRepository;
 import org.springframework.samples.petclinic.util.Utils;
@@ -53,5 +56,8 @@ public class AlumnoService {
 
 	public Collection<Alumno> sortedByPunctuation() {
 		return alumnoRepository.findAll();
+	}
+	public Slice<Alumno> findAllPage(Pageable pageable){
+		return alumnoRepository.findAllPageable(pageable);
 	}
 }

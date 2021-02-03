@@ -60,7 +60,7 @@ public class PreguntaTutorController {
 	public String answer(ModelMap model,@RequestParam("idTutor") Integer idTutor,@RequestParam("preguntaTutor") Integer idpreguntaTutor,@RequestParam("respuesta") String respuesta) throws IOException {
 		if (respuesta.equals(" ")) {
 			model.addAttribute("message","La respuesta no puede estar vacía");
-			return tutorController.tutorDetails(idTutor, 1, 1, model);
+			return tutorController.tutorDetails(idTutor, model);
 		}
 		else {
 			PreguntaTutor preguntaTutor = preguntaTutorService.findById(idpreguntaTutor).get();
@@ -70,7 +70,7 @@ public class PreguntaTutorController {
 			
 			model.addAttribute("message","Respuesta realizada con éxito");
 
-			return tutorController.tutorDetails(idTutor, 1, 1, model);
+			return tutorController.tutorDetails(idTutor, model);
 		}
 	}
 }

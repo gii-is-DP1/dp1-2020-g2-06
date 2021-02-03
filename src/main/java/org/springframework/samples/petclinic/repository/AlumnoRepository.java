@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
@@ -35,6 +37,7 @@ public interface AlumnoRepository extends Repository<Alumno, Integer>{
 	@Query("SELECT DISTINCT a FROM Alumno a WHERE a.email LIKE :email")
 	Optional<Alumno> findByEmail(@Param("email") String email);
 	
-	
+	@Query("SELECT a FROM Alumno a")
+	public Slice<Alumno> findAllPageable(Pageable pageable);
 	
 }
