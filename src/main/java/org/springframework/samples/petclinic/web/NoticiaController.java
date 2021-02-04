@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
@@ -30,6 +31,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping(value= {"/noticias","/"})
 public class NoticiaController {
@@ -107,11 +111,12 @@ public class NoticiaController {
 	}
 	
 	@GetMapping("/{id}/edit")
-	public String editNoticia(@PathVariable("id") int id, ModelMap model) {
+	public String editNoticia(@PathVariable("id") int id, ModelMap model, HttpServletRequest request) {
 		Optional<Noticia> noticia = noticiaService.findById(id);
 		if(noticia.isPresent()) {
 			if(!noticia.get().getAutores().contains(tutorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get())) {
 				model.addAttribute("message","Pide permiso a un autor para editar esta noticia");
+				log.warn("Un usuario esta intentando modificar una noticia sin los permisos necesarios, son sesión "+request.getSession());
 				return listNoticias(model);
 			}
 			model.addAttribute("noticia", noticia.get());
@@ -157,11 +162,12 @@ public class NoticiaController {
 	}
 	
 	@GetMapping("/{id}/delete")
-	public String deleteNoticia(@PathVariable("id") int id, ModelMap model) {
+	public String deleteNoticia(@PathVariable("id") int id, ModelMap model, HttpServletRequest request) {
 		Optional<Noticia> noticia = noticiaService.findById(id);
 		if(noticia.isPresent()) {
 			if(!noticia.get().getAutores().contains(tutorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get())) {
 				model.addAttribute("message","Pide permiso a un autor para editar esta noticia");
+				log.warn("Un usuario esta intentando eliminar una noticia sin tener los permisos necesarios, con sesion "+request.getSession());
 				return listNoticias(model);
 			}
 			noticiaService.delete(noticia.get());

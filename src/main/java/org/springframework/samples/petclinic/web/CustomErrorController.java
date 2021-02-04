@@ -9,6 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RequestMapping("/error")
 @Controller
 public class CustomErrorController implements ErrorController {
@@ -35,6 +38,7 @@ public class CustomErrorController implements ErrorController {
 				request.setAttribute("error_mensaje", "El método no está permitido");	
 			} else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
 				request.setAttribute("error_mensaje", "Tenemos problemas internos. Intentelo de nuevo más tarde!");
+
 			}
 			return "exception";
 		}

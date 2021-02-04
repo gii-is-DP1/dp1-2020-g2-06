@@ -4,7 +4,6 @@ package org.springframework.samples.petclinic.web;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -91,11 +90,7 @@ public class CreadorController {
 		if(result.hasErrors()|| imagen.getBytes().length/(1024*1024)>10 || imagen.isEmpty()) {
 			model.clear();
 			model.addAttribute("creador", creador);
-			List<String> errores = result.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList());
-			if(imagen.isEmpty() || imagen.getBytes().length/(1024*1024)>10) {
-				errores.add("La imagen debe tener un tamaño inferior a 10MB");
-			}
-			model.addAttribute("message", errores);
+			model.addAttribute("message", result.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList()));
 			return "creadores/createOrUpdateCreadorForm";
 		}else {
 			String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
@@ -134,7 +129,7 @@ public class CreadorController {
 		if(creador.isPresent()) {
 			if(!creadorService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName()) && !Utils.authLoggedIn().equals("administrador")) {
 				model.addAttribute("message","Solo puedes editar tu propio perfil");
-				log.warn("Un usuario esta intentando modificar sin los permisos adecuados, con sesion "+request.getSession());
+				log.warn("Un usuario esta intentando modificar un creador sin los permisos adecuados, con sesion "+request.getSession());
 				return listCreadores(model);
 			}
 			model.addAttribute("creador", creador.get());
@@ -150,7 +145,7 @@ public class CreadorController {
 		Optional<Creador> creador = creadorService.findById(id);
 		if(!creadorService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName()) && !Utils.authLoggedIn().equals("administrador")) {
 			model.addAttribute("message","Solo puedes editar tu propio perfil");
-			log.warn("Un usuario esta intentando modificar sin los permisos adecuados, con sesion "+request.getSession());
+			log.warn("Un usuario esta intentando modificar un creador sin los permisos adecuados, con sesion "+request.getSession());
 			return listCreadores(model);
 		}
 		boolean emailExistente = Utils.CorreoExistente(modifiedCreador.getEmail(),alumnoService,tutorService,creadorService,administradorService);
@@ -164,11 +159,7 @@ public class CreadorController {
 		if(binding.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
 			model.clear();
 			model.addAttribute("creador", creador);
-			List<String> errores = binding.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList());
-			if(imagen.isEmpty() || imagen.getBytes().length/(1024*1024)>10) {
-				errores.add("La imagen debe tener un tamaño inferior a 10MB");
-			}
-			model.addAttribute("message", errores);
+			model.addAttribute("message", binding.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList()));
 			return "creadores/createOrUpdateCreadorForm";
 		}else {
 			if(!imagen.isEmpty()) {

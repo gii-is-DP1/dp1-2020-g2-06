@@ -29,7 +29,7 @@
 
     <table class="table table-striped">
     	<tr>
-            <th>DescripciÃ³n</th>
+            <th>Descripción</th>
             <td><c:out value="${problema.descripcion}" escapeXml="false"/></td>
         </tr>
         <tr>
@@ -84,7 +84,7 @@
 		</div>
 	</sec:authorize>
 
-	<h2>Realizar envÃ­o</h2>
+	<h2>Realizar envío</h2>
 
 
 	<sec:authorize access="hasAuthority('alumno')">
@@ -114,8 +114,8 @@
 			<table>
 
 				<tr>
-					<td>SÃ³lo los alumnos pueden realizar envÃ­os. Inicia sesiÃ³n
-						para realizar un envÃ­o.</td>
+					<td>Sólo los alumnos pueden realizar envíos. Inicia sesión
+						para realizar un envío.</td>
 				</tr>
 
 
@@ -145,11 +145,11 @@
 	</sec:authorize>
 
 
-	<h2>Ãšltimos envÃ­os</h2>
+	<h2>Últimos envíos</h2>
 	<table class="table table-striped" id="envios">
 
 		<tr>
-			<th>EnvÃ­o</th>
+			<th>Envío</th>
 			<th>Alumno</th>
 			<th>Fecha y hora</th>
 			<th>Veredicto</th>
@@ -162,7 +162,7 @@
     </div>
 
 	
-	<h2>EstadÃ­sticas</h2>
+	<h2>Estadísticas</h2>
 	<div id="graficaDonut" style="height: 250px;"></div>
 	<script>
 	var morris1 = new Morris.Donut({
