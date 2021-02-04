@@ -41,6 +41,12 @@ public class AlumnoServiceTests {
 		}
 		
 		@Test
+		public void shouldNotFindAlumnoById() {
+			Optional<Alumno> alumno= this.alumnoService.findById(2555);
+			assertThat(alumno.isPresent()).isEqualTo(false);
+		}
+		
+		@Test
 		public void shouldSaveAlumno() {
 			Alumno alumno = new Alumno();
 			alumno.setNombre("Carmen");
@@ -52,6 +58,20 @@ public class AlumnoServiceTests {
 			String email = alumnoService.findById(3).get().getEmail();
 			
 			assertThat(alumno.getEmail()).isEqualTo(email);
+		}
+		
+		@Test
+		public void shouldNotSaveAlumno() {
+			Alumno alumno = new Alumno();
+			alumno.setNombre("Carmen");
+			alumno.setApellidos("Barra");
+			alumno.setEmail("carbarmen@alum.us.es");
+			alumno.setImagen("resources/images/alumnos/20201223154714879157200.jpg");
+			alumno.setPass("p");
+			alumnoService.save(alumno);
+			Optional<Alumno> opt = alumnoService.findById(7);
+			
+			assertThat(opt.isPresent()).isEqualTo(false);
 		}
 		
 		@Test

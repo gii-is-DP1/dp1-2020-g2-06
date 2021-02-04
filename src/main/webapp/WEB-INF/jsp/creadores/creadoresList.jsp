@@ -20,7 +20,7 @@
     </table>
     
     <div style="text-align: center;" id="paginas">
-    	<img id="izquierda-creador" width="11px"></img> <span id="numero-creador"></span> <img id="derecha-creador" width="11px"></img>
+    	<img id="izquierda-creador" width="11px" style="cursor:pointer;"></img> <span id="numero-creador"></span> <img id="derecha-creador" width="11px" style="cursor:pointer;"></img>
     </div>
     
     <script>
