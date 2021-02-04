@@ -120,7 +120,7 @@
 	</table>
     
     <div style="text-align: center;" id="paginas">
-    	<img id="izquierda" width="11px"></img> <span id="numero"></span> <img id="derecha" width="11px"></img>
+    	<img id="izquierda" width="11px" style="cursor:pointer;"></img> <span id="numero"></span> <img id="derecha" width="11px" style="cursor:pointer;"></img>
     </div>
     
     <script>

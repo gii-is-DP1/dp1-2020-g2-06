@@ -47,7 +47,7 @@ public class ProblemaServiceTests {
 	@Test
 	@Transactional
 	void shouldFindProblemasNoVigentesPageable() throws IOException {
-		Integer numeroProblemasNoVigentes = problemaService.ProblemasNoVigentePage(PageRequest.of(1-1, 1)).getSize();
+		Integer numeroProblemasNoVigentes = problemaService.ProblemasNoVigentePage(PageRequest.of(0, 1)).getSize();
 		assertThat(numeroProblemasNoVigentes).isEqualTo(1);
 	}
 	
