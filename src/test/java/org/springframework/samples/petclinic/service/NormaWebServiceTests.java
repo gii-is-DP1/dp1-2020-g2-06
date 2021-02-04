@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Collection;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import javax.validation.ConstraintViolationException;
@@ -24,8 +25,7 @@ class NormaWebServiceTests {
 	
 	@Test
 	public void testCountWithInitialData() {
-		int count = normaWebService.normaWebCount();
-		assertEquals(count, 3);
+		assertThat(normaWebService.findAll().size()).isGreaterThan(0);
 	}
 	
 	@Test
@@ -52,13 +52,22 @@ class NormaWebServiceTests {
 			this.normaWebService.saveNormaWeb(normaWeb);
 		});	
 	}
+	
 	@Test
 	public void shouldFindNormaWeb() {
 		NormaWeb normaWeb = this.normaWebService.findById(0).get();
-		String name = normaWeb.getName();
+		String name = "Respeta";
 		
 		assertThat(normaWeb.getName()).isEqualTo(name);
 	}
+	
+	@Test
+	public void shouldNotFindNormaWeb() {
+		Assertions.assertThrows(NoSuchElementException.class, () ->{
+			this.normaWebService.findById(50).get();
+		});	
+	}
+	
 	@Test
 	public void shouldFindAllNormaWebInitial() {
 		Collection<NormaWeb> normasWeb = this.normaWebService.findAll();
