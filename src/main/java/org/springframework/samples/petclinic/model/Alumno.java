@@ -35,7 +35,6 @@ public class Alumno extends BaseEntity{
 	
 	private Boolean enabled;
 	
-	@EmailConstraint
 	@Column(unique=true)
 	private String email;
 	
@@ -54,9 +53,6 @@ public class Alumno extends BaseEntity{
 	
 	@NonNull
 	private Boolean compartir;
-	
-	@NonNull 
-	private Boolean verified;
 	
 	@NonNull
 	private String confirmation_token;

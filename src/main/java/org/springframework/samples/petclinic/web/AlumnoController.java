@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.web;
 
 import java.io.IOException;
+import java.net.Authenticator;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -16,7 +17,10 @@ import org.h2.engine.Session;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMailMessage;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Logro;
 import org.springframework.samples.petclinic.model.Problema;
@@ -76,6 +80,8 @@ public class AlumnoController {
 	
 	@Autowired
 	LogroService logroService;
+	
+	private JavaMailSender javaMailSender;
 	
 	@GetMapping("")
 	public String listAlumnos(ModelMap model) {
@@ -144,24 +150,10 @@ public class AlumnoController {
 			
 			fileService.saveFile(imagen,rootImage,name);
 			Utils.imageCrop("resources/images/alumnos/"  + name, fileService);
+
 			alumno.setEnabled(true);
-			alumno.setVerified(false);
-			
-			//Envio de correo
-			String remitente = "information.codeus@gmail.com";
-			String destinatario = alumno.getEmail();
-			
-			String clave = "CodeUs2001DP1";
-			
-			Properties props = new Properties();
-			props.put("mail.smtp.host", "smtp.gmail.com");
-			props.put("mail.smtp.port", "587");
-			props.put("mail.smtp.auth", "true");
-			props.put("mail.smtp.starttls.enable", "true");
-			props.put("mail.smtp.port", "587");
-			props.put("mail.smtp.user", remitente);
-			props.put("mail.smtp.clave", clave);
-			
+			//alumno.setEnabled(false);
+			//alumnoService.sendMail(alumno, javaMailSender);
 			
 			alumnoService.save(alumno);
 			authService.saveAuthoritiesAlumno(alumno.getEmail(), "alumno");
@@ -179,7 +171,7 @@ public class AlumnoController {
 		}
 		else {
 			Optional<Alumno> al = alumnoService.findByToken(token);
-			al.get().setVerified(true);
+			al.get().setEnabled(true);
 			return "redirect:/alumnos/"+alumno.getId();
 		}
 	}

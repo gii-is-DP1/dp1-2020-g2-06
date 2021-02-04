@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.util.Pair;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Articulo;
 import org.springframework.samples.petclinic.model.Problema;
@@ -118,5 +121,32 @@ public class AlumnoService {
 
 	public Optional<Alumno> findByToken(String confirmation_token) {
 		return alumnoRepository.findByToken(confirmation_token);
+	}
+	
+	public void sendMail(Alumno alumno, JavaMailSender javaMailSender) {
+		String remitente = "information.codeus@gmail.com";
+		String destinatario = alumno.getEmail();
+		
+		String clave = "CodeUs2001DP1";
+		
+		String token = alumno.getNombre().substring(0, 3) + alumno.getApellidos().substring(0, 3) + alumno.getEmail().substring(4, 7) + "CDU1";
+		
+		Properties props = new Properties();
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.user", remitente);
+		props.put("mail.smtp.clave", clave);
+		
+		SimpleMailMessage msg = new SimpleMailMessage();
+		msg.setSubject("Verificación codeUs");
+		msg.setFrom(remitente);
+		msg.setTo(destinatario);
+		msg.setText("Buenas " + alumno.getNombre() + ",\n" + "para poder acceder a codeUs, haz click en el siguiente enlace para verificar tu correo.\nhttp:localhost/alumnos/confirmation/" + token + " \n Gracias por unirte! Bienvenido!");
+		
+		javaMailSender.send(msg);
+		
 	}
 }
