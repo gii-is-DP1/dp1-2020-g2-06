@@ -105,17 +105,6 @@ public class NoticiaServiceTests {
 		
 	}
 	
-	@Test
-	public void shouldNotUpdateNoticia() {
-		Noticia noticia = this.noticiaService.findById(0).get();
-		Set<Tutor> autores = new HashSet<Tutor>();
-		noticia.setAutores(autores);
-		
-			this.noticiaService.save(noticia);
-			assertThat(noticia.getAutores().size()).isEqualTo(0);
-		
-			
-	}
 	
 	@Test
 	public void shouldDeleteNoticia() {
@@ -128,6 +117,8 @@ public class NoticiaServiceTests {
 		assertThat(numNoticiasNew).isEqualTo(this.noticiaService.findAll().size());
 		assertNotEquals(numNoticiasOld, numNoticiasNew, "El numero de noticias no coincide");
 	}
+	
+	
 	@Test
 	public void shouldFindNoticiaByTutorInitial() {
 		Collection<Noticia> noticias = this.noticiaService.findNoticiasByTutor(0);

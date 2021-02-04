@@ -7,6 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.util.Collection;
 
+import javax.validation.ConstraintViolationException;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -31,15 +34,22 @@ public class AdministradorServiceTests {
 	public void shouldFindAdministradorById() {
 		Administrador administrador = this.administradorService.findById(0).get();
 		assertThat(administrador.getId()).isEqualTo(0);
-		assertThat(administrador.getEmail()).isEqualTo("administrador@us.es");
-		assertThat(administrador.getPass()).isEqualTo("adm1asdfWW%n1234");
+		assertThat(administrador.getEmail()).isEqualTo("administrador1@us.es");
+		assertThat(administrador.getPass()).isEqualTo("$2a$10$jLoYA3ElNlg.TKQmkXhlkuVflo6X8Sq3pcYmNvDIKBjrijZRsEwqK");
+	}
+	
+	@Test
+	public void shouldNotFindAdministradorById() {
+		Assertions.assertThrows(Exception.class, ()-> {
+			Administrador administrador = this.administradorService.findById(99).get();
+		});
 	}
 	
 	@Test
 	public void shouldUpdateAdminitrador() {
 		Administrador administrador = this.administradorService.findById(0).get();
 		String antiguoEmail = administrador.getEmail();
-		String nuevoEmail = "administrador2@us.es";
+		String nuevoEmail = "administrador44@us.es";
 		
 		administrador.setEmail(nuevoEmail);
 		this.administradorService.save(administrador);
@@ -49,6 +59,7 @@ public class AdministradorServiceTests {
 		assertNotEquals(antiguoEmail, administrador.getEmail(), "Este email no coincide con el email actual del administrador");
 		
 	}
+	
 	
 	@Test
 	public void shouldInsertAdministrador() {
@@ -61,6 +72,19 @@ public class AdministradorServiceTests {
 		Integer aNew = administradorService.findAll().size();
 		assertNotEquals(aOld, aNew);
 		assertThat(aOld+1).isEqualTo(aNew);
+	}
+	
+	@Test
+	public void shouldNotInsertAdministrador() {
+		Administrador administrador = new Administrador();
+		administrador.setEmail("pepe@gmail.com");
+		administrador.setPass("HolasoyPepe44#@");
+		administrador.setEnabled(true);
+		
+		Assertions.assertThrows(ConstraintViolationException.class, ()-> {
+			this.administradorService.save(administrador);
+		});
+		
 	}
 	
 }

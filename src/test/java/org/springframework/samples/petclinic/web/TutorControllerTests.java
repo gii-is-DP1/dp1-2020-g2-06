@@ -122,6 +122,7 @@ public class TutorControllerTests {
 			given(this.articuloService.findArticulosByTutorPage(Mockito.anyInt(), Mockito.any(Pageable.class)))
 			.willReturn(new SliceImpl<Articulo>(new ArrayList<Articulo>()));
 			
+			
 			given(this.preguntaTutorService.findByProblemaNotAnswered()).willReturn(new ArrayList<PreguntaTutor>());
 			
 			
@@ -150,7 +151,7 @@ public class TutorControllerTests {
 	void testProcessCreationFormSuccess() throws Exception {
 		byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };
 		mockMvc.perform(MockMvcRequestBuilders.multipart("/tutores/new")
-							.file(new MockMultipartFile("image","file.jpg", "text/plain", somebytes))
+							.file(new MockMultipartFile("image","file.jpg", "image/jpeg", somebytes))
 							.with(csrf())
 							.param("nombre", "Juanra")
 							.param("apellidos", "Ostos")
@@ -167,7 +168,7 @@ public class TutorControllerTests {
 	void testProcessCreationFormFailure() throws Exception {
 		byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };
 		mockMvc.perform(MockMvcRequestBuilders.multipart("/tutores/new")
-					.file(new MockMultipartFile("image","file.jpg", "text/plain", somebytes))
+					.file(new MockMultipartFile("image","file.jpg", "image/jpeg", somebytes))
 					.with(csrf())
 					.param("nombre", "Juanra")
 					.param("apellidos", "Ostos")
@@ -177,27 +178,27 @@ public class TutorControllerTests {
 		.andExpect(view().name("tutores/createOrUpdateTutorForm"));
 	}
 	
-//	@WithMockUser(username = "juanito@us.es", authorities= "administrador")
-//	@Test
-//	void testProcessUpdateFormFailure() throws Exception {
-//		byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };
-//		mockMvc.perform(MockMvcRequestBuilders.multipart("/tutores/0/edit")
-//							.file(new MockMultipartFile("image","file.jpg", "text/plain", somebytes))
-//							.with(csrf())
-//							.param("nombre", "Juanra")
-//							.param("apellidos", "Ostos")
-//							.param("pass", "EstoesUna4")
-//							)
-//		.andExpect(status().isOk())
-//		.andExpect(view().name("/tutores/tutoresList"));
-//	}
+	@WithMockUser(username = "juanito@us.es", authorities= "administrador")
+	@Test
+	void testProcessUpdateFormFailure() throws Exception {
+		byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };
+		mockMvc.perform(MockMvcRequestBuilders.multipart("/tutores/0/edit")
+							.file(new MockMultipartFile("image","file.jpg", "image/jpeg", somebytes))
+							.with(csrf())
+							.param("nombre", "Juanra")
+							.param("apellidos", "Ostos")
+							.param("pass", "EstoesUn@a4")
+							)
+		.andExpect(status().isOk())
+		.andExpect(view().name("tutores/createOrUpdateTutorForm"));
+	}
 	
 	@WithMockUser(username = "alebarled@alum.us.es", authorities= "tutor")
 	@Test
 	void testProcessUpdateFormSuccess() throws Exception {
 		byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };
 		mockMvc.perform(MockMvcRequestBuilders.multipart("/tutores/0/edit")
-							.file(new MockMultipartFile("image","file.jpg", "text/plain", somebytes))
+							.file(new MockMultipartFile("image","file.jpg", "image/jpeg", somebytes))
 							.with(csrf())
 							.param("nombre", "Juanra")
 							.param("apellidos", "Ostos")
