@@ -33,7 +33,7 @@
     </div>
     
     <div style="text-align: center;" id="paginas">
-    	<img id="izquierda-publicacion" width="11px"></img> <span id="numero-publicacion"></span> <img id="derecha-publicacion" width="11px"></img>
+    	<img id="izquierda-publicacion" width="11px" style="cursor:pointer;"></img> <span id="numero-publicacion"></span> <img id="derecha-publicacion" width="11px" style="cursor:pointer;"></img>
     </div>
     
     <script>

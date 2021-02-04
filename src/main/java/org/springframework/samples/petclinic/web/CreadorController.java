@@ -109,7 +109,7 @@ public class CreadorController {
 	public String creadorDetails(@PathVariable("id") int id, ModelMap model) {
 		Optional<Creador> creador = creadorService.findById(id);
 		if(creador.isPresent()) {
-			if(creador.get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+			if(creador.get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName()) || Utils.authLoggedIn().equals("administrador")) {
 				model.addAttribute("me",true);
 			}else {
 				model.addAttribute("me",false);
@@ -127,9 +127,9 @@ public class CreadorController {
 	public String editCreador(@PathVariable("id") int id, ModelMap model, HttpServletRequest request) {
 		Optional<Creador> creador = creadorService.findById(id);
 		if(creador.isPresent()) {
-			if(!creadorService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+			if(!creadorService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName()) && !Utils.authLoggedIn().equals("administrador")) {
 				model.addAttribute("message","Solo puedes editar tu propio perfil");
-				log.warn("Un usuario esta intentando modificar sin los permisos adecuados, con sesion "+request.getSession());
+				log.warn("Un usuario esta intentando modificar un creador sin los permisos adecuados, con sesion "+request.getSession());
 				return listCreadores(model);
 			}
 			model.addAttribute("creador", creador.get());
@@ -143,9 +143,9 @@ public class CreadorController {
 	@PostMapping("/{id}/edit")
 	public String editCreador(@PathVariable("id") int id, @Valid Creador modifiedCreador, BindingResult binding, ModelMap model,@RequestParam("image") MultipartFile imagen, HttpServletRequest request) throws BeansException, IOException {
 		Optional<Creador> creador = creadorService.findById(id);
-		if(!creadorService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+		if(!creadorService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName()) && !Utils.authLoggedIn().equals("administrador")) {
 			model.addAttribute("message","Solo puedes editar tu propio perfil");
-			log.warn("Un usuario esta intentando modificar sin los permisos adecuados, con sesion "+request.getSession());
+			log.warn("Un usuario esta intentando modificar un creador sin los permisos adecuados, con sesion "+request.getSession());
 			return listCreadores(model);
 		}
 		boolean emailExistente = Utils.CorreoExistente(modifiedCreador.getEmail(),alumnoService,tutorService,creadorService,administradorService);

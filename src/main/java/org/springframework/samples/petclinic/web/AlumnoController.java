@@ -86,7 +86,7 @@ public class AlumnoController {
 		Optional<Alumno> alumno = alumnoService.findById(id);
 		Collection<Logro> logros = logroService.obtenerLogros(alumno.get());
 		if(alumno.isPresent()) {
-			if(alumno.get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+			if(alumno.get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName()) || Utils.authLoggedIn().equals("administrador")) {
 				model.addAttribute("me",true);
 			}else {
 				model.addAttribute("me",false);
@@ -154,7 +154,7 @@ public class AlumnoController {
 	public String editAlumno(@PathVariable("id") int id, ModelMap model, HttpServletRequest request) {
 		Optional<Alumno> alumno = alumnoService.findById(id);
 		if(alumno.isPresent()) {
-			if(!alumnoService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+			if(!alumnoService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName()) && !Utils.authLoggedIn().equals("administrador")) {
 				model.addAttribute("message","Solo puedes editar tu propio perfil");
 				log.warn("Un usuario esta intentando modificar un perfil que no es el suyo, con sesion "+request.getSession());
 				return listAlumnos(model);
@@ -172,7 +172,7 @@ public class AlumnoController {
 	@PostMapping("/{id}/edit")
 	public String editAlumno(@PathVariable("id") int id, @Valid Alumno modifiedAlumno, BindingResult binding, ModelMap model,@RequestParam("image") MultipartFile imagen, HttpServletRequest request) throws BeansException, IOException {
 		Optional<Alumno> alumno = alumnoService.findById(id);
-		if(!alumnoService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+		if(!alumnoService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName()) && !Utils.authLoggedIn().equals("administrador")) {
 			model.addAttribute("message","Solo puedes editar tu propio perfil");
 			log.warn("Un usuario esta intentado editar un perfil que no es el suyo, con sesion "+request.getSession());
 			return listAlumnos(model);

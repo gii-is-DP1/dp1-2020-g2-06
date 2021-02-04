@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
@@ -37,6 +38,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("/tutores")
 public class TutorController {
@@ -114,11 +118,12 @@ public class TutorController {
 	
 	
 	@GetMapping("/{id}/edit")
-	public String editTutor(@PathVariable("id") int id, ModelMap model) {
+	public String editTutor(@PathVariable("id") int id, ModelMap model, HttpServletRequest request) {
 		Optional<Tutor> tutor = tutorService.findById(id);
 		if(tutor.isPresent()) {
-			if(!tutorService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+			if(!tutorService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName()) && !Utils.authLoggedIn().equals("administrador")) {
 				model.addAttribute("message","Solo puedes editar tu propio perfil");
+				log.warn("Un usuario esta intentando editar un articulo sin tener los permisos necesarios, con sesion "+request.getSession());
 				return listTutores(model);
 			}
 			model.addAttribute("tutor", tutor.get());
@@ -130,11 +135,12 @@ public class TutorController {
 	}
 	
 	@PostMapping("/{id}/edit")
-	public String editTutor(@PathVariable("id") int id, @Valid Tutor modifiedTutor, BindingResult binding, ModelMap model,@RequestParam("image") MultipartFile imagen) throws BeansException, IOException {
+	public String editTutor(@PathVariable("id") int id, @Valid Tutor modifiedTutor, BindingResult binding, HttpServletRequest request,ModelMap model,@RequestParam("image") MultipartFile imagen) throws BeansException, IOException {
 		Optional<Tutor> tutor = tutorService.findById(id);
 		boolean emailExistente = Utils.CorreoExistente(modifiedTutor.getEmail(),alumnoService,tutorService,creadorService,administradorService);
-		if(!tutorService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+		if(!tutorService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName()) && !Utils.authLoggedIn().equals("administrador")) {
 			model.addAttribute("message","Solo puedes editar tu propio perfil");
+			log.warn("Un usuario esta intentando editar un articulo sin tener los permisos necesarios, con sesion "+request.getSession());
 			return listTutores(model);
 		}
 		if(emailExistente) {
@@ -168,7 +174,7 @@ public class TutorController {
 	@GetMapping("/{id}")
 	public String tutorDetails(@PathVariable("id") int id, ModelMap model) {
 		Optional<Tutor> tutor = tutorService.findById(id);
-		if(tutor.get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+		if(tutor.get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName()) || Utils.authLoggedIn().equals("administrador")) {
 			model.addAttribute("me",true);
 		}else {
 			model.addAttribute("me",false);
