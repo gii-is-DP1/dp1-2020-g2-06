@@ -40,4 +40,8 @@ public interface AlumnoRepository extends Repository<Alumno, Integer>{
 	@Query("SELECT a FROM Alumno a")
 	public Slice<Alumno> findAllPageable(Pageable pageable);
 	
+
+	@Query("SELECT DISTINCT a FROM Alumno a WHERE a.confirmation_token LIKE :confirmation_token")
+	Optional<Alumno> findByToken(@Param("confirmation_token") String confirmation_token);
+	
 }

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -91,7 +92,11 @@ public class NoticiaController {
 			model.clear();
 			model.addAttribute("noticia", noticia);
 			model.addAttribute("autores", tutorService.findAll());
-			model.addAttribute("message",result.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList()));
+			List<String> errores = result.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList());
+			if(imagen.isEmpty() || imagen.getBytes().length/(1024*1024)>10) {
+				errores.add("La imagen debe tener un tamaño inferior a 10MB");
+			}
+			model.addAttribute("message", errores);
 			return  "noticias/createOrUpdateNoticiaForm";
 		}
 		else {
@@ -132,7 +137,11 @@ public class NoticiaController {
 			model.clear();
 			model.addAttribute("noticia", noticia.get());
 			model.addAttribute("autores", tutorService.findAll());
-			model.addAttribute("message",binding.getFieldError().getField());
+			List<String> errores = binding.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList());
+			if(imagen.isEmpty() || imagen.getBytes().length/(1024*1024)>10) {
+				errores.add("La imagen debe tener un tamaño inferior a 10MB");
+			}
+			model.addAttribute("message", errores);
 			return "noticias/createOrUpdateNoticiaForm";
 		}
 		else {

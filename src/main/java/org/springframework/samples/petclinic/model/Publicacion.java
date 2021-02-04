@@ -25,7 +25,7 @@ import lombok.Setter;
 public class Publicacion extends BaseEntity{
 	
 	@Column(length=5600)
-	@NotEmpty
+	@NotEmpty(message= "El campo 'Texto' no puede estar vacío")
 	private String texto;
 	
 

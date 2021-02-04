@@ -33,7 +33,7 @@ public class PreguntaTutor extends BaseEntity{
 	@JoinColumn(name="id_problema")
 	private Problema problema;
 	
-	@NotEmpty
+	@NotEmpty(message= "El campo 'Pregunta' no puede estar vacío")
 	private String pregunta;
 	
 	private String respuesta;

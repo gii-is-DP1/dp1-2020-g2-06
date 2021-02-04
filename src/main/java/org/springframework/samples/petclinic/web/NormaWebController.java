@@ -1,6 +1,8 @@
 package org.springframework.samples.petclinic.web;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -49,8 +51,12 @@ public class NormaWebController {
 	}
 
 	@PostMapping(value = "/new")
-	public String processCreationForm(@Valid NormaWeb normaWeb, BindingResult result) {
+	public String processCreationForm(@Valid NormaWeb normaWeb,ModelMap model, BindingResult result, HttpServletRequest request) {
 		if (result.hasErrors()) {
+			model.clear();
+			model.addAttribute("normaWeb", normaWeb);
+			List<String> errores = result.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList());
+			model.addAttribute("message", errores);
 			return VIEWS_NORMAWEB_CREATE_OR_UPDATE_FORM;
 		}
 		else {
@@ -90,7 +96,8 @@ public class NormaWebController {
 		}
 		if(binding.hasErrors()) {
 			model.addAttribute("normaWeb", normaWeb.get());
-			model.addAttribute("message",binding.getFieldError().getField());
+			List<String> errores = binding.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList());
+			model.addAttribute("message", errores);
 			return VIEWS_NORMAWEB_CREATE_OR_UPDATE_FORM;
 		}
 		else {

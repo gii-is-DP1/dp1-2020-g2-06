@@ -44,35 +44,37 @@ public class Problema extends NamedEntity {
 	
 	@Column(name = "fecha_publicacion")
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	@NotNull(message= "Debe indicar una fecha de publicación")
 	private LocalDate fechaPublicacion;
 	
 	@Column(name = "puntuacion")
-	@NotNull
+	@NotNull(message= "El campo 'Puntuación' no puede estar vacío y debe ser un número")
 	private Integer puntuacion;
 	
-	@NotEmpty
+	@NotEmpty(message= "El campo 'Descripción' no puede estar vacío")
 	@Column(name = "descripcion",length=5600)
 	private String descripcion;
 	
-	@NotEmpty
+	@NotEmpty(message= "El campo 'Casos de prueba' no puede estar vacío")
 	@Column(name = "casos_prueba")
 	private String casos_prueba;
 	
-	@NotEmpty
+	@NotEmpty(message= "El campo 'Salida esperada' no puede estar vacío")
 	@Column(name = "salida_esperada")
 	private String salida_esperada;
 	
 	@Column(name = "dificultad")
+	@NotEmpty(message= "El campo 'Dificultad' no puede estar vacío y debe ser una cadena de texto")
 	private String dificultad;
 	
 	private String imagen;
 	
 	@ManyToOne
-	@NotNull
+	@NotNull(message= "El campo 'season' no puede estar vacío y debe ser un número de 1-4")
 	@JoinColumn(name="id_season")
 	private Temporada season;
 	
-	@NotNull
+	@NotNull(message= "El campo 'Season year' no puede estar vacío")
 	@Column(name = "season_year")
 	private Integer seasonYear;
 	
