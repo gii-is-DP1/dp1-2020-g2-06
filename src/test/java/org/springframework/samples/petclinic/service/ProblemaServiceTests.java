@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.samples.petclinic.model.Problema;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class ProblemaServiceTests {
 
 	@Autowired
-	ProblemaService ProblemaService;
+	ProblemaService problemaService;
 	
 	@Autowired
 	CreadorService creadorService;
@@ -71,7 +72,7 @@ public class ProblemaServiceTests {
 		problema.setImagen("https://www.imagendeprueba.com/2");
 		
                 
-		this.ProblemaService.saveProblema(problema);	
+		this.problemaService.saveProblema(problema);	
 		
 		Collection<Problema> normasWeb2 = this.problemaService.findAll();
 		

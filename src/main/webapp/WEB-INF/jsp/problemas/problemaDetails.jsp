@@ -20,6 +20,12 @@
     
 	<br>
 	<br>
+	
+	<c:if test="${me}">
+    	<spring:url value="/problemas/{problemaId}/edit" var="editUrl"> <spring:param name="problemaId" value="${problema.id}"/> </spring:url>
+    	<a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar Problema</a>
+    	<br>
+    </c:if>
 
     <table class="table table-striped">
     	<tr>
@@ -67,11 +73,6 @@
     	</table>
 	</c:forEach>
 
-	<c:if test="${me}">
-    	<spring:url value="{problemaId}/edit" var="editUrl"> <spring:param name="problemaId" value="${problema.id}"/> </spring:url>
-    	<a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar Problema</a>
-    	<br>
-    </c:if>
 
 	<sec:authorize access="hasAuthority('tutor')">
 		<div>

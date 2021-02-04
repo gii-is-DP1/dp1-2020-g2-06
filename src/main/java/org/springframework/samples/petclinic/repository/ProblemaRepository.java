@@ -19,8 +19,6 @@ public interface ProblemaRepository extends Repository<Problema,Integer>{
 	
 	Optional<Problema> findById(int id) throws DataAccessException;
 	
-	void deleteById(int id) throws DataAccessException;
-	
 	void save(Problema problema) throws DataAccessException;
 	
 	int count() throws DataAccessException;
@@ -33,9 +31,6 @@ public interface ProblemaRepository extends Repository<Problema,Integer>{
 	
 	@Query(value="SELECT p FROM Problema p WHERE p.seasonYear < :year OR  p.seasonYear LIKE :year AND p.season.id < :season_id")
 	public Slice<Problema> findAllNoVigentePage(Pageable pageable,@Param("year") int year, @Param("season_id") int seasonId);		
-	
-	@Query(value="SELECT p FROM Problema p WHERE p.seasonYear < :year OR  p.seasonYear LIKE :year AND p.season.id < :season_id")
-	public Collection<Problema> findAllNoVigente(@Param("year") int year, @Param("season_id")int seasonId);	
 	
 
 }

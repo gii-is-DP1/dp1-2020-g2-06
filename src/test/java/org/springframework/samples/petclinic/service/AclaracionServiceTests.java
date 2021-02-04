@@ -58,7 +58,7 @@ public class AclaracionServiceTests {
 			assertThat( aclaraciones.size()).isEqualTo(1);
 		}
 		@Test
-		public void shouldFindNotAclaracionesByTutorInitial() {
+		public void shouldNotFindAclaracionesByTutorInitial() {
 			Collection<Aclaracion> aclaraciones = this.aclaracionService.findAllByTutor(1);
 			assertThat( aclaraciones.size()).isEqualTo(0);
 		}
@@ -69,7 +69,7 @@ public class AclaracionServiceTests {
 			assertThat( aclaraciones.size()).isEqualTo(1);
 		}
 		@Test
-		public void shouldFindNotAclaracionesByProblemaInitial() {
+		public void shouldNotFindAclaracionesByProblemaInitial() {
 			Collection<Aclaracion> aclaraciones = this.aclaracionService.findAllByProblema(1);
 			assertThat( aclaraciones.size()).isEqualTo(0);
 		}

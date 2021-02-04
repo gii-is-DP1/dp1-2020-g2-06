@@ -97,6 +97,7 @@ public class CreadorController {
 			String name = Utils.diferenciador(extensionImagen[extensionImagen.length-1]);
 			creador.setImagen("resources/images/creadores/"  + name);
 			fileService.saveFile(imagen,rootImage,name);
+			Utils.imageCrop("resources/images/creadores/"  + name, fileService);
 			creador.setEnabled(true);
 			this.creadorService.save(creador);
 			this.authService.saveAuthoritiesCreador(creador.getEmail(), "creador");
@@ -168,6 +169,7 @@ public class CreadorController {
 				creador.get().setImagen("resources/images/creadores/"  + name);
 				fileService.delete(Paths.get("src/main/resources/static/" + aux));
 				fileService.saveFile(imagen,rootImage,name);
+				Utils.imageCrop("resources/images/creadores/"  + name, fileService);
 			}
 			BeanUtils.copyProperties(modifiedCreador, creador.get(), "id","imagen");
 			creadorService.save(creador.get());
