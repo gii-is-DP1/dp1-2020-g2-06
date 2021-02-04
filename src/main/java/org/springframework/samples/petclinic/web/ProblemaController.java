@@ -143,7 +143,7 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 	public String editProblema(@PathVariable("id") int id, ModelMap model, HttpServletRequest request) {
 		Optional<Problema> problema = problemaService.findById(id);
 		if(problema.isPresent()) {
-			if(!problema.get().getCreador().getId().equals(creadorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get().getId())) {
+			if(!problema.get().getCreador().getId().equals(creadorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get().getId()) && !Utils.authLoggedIn().equals("administrador")) {
 				model.addAttribute("message","No puedes editar problemas de otros creadores");
 				log.warn("Un usuario ha intentando editar un problema sin los permisos necesarios, con sesion: "+request.getSession());
 				return listProblemas(model);
@@ -188,25 +188,9 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 				model.addAttribute("message","Problema actualizado con éxito");
 				return listProblemas(model);
 			}
+
 		
 		
 	}
 	
-	@GetMapping("/{id}/delete")
-	public String deleteProblemas(@PathVariable("id") int id, ModelMap model, HttpServletRequest request) {
-		Optional<Problema> problema = problemaService.findById(id);
-		if(!problema.get().getCreador().getId().equals(creadorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get().getId())) {
-			model.addAttribute("message","No puedes eliminar problemas de otros creadores");
-			log.warn("Un usuario ha intentando eliminar un problema sin los permisos necesarios, con sesion: "+request.getSession());
-			return listProblemas(model);
-		}
-		if(problema.isPresent()) {
-			problemaService.delete(problema.get());
-			model.addAttribute("message", "El problema se ha borrado con exito");
-		}
-		else {
-			model.addAttribute("message", "No podemos encontrar el problema que intenta borrar");
-		}
-		return listProblemas(model);
-	}
 }
