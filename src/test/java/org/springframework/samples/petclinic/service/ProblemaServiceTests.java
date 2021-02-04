@@ -31,9 +31,34 @@ public class ProblemaServiceTests {
 	@Autowired
 	CreadorService creadorService;
 	
+	@Test
+	void shouldFindAll() throws IOException {
+		assertThat(problemaService.findAll().size()).isGreaterThan(0);
+	}
+	
+	@Test
+	@Transactional
+	void shouldFindProblemasVigentes() throws IOException {
+		Integer numeroProblemasVigentes = problemaService.ProblemasVigentes().size();
+		assertThat(numeroProblemasVigentes).isEqualTo(1);
+	}
+	
+	@Test
+	@Transactional
+	void shouldFindProblemasNoVigentesPageable() throws IOException {
+		Integer numeroProblemasNoVigentes = problemaService.ProblemasNoVigentePage(PageRequest.of(1-1, 1)).getSize();
+		assertThat(numeroProblemasNoVigentes).isEqualTo(1);
+	}
+	
+	@Test
+	@Transactional
+	void shouldFindProblemasByTutor() throws IOException {
+		Integer numeroProblemasTutor = problemaService.findAllByCreador(0).size();
+		assertThat(numeroProblemasTutor).isEqualTo(5);
+	}
+	
 	public void shouldInsertProblema() throws IOException {
-		Collection<Problema> normasWeb = this.ProblemaService.findAll();
-		int found = normasWeb.size();
+		Integer size = this.problemaService.findAll().size();
 
 		Problema problema = new Problema();
 		problema.setName("La piscina olimpica");
@@ -45,25 +70,12 @@ public class ProblemaServiceTests {
 		problema.setSalida_esperada("Si");
 		problema.setImagen("https://www.imagendeprueba.com/2");
 		
-		Path path = Paths.get("/TestTxt/TestFile.txt");
-		String name = "file.txt";
-		String originalFileName = "TestFile.txt";
-		String contentType = "text/plain";
-		byte[] content = null;
-		try {
-		    content = Files.readAllBytes(path);
-		} catch (final IOException e) {
-		}
-		
-		MultipartFile file = new MockMultipartFile(name,
-                originalFileName, contentType, content);
-		
                 
 		this.ProblemaService.saveProblema(problema);	
 		
-		Collection<Problema> normasWeb2 = this.ProblemaService.findAll();
+		Collection<Problema> normasWeb2 = this.problemaService.findAll();
 		
-		assertThat(normasWeb2.size()).isEqualTo(found + 1);
+		assertThat(normasWeb2.size()).isEqualTo(size + 1);
 	}
 	
 	@Test
@@ -77,39 +89,25 @@ public class ProblemaServiceTests {
 		problema.setSalida_esperada("Si");
 		problema.setImagen("https://www.imagendeprueba.com/2");
 		
-		Path path = Paths.get("/TestTxt/TestFile.txt");
-		String name = "file.txt";
-		String originalFileName = "TestFile.txt";
-		String contentType = "text/plain";
-		byte[] content = null;
-		try {
-		    content = Files.readAllBytes(path);
-		} catch (final IOException e) {
-		}
-		
-		MultipartFile file = new MockMultipartFile(name,
-                originalFileName, contentType, content);
-		
 		
 		Assertions.assertThrows(ConstraintViolationException.class, () ->{
-			this.ProblemaService.saveProblema(problema);	;
+			this.problemaService.saveProblema(problema);	;
 		});	
 	}
 	
 	@Test
 	@Transactional
 	void shouldUpdateproblema() throws IOException {
-		Problema problema = this.ProblemaService.findById(0).get();
+		Problema problema = this.problemaService.findById(0).get();
 		String oldDescripcion = problema.getDescripcion();
 		String newDescripcion = oldDescripcion + "X";
 
 		problema.setDescripcion(newDescripcion);
-		this.ProblemaService.saveProblema(problema);
+		this.problemaService.saveProblema(problema);
 
 		// retrieving new name from database
-		problema = this.ProblemaService.findById(0).get();
+		problema = this.problemaService.findById(0).get();
 		assertThat(problema.getDescripcion()).isEqualTo(newDescripcion);
 	}
-	
 
 }
