@@ -21,6 +21,7 @@ public class CustomErrorController implements ErrorController {
 	@GetMapping()
 	public String handleError(HttpServletRequest request, Exception ex) {
 		Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
+		System.out.println(request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE));
 		if (status != null) {
 			int statusCode = Integer.parseInt(status.toString());
 
