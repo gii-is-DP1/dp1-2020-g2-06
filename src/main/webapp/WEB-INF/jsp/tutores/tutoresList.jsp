@@ -53,7 +53,7 @@ function tutorespageable(page){
 	    $("#tutores").append("<tbody>");
 	    for(var i = 0; i < tutorespag.length; i++){
 	    	
-	    	$("#tutores").append("<tr> <td> <img src="+tutorespag[i]['imagen']+" ' width='50' style='border-radius:100%'/>"+" "+"<a href='/tutores/"+tutorespag[i]['id']+"'>"+" "+ tutorespag[i]['nombre']+"  "+tutorespag[i]['apellidos']+"</a> </td> </tr>");
+	    	$("#tutores").append("<tr> <td> <img src="+tutorespag[i]['imagen']+" ' width='80' style='border-radius:100%'/>"+" "+"<a href='/tutores/"+tutorespag[i]['id']+"'>"+" "+ tutorespag[i]['nombre']+"  "+tutorespag[i]['apellidos']+"</a> </td> </tr>");
 	    	
 	    }
 	    console.log(tutorespag);

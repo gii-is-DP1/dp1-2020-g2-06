@@ -53,7 +53,7 @@
 
 	    for(var i = 0; i < alumnospag.length; i++){
 	    	
-	    	$("#alumnoss").append("<tr> <td> <img src="+alumnospag[i]['imagen']+" ' width='100px' style='border-radius:100%'/>"+" "+"<a href='/alumnos/"+alumnospag[i]['id']+"'>"+alumnospag[i]['nombre']+" - "+alumnospag[i]['apellidos']+"</a> </td> </tr>");
+	    	$("#alumnoss").append("<tr> <td> <img src="+alumnospag[i]['imagen']+" ' width='80px' style='border-radius:100%'/>"+" "+"<a href='/alumnos/"+alumnospag[i]['id']+"'>"+alumnospag[i]['nombre']+" "+alumnospag[i]['apellidos']+"</a> </td> </tr>");
 	  
 	    }
 	   

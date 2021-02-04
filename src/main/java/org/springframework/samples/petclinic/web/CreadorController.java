@@ -129,7 +129,7 @@ public class CreadorController {
 		if(creador.isPresent()) {
 			if(!creadorService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName()) && !Utils.authLoggedIn().equals("administrador")) {
 				model.addAttribute("message","Solo puedes editar tu propio perfil");
-				log.warn("Un usuario esta intentando modificar sin los permisos adecuados, con sesion "+request.getSession());
+				log.warn("Un usuario esta intentando modificar un creador sin los permisos adecuados, con sesion "+request.getSession());
 				return listCreadores(model);
 			}
 			model.addAttribute("creador", creador.get());
@@ -145,7 +145,7 @@ public class CreadorController {
 		Optional<Creador> creador = creadorService.findById(id);
 		if(!creadorService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName()) && !Utils.authLoggedIn().equals("administrador")) {
 			model.addAttribute("message","Solo puedes editar tu propio perfil");
-			log.warn("Un usuario esta intentando modificar sin los permisos adecuados, con sesion "+request.getSession());
+			log.warn("Un usuario esta intentando modificar un creador sin los permisos adecuados, con sesion "+request.getSession());
 			return listCreadores(model);
 		}
 		boolean emailExistente = Utils.CorreoExistente(modifiedCreador.getEmail(),alumnoService,tutorService,creadorService,administradorService);
