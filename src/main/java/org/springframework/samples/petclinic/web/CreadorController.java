@@ -4,6 +4,7 @@ package org.springframework.samples.petclinic.web;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -90,7 +91,11 @@ public class CreadorController {
 		if(result.hasErrors()|| imagen.getBytes().length/(1024*1024)>10 || imagen.isEmpty()) {
 			model.clear();
 			model.addAttribute("creador", creador);
-			model.addAttribute("message", result.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList()));
+			List<String> errores = result.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList());
+			if(imagen.isEmpty() || imagen.getBytes().length/(1024*1024)>10) {
+				errores.add("La imagen debe tener un tamaño inferior a 10MB");
+			}
+			model.addAttribute("message", errores);
 			return "creadores/createOrUpdateCreadorForm";
 		}else {
 			String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
@@ -159,7 +164,11 @@ public class CreadorController {
 		if(binding.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
 			model.clear();
 			model.addAttribute("creador", creador);
-			model.addAttribute("message", binding.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList()));
+			List<String> errores = binding.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList());
+			if(imagen.isEmpty() || imagen.getBytes().length/(1024*1024)>10) {
+				errores.add("La imagen debe tener un tamaño inferior a 10MB");
+			}
+			model.addAttribute("message", errores);
 			return "creadores/createOrUpdateCreadorForm";
 		}else {
 			if(!imagen.isEmpty()) {

@@ -22,7 +22,7 @@ public class NormaWeb extends NamedEntity {
 	@JoinColumn(name="autor_email")
 	private Tutor autor;
 	
-	@NotEmpty
+	@NotEmpty(message= "El campo 'Descripción' no puede estar vacío")
 	@Column(length = 5600)
 	private String descripcion;
 }
