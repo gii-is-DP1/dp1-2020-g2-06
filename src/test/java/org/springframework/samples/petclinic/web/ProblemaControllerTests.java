@@ -201,13 +201,6 @@ public class ProblemaControllerTests {
 		//.andExpect(model().attributeExists("problema"))
 		.andExpect(view().name("problemas/problemasList"));
 	}
-	
-	@WithMockUser(username = "davbrican@us.es", authorities="creador")
-	@Test
-	void testDeleteProblema() throws Exception {
-		mockMvc.perform(get("/problemas/6/delete")).andExpect(status().isOk())
-		.andExpect(view().name("problemas/problemasList"));
-	}
 
 	
 }
