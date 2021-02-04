@@ -1,12 +1,14 @@
 package org.springframework.samples.petclinic.web;
 
 import java.io.IOException;
+import java.net.Authenticator;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +18,10 @@ import org.h2.engine.Session;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMailMessage;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Logro;
 import org.springframework.samples.petclinic.model.Problema;
@@ -75,6 +81,8 @@ public class AlumnoController {
 	
 	@Autowired
 	LogroService logroService;
+	
+	private JavaMailSender javaMailSender;
 	
 	@GetMapping("")
 	public String listAlumnos(ModelMap model) {
@@ -147,10 +155,28 @@ public class AlumnoController {
 			
 			fileService.saveFile(imagen,rootImage,name);
 			Utils.imageCrop("resources/images/alumnos/"  + name, fileService);
+
 			alumno.setEnabled(true);
+			//alumno.setEnabled(false);
+			//alumnoService.sendMail(alumno, javaMailSender);
+			
 			alumnoService.save(alumno);
 			authService.saveAuthoritiesAlumno(alumno.getEmail(), "alumno");
 			
+			return "redirect:/alumnos/";
+		}
+	}
+
+	@GetMapping(value = "/confirmation/{token}")
+	public String processConfirmationForm(@PathVariable("token") String token, @Valid Alumno alumno, BindingResult result, ModelMap model, HttpServletRequest request) throws IOException {
+		if (result.hasErrors()) {
+			model.clear();
+			model.addAttribute("message", result.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList()));
+			return "redirect:/alumnos";
+		}
+		else {
+			Optional<Alumno> al = alumnoService.findByToken(token);
+			al.get().setEnabled(true);
 			return "redirect:/alumnos/"+alumno.getId();
 		}
 	}
