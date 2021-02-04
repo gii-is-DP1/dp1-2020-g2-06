@@ -48,13 +48,43 @@
 					<span>ARTICULOS</span>
 				</petclinic:menuItem>
 				
-				<petclinic:menuItem active="${name eq 'FORO'}" url="/foro"
-					title="FORO">
-				<!--
-					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
-				-->
-					<span>FORO</span>
-				</petclinic:menuItem>
+				<petclinic:menuItem active="${name eq 'COMUNIDAD'}" url="/diseases"
+					title="COMUNIDAD" dropdown="${true}">																			
+						<ul class="dropdown-menu">
+							<li>								
+									<div class="row">
+										<div class="text-center">																					
+												<a href="<c:url value="/foro" />">FORO</a>
+										</div>																					
+									</div>						
+							</li>
+							<li class="divider"></li>
+							<li>								
+									<div class="row">
+										<div class="text-center">																					
+												<a href="<c:url value="/alumnos" />">ALUMNOS</a>
+										</div>																					
+									</div>						
+							</li>		
+							<li class="divider"></li>
+							<li>								
+									<div class="row">
+										<div class="text-center">																					
+												<a href="<c:url value="/tutores" />">TUTORES</a>
+										</div>																					
+									</div>						
+							</li>			
+							<li class="divider"></li>
+							<li>								
+									<div class="row">
+										<div class="text-center">																					
+												<a href="<c:url value="/creadores" />">CREADORES</a>
+										</div>																					
+									</div>						
+							</li>															
+						</ul>						
+				</petclinic:menuItem>	
+				
 
 			</ul>
 

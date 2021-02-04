@@ -29,7 +29,7 @@
 
     <table class="table table-striped">
     	<tr>
-            <th>DescripciÃ³n</th>
+            <th>Descripción</th>
             <td><c:out value="${problema.descripcion}" escapeXml="false"/></td>
         </tr>
         <tr>
