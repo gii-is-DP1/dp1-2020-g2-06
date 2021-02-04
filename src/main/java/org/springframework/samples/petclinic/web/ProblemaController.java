@@ -73,6 +73,7 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 	public String problemaDetails(@PathVariable("id") int id,ModelMap model) throws IOException {
 		Optional<Problema> problema = problemaService.findById(id);
 		Map<String, Long> resoluciones = envioService.resolucionProblema(id);
+		Integer conseguidos = envioService.alumnosAC(id);
 		if(problema.isPresent()) {
 			if(problema.get().getCreador().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
 				model.addAttribute("me",true);
@@ -85,8 +86,10 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 			model.addAttribute("aclaracion", new Aclaracion());
 			model.addAttribute("problema", problema.get());
 			model.addAttribute("resoluciones",resoluciones);
+			model.addAttribute("conseguidos", conseguidos);
 			model.addAttribute("totalEnvios",resoluciones.entrySet().stream().mapToLong(x->x.getValue()).sum());
 			model.addAttribute("preguntaTutor", new PreguntaTutor());
+			log.info("Se ha utilizado la libreria javascript 'morris.js'");
 			return "problemas/problemaDetails";
 		}
 		else {
@@ -188,9 +191,9 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 				model.addAttribute("message","Problema actualizado con éxito");
 				return listProblemas(model);
 			}
-
 		
 		
 	}
+	
 	
 }
