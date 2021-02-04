@@ -16,7 +16,7 @@
     </table>
     </div>
     <div style="text-align: center;" id="paginas">
-    	<img id="izquierda-art" width="11px"></img> <span id="numero-art"></span> <img id="derecha-art" width="11px"></img>
+    	<img id="izquierda-art" width="11px" style="cursor:pointer;"></img> <span id="numero-art"></span> <img id="derecha-art" width="11px" style="cursor:pointer;"></img>
     </div>
  
  <script>
@@ -53,7 +53,7 @@
 
 	    for(var i = 0; i < alumnospag.length; i++){
 	    	
-	    	$("#alumnoss").append("<tr> <td> <img src="+alumnospag[i]['imagen']+" ' width='100px' style='border-radius:100%'/>"+" "+"<a href='/alumnos/"+alumnospag[i]['id']+"'>"+alumnospag[i]['nombre']+" - "+alumnospag[i]['apellidos']+"</a> </td> </tr>");
+	    	$("#alumnoss").append("<tr> <td> <img src="+alumnospag[i]['imagen']+" ' width='80px' style='border-radius:100%'/>"+" "+"<a href='/alumnos/"+alumnospag[i]['id']+"'>"+alumnospag[i]['nombre']+" "+alumnospag[i]['apellidos']+"</a> </td> </tr>");
 	  
 	    }
 	   

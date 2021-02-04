@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
@@ -33,6 +34,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("/problemas")
 public class ProblemaController {
@@ -69,6 +73,7 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 	public String problemaDetails(@PathVariable("id") int id,ModelMap model) throws IOException {
 		Optional<Problema> problema = problemaService.findById(id);
 		Map<String, Long> resoluciones = envioService.resolucionProblema(id);
+		Integer conseguidos = envioService.alumnosAC(id);
 		if(problema.isPresent()) {
 			if(problema.get().getCreador().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
 				model.addAttribute("me",true);
@@ -81,8 +86,10 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 			model.addAttribute("aclaracion", new Aclaracion());
 			model.addAttribute("problema", problema.get());
 			model.addAttribute("resoluciones",resoluciones);
+			model.addAttribute("conseguidos", conseguidos);
 			model.addAttribute("totalEnvios",resoluciones.entrySet().stream().mapToLong(x->x.getValue()).sum());
 			model.addAttribute("preguntaTutor", new PreguntaTutor());
+			log.info("Se ha utilizado la libreria javascript 'morris.js'");
 			return "problemas/problemaDetails";
 		}
 		else {
@@ -93,9 +100,10 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 	}
 	
 	@GetMapping(value = "/new")
-	public String initCreationForm(ModelMap model) {
+	public String initCreationForm(ModelMap model, HttpServletRequest request) {
 		if(!Utils.authLoggedIn().equals("creador")) {
 			model.addAttribute("message","Para crear un problema debes estar registrado como creador");
+			log.warn("Un usuario ha intentando crear un problema sin los permisos necesarios, con sesion: "+request.getSession());
 			return listProblemas(model);
 		}
 		Problema problema = new Problema();
@@ -114,6 +122,7 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 				return VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM;
 			}
 			else {
+				
 				String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
 				String namezip = Utils.diferenciador("zip");
 				fileService.saveFile(zip,rootZip,namezip);
@@ -134,11 +143,12 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 	}
 	
 	@GetMapping("/{id}/edit")
-	public String editProblema(@PathVariable("id") int id, ModelMap model) {
+	public String editProblema(@PathVariable("id") int id, ModelMap model, HttpServletRequest request) {
 		Optional<Problema> problema = problemaService.findById(id);
 		if(problema.isPresent()) {
-			if(!problema.get().getCreador().getId().equals(creadorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get().getId())) {
+			if(!problema.get().getCreador().getId().equals(creadorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get().getId()) && !Utils.authLoggedIn().equals("administrador")) {
 				model.addAttribute("message","No puedes editar problemas de otros creadores");
+				log.warn("Un usuario ha intentando editar un problema sin los permisos necesarios, con sesion: "+request.getSession());
 				return listProblemas(model);
 			}
 			model.addAttribute("problema", problema.get());
@@ -152,12 +162,13 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 	}
 	
 	@PostMapping("/{id}/edit")
-	public String editProblemas(@PathVariable("id") int id, @Valid Problema modifiedProblema, BindingResult binding, ModelMap model,@RequestParam("zipo") MultipartFile zip,@RequestParam("image") MultipartFile imagen) throws IOException {
+	public String editProblemas(@PathVariable("id") int id, @Valid Problema modifiedProblema, BindingResult binding, HttpServletRequest request, ModelMap model,@RequestParam("zipo") MultipartFile zip,@RequestParam("image") MultipartFile imagen) throws IOException {
 			Optional<Problema> problema = problemaService.findById(id);
-//			if(!problema.get().getCreador().equals(creadorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get())) {
-//				model.addAttribute("message","No puedes editar problemas de otros creadores");
-//				return listProblemas(model);
-//			}
+			if(!problema.get().getCreador().equals(creadorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get())) {
+				model.addAttribute("message","No puedes editar problemas de otros creadores");
+				log.warn("Un usuario ha intentando editar un problema sin los permisos necesarios, con sesion: "+request.getSession());
+				return listProblemas(model);
+			}
 			if(binding.hasErrors() || zip.getBytes().length/(1024*1024)>20 || imagen.getBytes().length/(1024*1024)>10) {
 				model.clear();
 				model.addAttribute("problema", problema.get());
@@ -184,20 +195,5 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 		
 	}
 	
-	@GetMapping("/{id}/delete")
-	public String deleteProblemas(@PathVariable("id") int id, ModelMap model) {
-		Optional<Problema> problema = problemaService.findById(id);
-		if(!problema.get().getCreador().getId().equals(creadorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get().getId())) {
-			model.addAttribute("message","No puedes eliminar problemas de otros creadores");
-			return listProblemas(model);
-		}
-		if(problema.isPresent()) {
-			problemaService.delete(problema.get());
-			model.addAttribute("message", "El problema se ha borrado con exito");
-		}
-		else {
-			model.addAttribute("message", "No podemos encontrar el problema que intenta borrar");
-		}
-		return listProblemas(model);
-	}
+	
 }

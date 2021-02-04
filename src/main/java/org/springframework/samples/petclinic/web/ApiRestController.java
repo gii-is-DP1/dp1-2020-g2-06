@@ -1,11 +1,13 @@
 package org.springframework.samples.petclinic.web;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.util.Pair;
 import org.springframework.http.MediaType;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Articulo;
@@ -79,7 +81,7 @@ public class ApiRestController {
 
 	@GetMapping(value="/tutores",produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Tutor> getTutores(@RequestParam(name="page", defaultValue="1") int pagea, ModelMap model) {
-		Pageable pageableT = PageRequest.of(pagea-1, 5, Sort.by("apellidos"));
+		Pageable pageableT = PageRequest.of(pagea-1, pagsize, Sort.by("apellidos"));
 		return tutorService.findTutorPage(pageableT).getContent();
 	}
 
@@ -110,7 +112,7 @@ public class ApiRestController {
 	
 	@GetMapping(value="/noticias",produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Noticia> getNoticias(@RequestParam(name="page", defaultValue="1") int pagea, @RequestParam(name="page-not", defaultValue="1") int pagen, ModelMap model) {
-		Pageable pageableA = PageRequest.of(pagea-1, 5,Sort.by("id").descending());
+		Pageable pageableA = PageRequest.of(pagea-1, pagsize,Sort.by("id").descending());
 		return noticiaService.findAllPage(pageableA).getContent();
 		
 	}
@@ -132,6 +134,14 @@ public class ApiRestController {
 	public List<Alumno> getALumnos(@RequestParam(name="page", defaultValue="1") int pagea, @RequestParam(name="page-not", defaultValue="1") int pagen, ModelMap model) {
 		Pageable pageableA = PageRequest.of(pagea-1, pagsize, Sort.by("id").descending());
 		return alumnoService.findAllPage(pageableA).getContent();
+
+	}
+	
+	
+	@GetMapping(value="/prueba",produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Alumno> getPrueba(ModelMap model) {
+		
+		return alumnoService.rankingTotal().stream().map(x->x.getFirst()).collect(Collectors.toList());
 
 	}
 

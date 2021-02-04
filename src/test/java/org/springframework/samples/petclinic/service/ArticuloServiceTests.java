@@ -9,10 +9,15 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.validation.ConstraintViolationException;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Articulo;
 import org.springframework.samples.petclinic.model.Tutor;
@@ -36,7 +41,7 @@ public class ArticuloServiceTests {
 	public void shouldFindArticuloById() {
 		Articulo articulo= this.articuloService.findById(0).get();
 		assertThat(articulo.getId()).isEqualTo(0);
-		assertThat(articulo.getFechaPublicacion()).isEqualTo(LocalDate.of(2020, 07,22));
+		assertThat(articulo.getFechaPublicacion()).isEqualTo(LocalDate.of(2020, 07,23));
 		assertThat(articulo.getImagen()).isEqualTo("resources/images/articulos/2020122317810299000000.jpg");
 		assertThat(articulo.getName()).isEqualTo("Articulo sobre DBGames");
 		assertThat(articulo.getTexto()).isEqualTo("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt"
@@ -70,6 +75,23 @@ public class ArticuloServiceTests {
 		articulos = this.articuloService.findAll();
 		
 		assertThat(articulos.size()).isEqualTo(found +1);
+	}
+	
+	@Test
+	public void shouldNotInsertArticulo() {
+		Set<Tutor> autores = new HashSet<Tutor>();
+		autores.add(this.tutorService.findById(0).get());
+		autores.add(this.tutorService.findById(1).get());
+		
+		Articulo articulo = new Articulo();
+		articulo.setAutores(autores);
+		articulo.setFechaPublicacion(LocalDate.now());
+		articulo.setImagen("prueba.jpg");
+		articulo.setName("NEw Lorem");
+
+		Assertions.assertThrows(ConstraintViolationException.class, () ->{
+			this.articuloService.save(articulo);
+		});
 	}
 	
 	@Test
@@ -113,14 +135,8 @@ public class ArticuloServiceTests {
 	
 	@Test
 	public void shouldfindArticulosByTutorPage() {
-		Collection<Articulo> ca = this.articuloService.findArticulosByTutor(0);
-		Set<Articulo> st = new HashSet<>();
-		for(Articulo a : this.articuloService.findAll()) {
-			if(a.getAutores().contains(this.tutorService.findById(0).get())) {
-				st.add(a);
-			}
-		}
-		assertThat(ca.stream().collect(Collectors.toSet())).isEqualTo(st);
+		Integer ArticulosDeTutorPage = articuloService.findArticulosByTutorPage(0,PageRequest.of(0, 1, Sort.by("fecha_publicacion").descending())).getSize();
+		assertThat(ArticulosDeTutorPage).isEqualTo(1);
 	}
 
 }

@@ -77,7 +77,7 @@ public class EnvioController {
 	public String envioSend(@PathVariable("problema") int problema, HttpServletRequest request, @RequestParam("archivo") MultipartFile archivo, ModelMap model) throws IOException, InterruptedException {
 		if(!Utils.authLoggedIn().equals("alumno")) {
 			model.addAttribute("message","Sólo los alumnos pueden realizar envíos");
-			//log.warn("Un usuario esta intentando realizar un envio sin estar registrado, con sesion "+request.getSession());
+			log.warn("Un usuario esta intentando realizar un envio sin estar registrado, con sesion "+request.getSession());
 			return problemaController.problemaDetails(problema, model);  ///redirect al problema
 		}
 		else if(archivo.getBytes().length/(1024*1024)>10){

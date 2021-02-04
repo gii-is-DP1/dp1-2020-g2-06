@@ -14,7 +14,7 @@
     </table>
     </div>
     <div style="text-align: center;" id="paginas">
-    	<img id="izquierda-art" width="11px"></img> <span id="numero-art"></span> <img id="derecha-art" width="11px"></img>
+    	<img id="izquierda-art" width="11px" style="cursor:pointer;"></img> <span id="numero-art"></span> <img id="derecha-art" width="11px" style="cursor:pointer;"></img>
     </div>
         
         <sec:authorize access="hasAuthority('tutor')"> 

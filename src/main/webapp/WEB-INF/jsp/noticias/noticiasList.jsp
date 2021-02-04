@@ -6,12 +6,104 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>  
 
 <petclinic:layout pageName="noticias">
+
+		 
+		 <div id="rankingtemporada">
+        <h2>Ranking temporada ${temporada}&nbsp;${temporadaYear}</h2>  
+        <table class='table table-striped'>
+        
+        <tr>
+        <th> Puesto </th>
+        <th> Nombre </th>
+        <th> Puntuación</th>
+        </tr>
+        
+        <c:set var="count" value="1" scope="page" />
+        
+        <c:forEach items="${ranking_temp}" var="elements">
+        <tr>
+        <td>
+        <c:out value="${count}"/>
+        </td>
+        <td>
+        <a href="/alumnos/${elements.first.id}"> ${elements.first.nombre}&nbsp;${elements.first.apellidos} </a>
+        </td>
+        
+        <td>
+        	${elements.second}
+        	</td>
+        <tr>
+        <c:set var="count" value="${count + 1}" scope="page"/>
+        </c:forEach>
+        </table>
+        </div>
+		 
+        
+        <div id="rankinganual">
+        <h2>Ranking anual</h2>  
+        <table class='table table-striped'>
+        
+        <tr>
+        <th> Puesto </th>
+        <th> Nombre </th>
+        <th> Puntuación</th>
+        </tr>
+        <c:set var="count" value="1" scope="page" />
+        <c:forEach items="${ranking_anual}" var="elements">
+        <tr>
+        <td>
+        <c:out value="${count}"/>
+        </td>
+        <td>
+        	<a href="/alumnos/${elements.first.id}"> ${elements.first.nombre}&nbsp;${elements.first.apellidos} </a>
+        </td>
+        
+        <td>
+        	${elements.second}
+        	</td>
+        <tr>
+        <c:set var="count" value="${count + 1}" scope="page"/>
+        </c:forEach>
+        </table>
+        </div>
+
+	
+        
+        <div id="rankingtotal">
+        <h2>Ranking general</h2>   
+        <table class='table table-striped'>
+        
+        <tr>
+        <th> Puesto </th>
+        <th> Nombre </th>
+        <th> Puntuación</th>
+        </tr>
+        <c:set var="count" value="1" scope="page" />
+        <c:forEach items="${ranking_total}" var="elements">
+        <tr>
+        <td>
+        <c:out value="${count}"/>
+        </td>
+        <td>
+        	<a href="/alumnos/${elements.first.id}"> ${elements.first.nombre}&nbsp;${elements.first.apellidos} </a>
+        </td>
+        
+        <td>
+        	${elements.second}
+        	</td>
+        <tr>
+        <c:set var="count" value="${count + 1}" scope="page"/>
+        </c:forEach>
+        </table>
+        </div>
+        
+        
     <h2>Noticias</h2>   
         
         <div id="noticias">
 		</div>
 		<div style="text-align: center;" id="paginas">
-    		<img id="izquierda" width="11px"></img> <span id="numero"></span> <img id="derecha" width="11px"></img>
+    		<img id="izquierda" width="11px" style="cursor:pointer;"></img> <span id="numero"></span> <img id="derecha" width="11px" style="cursor:pointer;"></img>
     	</div>
         
         

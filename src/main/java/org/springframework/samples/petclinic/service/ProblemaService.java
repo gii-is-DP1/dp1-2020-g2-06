@@ -41,10 +41,6 @@ public class ProblemaService {
 		return problemaRepository.findById(id);
 	}
 	
-	public void delete(Problema problema) {
-		problemaRepository.deleteById(problema.getId());
-	}
-	
 	@Transactional(rollbackFor = ConstraintViolationException.class)
 	public void saveProblema(@Valid Problema problema){
 		problemaRepository.save(problema);
@@ -52,10 +48,6 @@ public class ProblemaService {
 	
 	public Collection<Problema> ProblemasVigentes() {
 		return problemaRepository.findAllVigente(Utils.getActualYearofSeason(),Utils.getActualSeason().getId());
-	}
-	
-	public Collection<Problema> ProblemasNoVigentes(Collection<Problema> cp) {
-		return problemaRepository.findAllNoVigente(Utils.getActualYearofSeason(),Utils.getActualSeason().getId());
 	}
 	
 	public Slice<Problema> ProblemasNoVigentePage(Pageable pageable){
