@@ -98,10 +98,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	       + "(select email as user,pass as password,enabled from creadores) union "
 	       + "(select email as user,pass as password,enabled from administradores)) where user = ?")
 	      .authoritiesByUsernameQuery(
-	       "select * from (select * from (select email, authority from alumnos a right join auths b on a.id = b.id_alumno) union "
-	       + "(select email, authority from creadores a right join auths b on a.id = b.id_creador) union "
-	       + "(select email, authority from tutores a right join auths b on a.id = b.id_tutor) union "
-	       + "(select email, authority from administradores a right join auths b on a.id = b.id_administrador)) where email = ?")      
+	       "select * from (select * from (select a.email, authority from alumnos as a right join auths b on a.id = b.id_alumno) union "
+	       + "(select a.email, authority from creadores as a right join auths b on a.id = b.id_creador) union "
+	       + "(select a.email, authority from tutores as a right join auths b on a.id = b.id_tutor) union "
+	       + "(select a.email, authority from administradores as a right join auths b on a.id = b.id_administrador)) where email = ?")      
 	      .passwordEncoder(passwordEncoder());
 	}
 	

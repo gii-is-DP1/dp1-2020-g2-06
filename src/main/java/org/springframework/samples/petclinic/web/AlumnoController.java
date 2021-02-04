@@ -154,8 +154,7 @@ public class AlumnoController {
 			alumno.setImagen("resources/images/alumnos/"  + name);
 			
 			fileService.saveFile(imagen,rootImage,name);
-			Utils.imageCrop("resources/images/alumnos/"  + name, fileService);
-
+			fileService.imageCrop("resources/images/alumnos/"  + name, fileService);
 			alumno.setEnabled(true);
 			//alumno.setEnabled(false);
 			//alumnoService.sendMail(alumno, javaMailSender);
@@ -233,7 +232,7 @@ public class AlumnoController {
 				alumno.get().setImagen("resources/images/alumnos/"  + name);
 				fileService.delete(Paths.get("src/main/resources/static/" + aux));
 				fileService.saveFile(imagen,rootImage,name);
-				Utils.imageCrop("resources/images/alumnos/"  + name, fileService);
+				fileService.imageCrop("resources/images/alumnos/"  + name, fileService);
 			}
 			BeanUtils.copyProperties(modifiedAlumno, alumno.get(), "id","imagen");
 			alumnoService.save(alumno.get());

@@ -1,11 +1,14 @@
 package org.springframework.samples.petclinic.service;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import javax.imageio.ImageIO;
 import javax.validation.ConstraintViolationException;
 
 import org.springframework.core.io.Resource;
@@ -49,6 +52,30 @@ public class FileService implements FileRepository{
 	  public void delete(Path path) throws IOException {
 	    FileSystemUtils.deleteRecursively(path);
 	  }
+	  
+	  public void imageCrop(String path,FileService fileService) throws IOException {
+			
+			File imageFile = new File("src/main/resources/static/" + path);
+			BufferedImage bi = ImageIO.read(imageFile);
+			int h = bi.getHeight();
+			int w = bi.getWidth();
+			  
+			  if(h>w) {
+				  int dif = h-w;
+				  bi = bi.getSubimage(0, dif/2, w, w);
+			  }
+				 
+			  else if(w>h) {
+				  int dif = w-h;
+				  bi = bi.getSubimage(dif/2, 0, h, h);
+				  
+			  }
+			  
+			  fileService.delete(Paths.get("src/main/resources/static/" + path));
+			  File pathFile = new File("src/main/resources/static/" + path);
+			  ImageIO.write(bi,"jpg", pathFile);	  
+			  
+		}
 	  
 	  
 }

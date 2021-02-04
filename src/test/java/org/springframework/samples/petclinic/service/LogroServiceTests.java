@@ -5,6 +5,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.validation.ConstraintViolationException;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -30,20 +33,20 @@ public class LogroServiceTests {
 	@Test
 	public void shouldFindById() {
 		Logro logro = logroService.findById(0).get();
-		assertThat(logro.getImagen()).isEqualTo("resources/images/logros/logroEnvio.jpg");
+		assertThat(logro.getImagen()).isEqualTo("resources/images/logros/logro_10e.png");
 		assertThat(logro.getNombre()).isEqualTo("10 envios realizados");
 	}
 	
-//	@Test
-//	public void shouldLogrosAlumno() {
-//		Alumno alumno = alumnoService.findById(0).get();
-//		Collection<Logro> logros = new ArrayList<Logro>();
-//		logros.add(logroService.obtenerLogroEnvio(alumno));
-//		logros.add(logroService.obtenerLogroAccepted(alumno));
-//		logros.add(logroService.obtenerLogroWrong(alumno));
-//		
-//		assertThat(logros.size()).isEqualTo(3);
-//	}
+	@Test
+	public void shouldNotFindById() {
+		Assertions.assertThrows(Exception.class, () -> {
+			Logro logro = logroService.findById(99).get();
+		});
+		
+		
+	}
+	
+
 	
 	
 }
