@@ -10,9 +10,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -40,7 +38,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/aclaraciones/new").hasAuthority("tutor")
 				.antMatchers("/administradores").hasAuthority("administrador")
 				.antMatchers("/alumnos/*").permitAll()
-				.antMatchers("/alumnos/{id}/edit").hasAuthority("alumno")
+				.antMatchers("/alumnos/{id}/edit").hasAnyAuthority("alumno","administrador")
 				.antMatchers("/articulos/").permitAll()
 				.antMatchers("/articulos/new").hasAuthority("tutor")
 				.antMatchers("/articulos/{id}/edit").hasAuthority("tutor")
@@ -63,13 +61,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/preguntatutor/answer").hasAuthority("tutor")
 				.antMatchers("/problemas/").permitAll()
 				.antMatchers("/problemas/new").hasAuthority("creador")
-				.antMatchers("/problemas/{id}/edit").hasAuthority("creador")
-				.antMatchers("/problemas/{id}/delete").hasAuthority("creador")
+				.antMatchers("/problemas/{id}/edit").hasAnyAuthority("creador")
+				.antMatchers("/problemas/{id}/delete").hasAnyAuthority("creador")
 				.antMatchers("/foro").permitAll()
 				.antMatchers("/foro/new").hasAuthority("alumno")
 				.antMatchers("/tutores/").permitAll()
-				.antMatchers("/tutores/new").hasAuthority("tutor")
-				.antMatchers("/tutores/{id}/edit").hasAuthority("tutor")
+				.antMatchers("/tutores/new").hasAuthority("administrador")
+				.antMatchers("/tutores/{id}/edit").hasAnyAuthority("tutor","administrador")
 				.antMatchers("/welcome").permitAll()
 				.antMatchers("/admin/**").hasAnyAuthority("admin")
 				.antMatchers("/owners/**").hasAnyAuthority("owner","admin")				
@@ -108,9 +106,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 	
 	@Bean
-	public PasswordEncoder passwordEncoder() {	    
-		PasswordEncoder encoder =  NoOpPasswordEncoder.getInstance();
-	    return encoder;
+	public BCryptPasswordEncoder  passwordEncoder() {	    
+		return new BCryptPasswordEncoder();
 	}
 	
 }

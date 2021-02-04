@@ -155,7 +155,7 @@ public class ProblemaControllerTests {
 	}
 	
 	
-	@WithMockUser(value = "davbrican@us.es", authorities= "creador")
+	@WithMockUser(username = "davbrican@us.es", authorities= "creador")
 	@Test
 	void testProblemaCreate() throws Exception {
 		byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };
@@ -199,13 +199,6 @@ public class ProblemaControllerTests {
 							)
 		.andExpect(status().isOk())
 		//.andExpect(model().attributeExists("problema"))
-		.andExpect(view().name("problemas/problemasList"));
-	}
-	
-	@WithMockUser(username = "davbrican@us.es", authorities="creador")
-	@Test
-	void testDeleteProblema() throws Exception {
-		mockMvc.perform(get("/problemas/6/delete")).andExpect(status().isOk())
 		.andExpect(view().name("problemas/problemasList"));
 	}
 

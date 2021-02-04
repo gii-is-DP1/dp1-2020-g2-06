@@ -17,7 +17,7 @@
     	</table>
     </div>
     <div style="text-align: center;" id="paginas">
-    	<img id="izquierda-tut" width="11px"></img> <span id="numero-tut"></span> <img id="derecha-tut" width="11px"></img>
+    	<img id="izquierda-tut" width="11px" style="cursor:pointer;"></img> <span id="numero-tut"></span> <img id="derecha-tut" width="11px" style="cursor:pointer;"></img>
     </div>
     
     <sec:authorize access="hasAuthority('administrador')">
@@ -27,7 +27,7 @@
     <script>
     
 function tutorespageable(page){
-    	
+		scroll(0,0);
     	var tutorespag = paginate(page,'/api/tutores/?page=');
     	var nexttutorespag = paginate(page+1,'/api/tutores/?page=');
     
@@ -53,7 +53,7 @@ function tutorespageable(page){
 	    $("#tutores").append("<tbody>");
 	    for(var i = 0; i < tutorespag.length; i++){
 	    	
-	    	$("#tutores").append("<tr> <td> <img src="+tutorespag[i]['imagen']+" ' width='150' style='border-radius:100%'/>"+" "+"<a href='/tutores/"+tutorespag[i]['id']+"'>"+ tutorespag[i]['nombre']+"</a> </td> </tr>");
+	    	$("#tutores").append("<tr> <td> <img src="+tutorespag[i]['imagen']+" ' width='80' style='border-radius:100%'/>"+" "+"<a href='/tutores/"+tutorespag[i]['id']+"'>"+" "+ tutorespag[i]['nombre']+"  "+tutorespag[i]['apellidos']+"</a> </td> </tr>");
 	    	
 	    }
 	    console.log(tutorespag);

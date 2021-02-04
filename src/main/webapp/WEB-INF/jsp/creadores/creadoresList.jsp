@@ -20,7 +20,7 @@
     </table>
     
     <div style="text-align: center;" id="paginas">
-    	<img id="izquierda-creador" width="11px"></img> <span id="numero-creador"></span> <img id="derecha-creador" width="11px"></img>
+    	<img id="izquierda-creador" width="11px" style="cursor:pointer;"></img> <span id="numero-creador"></span> <img id="derecha-creador" width="11px" style="cursor:pointer;"></img>
     </div>
     
     <script>
@@ -30,6 +30,8 @@
 	///// paginacion creadores 
 	
     function creadorespaginable(page){
+	   
+    	scroll(0,0);
     	var creadorespag = paginate(page,'/api/PageableCreadores?page=');
     	var nextcreadorpag = paginate(page+1,'/api/PageableCreadores?page=');
 
@@ -55,7 +57,7 @@
 	    $("#creadoress").append("<tbody>");
 	    for(var i = 0; i < creadorespag.length; i++){
 	    	
-	    	$("#creadoress").append("<tr> <td> <a href='/creadores/"+creadorespag[i]['id']+"'>"+ creadorespag[i]['nombre'] + "  " + creadorespag[i]['apellidos'] +"</a> </td> </tr>");
+	    	$("#creadoress").append("<tr> <td> <img src="+creadorespag[i]['imagen']+"  width='80px' style='border-radius:100%'/> <a href='/creadores/"+creadorespag[i]['id']+"'>"+ creadorespag[i]['nombre'] + "  " + creadorespag[i]['apellidos'] +"</a> </td> </tr>");
 
 	    }
 	   

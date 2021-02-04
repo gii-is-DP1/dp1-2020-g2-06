@@ -10,11 +10,11 @@ import org.springframework.samples.petclinic.service.TutorService;
 
 public class EmailValidator implements ConstraintValidator<EmailConstraint, String> {
 	
-	@Autowired
-	AlumnoService alumnoService;
-	
-	@Autowired
-	TutorService tutorService;
+//	@Autowired
+//	AlumnoService alumnoService;
+//	
+//	@Autowired
+//	TutorService tutorService;
 	
 	@Override
 	public void initialize(EmailConstraint contactNumber) {

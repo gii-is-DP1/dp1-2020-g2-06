@@ -1,17 +1,15 @@
 package org.springframework.samples.petclinic.web;
 
 import static org.mockito.BDDMockito.given;
-import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -19,37 +17,17 @@ import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.FilterType;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.SliceImpl;
-import org.springframework.data.domain.Sort;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
-import org.springframework.samples.petclinic.model.Articulo;
 import org.springframework.samples.petclinic.model.Noticia;
-import org.springframework.samples.petclinic.model.PreguntaTutor;
 import org.springframework.samples.petclinic.model.Tutor;
 import org.springframework.samples.petclinic.service.AclaracionService;
-import org.springframework.samples.petclinic.service.AdministradorService;
-import org.springframework.samples.petclinic.service.AlumnoService;
-import org.springframework.samples.petclinic.service.ArticuloService;
-import org.springframework.samples.petclinic.service.AuthService;
-import org.springframework.samples.petclinic.service.CreadorService;
 import org.springframework.samples.petclinic.service.FileService;
 import org.springframework.samples.petclinic.service.NoticiaService;
-import org.springframework.samples.petclinic.service.PreguntaTutorService;
 import org.springframework.samples.petclinic.service.ProblemaService;
 import org.springframework.samples.petclinic.service.TutorService;
-import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
@@ -137,7 +115,15 @@ public class NoticiaControllerTests {
 		
 	}
 	
-	@WithMockUser(value = "spring", authorities = "alumno")
+	@WithMockUser(value = "spring")
+	@Test
+	void testGetNoticia() throws Exception{
+		mockMvc.perform(get("/noticias/"+TEST_NOTICIA_ID)).andExpect(status().isOk())
+		.andExpect(model().attributeExists("noticia")).andExpect(view().name("noticias/noticiaDetails"));
+		
+	}
+	
+	@WithMockUser(value = "spring", authorities = {"alumno", "creador"})
 	@Test
 	void testInitCreateFormFailure() throws Exception{
 		mockMvc.perform(get("/noticias/new")).andExpect(status().is4xxClientError());
@@ -207,14 +193,13 @@ public class NoticiaControllerTests {
 		.andExpect(view().name("noticias/createOrUpdateNoticiaForm"));
 	}
 	
-//	@WithMockUser(value = "spring", authorities = "tutor")
-//	@Test
-//	void testProcessDeleteFormSuccess()throws Exception{
-//		mockMvc.perform(delete("/noticias/"+TEST_NOTICIA_ID+"/delete"))
-//		.andExpect(view().name("/noticias/noticiasList"));
-//	}
+	@WithMockUser(username = "davbrincan@alum.us.es", authorities = "tutor")
+	@Test
+	void testProcessDeleteFormSuccess()throws Exception{
+		mockMvc.perform(get("/noticias/11/delete")).andExpect(status().isOk()).andExpect(view().name("/noticias/noticiasList"));
+	}
 	
-	@WithMockUser(value = "spring")
+	@WithMockUser(value = "davbrincan@alum.us.es")
 	@Test
 	void testProcessDeleteFormFailure()throws Exception{
 		mockMvc.perform(delete("/noticias/"+TEST_NOTICIA_ID+"/delete")).andExpect(status().is4xxClientError());

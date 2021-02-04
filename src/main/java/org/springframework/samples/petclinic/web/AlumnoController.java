@@ -28,6 +28,7 @@ import org.springframework.samples.petclinic.service.PreguntaTutorService;
 import org.springframework.samples.petclinic.service.TutorService;
 import org.springframework.samples.petclinic.util.Utils;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -85,7 +86,7 @@ public class AlumnoController {
 		Optional<Alumno> alumno = alumnoService.findById(id);
 		Collection<Logro> logros = logroService.obtenerLogros(alumno.get());
 		if(alumno.isPresent()) {
-			if(alumno.get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+			if(alumno.get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName()) || Utils.authLoggedIn().equals("administrador")) {
 				model.addAttribute("me",true);
 			}else {
 				model.addAttribute("me",false);
@@ -138,7 +139,9 @@ public class AlumnoController {
 			String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
 			String name = Utils.diferenciador(extensionImagen[extensionImagen.length-1]);
 			alumno.setImagen("resources/images/alumnos/"  + name);
+			
 			fileService.saveFile(imagen,rootImage,name);
+			Utils.imageCrop("resources/images/alumnos/"  + name, fileService);
 			alumno.setEnabled(true);
 			alumnoService.save(alumno);
 			authService.saveAuthoritiesAlumno(alumno.getEmail(), "alumno");
@@ -151,7 +154,7 @@ public class AlumnoController {
 	public String editAlumno(@PathVariable("id") int id, ModelMap model, HttpServletRequest request) {
 		Optional<Alumno> alumno = alumnoService.findById(id);
 		if(alumno.isPresent()) {
-			if(!alumnoService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+			if(!alumnoService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName()) && !Utils.authLoggedIn().equals("administrador")) {
 				model.addAttribute("message","Solo puedes editar tu propio perfil");
 				log.warn("Un usuario esta intentando modificar un perfil que no es el suyo, con sesion "+request.getSession());
 				return listAlumnos(model);
@@ -169,7 +172,7 @@ public class AlumnoController {
 	@PostMapping("/{id}/edit")
 	public String editAlumno(@PathVariable("id") int id, @Valid Alumno modifiedAlumno, BindingResult binding, ModelMap model,@RequestParam("image") MultipartFile imagen, HttpServletRequest request) throws BeansException, IOException {
 		Optional<Alumno> alumno = alumnoService.findById(id);
-		if(!alumnoService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+		if(!alumnoService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName()) && !Utils.authLoggedIn().equals("administrador")) {
 			model.addAttribute("message","Solo puedes editar tu propio perfil");
 			log.warn("Un usuario esta intentado editar un perfil que no es el suyo, con sesion "+request.getSession());
 			return listAlumnos(model);
@@ -195,6 +198,7 @@ public class AlumnoController {
 				alumno.get().setImagen("resources/images/alumnos/"  + name);
 				fileService.delete(Paths.get("src/main/resources/static/" + aux));
 				fileService.saveFile(imagen,rootImage,name);
+				Utils.imageCrop("resources/images/alumnos/"  + name, fileService);
 			}
 			BeanUtils.copyProperties(modifiedAlumno, alumno.get(), "id","imagen");
 			alumnoService.save(alumno.get());

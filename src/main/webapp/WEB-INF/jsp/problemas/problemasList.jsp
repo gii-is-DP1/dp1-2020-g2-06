@@ -31,7 +31,7 @@
 			
 		</table>
 		<div style="text-align: center;" id="paginas">
-    	<img id="izquierda" width="11px"></img> <span id="numero"></span> <img id="derecha" width="11px"></img>
+    	<img id="izquierda" width="11px" style="cursor:pointer;"></img> <span id="numero"></span> <img id="derecha" width="11px" style="cursor:pointer;"></img>
     </div>
 	
 	<sec:authorize access="hasAuthority('creador')">
@@ -44,7 +44,7 @@
 	///// paginacion problemas no vigentes
 	
     function problemasnovigentespaginable(page){
-    	
+    	scroll(0,0);
     	var problemaspag = paginate(page,'/api/problemasnovigentes/?page=');
     	var nextproblemaspag = paginate(page+1,'/api/problemasnovigentes/?page=');
     	if(!(page==1 && nextproblemaspag.length==0))
