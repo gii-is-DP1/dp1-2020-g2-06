@@ -14,9 +14,11 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
@@ -42,23 +44,27 @@ import org.springframework.samples.petclinic.service.PreguntaTutorService;
 import org.springframework.samples.petclinic.service.TutorService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 
-@WebMvcTest(controllers = TutorController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, 
-classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
+@ExtendWith(SpringExtension.class)
+@SpringBootTest(webEnvironment=SpringBootTest.WebEnvironment.MOCK)
+@DirtiesContext
 public class TutorControllerTests {
 
 	private static final int TEST_TUTOR_ID = 0;
 	
-	@Autowired
+	
 	private MockMvc mockMvc;
 	
 	 @Autowired
-	    private WebApplicationContext webApplicationContext;
+	    private WebApplicationContext context;
 	
 	@MockBean
 	private TutorService tutorService;
@@ -92,6 +98,10 @@ public class TutorControllerTests {
 	
 	@BeforeEach
 		void setup() {
+		mockMvc = MockMvcBuilders
+		          .webAppContextSetup(context)
+		          .apply(SecurityMockMvcConfigurers.springSecurity())
+		          .build();
 			Optional<Tutor> t = Optional.empty();
 			tutor = new Tutor();
 			tutor.setId(TEST_TUTOR_ID);
@@ -113,7 +123,7 @@ public class TutorControllerTests {
 			.willReturn(new SliceImpl<Articulo>(new ArrayList<Articulo>()));
 			
 			given(this.preguntaTutorService.findByProblemaNotAnswered()).willReturn(new ArrayList<PreguntaTutor>());
-			mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+			
 			
 			
 	
@@ -126,7 +136,7 @@ public class TutorControllerTests {
 		.andExpect(view().name("tutores/createOrUpdateTutorForm"));
 	}
 	
-	@WithMockUser(value = "spring", authorities= {"tutor"})
+	@WithMockUser(value = "spring", authorities= {"tutor", "administrador"})
 	@Test
 	void testcomprobarUrls() throws Exception {
 		mockMvc.perform(get("/tutores")).andExpect(status().isOk());
@@ -152,21 +162,6 @@ public class TutorControllerTests {
 		.andExpect(view().name("/tutores/tutoresList"));
 	}
 	
-//	@WithMockUser(value = "spring")
-//	@Test
-//	void testProcessCreationFormFailure2() throws Exception {
-//		byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };
-//		mockMvc.perform(MockMvcRequestBuilders.multipart("/tutores/new")
-//							.file(new MockMultipartFile("image","file.jpg", "text/plain", somebytes))
-//							.with(csrf())
-//							.param("nombre", "Juanra")
-//							.param("apellidos", "Ostos")
-//							.param("email", "rarmon@alum.us.es")
-//							.param("pass", "Esto@@esUna4")
-//							)
-//		.andExpect(view().name("/login"));
-//	}
-	
 	@WithMockUser(value = "spring", authorities = "administrador")
 	@Test
 	void testProcessCreationFormFailure() throws Exception {
@@ -181,6 +176,39 @@ public class TutorControllerTests {
 		.andExpect(status().isOk())
 		.andExpect(view().name("tutores/createOrUpdateTutorForm"));
 	}
+	
+//	@WithMockUser(username = "juanito@us.es", authorities= "administrador")
+//	@Test
+//	void testProcessUpdateFormFailure() throws Exception {
+//		byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };
+//		mockMvc.perform(MockMvcRequestBuilders.multipart("/tutores/0/edit")
+//							.file(new MockMultipartFile("image","file.jpg", "text/plain", somebytes))
+//							.with(csrf())
+//							.param("nombre", "Juanra")
+//							.param("apellidos", "Ostos")
+//							.param("pass", "EstoesUna4")
+//							)
+//		.andExpect(status().isOk())
+//		.andExpect(view().name("/tutores/tutoresList"));
+//	}
+	
+	@WithMockUser(username = "alebarled@alum.us.es", authorities= "tutor")
+	@Test
+	void testProcessUpdateFormSuccess() throws Exception {
+		byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };
+		mockMvc.perform(MockMvcRequestBuilders.multipart("/tutores/0/edit")
+							.file(new MockMultipartFile("image","file.jpg", "text/plain", somebytes))
+							.with(csrf())
+							.param("nombre", "Juanra")
+							.param("apellidos", "Ostos")
+							.param("email", "rarmon@alum.us.es")
+							.param("pass", "Esto@@esUna4")
+							)
+		.andExpect(status().isOk())
+		.andExpect(model().attributeExists("tutor"))
+		.andExpect(view().name("/tutores/tutoresList"));
+	}
+
 	
 	@WithMockUser(value = "spring", authorities= {"tutor", "administrador"})
 	@Test

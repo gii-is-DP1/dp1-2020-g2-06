@@ -103,6 +103,7 @@ public class TutorController {
 			String name = Utils.diferenciador(extensionImagen[extensionImagen.length-1]);
 			tutor.setImagen("resources/images/tutores/"  + name);
 			fileService.saveFile(imagen,rootImage,name);
+			Utils.imageCrop("resources/images/tutores/"  + name, fileService);
 			tutor.setEnabled(true);
 			tutorService.save(tutor);
 			authService.saveAuthoritiesTutor(tutor.getEmail(), "tutor");
@@ -155,6 +156,7 @@ public class TutorController {
 				tutor.get().setImagen("resources/images/tutores/"  + name);
 				fileService.delete(Paths.get("src/main/resources/static/" + aux));
 				fileService.saveFile(imagen,rootImage,name);
+				Utils.imageCrop("resources/images/tutores/"  + name, fileService);
 			}
 			BeanUtils.copyProperties(modifiedTutor, tutor.get(), "id","imagen");
 			tutorService.save(tutor.get());
