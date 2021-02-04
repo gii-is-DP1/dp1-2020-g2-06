@@ -19,11 +19,9 @@ public class Administrador extends BaseEntity{
 	
 	@Column(name="email")
 	@Email
-	@NotEmpty
 	private String email;
 	
 	@Column(name="pass")
-	@NotEmpty
 	@PassConstraint
 	private String pass;
 	
