@@ -14,6 +14,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("/perfil")
 public class PerfilController {
@@ -41,6 +44,7 @@ public class PerfilController {
 	public String PerfilRedirection(ModelMap model) throws IOException {
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();
 		String tipoPerfil = Utils.authLoggedIn();
+		log.info(email+" - "+tipoPerfil);
 		if(tipoPerfil.equals("alumno")) {
 			return alumnoController.alumnoDetails(alumnoService.findByEmail(email).get().getId(), model);
 		}else if(tipoPerfil.equals("tutor")){

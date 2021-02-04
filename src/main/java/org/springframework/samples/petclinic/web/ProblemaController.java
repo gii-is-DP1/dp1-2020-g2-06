@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
@@ -33,6 +34,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("/problemas")
 public class ProblemaController {
@@ -93,9 +97,10 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 	}
 	
 	@GetMapping(value = "/new")
-	public String initCreationForm(ModelMap model) {
+	public String initCreationForm(ModelMap model, HttpServletRequest request) {
 		if(!Utils.authLoggedIn().equals("creador")) {
 			model.addAttribute("message","Para crear un problema debes estar registrado como creador");
+			log.warn("Un usuario ha intentando crear un problema sin los permisos necesarios, con sesion: "+request.getSession());
 			return listProblemas(model);
 		}
 		Problema problema = new Problema();
@@ -135,11 +140,12 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 	}
 	
 	@GetMapping("/{id}/edit")
-	public String editProblema(@PathVariable("id") int id, ModelMap model) {
+	public String editProblema(@PathVariable("id") int id, ModelMap model, HttpServletRequest request) {
 		Optional<Problema> problema = problemaService.findById(id);
 		if(problema.isPresent()) {
 			if(!problema.get().getCreador().getId().equals(creadorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get().getId())) {
 				model.addAttribute("message","No puedes editar problemas de otros creadores");
+				log.warn("Un usuario ha intentando editar un problema sin los permisos necesarios, con sesion: "+request.getSession());
 				return listProblemas(model);
 			}
 			model.addAttribute("problema", problema.get());
@@ -153,12 +159,13 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 	}
 	
 	@PostMapping("/{id}/edit")
-	public String editProblemas(@PathVariable("id") int id, @Valid Problema modifiedProblema, BindingResult binding, ModelMap model,@RequestParam("zipo") MultipartFile zip,@RequestParam("image") MultipartFile imagen) throws IOException {
+	public String editProblemas(@PathVariable("id") int id, @Valid Problema modifiedProblema, BindingResult binding, HttpServletRequest request, ModelMap model,@RequestParam("zipo") MultipartFile zip,@RequestParam("image") MultipartFile imagen) throws IOException {
 			Optional<Problema> problema = problemaService.findById(id);
-//			if(!problema.get().getCreador().equals(creadorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get())) {
-//				model.addAttribute("message","No puedes editar problemas de otros creadores");
-//				return listProblemas(model);
-//			}
+			if(!problema.get().getCreador().equals(creadorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get())) {
+				model.addAttribute("message","No puedes editar problemas de otros creadores");
+				log.warn("Un usuario ha intentando editar un problema sin los permisos necesarios, con sesion: "+request.getSession());
+				return listProblemas(model);
+			}
 			if(binding.hasErrors() || zip.getBytes().length/(1024*1024)>20 || imagen.getBytes().length/(1024*1024)>10) {
 				model.clear();
 				model.addAttribute("problema", problema.get());
@@ -186,10 +193,11 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 	}
 	
 	@GetMapping("/{id}/delete")
-	public String deleteProblemas(@PathVariable("id") int id, ModelMap model) {
+	public String deleteProblemas(@PathVariable("id") int id, ModelMap model, HttpServletRequest request) {
 		Optional<Problema> problema = problemaService.findById(id);
 		if(!problema.get().getCreador().getId().equals(creadorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get().getId())) {
 			model.addAttribute("message","No puedes eliminar problemas de otros creadores");
+			log.warn("Un usuario ha intentando eliminar un problema sin los permisos necesarios, con sesion: "+request.getSession());
 			return listProblemas(model);
 		}
 		if(problema.isPresent()) {
