@@ -24,27 +24,25 @@ public class CustomErrorController implements ErrorController {
 	@GetMapping()
 	public String handleError(HttpServletRequest request, Exception ex) {
 		Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-		System.out.println(request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE));
+		
 		if (status != null) {
 			int statusCode = Integer.parseInt(status.toString());
 
-			if (statusCode == HttpStatus.NOT_FOUND.value()) {
-				request.setAttribute("error_mensaje", "La URl que esta tratando de buscar no existe o no se encuentra");
-			}
-			else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
-				request.setAttribute("error_mensaje", "Parece que tenemos problema. Inténtelo de nuevo más tarde");
-			}
-			else if (statusCode == HttpStatus.FORBIDDEN.value()) {
-				log.warn("Un usuario ha intentado acceder a informacion, a la cual no le esta permitida, con sesion: "+request.getSession());
-				request.setAttribute("error_mensaje", "Parece que no tiene permisos para realizar dicha acción");
-			}
-			else if (statusCode == HttpStatus.BAD_REQUEST.value()) {
-				log.warn("Un usuario ha introducido un dato incorrecto, con sesion: "+request.getSession());
-				request.setAttribute("error_mensaje", "El párametro que ha introducido no es válido o tiene un formato incorrecto");	
+			if (statusCode == HttpStatus.BAD_REQUEST.value()) {
+				request.setAttribute("error_mensaje", "La petición no se ha formulado correctamente.");	
+			} else if (statusCode == HttpStatus.FORBIDDEN.value()) {
+				request.setAttribute("error_mensaje", "Lo sentimos. No tiene permisos para realizar la acción");
+			} else if (statusCode == HttpStatus.NOT_FOUND.value()) {
+				request.setAttribute("error_mensaje", "Lo sentimos. El sitio al que quiere acceder no existe");
+			} else if (statusCode == HttpStatus.METHOD_NOT_ALLOWED.value()) {
+				request.setAttribute("error_mensaje", "El método no está permitido");	
+			} else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
+				request.setAttribute("error_mensaje", "Tenemos problemas internos. Intentelo de nuevo más tarde!");
+
 			}
 			return "exception";
 		}
-		request.setAttribute("error_mensaje", "¡Vaya! Ha ocurrido un error...");
+		request.setAttribute("error_mensaje", "¡Ups! Parece que algo ha ido mal...");
 		return "exception";
 	}
 	
