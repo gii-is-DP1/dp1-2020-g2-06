@@ -116,7 +116,7 @@ public class TutorController {
 	public String editTutor(@PathVariable("id") int id, ModelMap model) {
 		Optional<Tutor> tutor = tutorService.findById(id);
 		if(tutor.isPresent()) {
-			if(!tutorService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+			if(!tutorService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName()) && !Utils.authLoggedIn().equals("administrador")) {
 				model.addAttribute("message","Solo puedes editar tu propio perfil");
 				return listTutores(model);
 			}
@@ -132,7 +132,7 @@ public class TutorController {
 	public String editTutor(@PathVariable("id") int id, @Valid Tutor modifiedTutor, BindingResult binding, ModelMap model,@RequestParam("image") MultipartFile imagen) throws BeansException, IOException {
 		Optional<Tutor> tutor = tutorService.findById(id);
 		boolean emailExistente = Utils.CorreoExistente(modifiedTutor.getEmail(),alumnoService,tutorService,creadorService,administradorService);
-		if(!tutorService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+		if(!tutorService.findById(id).get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName()) && !Utils.authLoggedIn().equals("administrador")) {
 			model.addAttribute("message","Solo puedes editar tu propio perfil");
 			return listTutores(model);
 		}
@@ -166,7 +166,7 @@ public class TutorController {
 	@GetMapping("/{id}")
 	public String tutorDetails(@PathVariable("id") int id, ModelMap model) {
 		Optional<Tutor> tutor = tutorService.findById(id);
-		if(tutor.get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+		if(tutor.get().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName()) || Utils.authLoggedIn().equals("administrador")) {
 			model.addAttribute("me",true);
 		}else {
 			model.addAttribute("me",false);
