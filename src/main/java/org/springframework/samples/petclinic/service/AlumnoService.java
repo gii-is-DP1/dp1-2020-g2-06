@@ -115,4 +115,8 @@ public class AlumnoService {
 	public Slice<Alumno> findAllPage(Pageable pageable){
 		return alumnoRepository.findAllPageable(pageable);
 	}
+
+	public Optional<Alumno> findByToken(String confirmation_token) {
+		return alumnoRepository.findByToken(confirmation_token);
+	}
 }

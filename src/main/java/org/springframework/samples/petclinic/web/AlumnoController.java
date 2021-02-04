@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import org.h2.engine.Session;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.MimeMailMessage;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Logro;
 import org.springframework.samples.petclinic.model.Problema;
@@ -143,9 +145,41 @@ public class AlumnoController {
 			fileService.saveFile(imagen,rootImage,name);
 			Utils.imageCrop("resources/images/alumnos/"  + name, fileService);
 			alumno.setEnabled(true);
+			alumno.setVerified(false);
+			
+			//Envio de correo
+			String remitente = "information.codeus@gmail.com";
+			String destinatario = alumno.getEmail();
+			
+			String clave = "CodeUs2001DP1";
+			
+			Properties props = new Properties();
+			props.put("mail.smtp.host", "smtp.gmail.com");
+			props.put("mail.smtp.port", "587");
+			props.put("mail.smtp.auth", "true");
+			props.put("mail.smtp.starttls.enable", "true");
+			props.put("mail.smtp.port", "587");
+			props.put("mail.smtp.user", remitente);
+			props.put("mail.smtp.clave", clave);
+			
+			
 			alumnoService.save(alumno);
 			authService.saveAuthoritiesAlumno(alumno.getEmail(), "alumno");
 			
+			return "redirect:/alumnos/";
+		}
+	}
+
+	@GetMapping(value = "/confirmation/{token}")
+	public String processConfirmationForm(@PathVariable("token") String token, @Valid Alumno alumno, BindingResult result, ModelMap model, HttpServletRequest request) throws IOException {
+		if (result.hasErrors()) {
+			model.clear();
+			model.addAttribute("message", result.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList()));
+			return "redirect:/alumnos";
+		}
+		else {
+			Optional<Alumno> al = alumnoService.findByToken(token);
+			al.get().setVerified(true);
 			return "redirect:/alumnos/"+alumno.getId();
 		}
 	}

@@ -55,4 +55,10 @@ public class Alumno extends BaseEntity{
 	@NonNull
 	private Boolean compartir;
 	
+	@NonNull 
+	private Boolean verified;
+	
+	@NonNull
+	private String confirmation_token;
+	
 }
