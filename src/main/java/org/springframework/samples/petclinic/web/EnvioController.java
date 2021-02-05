@@ -83,7 +83,7 @@ public class EnvioController {
 			return problemaController.problemaDetails(problema, model);  ///redirect al problema
 		}
 		else if(problem.getSeasonYear().compareTo(Utils.getActualYearofSeason())>0 || (problem.getSeasonYear().compareTo(Utils.getActualYearofSeason())==0 && problem.getSeason().getId().compareTo(Utils.getActualSeason().getId())>0)) {
-			model.addAttribute("message", "No puedes realizar un envio de este problema");
+			model.addAttribute("message", "No puedes realizar el envio de este problema");
 			log.warn("Un usuario esta intentado realizar un envio de un problema no en vigencia aun con email "+SecurityContextHolder.getContext().getAuthentication().getName());
 			return problemaController.listProblemas(model);
 		}
