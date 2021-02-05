@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Aclaracion;
 import org.springframework.samples.petclinic.model.Comentario;
 import org.springframework.samples.petclinic.model.Envio;
+import org.springframework.samples.petclinic.model.Problema;
 import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.EnvioService;
 import org.springframework.samples.petclinic.service.FileService;
@@ -74,11 +75,17 @@ public class EnvioController {
 	}
 	
 	@PostMapping("/send/{problema}")
-	public String envioSend(@PathVariable("problema") int problema, HttpServletRequest request, @RequestParam("archivo") MultipartFile archivo, ModelMap model) throws IOException, InterruptedException {
+	public String envioSend(@PathVariable("problema") int problema, @RequestParam("archivo") MultipartFile archivo, ModelMap model) throws IOException, InterruptedException {
+		Problema problem = problemaService.findById(problema).get();
 		if(!Utils.authLoggedIn().equals("alumno")) {
 			model.addAttribute("message","Sólo los alumnos pueden realizar envíos");
-			log.warn("Un usuario esta intentando realizar un envio sin estar registrado, con sesion "+request.getSession());
+			log.warn("Un usuario esta intentando realizar un envio sin estar registrado, con email "+SecurityContextHolder.getContext().getAuthentication().getName());
 			return problemaController.problemaDetails(problema, model);  ///redirect al problema
+		}
+		else if(problem.getSeasonYear().compareTo(Utils.getActualYearofSeason())>0 || (problem.getSeasonYear().compareTo(Utils.getActualYearofSeason())==0 && problem.getSeason().getId().compareTo(Utils.getActualSeason().getId())>0)) {
+			model.addAttribute("message", "No puedes realizar el envio de este problema");
+			log.warn("Un usuario esta intentado realizar un envio de un problema no en vigencia aun con email "+SecurityContextHolder.getContext().getAuthentication().getName());
+			return problemaController.listProblemas(model);
 		}
 		else if(archivo.getBytes().length/(1024*1024)>10){
 			model.addAttribute("message","Archivo demasiado grande");
@@ -102,7 +109,7 @@ public class EnvioController {
 			}
 			else {
 				model.addAttribute("message","Tipo de archivo incorrecto");
-				log.info("Un usuario ha intentado subir un archivo que no es un .java o .c, con sesion "+request.getSession());
+				log.info("Un usuario ha intentado subir un archivo que no es un .java o .c, con email "+SecurityContextHolder.getContext().getAuthentication().getName());
 				return problemaController.problemaDetails(problema, model); //redirect al problema
 			}
 			String email = SecurityContextHolder.getContext().getAuthentication().getName();
