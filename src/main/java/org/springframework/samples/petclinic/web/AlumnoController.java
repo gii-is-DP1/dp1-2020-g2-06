@@ -11,6 +11,8 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -129,7 +131,7 @@ public class AlumnoController {
 
 	
 	@PostMapping(value = "/new")
-	public String processCreationForm(@Valid Alumno alumno,BindingResult result,ModelMap model,@RequestParam("image") MultipartFile imagen, HttpServletRequest request) throws IOException {
+	public String processCreationForm(@Valid Alumno alumno,BindingResult result,ModelMap model,@RequestParam("image") MultipartFile imagen, HttpServletRequest request) throws IOException, AddressException, MessagingException {
 		boolean emailExistente = Utils.CorreoExistente(alumno.getEmail(),alumnoService,tutorService,creadorService,administradorService);
 		if(emailExistente) {
 			model.clear();
@@ -154,11 +156,13 @@ public class AlumnoController {
 			alumno.setImagen("resources/images/alumnos/"  + name);
 			
 			fileService.saveFile(imagen,rootImage,name);
+
 			Utils.imageCrop("resources/images/alumnos/"  + name, fileService);
 
-			alumno.setEnabled(true);
-			//alumno.setEnabled(false);
-			//alumnoService.sendMail(alumno, javaMailSender);
+			//alumno.setEnabled(true);
+			alumno.setEnabled(false);
+			alumnoService.sendMail(alumno, javaMailSender);
+
 			
 			alumnoService.save(alumno);
 			authService.saveAuthoritiesAlumno(alumno.getEmail(), "alumno");
@@ -233,7 +237,7 @@ public class AlumnoController {
 				alumno.get().setImagen("resources/images/alumnos/"  + name);
 				fileService.delete(Paths.get("src/main/resources/static/" + aux));
 				fileService.saveFile(imagen,rootImage,name);
-				Utils.imageCrop("resources/images/alumnos/"  + name, fileService);
+				fileService.imageCrop("resources/images/alumnos/"  + name, fileService);
 			}
 			BeanUtils.copyProperties(modifiedAlumno, alumno.get(), "id","imagen");
 			alumnoService.save(alumno.get());

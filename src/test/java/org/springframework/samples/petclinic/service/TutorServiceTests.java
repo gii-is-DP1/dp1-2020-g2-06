@@ -8,6 +8,9 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.validation.ConstraintViolationException;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -43,7 +46,14 @@ class TutorServiceTests {
 		assertThat(tutor.getApellidos()).isEqualTo("Barranco Ledesma");
 		assertThat(tutor.getEmail()).isEqualTo("alebarled@alum.us.es");
 		assertThat(tutor.getImagen()).isEqualTo("resources/images/tutores/20201223174110190000000.jpg");
-		assertThat(tutor.getPass()).isEqualTo("r4rm0nAAAaf1sf@");
+		assertThat(tutor.getPass()).isEqualTo("$2a$10$vjhltx6E7lkeOjw4IgXGU.OKnzXoqeUxAsIR3RxYE8CEg1bD.sAMq");
+	}
+	
+	@Test
+	public void shouldNotFindTutorById() {
+		Assertions.assertThrows(Exception.class, () ->{
+			Tutor tutor = this.tutorService.findById(99).get();
+		});
 	}
 	
 	@Test
@@ -63,6 +73,18 @@ class TutorServiceTests {
 		assertThat(tutores.size()).isEqualTo(found + 1);
 	}
 	
+	@Test
+	public void shouldNotInsertTutor() {
+		Tutor tutor = new Tutor();
+		tutor.setEmail("pepe@hotmail.es");
+		tutor.setNombre("Pepe");
+		tutor.setApellidos("Alvarez Toledo");
+		tutor.setPass("Cuarentena12@@3");
+        
+		Assertions.assertThrows(ConstraintViolationException.class, () -> {
+			this.tutorService.save(tutor);
+		});
+	}
 	
 	
 	@Test
@@ -79,13 +101,26 @@ class TutorServiceTests {
 		assertNotEquals(antiguoNombre, tutor.getNombre(), "Este nombre no coincide con el nombre actual del tutor");
 	}
 	
+	void shouldNotUpdateTutor() {
+		Tutor tutor = this.tutorService.findById(1).get();
+		tutor.setEmail("pepe@gmail.com");
+		
+		Assertions.assertThrows(ConstraintViolationException.class, () -> {
+			this.tutorService.save(tutor);
+		});
+		
+	}
+	
 	
 	@Test
 	void shoulInsertNoticia() {
 		Tutor tutor = this.tutorService.findById(0).get();
 		Integer numNoticiasAntiguos = noticiaService.findNoticiasByTutor(tutor.getId()).size();
+		Set<Tutor> autores = new HashSet<Tutor>();
+		autores.add(tutor);
 		
 		Noticia noticiaNueva = new Noticia();
+		noticiaNueva.setAutores(autores);
 		noticiaNueva.setAutor(tutor);
 		noticiaNueva.setFechaPublicacion(LocalDate.now());
 		noticiaNueva.setImagen("https://eina.unizar.es/sites/eina.unizar.es/files/concurso_adabyron.jpg");
@@ -98,6 +133,7 @@ class TutorServiceTests {
 		assertThat(numNoticiasNuevo).isEqualTo(numNoticiasAntiguos+1);
 		assertNotEquals(numNoticiasAntiguos, numNoticiasNuevo, "El número de noticias asociado a este tutor no es correcto");
 	}
+	
 	
 	@Test
 	void shoulInsertArticulo() {

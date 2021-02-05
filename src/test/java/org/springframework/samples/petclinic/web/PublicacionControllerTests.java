@@ -1,11 +1,13 @@
 package org.springframework.samples.petclinic.web;
 
+import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import javax.swing.text.View;
 
@@ -19,10 +21,13 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Publicacion;
+import org.springframework.samples.petclinic.model.Tutor;
 import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.ProblemaService;
 import org.springframework.samples.petclinic.service.PublicacionService;
+import org.springframework.samples.petclinic.service.TutorService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -62,13 +67,15 @@ public class PublicacionControllerTests {
 		publicacion.setTexto("Nueva publicación test");
 	}
 	
-	@WithMockUser(value = "spring",authorities={"tutor"})
+	@WithMockUser(username="davbrican@us.es",authorities="alumno")
     @Test
     void testProcessCreationFormSuccess() throws Exception {
-		mockMvc.perform(post("/foro")
+		given(alumnoService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName())).willReturn(Optional.of(alumno));
+		mockMvc.perform(post("/foro/new")
 						.with(csrf())
 						.param("texto", "Bedilia es la mejor profe"))
 			.andExpect(status().isOk());
 	}
+	
 	
 }

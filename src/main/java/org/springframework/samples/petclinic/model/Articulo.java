@@ -37,7 +37,7 @@ public class Articulo extends NamedEntity{
 	private String imagen;
 	
 	@Column(length=5600)
-	@NotEmpty(message= "Debe introducir un texto")
+	@NotEmpty(message= "El campo 'Texto' no puede estar vacío")
 	private String texto;
 
 	

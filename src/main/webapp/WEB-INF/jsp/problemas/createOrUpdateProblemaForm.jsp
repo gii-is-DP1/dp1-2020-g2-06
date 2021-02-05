@@ -16,10 +16,10 @@
             <petclinic:inputField label="Descripción" name="descripcion"/>
             <petclinic:inputField label="Dificultad" name="dificultad"/>
             <petclinic:inputField label="Puntuacion" name="puntuacion"/>
-            <petclinic:inputField label="Casos_prueba" name="casos_prueba"/>
-            <petclinic:inputField label="Salida_esperada" name="salida_esperada"/>
+            <petclinic:inputField label="Casos prueba" name="casos_prueba"/>
+            <petclinic:inputField label="Salida esperada" name="salida_esperada"/>
             <petclinic:inputField label="Season" name="season"/>
-            <petclinic:inputField label="Season_year" name="seasonYear"/>
+            <petclinic:inputField label="Season year" name="seasonYear"/>
             <table>
             <form:form enctype="multipart/form-data">
              <tr><td>Image to upload:</td><td><input type="file" name="image" /></td></tr>  
