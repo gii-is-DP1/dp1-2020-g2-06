@@ -151,7 +151,7 @@ public class ArticuloControllerTests {
 	void testProcessCreationFormSuccess()throws Exception{
 		byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };
 		mockMvc.perform(MockMvcRequestBuilders.multipart("/articulos/new")
-							.file(new MockMultipartFile("image","file.jpg", "text/plain", somebytes))
+							.file(new MockMultipartFile("image","file.jpg", "image/jpeg", somebytes))
 							.with(csrf())
 							.param("autores", "3")
 							.param("autores", "4")

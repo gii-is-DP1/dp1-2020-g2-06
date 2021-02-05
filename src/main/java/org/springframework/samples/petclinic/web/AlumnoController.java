@@ -1,27 +1,22 @@
 package org.springframework.samples.petclinic.web;
 
 import java.io.IOException;
-import java.net.Authenticator;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.Properties;
 import java.util.stream.Collectors;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.h2.engine.Session;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMailMessage;
-import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Logro;
 import org.springframework.samples.petclinic.model.Problema;
@@ -35,7 +30,6 @@ import org.springframework.samples.petclinic.service.PreguntaTutorService;
 import org.springframework.samples.petclinic.service.TutorService;
 import org.springframework.samples.petclinic.util.Utils;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -43,10 +37,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.condition.RequestMethodsRequestCondition;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -129,7 +121,7 @@ public class AlumnoController {
 
 	
 	@PostMapping(value = "/new")
-	public String processCreationForm(@Valid Alumno alumno,BindingResult result,ModelMap model,@RequestParam("image") MultipartFile imagen, HttpServletRequest request) throws IOException {
+	public String processCreationForm(@Valid Alumno alumno,BindingResult result,ModelMap model,@RequestParam("image") MultipartFile imagen, HttpServletRequest request) throws IOException, AddressException, MessagingException {
 		boolean emailExistente = Utils.CorreoExistente(alumno.getEmail(),alumnoService,tutorService,creadorService,administradorService);
 		if(emailExistente) {
 			model.clear();
@@ -154,10 +146,13 @@ public class AlumnoController {
 			alumno.setImagen("resources/images/alumnos/"  + name);
 			
 			fileService.saveFile(imagen,rootImage,name);
-			fileService.imageCrop("resources/images/alumnos/"  + name, fileService);
-			alumno.setEnabled(true);
-			//alumno.setEnabled(false);
-			//alumnoService.sendMail(alumno, javaMailSender);
+
+			Utils.imageCrop("resources/images/alumnos/"  + name, fileService);
+
+			//alumno.setEnabled(true);
+			alumno.setEnabled(false);
+			alumnoService.sendMail(alumno, javaMailSender);
+
 			
 			alumnoService.save(alumno);
 			authService.saveAuthoritiesAlumno(alumno.getEmail(), "alumno");

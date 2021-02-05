@@ -63,12 +63,17 @@ public class AlumnoServiceTests {
 		@Test
 		public void shouldNotSaveAlumno() {
 			Alumno alumno = new Alumno();
+			try {
 			alumno.setNombre("Carmen");
 			alumno.setApellidos("Barra");
-			alumno.setEmail("carbarmen@alum.us.es");
+			alumno.setEmail("carbarmen@hotmail.es");
 			alumno.setImagen("resources/images/alumnos/20201223154714879157200.jpg");
-			alumno.setPass("p");
+			alumno.setPass("pASS44@@");
 			alumnoService.save(alumno);
+			}
+			catch(Exception e) {
+				
+			}
 			Optional<Alumno> opt = alumnoService.findById(7);
 			
 			assertThat(opt.isPresent()).isEqualTo(false);
@@ -88,7 +93,8 @@ public class AlumnoServiceTests {
 			assertThat(problemas.size()).isEqualTo(1);
 		}
 		
-		public void problemasResueltosThisSeason(){
+		@Test
+		public void problemasResueltosInASeason(){
 			Collection<Problema> problemas = this.alumnoService.problemasResueltos(0);
 			Optional<Alumno> alumno = this.alumnoService.findById(0);
 			Set<Problema> st = new HashSet<Problema> ();
