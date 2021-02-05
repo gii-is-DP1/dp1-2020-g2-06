@@ -146,7 +146,9 @@ public class AlumnoService {
 		
 		Session session = Session.getDefaultInstance(prop);
 		
+
 		MimeMessage message = new MimeMessage(session);
+
 		
 		try {
 			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse(destinatario));
