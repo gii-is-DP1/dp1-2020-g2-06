@@ -147,17 +147,17 @@ public class AlumnoController {
 			
 			fileService.saveFile(imagen,rootImage,name);
 
-			Utils.imageCrop("resources/images/alumnos/"  + name, fileService);
+			fileService.imageCrop("resources/images/alumnos/"  + name, fileService);
 
 			//alumno.setEnabled(true);
 			alumno.setEnabled(false);
-			alumnoService.sendMail(alumno, javaMailSender);
+			//alumnoService.sendMail(alumno, javaMailSender);
 
 			
 			alumnoService.save(alumno);
 			authService.saveAuthoritiesAlumno(alumno.getEmail(), "alumno");
 			
-			return "redirect:/alumnos/";
+			return "redirect:/alumnos/"+alumno.getId();
 		}
 	}
 
