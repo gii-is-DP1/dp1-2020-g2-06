@@ -1,6 +1,8 @@
 package org.springframework.samples.petclinic.web;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -43,7 +45,8 @@ public class PreguntaTutorController {
 	@PostMapping(value = "/new")
 	public String processCreationForm(@Valid PreguntaTutor preguntaTutor, BindingResult result,ModelMap model,@RequestParam("idProblema") Integer idProblema) throws IOException {
 		if (result.hasErrors()) {
-			model.addAttribute("message",result.getFieldError().getField());
+			List<String> errores = result.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList());
+			model.addAttribute("message", errores);
 			return problemaController.problemaDetails(idProblema,model);
 		}
 		else {

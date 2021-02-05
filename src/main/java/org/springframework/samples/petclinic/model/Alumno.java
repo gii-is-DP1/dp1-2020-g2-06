@@ -27,14 +27,14 @@ import lombok.Setter;
 @Table(name = "alumnos")
 public class Alumno extends BaseEntity{
 	
-	@NotEmpty(message= "El campo nombre no puede estar vacío")
+	@NotEmpty(message= "El campo 'Nombre' no puede estar vacío")
 	private String nombre;
 	
-	@NotEmpty(message= "El campo apellidos no puede estar vacío")
+	@NotEmpty(message= "El campo 'Apellidos' no puede estar vacío")
 	private String apellidos;
 	
 	private Boolean enabled;
-	
+    
 	@EmailConstraint
 	@Column(unique=true)
 	private String email;
@@ -42,7 +42,6 @@ public class Alumno extends BaseEntity{
 	private String imagen;
 	
 	
-	@NotEmpty
 	@PassConstraint
 	@JsonIgnore
 	private String pass;
@@ -54,5 +53,8 @@ public class Alumno extends BaseEntity{
 	
 	@NonNull
 	private Boolean compartir;
+	
+	@NonNull
+	private String confirmation_token;
 	
 }

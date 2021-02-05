@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -123,7 +124,11 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 			if (result.hasErrors() || zip.getBytes().length/(1024*1024)>40 || imagen.getBytes().length/(1024*1024)>10 || imagen.isEmpty() || zip.isEmpty()) {
 				model.clear();
 				model.addAttribute("problema", problema);
-				model.addAttribute("message", result.getAllErrors());
+				List<String> errores = result.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList());
+				if(imagen.isEmpty() || imagen.getBytes().length/(1024*1024)>10) {
+					errores.add("La imagen debe tener un tamaño inferior a 10MB");
+				}
+				model.addAttribute("message", errores);
 				return VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM;
 			}
 			else {
@@ -177,7 +182,11 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 			if(binding.hasErrors() || zip.getBytes().length/(1024*1024)>20 || imagen.getBytes().length/(1024*1024)>10) {
 				model.clear();
 				model.addAttribute("problema", problema.get());
-				model.addAttribute("message",binding.getFieldError().getField());
+				List<String> errores = binding.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList());
+				if(imagen.isEmpty() || imagen.getBytes().length/(1024*1024)>10) {
+					errores.add("La imagen debe tener un tamaño inferior a 10MB");
+				}
+				model.addAttribute("message", errores);
 				return VIEWS_PROBLEMA_CREATE_OR_UPDATE_FORM;
 			}
 			else {

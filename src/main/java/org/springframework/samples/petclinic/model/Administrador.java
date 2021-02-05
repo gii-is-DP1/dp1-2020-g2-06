@@ -17,13 +17,12 @@ import lombok.Setter;
 @Entity
 @Table(name="administradores")
 public class Administrador extends BaseEntity{
-	
+
 	@EmailConstraint
 	@Column(unique=true)
 	private String email;
 	
 	@Column(name="pass")
-	@NotEmpty
 	@PassConstraint
 	private String pass;
 	
