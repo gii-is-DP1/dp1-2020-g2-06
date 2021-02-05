@@ -26,6 +26,7 @@ import org.springframework.samples.petclinic.domjudge.ProblemResponse;
 import org.springframework.samples.petclinic.model.Creador;
 import org.springframework.samples.petclinic.model.Problema;
 import org.springframework.samples.petclinic.model.Temporada;
+import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.CreadorService;
 import org.springframework.samples.petclinic.service.EnvioService;
 import org.springframework.samples.petclinic.service.FileService;
@@ -65,6 +66,8 @@ public class ProblemaControllerTests {
 	@MockBean
 	private CreadorService creadorService;
 	
+	@MockBean
+	private AlumnoService alumnoService;
 	
 	@BeforeEach
 	void setup() throws InterruptedException, IOException {
