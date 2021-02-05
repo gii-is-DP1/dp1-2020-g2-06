@@ -146,7 +146,6 @@ public class AlumnoService {
 		msg.setTo(destinatario);
 		msg.setText("Buenas " + alumno.getNombre() + ",\n" + "para poder acceder a codeUs, haz click en el siguiente enlace para verificar tu correo.\nhttp:localhost/alumnos/confirmation/" + token + " \n Gracias por unirte! Bienvenido!");
 		
-		javaMailSender.send(msg);
 		
 	}
 }
