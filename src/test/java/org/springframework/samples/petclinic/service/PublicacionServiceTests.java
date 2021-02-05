@@ -6,6 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
+import javax.validation.ConstraintViolationException;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -36,6 +39,13 @@ public class PublicacionServiceTests {
 	}
 	
 	@Test
+	public void shouldNotFindPublicacionById() {
+		Assertions.assertThrows(Exception.class, () -> {
+			Publicacion p = publicacionService.findById(99).get();
+		});
+	}
+	
+	@Test
 	public void shouldInsertPublicacion() {
 		Collection<Publicacion> puntuaciones = publicacionService.findAll();
 		Integer nOld = puntuaciones.size();
@@ -49,6 +59,19 @@ public class PublicacionServiceTests {
 		Integer nNew = publicacionService.findAll().size();
 		assertNotEquals(nOld, nNew);
 		assertThat(nNew).isEqualTo(nOld+1);
+	}
+	
+	@Test
+	public void shouldNotInsertPublicacion() {
+		Publicacion publicacion = new Publicacion();
+		publicacion.setAlumno(alumnoService.findById(0).get());
+		publicacion.setFecha(LocalDateTime.now());
+		publicacion.setTexto("");
+		
+		Assertions.assertThrows(ConstraintViolationException.class, ()-> {
+			publicacionService.save(publicacion);
+		});
+			
 	}
 	
 	@Test
@@ -77,5 +100,14 @@ public class PublicacionServiceTests {
 		assertNotEquals(nOld, publicaciones);
 		
 	}
+	
+	@Test
+	public void shouldNotDeletePublicacion() {
+		Assertions.assertThrows(Exception.class, ()-> {
+			publicacionService.delete(publicacionService.findById(99).get());
+		});
+			
+		
+	} 
 	
 }

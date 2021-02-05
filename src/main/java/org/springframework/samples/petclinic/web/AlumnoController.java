@@ -1,13 +1,18 @@
 package org.springframework.samples.petclinic.web;
 
 import java.io.IOException;
+import java.net.Authenticator;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -15,6 +20,10 @@ import org.h2.engine.Session;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMailMessage;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Logro;
 import org.springframework.samples.petclinic.model.Problema;
@@ -75,6 +84,8 @@ public class AlumnoController {
 	@Autowired
 	LogroService logroService;
 	
+	private JavaMailSender javaMailSender;
+	
 	@GetMapping("")
 	public String listAlumnos(ModelMap model) {
 		model.addAttribute("alumnos",alumnoService.findAll());
@@ -120,19 +131,23 @@ public class AlumnoController {
 
 	
 	@PostMapping(value = "/new")
-	public String processCreationForm(@Valid Alumno alumno,BindingResult result,ModelMap model,@RequestParam("image") MultipartFile imagen, HttpServletRequest request) throws IOException {
+	public String processCreationForm(@Valid Alumno alumno,BindingResult result,ModelMap model,@RequestParam("image") MultipartFile imagen, HttpServletRequest request) throws IOException, AddressException, MessagingException {
 		boolean emailExistente = Utils.CorreoExistente(alumno.getEmail(),alumnoService,tutorService,creadorService,administradorService);
 		if(emailExistente) {
 			model.clear();
 			model.addAttribute("alumno", alumno);
-			model.addAttribute("message", "Ya existe una cuenta con ese correo asociado");
+			model.addAttribute("alumno", alumno);
 			log.warn("Un alumno esta intentando crear una cuenta con un correo que ya existe "+request.getSession());
 			return VIEWS_ALUMNO_CREATE_OR_UPDATE_FORM;
 		}
 		if (result.hasErrors() || imagen.isEmpty() || imagen.getBytes().length/(1024*1024)>10 ) {
 			model.clear();
 			model.addAttribute("alumno", alumno);
-			model.addAttribute("message", result.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList()));
+			List<String> errores = result.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList());
+			if(imagen.isEmpty() || imagen.getBytes().length/(1024*1024)>10) {
+				errores.add("La imagen debe tener un tamaño inferior a 10MB");
+			}
+			model.addAttribute("message", errores);
 			return VIEWS_ALUMNO_CREATE_OR_UPDATE_FORM;
 		}
 		else {
@@ -141,11 +156,31 @@ public class AlumnoController {
 			alumno.setImagen("resources/images/alumnos/"  + name);
 			
 			fileService.saveFile(imagen,rootImage,name);
+
 			Utils.imageCrop("resources/images/alumnos/"  + name, fileService);
-			alumno.setEnabled(true);
+
+			//alumno.setEnabled(true);
+			alumno.setEnabled(false);
+			alumnoService.sendMail(alumno, javaMailSender);
+
+			
 			alumnoService.save(alumno);
 			authService.saveAuthoritiesAlumno(alumno.getEmail(), "alumno");
 			
+			return "redirect:/alumnos/";
+		}
+	}
+
+	@GetMapping(value = "/confirmation/{token}")
+	public String processConfirmationForm(@PathVariable("token") String token, @Valid Alumno alumno, BindingResult result, ModelMap model, HttpServletRequest request) throws IOException {
+		if (result.hasErrors()) {
+			model.clear();
+			model.addAttribute("message", result.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList()));
+			return "redirect:/alumnos";
+		}
+		else {
+			Optional<Alumno> al = alumnoService.findByToken(token);
+			al.get().setEnabled(true);
 			return "redirect:/alumnos/"+alumno.getId();
 		}
 	}
@@ -187,7 +222,11 @@ public class AlumnoController {
 		if(binding.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
 			model.clear();
 			model.addAttribute("alumno", alumno.get());
-			model.addAttribute("message",binding.getFieldError().getField());
+			List<String> errores = binding.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList());
+			if(imagen.isEmpty() || imagen.getBytes().length/(1024*1024)>10) {
+				errores.add("La imagen debe tener un tamaño inferior a 10MB");
+			}
+			model.addAttribute("message", errores);
 			return VIEWS_ALUMNO_CREATE_OR_UPDATE_FORM;
 		}
 		else {
@@ -198,7 +237,7 @@ public class AlumnoController {
 				alumno.get().setImagen("resources/images/alumnos/"  + name);
 				fileService.delete(Paths.get("src/main/resources/static/" + aux));
 				fileService.saveFile(imagen,rootImage,name);
-				Utils.imageCrop("resources/images/alumnos/"  + name, fileService);
+				fileService.imageCrop("resources/images/alumnos/"  + name, fileService);
 			}
 			BeanUtils.copyProperties(modifiedAlumno, alumno.get(), "id","imagen");
 			alumnoService.save(alumno.get());
