@@ -83,6 +83,11 @@ private final Path rootImage = Paths.get("src/main/resources/static/resources/im
 			if(problema.get().isVigente()) {
 				model.addAttribute("editarTrue",1);
 			}
+			if(problema.get().getSeasonYear().compareTo(Utils.getActualYearofSeason())>0 || (problema.get().getSeasonYear().compareTo(Utils.getActualYearofSeason())==0 && problema.get().getSeason().getId().compareTo(Utils.getActualSeason().getId())>0)) {
+				model.addAttribute("message", "No puedes visualizar este problema");
+				log.warn("Un usuario esta intentado realizar un envio de un problema, no en vigencia aun, con sesion ");
+				return listProblemas(model);
+			}
 			model.addAttribute("aclaracion", new Aclaracion());
 			model.addAttribute("problema", problema.get());
 			model.addAttribute("resoluciones",resoluciones);
