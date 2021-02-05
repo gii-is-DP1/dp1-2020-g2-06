@@ -131,7 +131,7 @@
 				
 				<tr>
 					<form:form modelAttribute="preguntaTutor" class="form-horizontal" id="add-problema-form" action="/preguntatutor/new" >
-						<petclinic:textArea label="Pregúntanos lo que quieras" name="pregunta" rows="6" />
+						<petclinic:textArea label="Preguntanos lo que quieras" name="pregunta" rows="6" />
 						<input type="hidden" name="idProblema" value="${problema.id}"/>
 						<button class="btn btn-default" type="submit">Enviar</button>
 					</form:form>

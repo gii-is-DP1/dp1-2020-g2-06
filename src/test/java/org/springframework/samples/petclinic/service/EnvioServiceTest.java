@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +29,10 @@ public class EnvioServiceTest {
 	
 	@Test
 	public void shouldFindAll() {
-		assertThat(envioService.findAll().size()).isEqualTo(19);
+		assertThat(envioService.findAll().size()).isEqualTo(20);
 	}
 	
+
 	@Test
 	public void shouldFindById() {
 		Envio e = envioService.findById(0).get();
@@ -38,21 +40,33 @@ public class EnvioServiceTest {
 		assertThat(e.getFecha().toString()).isEqualTo("2020-08-21T11:13:13.274");
 		assertThat(e.getCodigoPath()).isEqualTo("codes/prueba.java");
 		assertThat(e.getResolucion()).isEqualTo("AC");
-		assertThat(e.getAlumno().getId()).isEqualTo(0);
+		assertThat(e.getAlumno().getId()).isEqualTo(1);
 		assertThat(e.getProblema().getId()).isEqualTo(1);
-		assertThat(e.getSeason().getId()).isEqualTo(0);
+		assertThat(e.getSeason().getId()).isEqualTo(1);
 		assertThat(e.getSeasonYear()).isEqualTo(2020);
 	}
 	
 	@Test
+	public void shouldNotFindById() {
+		Optional <Envio> e = envioService.findById(envioService.findAll().size());
+		assertThat(e.isPresent()).isEqualTo(false);
+	}
+	
+	@Test
 	public void shouldFindAllByAlumno() {
-		assertThat(envioService.findAllByAlumno(0).size()).isEqualTo(8);
+		assertThat(envioService.findAllByAlumno(0).size()).isEqualTo(7);
+	}
+	
+	@Test
+	public void shouldNotFindAllByAlumno() {
+		int envios = envioService.findAllByAlumno(envioService.findAll().size()).size();
+		assertThat(envios).isEqualTo(0);
 	}
 	
 	@Test
 	public void shouldFindResolucionProblema() {
 		Map<String, Long> mapa = new HashMap<>();
-		mapa.put("AC",3L);
+		mapa.put("AC",4L);
 		mapa.put("TLE", 1L);
 		assertThat(envioService.resolucionProblema(0)).isEqualTo(mapa);
 	}
