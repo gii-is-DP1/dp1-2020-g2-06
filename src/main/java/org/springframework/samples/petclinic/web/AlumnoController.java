@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.stream.Collectors;
@@ -135,14 +136,18 @@ public class AlumnoController {
 		if(emailExistente) {
 			model.clear();
 			model.addAttribute("alumno", alumno);
-			model.addAttribute("message", "Ya existe una cuenta con ese correo asociado");
+			model.addAttribute("alumno", alumno);
 			log.warn("Un alumno esta intentando crear una cuenta con un correo que ya existe "+request.getSession());
 			return VIEWS_ALUMNO_CREATE_OR_UPDATE_FORM;
 		}
 		if (result.hasErrors() || imagen.isEmpty() || imagen.getBytes().length/(1024*1024)>10 ) {
 			model.clear();
 			model.addAttribute("alumno", alumno);
-			model.addAttribute("message", result.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList()));
+			List<String> errores = result.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList());
+			if(imagen.isEmpty() || imagen.getBytes().length/(1024*1024)>10) {
+				errores.add("La imagen debe tener un tamaño inferior a 10MB");
+			}
+			model.addAttribute("message", errores);
 			return VIEWS_ALUMNO_CREATE_OR_UPDATE_FORM;
 		}
 		else {
@@ -151,11 +156,13 @@ public class AlumnoController {
 			alumno.setImagen("resources/images/alumnos/"  + name);
 			
 			fileService.saveFile(imagen,rootImage,name);
+
 			Utils.imageCrop("resources/images/alumnos/"  + name, fileService);
 
 			//alumno.setEnabled(true);
 			alumno.setEnabled(false);
 			alumnoService.sendMail(alumno, javaMailSender);
+
 			
 			alumnoService.save(alumno);
 			authService.saveAuthoritiesAlumno(alumno.getEmail(), "alumno");
@@ -215,7 +222,11 @@ public class AlumnoController {
 		if(binding.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
 			model.clear();
 			model.addAttribute("alumno", alumno.get());
-			model.addAttribute("message",binding.getFieldError().getField());
+			List<String> errores = binding.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList());
+			if(imagen.isEmpty() || imagen.getBytes().length/(1024*1024)>10) {
+				errores.add("La imagen debe tener un tamaño inferior a 10MB");
+			}
+			model.addAttribute("message", errores);
 			return VIEWS_ALUMNO_CREATE_OR_UPDATE_FORM;
 		}
 		else {
@@ -226,7 +237,7 @@ public class AlumnoController {
 				alumno.get().setImagen("resources/images/alumnos/"  + name);
 				fileService.delete(Paths.get("src/main/resources/static/" + aux));
 				fileService.saveFile(imagen,rootImage,name);
-				Utils.imageCrop("resources/images/alumnos/"  + name, fileService);
+				fileService.imageCrop("resources/images/alumnos/"  + name, fileService);
 			}
 			BeanUtils.copyProperties(modifiedAlumno, alumno.get(), "id","imagen");
 			alumnoService.save(alumno.get());

@@ -28,7 +28,7 @@ public class Noticia extends NamedEntity{
 	
 	
 	@ManyToMany
-	@NotNull
+	@NotNull(message= "Debe seleccionar al menos un autor")
 	@NotEmpty
 	Set<Tutor> autores;
 	
@@ -41,7 +41,7 @@ public class Noticia extends NamedEntity{
 	private LocalDate fechaPublicacion;
 	
 	@Column(length=5600)
-	@NotEmpty
+	@NotEmpty(message= "El campo 'Texto' no puede estar vacío")
 	private String texto;
 	
 	private String imagen;
