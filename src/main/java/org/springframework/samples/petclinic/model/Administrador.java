@@ -6,6 +6,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
+import org.springframework.samples.constraint.EmailConstraint;
 import org.springframework.samples.constraint.PassConstraint;
 
 import lombok.Getter;
@@ -16,9 +17,9 @@ import lombok.Setter;
 @Entity
 @Table(name="administradores")
 public class Administrador extends BaseEntity{
-	
-	@Column(name="email")
-	@Email
+
+	@EmailConstraint
+	@Column(unique=true)
 	private String email;
 	
 	@Column(name="pass")
