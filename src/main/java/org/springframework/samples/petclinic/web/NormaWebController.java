@@ -51,18 +51,14 @@ public class NormaWebController {
 	}
 
 	@PostMapping(value = "/new")
-	public String processCreationForm(@Valid NormaWeb normaWeb,ModelMap model, BindingResult result, HttpServletRequest request) {
+	public String processCreationForm(@Valid NormaWeb normaWeb,BindingResult result,ModelMap model) {
 		if (result.hasErrors()) {
-			model.clear();
-			model.addAttribute("normaWeb", normaWeb);
 			List<String> errores = result.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList());
 			model.addAttribute("message", errores);
 			return VIEWS_NORMAWEB_CREATE_OR_UPDATE_FORM;
 		}
 		else {
-			//creating normaWeb
 			normaWebService.saveNormaWeb(normaWeb);
-			
 			return "redirect:/normasWeb/";
 		}
 	}
@@ -95,7 +91,6 @@ public class NormaWebController {
 			return listNormasWeb(model);
 		}
 		if(binding.hasErrors()) {
-			model.addAttribute("normaWeb", normaWeb.get());
 			List<String> errores = binding.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList());
 			model.addAttribute("message", errores);
 			return VIEWS_NORMAWEB_CREATE_OR_UPDATE_FORM;

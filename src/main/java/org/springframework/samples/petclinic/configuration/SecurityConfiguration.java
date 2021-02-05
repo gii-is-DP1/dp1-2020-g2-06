@@ -32,9 +32,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 				.antMatchers("/resources/**","/webjars/**","/h2-console/**").permitAll()
-				.antMatchers(HttpMethod.GET, "/","/oups").permitAll()
+				.antMatchers(HttpMethod.GET, "/","/error").permitAll()
 				.antMatchers("/users/new").permitAll()
-
 				.antMatchers("/aclaraciones/new").hasAuthority("tutor")
 				.antMatchers("/administradores").hasAuthority("administrador")
 				.antMatchers("/alumnos/*").permitAll()
@@ -68,11 +67,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/tutores/").permitAll()
 				.antMatchers("/tutores/new").hasAuthority("administrador")
 				.antMatchers("/tutores/{id}/edit").hasAnyAuthority("tutor","administrador")
+				.antMatchers("/api/**").permitAll()
+				.antMatchers("perfil").permitAll()
 				.antMatchers("/welcome").permitAll()
 				.antMatchers("/admin/**").hasAnyAuthority("admin")
 				.antMatchers("/owners/**").hasAnyAuthority("owner","admin")				
 				.antMatchers("/vets/**").authenticated()
-				.anyRequest().permitAll()
+				.antMatchers("/**").permitAll() //Configurar como denyAll
 				.and()
 				 	.formLogin()
 				 	/*.loginPage("/login")*/
