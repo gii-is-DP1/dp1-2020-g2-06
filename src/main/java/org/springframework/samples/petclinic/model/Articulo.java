@@ -26,18 +26,19 @@ public class Articulo extends NamedEntity{
 	
 	@ManyToMany
 	@NotNull
-	@NotEmpty
+	@NotEmpty(message= "Debe seleccionar al menos un autor")
 	Set<Tutor> autores;
 	
 	@Column(name = "fecha_publicacion")
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	@NotNull(message= "Debe indicar una fecha de publicación")
 	private LocalDate fechaPublicacion;
 	
 	@Column(name= "imagen_articulo")
 	private String imagen;
 	
 	@Column(length=5600)
-	@NotEmpty
+	@NotEmpty(message= "El campo 'Texto' no puede estar vacío")
 	private String texto;
 
 	

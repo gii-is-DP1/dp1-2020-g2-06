@@ -88,7 +88,11 @@ public class ArticuloController {
 			model.clear();
 			model.addAttribute("articulo", articulo);
 			model.addAttribute("autores", tutorService.findAll());
-			model.addAttribute("message",result.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList()));
+			List<String> errores = result.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList());
+			if(imagen.isEmpty() || imagen.getBytes().length/(1024*1024)>10) {
+				errores.add("La imagen debe tener un tamaño inferior a 10MB");
+			}
+			model.addAttribute("message", errores);
 			return "articulos/createOrUpdateArticuloForm";
 		} else {
 			String extensionImagen[] = imagen.getOriginalFilename().split("\\.");
@@ -132,7 +136,11 @@ public class ArticuloController {
 			model.clear();
 			model.addAttribute("articulo", articulo.get());
 			model.addAttribute("autores", tutorService.findAll());
-			model.addAttribute("message",binding.getFieldError().getField());
+			List<String> errores = binding.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList());
+			if(imagen.isEmpty() || imagen.getBytes().length/(1024*1024)>10) {
+				errores.add("La imagen debe tener un tamaño inferior a 10MB");
+			}
+			model.addAttribute("message", errores);
 			return "articulos/createOrUpdateArticuloForm";
 		}
 		else {

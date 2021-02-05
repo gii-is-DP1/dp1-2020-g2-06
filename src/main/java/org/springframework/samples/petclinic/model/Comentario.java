@@ -20,18 +20,16 @@ import lombok.Setter;
 @Table(name="comentarios")
 public class Comentario extends BaseEntity{	
 	
-	@NonNull
 	@ManyToOne
 	@JoinColumn(name="id_envio")
 	private Envio envio;
 	
-	@NonNull
 	@ManyToOne
 	@JoinColumn(name="id_alumno")
 	private Alumno alumno;
 
 	@Column(length=500)
-	@NotEmpty
+	@NotEmpty(message= "El campo 'Texto' no puede estar vacío")
 	private String texto;
 	
 

@@ -20,11 +20,11 @@ import lombok.Setter;
 public class Tutor extends BaseEntity{
 	
 	@Column(name = "nombre")
-	@NotEmpty(message= "El campo nombre no puede estar vacío")
+	@NotEmpty(message= "El campo 'Nombre' no puede estar vacío")
 	private String nombre;
 	
 	@Column(name = "apellidos")
-	@NotEmpty(message= "El campo apellidos no puede estar vacío")
+	@NotEmpty(message= "El campo 'Apellidos' no puede estar vacío")
 	private String apellidos;
 	
 	private Boolean enabled;
@@ -35,7 +35,6 @@ public class Tutor extends BaseEntity{
 	private String email;
 	
 	@Column(name = "pass")
-
 	@PassConstraint
 	@NotEmpty
 	@JsonIgnore
