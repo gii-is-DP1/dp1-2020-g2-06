@@ -155,8 +155,9 @@ public class AlumnoService {
 		
 		Session session = Session.getDefaultInstance(prop);
 		
-		MimeMessage message = new MimeMessage(session);
-		
+
+		//javaMailSender.send(msg);
+
 		try {
 			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse(destinatario));
 			message.setSubject("Correo de verificación codeUs");
