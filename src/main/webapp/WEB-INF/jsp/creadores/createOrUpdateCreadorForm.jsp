@@ -15,7 +15,12 @@
         	
     		<petclinic:inputField label="Nombre" name="nombre"/>
           	<petclinic:inputField label="Apellidos" name="apellidos"/>
-          	<petclinic:inputField label="Email" name="email"/>
+          	<c:if test="${creadores['new']}">
+          		<petclinic:inputField label="Email" name="email"/>
+          	</c:if>
+          	<c:if test="${not creadores['new']}">
+          	   <input type="hidden" name="email" value="${creador.email}"/>
+          	</c:if>
           	<petclinic:inputField label="Contraseña" name="pass" type="password"/>
           	<table>
             <form:form enctype="multipart/form-data">
