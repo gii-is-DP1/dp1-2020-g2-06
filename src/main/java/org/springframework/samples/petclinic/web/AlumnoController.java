@@ -82,10 +82,26 @@ public class AlumnoController {
 		return "/alumnos/alumnosList";
 	}
 	
-	@PostMapping("/verificationView")
-	public String verificationView(ModelMap model) {
-		model.addAttribute("Confirmacion", new Alumno());
+	@GetMapping("/verificationView")
+	public String verificationView() {
 		return "/alumnos/verificationView";
+	}
+
+	@GetMapping("/confirmation")
+	public String confirmationView(@Valid Alumno alumno,BindingResult result,ModelMap model, HttpServletRequest request) {
+		if (result.hasErrors() ) {
+			model.clear();
+			model.addAttribute("alumno", alumno);
+			List<String> errores = result.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList());
+			model.addAttribute("message", errores);
+			return "/alumnos/verificationView";
+		}
+		else {
+			alumno.setEnabled(true);
+			alumnoService.save(alumno);
+			
+			return "/alumnos/verificationView";
+		}
 	}
 	
 	@GetMapping("/{id}")

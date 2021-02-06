@@ -166,7 +166,7 @@ public class AlumnoService {
 		  Message.RecipientType.TO, InternetAddress.parse(destinatario));
 		message.setSubject("Correo de verificación codeUs");
  
-		String msg = "Buenas " + alumno.getNombre() + ",<br>" + "para poder acceder a codeUs, haz click en el siguiente enlace para verificar tu correo, e introduce tu código: <br>" + token +".<br><a href='http://localhost/alumnos/verificationView'> http://localhost/alumnos/verificationView </a> <br>Gracias por unirte! Bienvenido!";
+		String msg = "Buenas " + alumno.getNombre() + ",<br>" + "para poder acceder a codeUs, haz click en el siguiente enlace para verificar tu correo, e introduce tu código: <br>" + token +"<br><a href='http://localhost/alumnos/verificationView'> http://localhost/alumnos/verificationView </a> <br>Gracias por unirte! Bienvenido!";
 
 		MimeBodyPart mimeBodyPart = new MimeBodyPart();
 		mimeBodyPart.setContent(msg, "text/html");
