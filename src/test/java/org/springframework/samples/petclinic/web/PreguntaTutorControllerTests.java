@@ -111,7 +111,7 @@ public class PreguntaTutorControllerTests {
 	given(tutorController.tutorDetails(Mockito.anyInt(), Mockito.any(ModelMap.class))).willReturn("/tutores/tutorDetails");
 	}
 	
-	@WithMockUser(value="spring", authorities = "alumno")
+	@WithMockUser(username = "daniel@us.es", authorities = "alumno")
 	@Test
 	void testProcessCreationFormSuccessAsAlumno() throws Exception{
 		mockMvc.perform(post("/preguntatutor/new")
@@ -123,9 +123,21 @@ public class PreguntaTutorControllerTests {
 		.andExpect(view().name("/problemas/problemaDetails"));
 	}
 	
-	@WithMockUser(value="spring", authorities = "tutor")
+	@WithMockUser(username = "daniel@us.es", authorities = "alumno")
 	@Test
 	void testProcessCreationFormFailureAsAlumno() throws Exception{
+		mockMvc.perform(post("/preguntatutor/new")
+				.with(csrf())
+				.param("pregunta", "")
+				.param("idProblema", "0")
+				)
+		.andExpect(status().isOk())
+		.andExpect(model().hasErrors());
+	}
+	
+	@WithMockUser(value="spring", authorities = "tutor")
+	@Test
+	void testProcessCreationFormFailureAsTutor() throws Exception{
 		mockMvc.perform(post("/preguntatutor/new")
 				.with(csrf())
 				.param("pregunta", "Hola buenas tardes")
@@ -134,22 +146,39 @@ public class PreguntaTutorControllerTests {
 		.andExpect(status().is4xxClientError());
 	}
 	
-	@WithMockUser(value="spring", authorities = "tutor")
+	//Historia de usuario 15 caso positivo
+	@WithMockUser(username="alebarled@us.es", authorities = "tutor")
 	@Test
-	void testProcessCreationFormSuccessAsTutor() throws Exception{
+	void testProcessResponseFormSuccessAsTutor() throws Exception{
 		mockMvc.perform(post("/preguntatutor/answer")
 				.with(csrf())
-				.param("respuesta", "Hola buenas tardes")
+				.param("respuesta", "Piénsalo de otra manera, fíjate en lo que te piden")
 				.param("idTutor", "0")
 				.param("preguntaTutor", "0")
 				)
 		.andExpect(status().isOk())
+		.andExpect(model().attribute("message", "Respuesta realizada con éxito"))
 		.andExpect(view().name("/tutores/tutorDetails"));
 	}
 	
+	//Historia de usuario 15 caso negativo
+		@WithMockUser(username="alebarled@us.es", authorities = "tutor")
+		@Test
+		void testProcessCreationFormFailuresAsTutor() throws Exception{
+			mockMvc.perform(post("/preguntatutor/answer")
+					.with(csrf())
+					.param("respuesta", " ")
+					.param("idTutor", "0")
+					.param("preguntaTutor", "0")
+					)
+			.andExpect(status().isOk())
+			.andExpect(model().attribute("message", "La respuesta no puede estar vacía"))
+			.andExpect(view().name("/tutores/tutorDetails"));
+		}
+	
 	@WithMockUser(value="spring", authorities = "alumno")
 	@Test
-	void testProcessCreationFormFailureAsTutor() throws Exception{
+	void testProcessResponseFormFailureAsAlumno() throws Exception{
 		mockMvc.perform(post("/preguntatutor/answer")
 				.with(csrf())
 				.param("respuesta", "Hola buenas tardes")

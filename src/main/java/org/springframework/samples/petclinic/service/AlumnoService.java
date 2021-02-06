@@ -1,21 +1,28 @@
 package org.springframework.samples.petclinic.service;
 
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
+import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -46,8 +53,10 @@ public class AlumnoService {
 	}
 	
 	public void save(Alumno alumno) {
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		alumno.setPass(encoder.encode(alumno.getPass()));
+		if(alumno.getEnabled()) {
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+			alumno.setPass(encoder.encode(alumno.getPass()));
+		}
 		alumnoRepository.save(alumno);
 	}
 	
@@ -127,43 +136,47 @@ public class AlumnoService {
 		return alumnoRepository.findByToken(confirmation_token);
 	}
 	
-	public void sendMail(Alumno alumno, JavaMailSender javaMailSender) throws AddressException, MessagingException {
-		String remitente = "information.codeus@gmail.com";
+	public void sendMail(Alumno alumno, JavaMailSender javaMailSender) throws AddressException, MessagingException, UnsupportedEncodingException {
+
 		String destinatario = alumno.getEmail();
-		
-		String clave = "fvop bsna sxrq nbno";
-		String contraseña = "CodeUs2001DP1";
-		
+		//String clave = "fvop bsna sxrq nbno";
 		String token = alumno.getNombre().substring(0, 3) + alumno.getApellidos().substring(0, 3) + alumno.getEmail().substring(4, 7) + "CDU1";
+
+		alumno.setConfirmation_token(token);
 		
+    	String user = "information.codeus@gmail.com";
+    	String pass = "CodeUsDP1@";
+ 
 		Properties prop = new Properties();
+		prop.put("mail.smtp.auth", true);
+		prop.put("mail.smtp.starttls.enable", "true");
 		prop.put("mail.smtp.host", "smtp.gmail.com");
 		prop.put("mail.smtp.port", "587");
-		prop.put("mail.smtp.auth", "true");
-		prop.put("mail.smtp.starttls.enable", "true");
-		prop.put("mail.smtp.user", remitente);
-		prop.put("mail.smtp.clave", clave);
+		prop.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+ 
+		Session session = Session.getInstance(prop, new Authenticator() {
+		    @Override
+		    protected PasswordAuthentication getPasswordAuthentication() {
+		        return new PasswordAuthentication(user, pass);
+		    }
+		});
 		
-		Session session = Session.getDefaultInstance(prop);
-		
+		Message message = new MimeMessage(session);
+		message.setFrom(new InternetAddress(user));
+		message.setRecipients(
+		  Message.RecipientType.TO, InternetAddress.parse(destinatario));
+		message.setSubject("Correo de verificación codeUs");
+ 
+		String msg = "Buenas " + alumno.getNombre() + ",<br>" + "para poder acceder a codeUs, haz click en el siguiente enlace para verificar tu correo: <br><a href='http://localhost/alumnos/confirmation/" + token +"'> http://localhost/alumnos/confirmation/" + token +" </a> <br>Gracias por unirte! Bienvenido!";
 
-		MimeMessage message = new MimeMessage(session);
-
-
-		
-		try {
-			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse(destinatario));
-			message.setSubject("Correo de verificación codeUs");
-			String msg = "Buenas " + alumno.getNombre() + ",\n" + "para poder acceder a codeUs, haz click en el siguiente enlace para verificar tu correo.\nhttp:localhost/alumnos/confirmation/" + token + " \n Gracias por unirte! Bienvenido!";
-			message.setText(msg);
-			Transport transport = session.getTransport("smtp");
-			transport.connect("smtp.gmail.com", remitente, clave);
-			System.out.println("Paso 3");
-			transport.sendMessage(message, message.getAllRecipients());
-			transport.close();
-			System.out.println("Paso 4");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		MimeBodyPart mimeBodyPart = new MimeBodyPart();
+		mimeBodyPart.setContent(msg, "text/html");
+ 
+		Multipart multipart = new MimeMultipart();
+		multipart.addBodyPart(mimeBodyPart);
+ 
+		message.setContent(multipart);
+ 
+		Transport.send(message);
 	}
 }

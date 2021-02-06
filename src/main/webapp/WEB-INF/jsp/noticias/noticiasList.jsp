@@ -10,6 +10,8 @@
 		 
 		 <div id="rankingtemporada">
         <h2>Ranking temporada ${temporada}&nbsp;${temporadaYear}</h2>  
+        <p><b>¿A qué esperas para resolver unos problemas y ponerte a la cabeza de la clasificación?</b></p>
+        <br>
         <table class='table table-striped'>
         
         <tr>
