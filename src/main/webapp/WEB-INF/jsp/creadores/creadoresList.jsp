@@ -8,7 +8,8 @@
 
 <petclinic:layout pageName="creadores">
     <h2>Creadores</h2>
-
+	<p><b>¡Esta web no sería posible si no tuvieramos a buenos creadores que suben problemas a la plataforma! Genious! </b></p>
+	<br>
     
     <sec:authorize access="hasAuthority('administrador')">
     	<a class="btn btn-default" href='<spring:url value="/creadores/new" htmlEscape="true"/>'>Crear Creador</a>

@@ -1,14 +1,8 @@
 package org.springframework.samples.petclinic.util;
 
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -28,7 +22,6 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Temporada;
 import org.springframework.samples.petclinic.service.AdministradorService;
 import org.springframework.samples.petclinic.service.AlumnoService;
@@ -37,8 +30,6 @@ import org.springframework.samples.petclinic.service.FileService;
 import org.springframework.samples.petclinic.service.TutorService;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.multipart.MultipartFile;
 
 public class Utils {
 
@@ -123,28 +114,5 @@ public class Utils {
 		}
 		return false;
 	}
-	
-	public static void imageCrop(String path,FileService fileService) throws IOException {
-		
-		File imageFile = new File("src/main/resources/static/" + path);
-		BufferedImage bi = ImageIO.read(imageFile);
-		int h = bi.getHeight();
-		int w = bi.getWidth();
-		  
-		  if(h>w) {
-			  int dif = h-w;
-			  bi = bi.getSubimage(0, dif/2, w, w);
-		  }
-			 
-		  else if(w>h) {
-			  int dif = w-h;
-			  bi = bi.getSubimage(dif/2, 0, h, h);
-			  
-		  }
-		  
-		  fileService.delete(Paths.get("src/main/resources/static/" + path));
-		  File pathFile = new File("src/main/resources/static/" + path);
-		  ImageIO.write(bi,"jpg", pathFile);	  
-		  
-	}
+
 }
