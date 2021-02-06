@@ -74,6 +74,9 @@ public class AlumnoController {
 	@Autowired
 	LogroService logroService;
 	
+	@Autowired
+	NoticiaController noticiaController;
+	
 	private JavaMailSender javaMailSender;
 	
 	@GetMapping("")
@@ -87,20 +90,15 @@ public class AlumnoController {
 		return "/alumnos/verificationView";
 	}
 
-	@GetMapping("/confirmation")
-	public String confirmationView(@Valid Alumno alumno,BindingResult result,ModelMap model, HttpServletRequest request) {
-		if (result.hasErrors() ) {
-			model.clear();
-			model.addAttribute("alumno", alumno);
-			List<String> errores = result.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList());
-			model.addAttribute("message", errores);
-			return "/alumnos/verificationView";
-		}
-		else {
-			alumno.setEnabled(true);
-			alumnoService.save(alumno);
-			
-			return "/alumnos/verificationView";
+	@GetMapping("/confirmation/{token}")
+	public String confirmationView(@PathVariable("token") String token, ModelMap model, HttpServletRequest request) {
+		Optional<Alumno> alumno = alumnoService.findByToken(token);
+		if(alumno.isPresent() && !alumno.get().getEnabled()) {
+			alumno.get().setEnabled(true);
+			alumnoService.save(alumno.get());
+			return "redirect:/alumnos";
+		} else {
+			return "redirect:/alumnos/verificationView";
 		}
 	}
 	
@@ -179,22 +177,7 @@ public class AlumnoController {
 			return "/alumnos/verificationView";
 		}
 	}
-	/*
-	@GetMapping(value = "/confirmation/{token}")
-	public String processConfirmationForm(@PathVariable("token") String token, @Valid Alumno alumno, BindingResult result, ModelMap model, HttpServletRequest request) throws IOException {
-		System.out.println("aqui si llega colega");
-		if (result.hasErrors()) {
-			model.clear();
-			model.addAttribute("message", result.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList()));
-			return "redirect:/alumnos";
-		}
-		else {
-			Optional<Alumno> al = alumnoService.findByToken(token);
-			al.get().setEnabled(true);
-			return "redirect:/alumnos/"+alumno.getId();
-		}
-	}
-	*/
+	
 	@GetMapping("/{id}/edit")
 	public String editAlumno(@PathVariable("id") int id, ModelMap model, HttpServletRequest request) {
 		Optional<Alumno> alumno = alumnoService.findById(id);

@@ -9,6 +9,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>  
 
 <petclinic:layout pageName="verificationView">
-	<h>Verifica tu correo electrónico</h>
+	<h2>Verifica tu correo electrónico</h2>
+
 	<p>Para poder acceder con tu cuenta a la página, por favor, visita tu buzon de correo electrónico y sigue los pasos de verificación. Gracias!</p>		
 </petclinic:layout> 
