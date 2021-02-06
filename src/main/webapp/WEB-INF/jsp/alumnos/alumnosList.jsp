@@ -10,6 +10,8 @@
 
 <petclinic:layout pageName="alumnos">
     <h2>Alumnos</h2>
+    <p><b>Estos son los alumnos que participan en nuestra competición de programación. ¡Anímate y <a href="/alumnos/new">regístrate</a> para demostrar tus habilidades!</b></p>
+    <br>
     <div>
     <table class="table table-striped" id="alumnoss">
     	
