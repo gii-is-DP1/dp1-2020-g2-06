@@ -232,7 +232,7 @@ public class AlumnoController {
 			BeanUtils.copyProperties(modifiedAlumno, alumno.get(), "id","imagen");
 			alumnoService.save(alumno.get());
 			model.addAttribute("message","Alumno actualizado con éxito");
-			return listAlumnos(model);
+			return alumnoDetails(id,model);
 		}
 		
 	}
