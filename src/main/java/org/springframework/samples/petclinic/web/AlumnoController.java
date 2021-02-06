@@ -147,17 +147,17 @@ public class AlumnoController {
 			
 			fileService.saveFile(imagen,rootImage,name);
 
-			Utils.imageCrop("resources/images/alumnos/"  + name, fileService);
+			fileService.imageCrop("resources/images/alumnos/"  + name, fileService);
 
 			//alumno.setEnabled(true);
 			alumno.setEnabled(false);
-			alumnoService.sendMail(alumno, javaMailSender);
+			//alumnoService.sendMail(alumno, javaMailSender);
 
 			
 			alumnoService.save(alumno);
 			authService.saveAuthoritiesAlumno(alumno.getEmail(), "alumno");
 			
-			return "redirect:/alumnos/";
+			return "redirect:/alumnos/"+alumno.getId();
 		}
 	}
 
@@ -232,7 +232,7 @@ public class AlumnoController {
 			BeanUtils.copyProperties(modifiedAlumno, alumno.get(), "id","imagen");
 			alumnoService.save(alumno.get());
 			model.addAttribute("message","Alumno actualizado con éxito");
-			return listAlumnos(model);
+			return alumnoDetails(id,model);
 		}
 		
 	}

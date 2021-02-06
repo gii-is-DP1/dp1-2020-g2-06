@@ -1,5 +1,7 @@
 package org.springframework.samples.petclinic.service;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -56,7 +58,11 @@ public class FileService implements FileRepository{
 	  public void imageCrop(String path,FileService fileService) throws IOException {
 			
 			File imageFile = new File("src/main/resources/static/" + path);
-			BufferedImage bi = ImageIO.read(imageFile);
+			BufferedImage init = ImageIO.read(imageFile);
+			BufferedImage bi = new BufferedImage(init.getWidth(), init.getHeight(),BufferedImage.TYPE_INT_RGB);
+			bi.getGraphics().drawImage(init, 0, 0, null);
+			
+			
 			int h = bi.getHeight();
 			int w = bi.getWidth();
 			  
@@ -68,7 +74,6 @@ public class FileService implements FileRepository{
 			  else if(w>h) {
 				  int dif = w-h;
 				  bi = bi.getSubimage(dif/2, 0, h, h);
-				  
 			  }
 			  
 			  fileService.delete(Paths.get("src/main/resources/static/" + path));
