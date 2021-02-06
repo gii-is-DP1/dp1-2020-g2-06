@@ -111,7 +111,7 @@ public class PreguntaTutorControllerTests {
 	given(tutorController.tutorDetails(Mockito.anyInt(), Mockito.any(ModelMap.class))).willReturn("/tutores/tutorDetails");
 	}
 	
-	@WithMockUser(value="spring", authorities = "alumno")
+	@WithMockUser(username = "daniel@us.es", authorities = "alumno")
 	@Test
 	void testProcessCreationFormSuccessAsAlumno() throws Exception{
 		mockMvc.perform(post("/preguntatutor/new")
@@ -121,6 +121,18 @@ public class PreguntaTutorControllerTests {
 				)
 		.andExpect(status().isOk())
 		.andExpect(view().name("/problemas/problemaDetails"));
+	}
+	
+	@WithMockUser(username = "daniel@us.es", authorities = "alumno")
+	@Test
+	void testProcessCreationFormFailureAsTutor() throws Exception{
+		mockMvc.perform(post("/preguntatutor/new")
+				.with(csrf())
+				.param("pregunta", "")
+				.param("idProblema", "0")
+				)
+		.andExpect(status().isOk())
+		.andExpect(model().hasErrors());
 	}
 	
 	@WithMockUser(value="spring", authorities = "tutor")
@@ -137,7 +149,7 @@ public class PreguntaTutorControllerTests {
 	//Historia de usuario 15 caso positivo
 	@WithMockUser(username="alebarled@us.es", authorities = "tutor")
 	@Test
-	void testProcessCreationFormSuccessAsTutor() throws Exception{
+	void testProcessResponseFormSuccessAsTutor() throws Exception{
 		mockMvc.perform(post("/preguntatutor/answer")
 				.with(csrf())
 				.param("respuesta", "Piénsalo de otra manera, fíjate en lo que te piden")
@@ -166,7 +178,7 @@ public class PreguntaTutorControllerTests {
 	
 	@WithMockUser(value="spring", authorities = "alumno")
 	@Test
-	void testProcessCreationFormFailureAsAlumno() throws Exception{
+	void testProcessResponseFormFailureAsAlumno() throws Exception{
 		mockMvc.perform(post("/preguntatutor/answer")
 				.with(csrf())
 				.param("respuesta", "Hola buenas tardes")
