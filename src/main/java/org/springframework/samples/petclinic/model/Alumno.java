@@ -50,10 +50,10 @@ public class Alumno extends BaseEntity{
 	@JsonIgnore
 	private List<Envio> envios;
 	
-	@NonNull
+	
 	private Boolean compartir;
 	
-	@NonNull
+
 	private String confirmation_token;
 	
 }
