@@ -151,14 +151,13 @@ public class ArticuloControllerTests {
 	void testProcessCreationFormSuccess()throws Exception{
 		byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };
 		mockMvc.perform(MockMvcRequestBuilders.multipart("/articulos/new")
-							.file(new MockMultipartFile("image","file.jpg", "image/jpeg", somebytes))
+							.file(new MockMultipartFile("image","resources/images/articulos/2020122317841918000000.jpg", "image/jpeg", somebytes))
 							.with(csrf())
 							.param("autores", "3")
-							.param("autores", "4")
-							.param("autores", "5")
 							.param("_autores", "on")
-							.param("name", "Esto es el titulo")
-							.param("texto", "Esto es un texto de prueba"))
+							.param("name", "Arboles en la programación competitiva")
+							.param("fechaPublicacion", "2021/01/05")
+							.param("texto", "Lorem Ipsum is simply dummy text of the printing..."))
 		.andExpect(status().is3xxRedirection())
 		.andExpect(view().name("redirect:/articulos"));
 	}
@@ -167,9 +166,11 @@ public class ArticuloControllerTests {
 	void testProcessCreationFormFailure()throws Exception{
 		byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };
 		mockMvc.perform(MockMvcRequestBuilders.multipart("/articulos/new")
-							.file(new MockMultipartFile("image","file.jpg", "text/plain", somebytes))
+							.file(new MockMultipartFile("image","resources/images/articulos/2020122317841918000000.jpg", "text/plain", somebytes))
 							.with(csrf())
-							.param("texto", "Esto es un texto de prueba"))
+							.param("autores", "3")
+							.param("_autores", "on")
+							.param("fechaPublicacion", "2021/01/05"))
 		.andExpect(status().isOk())
 		.andExpect(view().name("articulos/createOrUpdateArticuloForm"));
 	}
@@ -186,7 +187,7 @@ public class ArticuloControllerTests {
 				.param("autores", "4")
 				.param("autores", "5")
 				.param("_autores", "on")
-				.param("name", "Esto es el titulo")
+				.param("name", "Articulo sobre DBGames")
 				.param("texto", "Esto es un texto de prueba"))
 		.andExpect(status().isOk())
 		.andExpect(model().attribute("message", "El artículo se ha actualizado con éxito"));
@@ -201,9 +202,7 @@ public class ArticuloControllerTests {
 				.param("autores", "3")
 				.param("autores", "4")
 				.param("autores", "5")
-				.param("_autores", "on")
-				.param("name", "Esto es el titulo")
-				.param("texto", "Esto es un texto de prueba"))
+				.param("_autores", "on"))
 				.andExpect(status().is4xxClientError());
 
 	}
