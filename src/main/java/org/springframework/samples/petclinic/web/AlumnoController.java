@@ -82,6 +82,12 @@ public class AlumnoController {
 		return "/alumnos/alumnosList";
 	}
 	
+	@PostMapping("/verificationView")
+	public String verificationView(ModelMap model) {
+		model.addAttribute("Confirmacion", new Alumno());
+		return "/alumnos/verificationView";
+	}
+	
 	@GetMapping("/{id}")
 	public String alumnoDetails(@PathVariable("id") int id, ModelMap model) {
 		Optional<Alumno> alumno = alumnoService.findById(id);
@@ -149,20 +155,18 @@ public class AlumnoController {
 
 			Utils.imageCrop("resources/images/alumnos/"  + name, fileService);
 
-			//alumno.setEnabled(true);
 			alumno.setEnabled(false);
-			alumnoService.sendMail(alumno, javaMailSender);
-
-			
 			alumnoService.save(alumno);
+			alumnoService.sendMail(alumno, javaMailSender);
 			authService.saveAuthoritiesAlumno(alumno.getEmail(), "alumno");
 			
-			return "redirect:/alumnos/";
+			return "/alumnos/verificationView";
 		}
 	}
-
+	/*
 	@GetMapping(value = "/confirmation/{token}")
 	public String processConfirmationForm(@PathVariable("token") String token, @Valid Alumno alumno, BindingResult result, ModelMap model, HttpServletRequest request) throws IOException {
+		System.out.println("aqui si llega colega");
 		if (result.hasErrors()) {
 			model.clear();
 			model.addAttribute("message", result.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList()));
@@ -174,7 +178,7 @@ public class AlumnoController {
 			return "redirect:/alumnos/"+alumno.getId();
 		}
 	}
-	
+	*/
 	@GetMapping("/{id}/edit")
 	public String editAlumno(@PathVariable("id") int id, ModelMap model, HttpServletRequest request) {
 		Optional<Alumno> alumno = alumnoService.findById(id);
@@ -201,13 +205,6 @@ public class AlumnoController {
 			model.addAttribute("message","Solo puedes editar tu propio perfil");
 			log.warn("Un usuario esta intentado editar un perfil que no es el suyo, con sesion "+request.getSession());
 			return listAlumnos(model);
-		}
-		boolean emailExistente = Utils.CorreoExistente(modifiedAlumno.getEmail(),alumnoService,tutorService,creadorService,administradorService);
-		if(emailExistente) {
-			model.clear();
-			model.addAttribute("alumno", modifiedAlumno);
-			model.addAttribute("message", "Ya existe una cuenta con ese correo asociado");
-			return VIEWS_ALUMNO_CREATE_OR_UPDATE_FORM;
 		}
 		if(binding.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
 			model.clear();
