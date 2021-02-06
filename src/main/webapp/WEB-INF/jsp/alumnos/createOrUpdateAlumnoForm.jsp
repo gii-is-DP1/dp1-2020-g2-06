@@ -14,9 +14,12 @@
         <div class="form-group has-feedback">
             <petclinic:inputField label="Nombre" name="nombre"/>
             <petclinic:inputField label="Apellidos" name="apellidos"/>
-            <petclinic:inputField label="Email" name="email"/>
+            <c:if test="${alumno['new']}">
+            	<petclinic:inputField label="Email" name="email"/> 
+            </c:if>
             <petclinic:inputField label="Contraseña" name="pass" type="password"/>
             <c:if test="${not alumno['new']}">
+            	<input type="hidden" name="email" value="${alumno.email}"/>
             	<form:checkbox path="compartir" label ="Compartir soluciones de Problemas resueltos" />
             </c:if>
             <table>
