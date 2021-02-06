@@ -47,7 +47,6 @@ import org.springframework.web.context.WebApplicationContext;
 @DirtiesContext
 public class ComentarioControllerTests {
 	
-	private static final int TEST_COMENTARIO_ID = 0;
 	private static final int TEST_ALUMNO_ID = 0;
 	private static final int TEST_ENVIO_ID = 0;
 	
@@ -60,8 +59,6 @@ public class ComentarioControllerTests {
 	@MockBean
 	private AuthService authService;
 	
-	private Aclaracion aclaracion;
-	
 	private Alumno alumno;
 	
 	private Envio envio;
@@ -70,16 +67,11 @@ public class ComentarioControllerTests {
 
 	
 	@MockBean
-	private ComentarioService comentarioService;
-	
-	@MockBean
 	private EnvioService envioService;
 	
 	@MockBean
 	private AlumnoService alumnoService;
 
-	@MockBean
-	private ProblemaService problemaService;
 	
 	@BeforeEach
 		void setup() {
@@ -114,22 +106,37 @@ public class ComentarioControllerTests {
 	
 	}
 	
-	@WithMockUser(value = "spring",authorities="alumno")
+	//Historia de usuario 19 caso positivo
+	@WithMockUser(username="alexis@alum.us.es",authorities="alumno")
     @Test
-    void testProcessCreationFormSuccess() throws Exception {
+    void testProcessCreationFormSuccessAsAlumno() throws Exception {
 		given(envioService.findById(TEST_ALUMNO_ID)).willReturn(Optional.of(envio));
 		given(alumnoService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName())).willReturn(Optional.of(alumno));
 		mockMvc.perform(post("/comentarios/new")
 						.with(csrf())
-						.param("texto", "Muy buen envio")
+						.param("texto", "¡Buena solución!")
 						.param("idEnvio", "0"))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(view().name("redirect:/envios/0"));
 	}
 	
+	//Historia de usuario 19 caso negativo
+		@WithMockUser(username="alexis@alum.us.es",authorities="alumno")
+	    @Test
+	    void testProcessCreationFormFailure() throws Exception {
+			given(envioService.findById(TEST_ALUMNO_ID)).willReturn(Optional.of(envio));
+			given(alumnoService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName())).willReturn(Optional.of(alumno));
+			mockMvc.perform(post("/comentarios/new")
+							.with(csrf())
+							.param("texto", "")
+							.param("idEnvio", "0"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("/envios/0"));
+		}
+	
 	@WithMockUser(value = "spring",authorities={"tutor", "creador", "administrador"})
     @Test
-    void testProcessCreationFormErrorAuth() throws Exception {
+    void testProcessCreationFormNotAsAlumno() throws Exception {
 		given(envioService.findById(TEST_ALUMNO_ID)).willReturn(Optional.of(envio));
 		given(alumnoService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName())).willReturn(Optional.of(alumno));
 		mockMvc.perform(post("/comentarios/new")

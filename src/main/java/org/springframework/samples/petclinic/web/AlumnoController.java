@@ -74,12 +74,32 @@ public class AlumnoController {
 	@Autowired
 	LogroService logroService;
 	
+	@Autowired
+	NoticiaController noticiaController;
+	
 	private JavaMailSender javaMailSender;
 	
 	@GetMapping("")
 	public String listAlumnos(ModelMap model) {
 		model.addAttribute("alumnos",alumnoService.findAll());
 		return "/alumnos/alumnosList";
+	}
+	
+	@GetMapping("/verificationView")
+	public String verificationView() {
+		return "/alumnos/verificationView";
+	}
+
+	@GetMapping("/confirmation/{token}")
+	public String confirmationView(@PathVariable("token") String token, ModelMap model, HttpServletRequest request) {
+		Optional<Alumno> alumno = alumnoService.findByToken(token);
+		if(alumno.isPresent() && !alumno.get().getEnabled()) {
+			alumno.get().setEnabled(true);
+			alumnoService.save(alumno.get());
+			return "redirect:/alumnos";
+		} else {
+			return "redirect:/alumnos/verificationView";
+		}
 	}
 	
 	@GetMapping("/{id}")
@@ -149,29 +169,12 @@ public class AlumnoController {
 
 			fileService.imageCrop("resources/images/alumnos/"  + name, fileService);
 
-			//alumno.setEnabled(true);
 			alumno.setEnabled(false);
-			//alumnoService.sendMail(alumno, javaMailSender);
-
-			
 			alumnoService.save(alumno);
+			alumnoService.sendMail(alumno, javaMailSender);
 			authService.saveAuthoritiesAlumno(alumno.getEmail(), "alumno");
 			
-			return "redirect:/alumnos/"+alumno.getId();
-		}
-	}
-
-	@GetMapping(value = "/confirmation/{token}")
-	public String processConfirmationForm(@PathVariable("token") String token, @Valid Alumno alumno, BindingResult result, ModelMap model, HttpServletRequest request) throws IOException {
-		if (result.hasErrors()) {
-			model.clear();
-			model.addAttribute("message", result.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList()));
-			return "redirect:/alumnos";
-		}
-		else {
-			Optional<Alumno> al = alumnoService.findByToken(token);
-			al.get().setEnabled(true);
-			return "redirect:/alumnos/"+alumno.getId();
+			return "/alumnos/verificationView";
 		}
 	}
 	
@@ -201,13 +204,6 @@ public class AlumnoController {
 			model.addAttribute("message","Solo puedes editar tu propio perfil");
 			log.warn("Un usuario esta intentado editar un perfil que no es el suyo, con sesion "+request.getSession());
 			return listAlumnos(model);
-		}
-		boolean emailExistente = Utils.CorreoExistente(modifiedAlumno.getEmail(),alumnoService,tutorService,creadorService,administradorService);
-		if(emailExistente) {
-			model.clear();
-			model.addAttribute("alumno", modifiedAlumno);
-			model.addAttribute("message", "Ya existe una cuenta con ese correo asociado");
-			return VIEWS_ALUMNO_CREATE_OR_UPDATE_FORM;
 		}
 		if(binding.hasErrors()|| imagen.getBytes().length/(1024*1024)>10) {
 			model.clear();

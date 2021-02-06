@@ -7,7 +7,8 @@
 
 <petclinic:layout pageName="articulos">
     <h2>Artículos</h2>
-   
+   <p><b>Aquí tienes todos los artículos que nuestros <a href="/tutores/">tutores</a> escriben para que aprendas cosas nuevas y saques todo el partido a los problemas que te propongas ;)</b> </p>
+   <br>
     <div>
     <table class="table table-striped" id="articuloss">
     	

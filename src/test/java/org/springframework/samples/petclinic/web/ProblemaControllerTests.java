@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.web;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -39,6 +40,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.ui.Model;
 import org.springframework.web.context.WebApplicationContext;
 
 @ExtendWith(SpringExtension.class)
@@ -76,7 +78,10 @@ public class ProblemaControllerTests {
 		          .apply(SecurityMockMvcConfigurers.springSecurity())
 		          .build();
 		
-		
+	Temporada temporada = new Temporada();
+	temporada.setId(0);
+	temporada.setNombre("PRIMAVERA");
+	
 	Problema problema  = new Problema();
 	problema.setId(6);
 	problema.setCreador(new Creador());
@@ -88,8 +93,8 @@ public class ProblemaControllerTests {
 	problema.setCasos_prueba("2 3 2 3");
 	problema.setSalida_esperada("Out");
 	problema.setFechaPublicacion(LocalDate.now());
-	problema.setSeason(new Temporada());
-	problema.setSeasonYear(2021);
+	problema.setSeason(temporada);
+	problema.setSeasonYear(2020);
 	
 	//Consultado en uno de los controladores
 	problema.getCreador().setEmail("davbrican@us.es");
@@ -123,7 +128,7 @@ public class ProblemaControllerTests {
 		.andExpect(view().name("problemas/problemasList"));
 	}
 	
-	@WithMockUser(authorities="alumno")
+	@WithMockUser(username = "jesus@us.es", authorities="alumno")
 	@Test
 	void testShowProblemaDetails() throws Exception {
 		mockMvc.perform(get("/problemas/6")).andExpect(status().isOk())
@@ -158,7 +163,7 @@ public class ProblemaControllerTests {
 	}
 	
 	
-	@WithMockUser(username = "davbrican@us.es", authorities= "creador")
+	@WithMockUser(username = "jesus@us.es", authorities= "creador")
 	@Test
 	void testProblemaCreate() throws Exception {
 		byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };
@@ -166,12 +171,12 @@ public class ProblemaControllerTests {
 							.file(new MockMultipartFile("image","file.jpg", "image/jpeg", somebytes))
 							.file(new MockMultipartFile("zipo","file.zip", "application/zip", somebytes))
 							.with(csrf())
-							.param("name", "Problema444")
-							.param("puntuacion", "4")
+							.param("name", "La piscina olímpica")
+							.param("puntuacion", "5")
 							.param("dificultad", "4")
-							.param("descripcion", "Esto es un problema de prueba")
-							.param("casos_prueba", "1 2 34 2")
-							.param("salida_esperada", "1 2 34 2")
+							.param("descripcion", "Una piscina olimica tiene 50 metros de largo...")
+							.param("casos_prueba", "50 2 1")
+							.param("salida_esperada", "SI")
 							.param("season", "2")
 							.param("seasonYear", "2020")
 							)
@@ -179,6 +184,52 @@ public class ProblemaControllerTests {
 		//.andExpect(model().attributeExists("problema"))
 		.andExpect(view().name("problemas/problemasList"));
 	}
+	
+	@WithMockUser(username = "jesus@us.es", authorities= "creador")
+	@Test
+	void testProblemaNotCreateBecauseTitle() throws Exception {
+		byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };
+		mockMvc.perform(MockMvcRequestBuilders.multipart("/problemas/new")
+							.file(new MockMultipartFile("image","file.jpg", "image/jpeg", somebytes))
+							.file(new MockMultipartFile("zipo","file.zip", "application/zip", somebytes))
+							.with(csrf())
+							.param("name", "")
+							.param("puntuacion", "5")
+							.param("dificultad", "4")
+							.param("descripcion", "Una piscina olimica tiene 50 metros de largo...")
+							.param("casos_prueba", "50 2 1")
+							.param("salida_esperada", "SI")
+							.param("season", "2")
+							.param("seasonYear", "2020")
+							)
+		.andExpect(status().isOk())
+		//.andExpect(model().attributeExists("problema"))
+		.andExpect(view().name("problemas/createOrUpdateProblemaForm"));
+	}
+	
+	@WithMockUser(username = "jesus@us.es", authorities= "creador")
+	@Test
+	void testProblemaNotCreateBecauseFileSize() throws Exception {
+		byte[] somebytes = new byte[200000000];
+		mockMvc.perform(MockMvcRequestBuilders.multipart("/problemas/new")
+							.file(new MockMultipartFile("image","file.jpg", "image/jpeg", somebytes))
+							.file(new MockMultipartFile("zipo","file.zip", "application/zip", somebytes))
+							.with(csrf())
+							.param("name", "La piscina olímpica")
+							.param("puntuacion", "5")
+							.param("dificultad", "4")
+							.param("descripcion", "Una piscina olimica tiene 50 metros de largo...")
+							.param("casos_prueba", "50 2 1")
+							.param("salida_esperada", "SI")
+							.param("season", "2")
+							.param("seasonYear", "2020")
+							)
+		.andExpect(status().isOk())
+		//.andExpect(model().attributeExists("problema"))
+		.andExpect(view().name("problemas/createOrUpdateProblemaForm"));
+	}
+	
+	
 	
 	@WithMockUser(authorities="creador")
 	@Test
