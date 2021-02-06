@@ -53,7 +53,7 @@ public class AlumnoService {
 	}
 	
 	public void save(Alumno alumno) {
-		if(alumno.getPass().contains("$2a$10$") == false) {
+		if(alumno.getEnabled()) {
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 			alumno.setPass(encoder.encode(alumno.getPass()));
 		}
