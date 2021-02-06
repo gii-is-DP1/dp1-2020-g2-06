@@ -53,8 +53,10 @@ public class AlumnoService {
 	}
 	
 	public void save(Alumno alumno) {
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		alumno.setPass(encoder.encode(alumno.getPass()));
+		if(alumno.getEnabled()) {
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+			alumno.setPass(encoder.encode(alumno.getPass()));
+		}
 		alumnoRepository.save(alumno);
 	}
 	
@@ -141,7 +143,7 @@ public class AlumnoService {
 		String token = alumno.getNombre().substring(0, 3) + alumno.getApellidos().substring(0, 3) + alumno.getEmail().substring(4, 7) + "CDU1";
 
 		alumno.setConfirmation_token(token);
-
+		
     	String user = "information.codeus@gmail.com";
     	String pass = "CodeUsDP1@";
  
@@ -158,7 +160,7 @@ public class AlumnoService {
 		        return new PasswordAuthentication(user, pass);
 		    }
 		});
- 
+		
 		Message message = new MimeMessage(session);
 		message.setFrom(new InternetAddress(user));
 		message.setRecipients(
