@@ -44,7 +44,7 @@ public class Problema extends NamedEntity {
 	
 	@Column(name = "fecha_publicacion")
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
-	@NotNull(message= "Debe indicar una fecha de publicación")
+
 	private LocalDate fechaPublicacion;
 	
 	@Column(name = "puntuacion")
