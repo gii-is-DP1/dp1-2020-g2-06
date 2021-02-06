@@ -105,9 +105,17 @@ public class EnvioControllerTests {
 		//Mocks de problemaController
 		given(this.problemaController.problemaDetails(Mockito.anyInt(),Mockito.any(ModelMap.class))).willReturn("problemas/problemaDetails");
 		
+		Temporada season = new Temporada();
+		season.setId(0);
+		season.setNombre("PRIMAVERA");
+		
 		Problema p = new Problema();
 		p.setIdJudge(0);
+		p.setSeasonYear(2020);
+		p.setSeason(season);
 		given(this.problemaService.findById(Mockito.anyInt())).willReturn(Optional.of(p));
+		
+		
 		
 		
 	}
@@ -126,15 +134,26 @@ public class EnvioControllerTests {
 		.andExpect(view().name("problemas/problemasList"));
 	}
 	
-	@WithMockUser(authorities="alumno")
+	@WithMockUser(username="daniel@alum.us.es", authorities="alumno")
 	@Test
 	void testEnvioSendSuccess() throws Exception {
 		byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };
 		mockMvc.perform(MockMvcRequestBuilders.multipart("/envios/send/0")
-				.file(new MockMultipartFile("archivo","archivo.java", "text/plain", somebytes))
+				.file(new MockMultipartFile("archivo","solucion.c", "text/plain", somebytes))
 				.with(csrf()))
 				.andExpect(status().is3xxRedirection());
 	}
+	
+	@WithMockUser(authorities="alumno")
+	@Test
+	void testEnvioSendFailedBecauseFileEmpty() throws Exception {
+		byte[] somebytes = { };
+		mockMvc.perform(MockMvcRequestBuilders.multipart("/envios/send/0")
+				.file(new MockMultipartFile("archivo","archivo.zip", "text/plain", somebytes))
+				.with(csrf()))
+				.andExpect(view().name("problemas/problemaDetails"));
+	}
+	
 	
 	@WithMockUser(authorities="alumno")
 	@Test
