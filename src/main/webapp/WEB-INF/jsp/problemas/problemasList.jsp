@@ -25,8 +25,8 @@
 	</c:forEach>
 	
 	<h2>Problemas no vigentes</h2>
-	
-
+	<p><b>Prueba a resolver algunos de los problemas retirados. No puntuan, pero aprenderás solucionándolos. En la sección de <a href="/articulos"/>artículos</a> encontrarás algunas soluciones y consejos para resolverlos.</b></p>
+	<br>
 		<table id="problemasnovigentes" class="table table-striped">
 			
 		</table>
