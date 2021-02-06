@@ -83,7 +83,7 @@ public class LogroService {
 		}else if(enviosWa>=25) {
 			result.add(logroRepository.findById(10).get());
 			result.add(logroRepository.findById(9).get());
-		}else if(envios>10) {
+		}else if(enviosWa>10) {
 			result.add(logroRepository.findById(9).get());
 		}
 		
