@@ -1,16 +1,16 @@
 package org.springframework.samples.petclinic.web;
-
+ 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-
+ 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Optional;
-
+ 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,42 +37,42 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.context.WebApplicationContext;
-
+ 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment=SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext
 public class EnvioControllerTests {
-	
+ 
 	@Autowired
     private WebApplicationContext context; 
-	
+ 
 	private MockMvc mockMvc;
-	
+ 
 	@MockBean
 	private EnvioService envioService;
-	
+ 
 	@MockBean
 	private AlumnoService alumnoService;
-	
+ 
 	@MockBean
 	private ProblemaService problemaService;
-	
+ 
 	@MockBean
 	private FileService fileService;
-	
+ 
 	@MockBean
 	private JudgeService judgeService;
-	
+ 
 	@MockBean
 	private ProblemaController problemaController;
-
+ 
 	@BeforeEach
 		void setup() throws InterruptedException, IOException {
 		mockMvc = MockMvcBuilders
 		          .webAppContextSetup(context)
 		          .apply(SecurityMockMvcConfigurers.springSecurity())
 		          .build();
-		
+ 
 		Envio envio = new Envio();
 		envio.setId(0);
 		envio.setIdJudge(0);
@@ -83,57 +83,57 @@ public class EnvioControllerTests {
 		envio.setProblema(new Problema());
 		envio.setSeason(new Temporada());
 		envio.setSeasonYear(2020);
-		
+ 
 		//Mock de un envio existente, con id == 0
 		given(this.envioService.findById(120)).willReturn(Optional.of(envio));
 		given(this.envioService.findById(0)).willReturn(Optional.of(envio));
-		
+ 
 		//Mock del controlador de problema al pedir una vista de todos los problemas
 		given(this.problemaController.listProblemas(Mockito.any(ModelMap.class))).willReturn("problemas/problemasList");
-		
-		
+ 
+ 
 		//Mock de la respuestas del juez al añadir envio y juzgar
 		given(this.judgeService.addSubmission(Mockito.anyInt(), Mockito.anyString(),
 				Mockito.anyString(), Mockito.anyString(), Mockito.anyInt())).willReturn(3);
-		
+ 
 		given(this.judgeService.judge(Mockito.anyInt(), Mockito.anyInt())).willReturn("AC");
-		
+ 
 		//Mock de alumnoService
-
+ 
 		given(this.alumnoService.findByEmail(Mockito.anyString())).willReturn(Optional.of(new Alumno()));
-		
+ 
 		//Mocks de problemaController
 		given(this.problemaController.problemaDetails(Mockito.anyInt(),Mockito.any(ModelMap.class))).willReturn("problemas/problemaDetails");
-		
+ 
 		Temporada season = new Temporada();
 		season.setId(0);
 		season.setNombre("PRIMAVERA");
-		
+ 
 		Problema p = new Problema();
 		p.setIdJudge(0);
 		p.setSeasonYear(2020);
 		p.setSeason(season);
 		given(this.problemaService.findById(Mockito.anyInt())).willReturn(Optional.of(p));
-		
-		
-		
-		
+ 
+ 
+ 
+ 
 	}
-	
+ 
 	@WithMockUser(authorities="alumno")
 	@Test
 	void testShowEnvioDetails() throws Exception {
 		mockMvc.perform(get("/envios/120")).andExpect(status().isOk()).andExpect(model().attributeExists("envio"))
 		.andExpect(view().name("envios/envioDetails"));
 	}
-	
+ 
 	@WithMockUser(authorities="alumno")
 	@Test
 	void testDoesNotShowEnvioDetails() throws Exception {
 		mockMvc.perform(get("/envios/150")).andExpect(status().isOk()).andExpect(model().attributeDoesNotExist("envio"))
 		.andExpect(view().name("problemas/problemasList"));
 	}
-	
+ 
 	@WithMockUser(username="daniel@alum.us.es", authorities="alumno")
 	@Test
 	void testEnvioSendSuccess() throws Exception {
@@ -143,7 +143,7 @@ public class EnvioControllerTests {
 				.with(csrf()))
 				.andExpect(status().is3xxRedirection());
 	}
-	
+ 
 	@WithMockUser(authorities="alumno")
 	@Test
 	void testEnvioSendFailedBecauseFileEmpty() throws Exception {
@@ -153,8 +153,8 @@ public class EnvioControllerTests {
 				.with(csrf()))
 				.andExpect(view().name("problemas/problemaDetails"));
 	}
-	
-	
+ 
+ 
 	@WithMockUser(authorities="alumno")
 	@Test
 	void testEnvioSendFailedBecauseOfFileType() throws Exception {
@@ -164,7 +164,7 @@ public class EnvioControllerTests {
 				.with(csrf()))
 				.andExpect(view().name("problemas/problemaDetails"));
 	}
-	
+ 
 	@WithMockUser(authorities="tutor")
 	@Test
 	void testEnvioSendFailedBecauseOfUser() throws Exception {
@@ -174,5 +174,5 @@ public class EnvioControllerTests {
 				.with(csrf()))
 				.andExpect(status().is4xxClientError());
 	}
-
+ 
 }

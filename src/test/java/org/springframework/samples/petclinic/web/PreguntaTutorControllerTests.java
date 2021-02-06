@@ -125,7 +125,7 @@ public class PreguntaTutorControllerTests {
 	
 	@WithMockUser(username = "daniel@us.es", authorities = "alumno")
 	@Test
-	void testProcessCreationFormFailureAsTutor() throws Exception{
+	void testProcessCreationFormFailureAsAlumno() throws Exception{
 		mockMvc.perform(post("/preguntatutor/new")
 				.with(csrf())
 				.param("pregunta", "")
