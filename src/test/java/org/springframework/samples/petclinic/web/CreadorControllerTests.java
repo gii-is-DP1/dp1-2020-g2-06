@@ -139,7 +139,7 @@ public class CreadorControllerTests {
 				.with(csrf())
 				.param("apellidos", "Brincau Cano")
 				.param("email", "DBGamesss@us.es")
-				.param("nombre", "Davidd")
+				.param("nombre", "Daniel")
 				.param("pass", "4321AbCd@"))
 				.andExpect(status().is2xxSuccessful())
 				.andExpect(status().isOk());
@@ -167,7 +167,7 @@ public class CreadorControllerTests {
 				.with(csrf())
 				.param("apellidos", "Brincau Cano")
 				.param("email", "DBGames@us.es")
-				.param("nombre", "David")
+				.param("nombre", "Daniel")
 				.param("pass", "1234AbCd@"))
 				.andExpect(status().isForbidden());
 		
@@ -176,7 +176,7 @@ public class CreadorControllerTests {
 				.with(csrf())
 				.param("apellidos", "Brincau Cano")
 				.param("email", "DBGamesss@us.es")
-				.param("nombre", "Davidd")
+				.param("nombre", "Daniel")
 				.param("pass", "4321AbCd@"))
 				.andExpect(status().isForbidden());
 		

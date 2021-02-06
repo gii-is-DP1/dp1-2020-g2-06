@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.web;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -67,14 +68,24 @@ public class PublicacionControllerTests {
 		publicacion.setTexto("Nueva publicación test");
 	}
 	
-	@WithMockUser(username="davbrican@us.es",authorities="alumno")
+	@WithMockUser(username="daniel@us.es",authorities="alumno")
     @Test
     void testProcessCreationFormSuccess() throws Exception {
 		given(alumnoService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName())).willReturn(Optional.of(alumno));
 		mockMvc.perform(post("/foro/new")
 						.with(csrf())
-						.param("texto", "Bedilia es la mejor profe"))
+						.param("texto", "Que tal chicos?? :)"))
 			.andExpect(status().isOk());
+	}
+	
+	@WithMockUser(username="daniel@us.es",authorities="alumno")
+    @Test
+    void testProcessCreationFormFail() throws Exception {
+		given(alumnoService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName())).willReturn(Optional.of(alumno));
+		mockMvc.perform(post("/foro/new")
+						.with(csrf())
+						.param("texto", ""))
+			.andExpect(model().attribute("message", "Mensaje inválido"));
 	}
 	
 	

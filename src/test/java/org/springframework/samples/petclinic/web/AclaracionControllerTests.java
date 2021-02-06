@@ -5,6 +5,7 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -91,24 +92,25 @@ public class AclaracionControllerTests {
 	
 	}
 	
-	@WithMockUser(value = "spring",authorities="tutor")
+	@WithMockUser(username="jesus@us.es",authorities="tutor")
     @Test
     void testProcessCreationFormSuccessAsTutor() throws Exception {
 		mockMvc.perform(post("/aclaraciones/new")
 						.with(csrf())
-						.param("texto", "El tipo a usar es long")
+						.param("texto", "El problema se puede resolver en 2 líneas")
 						.param("idProblema", "0"))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(view().name("redirect:/problemas/0"));
 	}
 	
-	@WithMockUser(value = "spring",authorities="tutor")
+	@WithMockUser(username = "jesus@us.es",authorities="tutor")
     @Test
-    void testProcessCreationFormWithTextAttributeEmptyAsTutor() throws Exception {
+    void testProcessCreationFormFailWithTextAttributeEmptyAsTutor() throws Exception {
 		mockMvc.perform(post("/aclaraciones/new")
 						.with(csrf())
+						.param("texto", "")
 						.param("idProblema", "0"))
-			.andExpect(view().name("/problemas/0"));
+			.andExpect(model().hasErrors());
 	}
 	
 	
