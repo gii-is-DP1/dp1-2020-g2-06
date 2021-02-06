@@ -93,6 +93,19 @@ public class NormaWebControllerTests {
 						.param("idProblema", "0"))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(view().name("redirect:/problemas/0"));
-}
+	}
+	
+	@WithMockUser(value = "spring",authorities="tutor")
+    @Test
+    void testProcessCreationFormFailure() throws Exception {
+		given(problemaService.findById(any(Integer.class))).willReturn(Optional.of(problema));
+		given(tutorService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName())).willReturn(Optional.of(tutor));
+		mockMvc.perform(post("/aclaraciones/new")
+						.with(csrf())
+						.param("texto", "")
+						.param("idProblema", "0"))
+			.andExpect(status().isOk())
+			.andExpect(view().name("redirect:/problemas/0"));
+	}
 	
 }
