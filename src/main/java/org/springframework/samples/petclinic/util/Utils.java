@@ -30,6 +30,7 @@ import org.springframework.samples.petclinic.service.FileService;
 import org.springframework.samples.petclinic.service.TutorService;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class Utils {
 
@@ -114,5 +115,4 @@ public class Utils {
 		}
 		return false;
 	}
-
 }
