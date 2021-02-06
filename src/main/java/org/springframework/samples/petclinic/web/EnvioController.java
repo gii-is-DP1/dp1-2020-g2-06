@@ -65,6 +65,11 @@ public class EnvioController {
 			model.addAttribute("comentarios", envio.get().getListaComentarios());
 			model.addAttribute("envio",envio.get());
 			model.addAttribute("codigo",envio.get().getCodigoString());
+			if(Utils.authLoggedIn().equals("alumno") && !envio.get().getAlumno().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+				model.addAttribute("me",false);
+			}else {
+				model.addAttribute("me",true);
+			}
 			return "envios/envioDetails";
 		}
 		else {
