@@ -13,9 +13,9 @@
 <petclinic:bodyHeader menuName="${pageName}"/>
 
 <div class="container-fluid">
-    <div class="container xd-container">
+    <div class="container xd-container" style="padding-bottom:0px">
 	<c:if test="${not empty message}" >
-	<div class="alert alert-${not empty messageType ? messageType : 'info'}" role="alert">
+	<div class="alert alert-${not empty messageType ? messageType : 'info'}" role="alert" >
   		<c:out value="${message}"></c:out>
    		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
     		<span aria-hidden="true">&times;</span>
@@ -25,9 +25,15 @@
 
         <jsp:doBody/>
 
-        <petclinic:pivotal/>
+      
     </div>
+    <petclinic:pivotal/>
+    <br>
+    <br>
+    <br>
+
 </div>
+
 <petclinic:footer/>
 <jsp:invoke fragment="customScript" />
 

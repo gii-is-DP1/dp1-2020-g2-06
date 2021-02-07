@@ -8,12 +8,14 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <petclinic:layout pageName="normasWeb">
-    <h2>Normas Web</h2>
-
+    <h2>Normas y funcionamiento de codeUS</h2>
+    <p><b>Aquí puedes ver las normas de la web y cómo funciona la plataforma.</b></p>
+    <br>
+ <c:set var="count" value="1" scope="page" />
 	<c:forEach items="${normas_web}" var="normasWeb">
 		<table id="normasTable" class="table table-striped">
 			<tr>
-				<th><c:out value="${normasWeb.name}" /></th>
+				<th><c:out value="${count}"/>.-<c:out value="${normasWeb.name}" /></th>
 				<sec:authorize access="hasAuthority('tutor')">
 					<th><a href="/normasWeb/${normasWeb.id}/edit"> <span
 							class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
@@ -27,6 +29,7 @@
 				<td><c:out value="${normasWeb.descripcion}" /></td>
 			</tr>
 		</table>
+		<c:set var="count" value="${count + 1}" scope="page"/>
 	</c:forEach>
 
 	<sec:authorize access="hasAuthority('tutor')">

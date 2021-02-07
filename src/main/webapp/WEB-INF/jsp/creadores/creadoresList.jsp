@@ -35,8 +35,9 @@
     	scroll(0,0);
     	var creadorespag = paginate(page,'/api/PageableCreadores?page=');
     	var nextcreadorpag = paginate(page+1,'/api/PageableCreadores?page=');
+    	if(!(page==1 && nextcreadorpag.length==0))
+	    	$("#numero-creador").text(page);
 
-	    $("#numero-creador").text(page);
 	    if(page>1){
 	    	$("#izquierda-creador").attr("src","/resources/images/leftrow.svg");
 	    }
