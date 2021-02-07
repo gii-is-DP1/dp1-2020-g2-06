@@ -123,7 +123,7 @@ public class AlumnoControllerTests {
 			alumno.setNombre("Pepe");
 			alumno.setApellidos("Alvarez Toledo");
 			alumno.setEnabled(true);
-			alumno.setEmail("PEPE@alum.us.es");
+			alumno.setEmail("daniel@us.es");
 			alumno.setImagen("/resources/images/pets.png");
 			alumno.setPass("Codeus@49lsañkfjnsafsa");
 			alumno.setCompartir(true);
@@ -186,8 +186,7 @@ public class AlumnoControllerTests {
 							.param("email", "vicgragil@alum.us.es")
 							.param("pass", "Esto@@esUna4"))
 		.andExpect(status().isOk())
-		.andExpect(model().attributeExists("alumno"))
-		.andExpect(view().name("redirect:/alumnos/"));
+		.andExpect(view().name("/alumnos/verificationView"));
 	}
 	
 	
@@ -207,14 +206,26 @@ public class AlumnoControllerTests {
 		.andExpect(view().name("alumnos/createOrUpdateAlumnoForm"));
 	}
 	
-	@WithMockUser(value = "spring", authorities = "alumno")
+	@WithMockUser(value = "spring")
+	@Test
+	void testVerification() throws Exception {
+		mockMvc.perform(get("/alumnos/verificationView"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("/alumnos/verificationView"));
+	}
+	
+	
+	@WithMockUser(value = "spring")
 	@Test
 	void testProcessConfirmationFormSuccess() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.multipart("/alumnos/confirmation/"+TEST_ALUMNO_TOKEN))
-				.andExpect(status().isOk())
-				.andExpect(view().name("redirect:/alumnos/"+TEST_ALUMNO_ID));
+		mockMvc.perform(get("/alumnos/confirmation/"+TEST_ALUMNO_TOKEN))
+				.andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/alumnos/verificationView"));
 	}
-	@WithMockUser(username="PEPE@alum.us.es", authorities = "alumno")
+	
+	
+	
+	@WithMockUser(username="daniel@us.es", authorities = "alumno")
 	@Test
 	void testInitProcessUpdateFormSuccess() throws Exception {
 		mockMvc.perform(get("/alumnos/"+TEST_ALUMNO_ID+"/edit"))
@@ -230,30 +241,30 @@ public class AlumnoControllerTests {
 		mockMvc.perform(MockMvcRequestBuilders.multipart("/alumnos/"+500+"/edit"))
 		.andExpect(status().is4xxClientError());
 	}
-	@WithMockUser(username="PEPE@alum.us.es", authorities = "alumno")
+	@WithMockUser(username="daniel@us.es", authorities = "alumno")
 	@Test
 	void testProcessUpdateFormSuccess() throws Exception {
 		byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };
-		mockMvc.perform(MockMvcRequestBuilders.multipart("/alumnos/"+TEST_ALUMNO_ID+"/edit")
+		mockMvc.perform(MockMvcRequestBuilders.multipart("/alumnos/0/edit")
 							.file(new MockMultipartFile("image","file.jpg", "text/plain", somebytes))
 							.with(csrf())
-							.param("nombre", "Javier")
+							.param("nombre", "Daniel")
 							.param("apellidos", "Granero")
-							.param("email", "vicgra@alum.us.es")
+							.param("email", "daniel@us.es")
 							.param("pass", "Esto@@esUna4")
 							)
 		.andExpect(status().isOk())
 		.andExpect(model().attribute("message", "Alumno actualizado con éxito"))
 		.andExpect(view().name("/alumnos/alumnosList"));
 	}
-	@WithMockUser(value= "spring", authorities = {"creador", "tutor"})
+	@WithMockUser(username = "daniel@us.es", authorities = {"creador", "tutor"})
 	@Test
 	void testProcessUpdateFormFailure() throws Exception {
 		byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };
 		mockMvc.perform(MockMvcRequestBuilders.multipart("/alumnos/"+TEST_ALUMNO_ID+"/edit")
 							.file(new MockMultipartFile("image","file.jpg", "text/plain", somebytes))
 							.with(csrf())
-							.param("nombre", "Javier")
+							.param("nombre", "Daniel")
 							.param("apellidos", "Granero")
 							.param("email", "vicgra@alum.us.es")
 							.param("pass", "Esto@@esUna4")

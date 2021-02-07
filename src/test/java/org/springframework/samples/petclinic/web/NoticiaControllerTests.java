@@ -123,6 +123,13 @@ public class NoticiaControllerTests {
 		
 	}
 	
+	@WithMockUser(value = "spring")
+	@Test
+	void testNotGetNoticia() throws Exception {
+		mockMvc.perform(get("/noticias/15")).andExpect(status().isOk()).andExpect(view().name("/noticias/noticiasList"))
+		.andExpect(model().attribute("message", "No podemos encontrar la noticia"));
+	}
+	
 	@WithMockUser(value = "spring", authorities = {"alumno", "creador"})
 	@Test
 	void testInitCreateFormFailure() throws Exception{
@@ -131,24 +138,22 @@ public class NoticiaControllerTests {
 		
 	}
 	
-	@WithMockUser(value = "spring", authorities = "tutor")
+	@WithMockUser(username = "jesus@us.es", authorities = "tutor")
 	@Test
 	void testProcessCreationFormSuccess()throws Exception{
 		byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };
 		mockMvc.perform(MockMvcRequestBuilders.multipart("/noticias/new")
-							.file(new MockMultipartFile("image","file.jpg", "text/plain", somebytes))
+							.file(new MockMultipartFile("image","resources/images/noticias/2020122317841918000000.jpg", "text/plain", somebytes))
 							.with(csrf())
 							.param("autores", "3")
-							.param("autores", "4")
-							.param("autores", "5")
 							.param("_autores", "on")
-							.param("name", "Esto es el titulo")
-							.param("texto", "Esto es un texto de prueba"))
+							.param("name", "Concurso problemas recursivos")
+							.param("texto", "El proximo 10 de febrero tendrá lugar un concurso en la Universidad de Sevilla sobre problemas recursivos"))
 		.andExpect(status().is3xxRedirection())
 		.andExpect(view().name("redirect:/noticias/"));
 	}
 	
-	@WithMockUser(value = "spring", authorities = "tutor")
+	@WithMockUser(username = "jesus@us.es", authorities = "tutor")
 	@Test
 	void testProcessUpdateFormSucces()throws Exception{
 		byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };

@@ -168,7 +168,7 @@ public class AlumnoController {
 			fileService.saveFile(imagen,rootImage,name);
 
 			fileService.imageCrop("resources/images/alumnos/"  + name, fileService);
-
+			
 			alumno.setEnabled(false);
 			alumnoService.save(alumno);
 			alumnoService.sendMail(alumno, javaMailSender);
