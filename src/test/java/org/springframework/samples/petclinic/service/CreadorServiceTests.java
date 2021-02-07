@@ -43,7 +43,7 @@ class CreadorServiceTests {
 		assertThat(creador.getEmail()).isEqualTo("davbrican@us.es");
 		
 		assertThat(creador.getImagen()).isEqualTo("resources/images/creadores/2020122317244979000000.jpg");
-		assertThat(creador.getPass()).isEqualTo("dbgames5DD@f5");
+		assertThat(creador.getPass()).isEqualTo("$2a$10$p25p6pDKzt4O/ez2VhFWFuu6P7e9HDNYxFIURR/r0ZoTi9NnKUJgO");
 	}
 	
 	@Test
@@ -102,7 +102,7 @@ class CreadorServiceTests {
 		problemaNuevo.setCasos_prueba("2 3 34 23 2 23");
 		problemaNuevo.setDescripcion("Problema de prueba.Pruébame :P");
 		problemaNuevo.setSeasonYear(2021);
-		
+		problemaNuevo.setDificultad("MEDIA");
 		problemaService.saveProblema(problemaNuevo);
 		
 		creador = this.creadorService.findById(0).get();

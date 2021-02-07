@@ -112,7 +112,7 @@ public class ApiRestController {
 	
 	@GetMapping(value="/noticias",produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Noticia> getNoticias(@RequestParam(name="page", defaultValue="1") int pagea, @RequestParam(name="page-not", defaultValue="1") int pagen, ModelMap model) {
-		Pageable pageableA = PageRequest.of(pagea-1, pagsize,Sort.by("id").descending());
+		Pageable pageableA = PageRequest.of(pagea-1, 4,Sort.by("id").descending());
 		return noticiaService.findAllPage(pageableA).getContent();
 		
 	}

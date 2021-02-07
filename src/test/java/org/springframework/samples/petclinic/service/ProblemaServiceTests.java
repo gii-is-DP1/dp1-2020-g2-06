@@ -55,7 +55,7 @@ public class ProblemaServiceTests {
 	@Transactional
 	void shouldFindProblemasByTutor() throws IOException {
 		Integer numeroProblemasTutor = problemaService.findAllByCreador(0).size();
-		assertThat(numeroProblemasTutor).isEqualTo(5);
+		assertThat(numeroProblemasTutor).isEqualTo(6);
 	}
 	
 	public void shouldInsertProblema() throws IOException {
