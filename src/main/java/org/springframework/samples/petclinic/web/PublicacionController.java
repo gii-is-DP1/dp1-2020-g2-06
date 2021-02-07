@@ -27,6 +27,7 @@ public class PublicacionController {
 	
 	@Autowired
 	private PublicacionService publicacionService;
+	
 	@Autowired
 	private AlumnoService alumnoService;
 	
