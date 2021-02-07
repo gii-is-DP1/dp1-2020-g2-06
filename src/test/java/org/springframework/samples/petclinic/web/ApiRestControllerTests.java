@@ -46,7 +46,7 @@ public class ApiRestControllerTests {
 		
 		mockMvc.perform(get("/api/articulos/bytutor/0"))
 		.andExpect(status().isOk())
-		.andExpect(content().string(containsString("Articulo sobre JesusApa")));
+		.andExpect(content().string(containsString("Tecnicas avanzadas (C)")));
 
     }
 	
@@ -56,7 +56,7 @@ public class ApiRestControllerTests {
 		
 		mockMvc.perform(get("/api/noticias/bytutor/0"))
 		.andExpect(status().isOk())
-		.andExpect(content().string(containsString("Noticias a la carbonara")));
+		.andExpect(content().string(containsString("Jornadas de TwinCode")));
 
     }
 	
@@ -113,7 +113,7 @@ public class ApiRestControllerTests {
 		
 		mockMvc.perform(get("/api/noticias"))
 		.andExpect(status().isOk())
-		.andExpect(content().string(containsString("Noticias crudas")));
+		.andExpect(content().string(containsString("Jornadas de TwinCode")));
 
     }
 	
@@ -122,7 +122,7 @@ public class ApiRestControllerTests {
 		
 		mockMvc.perform(get("/api/PageablePublicaciones"))
 		.andExpect(status().isOk())
-		.andExpect(content().string(containsString("Rarmon")));
+		.andExpect(content().string(containsString("Daniel")));
 
     }
 	
@@ -131,7 +131,7 @@ public class ApiRestControllerTests {
 		
 		mockMvc.perform(get("/api/articulospage"))
 		.andExpect(status().isOk())
-		.andExpect(content().string(containsString("Articulo sobre JesusApa")));
+		.andExpect(content().string(containsString("Introduccion al lenguaje Phyton")));
 
     }
 	
@@ -141,7 +141,7 @@ public class ApiRestControllerTests {
 		
 		mockMvc.perform(get("/api/alumnospage"))
 		.andExpect(status().isOk())
-		.andExpect(content().string(containsString("Maria")));
+		.andExpect(content().string(containsString("")));
 
     }
 	
