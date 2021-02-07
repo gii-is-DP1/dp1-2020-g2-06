@@ -10,7 +10,8 @@
 
 <petclinic:layout pageName="tutores">
     <h2>Tutores</h2>
-
+<p><b>Nuestros tutores elaboran artículos, noticias, responden a tus dudas y... ¡te guían en tu camino hacia la excelencia!</b> </p>
+   <br>
     <div>
     	<table class="table table-striped" id="tutores">
     	
@@ -30,8 +31,9 @@ function tutorespageable(page){
 		scroll(0,0);
     	var tutorespag = paginate(page,'/api/tutores/?page=');
     	var nexttutorespag = paginate(page+1,'/api/tutores/?page=');
+    	if(!(page==1 && nexttutorespag.length==0))
+	    	$("#numero-tut").text(page);
     
-	    $("#numero-tut").text(page);
 	    if(page>1){
 	    	$("#izquierda-tut").attr("src","/resources/images/leftrow.svg");
 	    }

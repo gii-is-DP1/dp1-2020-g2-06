@@ -8,9 +8,9 @@
 
 <petclinic:layout pageName="envios">
 
-    <h2>Mensajes</h2>
-          
-	
+    <h2>Foro</h2>
+          <p><b>¡Comparte con tus compañeros tus inquietudes en el foro! Lee las <a href="/normasWeb">normas de la web</a> antes de hacer cualquier publicación. ¡Respeta y disfruta!</b></p>
+		<br>
 	<sec:authorize access="hasAuthority('alumno')">
 		<h2>Escribe tu mensaje</h2>
 		<form:form action="/foro/new" modelAttribute="publicacion" class="form-horizontal" id="add-owner-form">
@@ -44,8 +44,9 @@
     function publicacionespaginable(page){
     	var publicacionespag = paginate(page,'/api/PageablePublicaciones?page=');
     	var nextpublicacionpag = paginate(page+1,'/api/PageablePublicaciones?page=');
-
-	    $("#numero-publicacion").text(page);
+    	if(!(page==1 && nextpublicacionpag.length==0))
+	    	$("#numero-publicacion").text(page);
+    	
 	    if(page>1){
 	    	$("#izquierda-publicacion").attr("src","/resources/images/leftrow.svg");
 	    }

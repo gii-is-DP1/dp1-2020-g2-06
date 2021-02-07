@@ -32,7 +32,9 @@
     	scroll(0,0);
     	var alumnospag = paginate(page,'/api/alumnospage'+'?page=');
     	var nextalumnospag = paginate(page+1,'/api/alumnospage'+'?page=');
-	    $("#numero-art").text(page);
+    	if(!(page==1 && nextalumnospag.length==0))
+	    	$("#numero-art").text(page);
+    	
 	    if(page>1){
 	    	$("#izquierda-art").attr("src","/resources/images/leftrow.svg");
 	    }
