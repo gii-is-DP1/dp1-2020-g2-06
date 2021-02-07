@@ -41,9 +41,9 @@ public class ArticuloServiceTests {
 	public void shouldFindArticuloById() {
 		Articulo articulo= this.articuloService.findById(0).get();
 		assertThat(articulo.getId()).isEqualTo(0);
-		assertThat(articulo.getFechaPublicacion()).isEqualTo(LocalDate.of(2020, 07,23));
+		assertThat(articulo.getFechaPublicacion()).isEqualTo("10 de Febrero de 2020");
 		assertThat(articulo.getImagen()).isEqualTo("resources/images/articulos/2020122317810299000000.jpg");
-		assertThat(articulo.getName()).isEqualTo("Articulo sobre DBGames");
+		assertThat(articulo.getName()).isEqualTo("Arboles, y porque son tan utiles");
 		assertThat(articulo.getTexto()).isEqualTo("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt"
 				+ " ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea"
 				+ " commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."

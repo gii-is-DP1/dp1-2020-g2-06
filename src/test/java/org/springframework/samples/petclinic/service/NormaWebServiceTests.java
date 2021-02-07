@@ -72,7 +72,7 @@ class NormaWebServiceTests {
 	public void shouldFindAllNormaWebInitial() {
 		Collection<NormaWeb> normasWeb = this.normaWebService.findAll();
 
-		assertThat( normasWeb.size()).isEqualTo(3);
+		assertThat( normasWeb.size()).isEqualTo(11);
 	}
 	
 	@Test
