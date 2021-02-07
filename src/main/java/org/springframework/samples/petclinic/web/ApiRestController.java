@@ -137,12 +137,5 @@ public class ApiRestController {
 
 	}
 	
-	
-	@GetMapping(value="/prueba",produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<Alumno> getPrueba(ModelMap model) {
-		
-		return alumnoService.rankingTotal().stream().map(x->x.getFirst()).collect(Collectors.toList());
-
-	}
 
 }
