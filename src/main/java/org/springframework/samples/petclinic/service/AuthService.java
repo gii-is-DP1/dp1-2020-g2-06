@@ -23,12 +23,9 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Administrador;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Auth;
-import org.springframework.samples.petclinic.model.Authorities;
 import org.springframework.samples.petclinic.model.Creador;
 import org.springframework.samples.petclinic.model.Tutor;
-import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.repository.AuthRepository;
-import org.springframework.samples.petclinic.repository.AuthoritiesRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
