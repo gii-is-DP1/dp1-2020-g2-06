@@ -25,7 +25,7 @@ public class JudgeServiceTests {
 
 	@Test
 	public void shouldGetResult() throws InterruptedException {
-		Integer send = judgeService.addSubmission(2,"codes/prueba.c","c","",1);
+		Integer send = judgeService.addSubmission(2,"codes/202119185330514347900.c","c","",1);
 		Thread.sleep(12000);
 		Judgement j = judgeService.getResult(send, 2);
 		assertThat(j.getJudgementTypeId()).isEqualTo("TLE");
@@ -33,8 +33,8 @@ public class JudgeServiceTests {
 	
 	@Test
 	public void shouldaddSubmission() {
-		Integer first = judgeService.addSubmission(2,"codes/prueba.c","c","",1);
-		Integer second = judgeService.addSubmission(2,"codes/prueba.c","c","",1);
+		Integer first = judgeService.addSubmission(2,"codes/202111019422858000000.c","c","",1);
+		Integer second = judgeService.addSubmission(2,"codes/202111019422858000000.c","c","",1);
 
 		assertThat(second).isEqualTo(first+1);
 	}
@@ -59,7 +59,7 @@ public class JudgeServiceTests {
 	
 	@Test
 	public void shouldJudge() throws InterruptedException {
-		Integer send = judgeService.addSubmission(2,"codes/prueba.c","c","",1);
+		Integer send = judgeService.addSubmission(2,"codes/202119185330514347900.c","c","",1);
 		assertThat(judgeService.judge(2,send)).isEqualTo("TLE");
 	}
 	

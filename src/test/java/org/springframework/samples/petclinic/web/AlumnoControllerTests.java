@@ -161,7 +161,7 @@ public class AlumnoControllerTests {
 	}
 	@WithMockUser(value = "spring")
 	@Test
-	void testcomprobarUrls2() throws Exception {
+	void testcomprobarUrl() throws Exception {
 		mockMvc.perform(get("/alumnos")).andExpect(status().isOk());
 		mockMvc.perform(get("/alumnos/new")).andExpect(status().isOk());
 		mockMvc.perform(get("/alumnos/"+TEST_ALUMNO_ID)).andExpect(status().isOk());
