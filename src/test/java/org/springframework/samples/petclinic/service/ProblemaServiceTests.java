@@ -41,7 +41,7 @@ public class ProblemaServiceTests {
 	@Transactional
 	void shouldFindProblemasVigentes() throws IOException {
 		Integer numeroProblemasVigentes = problemaService.ProblemasVigentes().size();
-		assertThat(numeroProblemasVigentes).isEqualTo(1);
+		assertThat(numeroProblemasVigentes).isEqualTo(3);
 	}
 	
 	@Test

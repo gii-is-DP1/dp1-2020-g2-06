@@ -75,7 +75,7 @@ public class AlumnoServiceTests {
 			catch(Exception e) {
 				
 			}
-			Optional<Alumno> opt = alumnoService.findById(7);
+			Optional<Alumno> opt = alumnoService.findById(10);
 			
 			assertThat(opt.isPresent()).isEqualTo(false);
 		}
