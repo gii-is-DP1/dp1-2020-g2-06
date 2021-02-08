@@ -123,6 +123,9 @@ public class EnvioControllerTests {
 	@WithMockUser(authorities="alumno")
 	@Test
 	void testShowEnvioDetails() throws Exception {
+		
+		// Caso positivo HU-37 Visualizar detalles de un envio
+		
 		mockMvc.perform(get("/envios/120")).andExpect(status().isOk()).andExpect(model().attributeExists("envio"))
 		.andExpect(view().name("envios/envioDetails"));
 	}
@@ -130,6 +133,9 @@ public class EnvioControllerTests {
 	@WithMockUser(authorities="alumno")
 	@Test
 	void testDoesNotShowEnvioDetails() throws Exception {
+		
+		// Caso negativo HU-37 Visualizar detalles de un envio
+		
 		mockMvc.perform(get("/envios/150")).andExpect(status().isOk()).andExpect(model().attributeDoesNotExist("envio"))
 		.andExpect(view().name("problemas/problemasList"));
 	}
@@ -137,6 +143,9 @@ public class EnvioControllerTests {
 	@WithMockUser(username="daniel@alum.us.es", authorities="alumno")
 	@Test
 	void testEnvioSendSuccess() throws Exception {
+		
+		// HU-9+E1 Envío del problema “¡Hola mundo!”
+		
 		byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };
 		mockMvc.perform(MockMvcRequestBuilders.multipart("/envios/send/0")
 				.file(new MockMultipartFile("archivo","solucion.c", "text/plain", somebytes))
@@ -147,6 +156,9 @@ public class EnvioControllerTests {
 	@WithMockUser(authorities="alumno")
 	@Test
 	void testEnvioSendFailedBecauseFileEmpty() throws Exception {
+		
+		// HU-9-E1 Envío del problema “¡Hola mundo!”
+		
 		byte[] somebytes = { };
 		mockMvc.perform(MockMvcRequestBuilders.multipart("/envios/send/0")
 				.file(new MockMultipartFile("archivo","archivo.zip", "text/plain", somebytes))
@@ -158,6 +170,9 @@ public class EnvioControllerTests {
 	@WithMockUser(authorities="alumno")
 	@Test
 	void testEnvioSendFailedBecauseOfFileType() throws Exception {
+		
+		// caso negativo para comprobar restriccion tipo de archivo .java .c o .cpp
+		
 		byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };
 		mockMvc.perform(MockMvcRequestBuilders.multipart("/envios/send/0")
 				.file(new MockMultipartFile("archivo","archivo.zip", "text/plain", somebytes))
@@ -168,6 +183,9 @@ public class EnvioControllerTests {
 	@WithMockUser(authorities="tutor")
 	@Test
 	void testEnvioSendFailedBecauseOfUser() throws Exception {
+		
+		// caso negativo para comprobar restriccion de que solo los alumnos pueden realizar envios
+		
 		byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };
 		mockMvc.perform(MockMvcRequestBuilders.multipart("/envios/send/0")
 				.file(new MockMultipartFile("archivo","archivo.cpp", "text/plain", somebytes))
