@@ -150,7 +150,7 @@ public class AlumnoControllerTests {
 
 	}
 	
-
+	//HU-23 Listado de Alumnos registrados
 	@WithMockUser(value = "spring", authorities = "alumno")
 	@Test
 	void testcomprobarUrls() throws Exception {
@@ -166,14 +166,14 @@ public class AlumnoControllerTests {
 		mockMvc.perform(get("/alumnos/new")).andExpect(status().isOk());
 		mockMvc.perform(get("/alumnos/"+TEST_ALUMNO_ID)).andExpect(status().isOk());
 	}
-	
+	//HU-25 Registro de Alumnos
 	@WithMockUser(value = "spring")
 	@Test
 	void testInitCreationForm() throws Exception {
 		mockMvc.perform(get("/alumnos/new")).andExpect(status().isOk()).andExpect(model().attributeExists("alumno"))
 		.andExpect(view().name("alumnos/createOrUpdateAlumnoForm"));
 	}
-	
+	//Caso positivo HU-25 Registro de Alumnos
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
@@ -190,7 +190,7 @@ public class AlumnoControllerTests {
 	}
 	
 	
-
+	//Caso negativo HU-24 Registro de Alumnos
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessCreationFormFailure() throws Exception {
@@ -205,7 +205,8 @@ public class AlumnoControllerTests {
 		.andExpect(status().isOk())
 		.andExpect(view().name("alumnos/createOrUpdateAlumnoForm"));
 	}
-	
+	//HU-25 Autenticación de correo electrónico en el registro de alumnos 
+	//Comprobar Verificación
 	@WithMockUser(value = "spring")
 	@Test
 	void testVerification() throws Exception {
@@ -214,7 +215,7 @@ public class AlumnoControllerTests {
 				.andExpect(view().name("/alumnos/verificationView"));
 	}
 	
-	
+	//Caso positivo HU-25 Autenticación de correo electrónico en el registro de alumnos 
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessConfirmationFormSuccess() throws Exception {
@@ -224,7 +225,7 @@ public class AlumnoControllerTests {
 	}
 	
 	
-	
+	//Caso positivo HU-1 Perfil de usuario modificable
 	@WithMockUser(username="daniel@us.es", authorities = "alumno")
 	@Test
 	void testInitProcessUpdateFormSuccess() throws Exception {
@@ -234,13 +235,15 @@ public class AlumnoControllerTests {
 	}
 
 	
-	
+	//Caso negativo HU-1 Perfil de usuario modificable
 	@WithMockUser(value= "spring", authorities = "alumno")
 	@Test
 	void testInitProcessUpdateFormFailure() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.multipart("/alumnos/"+500+"/edit"))
 		.andExpect(status().is4xxClientError());
 	}
+	
+	//Caso positivo HU-1 Perfil de usuario modificable
 	@WithMockUser(username="daniel@us.es", authorities = "alumno")
 	@Test
 	void testProcessUpdateFormSuccess() throws Exception {
@@ -257,6 +260,7 @@ public class AlumnoControllerTests {
 		.andExpect(model().attribute("message", "Alumno actualizado con éxito"))
 		.andExpect(view().name("/alumnos/alumnosList"));
 	}
+	//Caso positivo HU-1 Perfil de usuario modificable
 	@WithMockUser(username = "daniel@us.es", authorities = {"creador", "tutor"})
 	@Test
 	void testProcessUpdateFormFailure() throws Exception {
