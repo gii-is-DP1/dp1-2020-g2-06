@@ -123,7 +123,7 @@ public class PerfilControllerTests {
 	when(creadorController.creadorDetails(any(Integer.class),Mockito.any(ModelMap.class))).thenReturn("creadores/creadorDetails");
     }
 	
-	
+	//Caso positivo de HU-40
 	@WithMockUser(value = "spring",authorities="alumno")
     @Test
     void testPerfilRedirectionAsAlumno() throws Exception {
@@ -133,6 +133,7 @@ public class PerfilControllerTests {
 			.andExpect(view().name("alumnos/alumnoDetails"));
 	}
 	
+	//Caso positivo de HU-40
 	@WithMockUser(value = "spring",authorities="tutor")
     @Test
     void testPerfilRedirectionAsTutor() throws Exception {
@@ -142,6 +143,7 @@ public class PerfilControllerTests {
 			.andExpect(view().name("tutores/tutorDetails"));
 	}
 	
+	//Caso positivo de HU-40
 	@WithMockUser(value = "spring",authorities="creador")
     @Test
     void testPerfilRedirectionAsCreador() throws Exception {
@@ -151,6 +153,7 @@ public class PerfilControllerTests {
 			.andExpect(view().name("creadores/creadorDetails"));
 	}
 	
+	//Caso negativo de HU-40
 	@WithMockUser(value = "spring")
     @Test
     void testPerfilRedirectionNotAuthenticated() throws Exception {
