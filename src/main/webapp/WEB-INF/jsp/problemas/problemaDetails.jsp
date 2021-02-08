@@ -227,7 +227,7 @@
 	    
 	    for(var i = 0; i < enviospag.length; i++){
 	    	
-	    $("#envios").append('<tr><td><a href="/envios/'+enviospag[i]["id"]+'">'+enviospag[i]["id"]+'</a></td><td><a href="/alumnos/'+enviospag[i]["alumno"]["id"]+'">'+ enviospag[i]["alumno"]["nombre"]+'&nbsp;'+enviospag[i]["alumno"]["apellidos"]+'</a></td><td>'+enviospag[i]["fecha"]+'</td><td>'+enviospag[i]["resolucion"]+'</td></tr>');
+	    $("#envios").append('<tr><td><a href="/envios/'+enviospag[i]["id"]+'">'+enviospag[i]["id"]+'</a></td><td><a href="/alumnos/'+enviospag[i]["alumno"]["id"]+'">'+ enviospag[i]["alumno"]["nombre"]+'&nbsp;'+enviospag[i]["alumno"]["apellidos"]+'</a></td><td>'+enviospag[i]["fechaFormat"]+'</td><td>'+enviospag[i]["resolucion"]+'</td></tr>');
 	    	
 	    }
 	    console.log(enviospag);
