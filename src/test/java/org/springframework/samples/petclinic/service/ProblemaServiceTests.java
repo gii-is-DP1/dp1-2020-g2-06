@@ -41,7 +41,7 @@ public class ProblemaServiceTests {
 	@Transactional
 	void shouldFindProblemasVigentes() throws IOException {
 		Integer numeroProblemasVigentes = problemaService.ProblemasVigentes().size();
-		assertThat(numeroProblemasVigentes).isEqualTo(1);
+		assertThat(numeroProblemasVigentes).isEqualTo(6);
 	}
 	
 	@Test
@@ -55,7 +55,7 @@ public class ProblemaServiceTests {
 	@Transactional
 	void shouldFindProblemasByTutor() throws IOException {
 		Integer numeroProblemasTutor = problemaService.findAllByCreador(0).size();
-		assertThat(numeroProblemasTutor).isEqualTo(6);
+		assertThat(numeroProblemasTutor).isEqualTo(11);
 	}
 	
 	public void shouldInsertProblema() throws IOException {
