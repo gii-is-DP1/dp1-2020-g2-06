@@ -10,7 +10,8 @@
 	<table id="articuloTable" class="table table-striped">
             <tr>
                 <th>                    
-                    <c:out value="${articulo.name}"/>&nbsp;<c:out value="${articulo.fechaPublicacion}"/>
+                    <h2><c:out value="${articulo.name}"/></h2>
+                    <c:out value="${articulo.fechaPublicacionFormat}"/>
                 </th>
                 <sec:authorize access="hasAuthority('tutor')"> 
                 <th>
@@ -28,7 +29,7 @@
                 
             <tr>
                 <td>
-               <p style="text-align:center"> <img src="/<c:out value="${articulo.imagen}"/>" id="Imagen" width=400px/></p>
+               <p style="text-align:center"> <img style="padding-bottom:10px" src="/<c:out value="${articulo.imagen}"/>" id="Imagen" width=400px/></p>
                     <c:out value="${articulo.texto}"/>
                 </td>                
 

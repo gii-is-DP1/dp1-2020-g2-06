@@ -161,7 +161,7 @@ public class AlumnoControllerTests {
 	}
 	@WithMockUser(value = "spring")
 	@Test
-	void testcomprobarUrls2() throws Exception {
+	void testcomprobarUrl() throws Exception {
 		mockMvc.perform(get("/alumnos")).andExpect(status().isOk());
 		mockMvc.perform(get("/alumnos/new")).andExpect(status().isOk());
 		mockMvc.perform(get("/alumnos/"+TEST_ALUMNO_ID)).andExpect(status().isOk());
@@ -185,8 +185,8 @@ public class AlumnoControllerTests {
 							.param("apellidos", "Granero")
 							.param("email", "vicgragil@alum.us.es")
 							.param("pass", "Esto@@esUna4"))
-		.andExpect(status().is3xxRedirection())
-		.andExpect(view().name("redirect:/alumnos/null"));
+		.andExpect(status().isOk())
+		.andExpect(view().name("/alumnos/verificationView"));
 	}
 	
 	
@@ -206,13 +206,25 @@ public class AlumnoControllerTests {
 		.andExpect(view().name("alumnos/createOrUpdateAlumnoForm"));
 	}
 	
-	@WithMockUser(value = "spring", authorities = "alumno")
+	@WithMockUser(value = "spring")
+	@Test
+	void testVerification() throws Exception {
+		mockMvc.perform(get("/alumnos/verificationView"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("/alumnos/verificationView"));
+	}
+	
+	
+	@WithMockUser(value = "spring")
 	@Test
 	void testProcessConfirmationFormSuccess() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.multipart("/alumnos/confirmation/"+TEST_ALUMNO_TOKEN))
-				.andExpect(status().isOk())
-				.andExpect(view().name("redirect:/alumnos/"+TEST_ALUMNO_ID));
+		mockMvc.perform(get("/alumnos/confirmation/"+TEST_ALUMNO_TOKEN))
+				.andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/alumnos/verificationView"));
 	}
+	
+	
+	
 	@WithMockUser(username="daniel@us.es", authorities = "alumno")
 	@Test
 	void testInitProcessUpdateFormSuccess() throws Exception {

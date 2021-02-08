@@ -13,6 +13,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.samples.petclinic.util.Utils;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -45,5 +46,9 @@ public class Noticia extends NamedEntity{
 	private String texto;
 	
 	private String imagen;
+	
+	public String getFechaPublicacionFormat() {
+		return fechaPublicacion.getDayOfMonth() + " de " + Utils.getMonthName(fechaPublicacion.getMonthValue())  + " de " + fechaPublicacion.getYear();
+	}
 
 }

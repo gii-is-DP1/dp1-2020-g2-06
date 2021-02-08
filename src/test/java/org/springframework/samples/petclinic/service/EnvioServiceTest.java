@@ -37,8 +37,8 @@ public class EnvioServiceTest {
 	public void shouldFindById() {
 		Envio e = envioService.findById(0).get();
 		assertThat(e.getIdJudge()).isEqualTo(0);
-		assertThat(e.getFecha().toString()).isEqualTo("2020-08-21T11:13:13.274");
-		assertThat(e.getCodigoPath()).isEqualTo("codes/prueba.java");
+		assertThat(e.getFecha().toString()).isEqualTo("21/08/2020 11:13");
+		assertThat(e.getCodigoPath()).isEqualTo("codes/202119235052330851200.java");
 		assertThat(e.getResolucion()).isEqualTo("AC");
 		assertThat(e.getAlumno().getId()).isEqualTo(1);
 		assertThat(e.getProblema().getId()).isEqualTo(1);

@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.NonNull;
+import org.springframework.samples.petclinic.util.Utils;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -39,6 +40,11 @@ public class Articulo extends NamedEntity{
 	@Column(length=5600)
 	@NotEmpty(message= "El campo 'Texto' no puede estar vacío")
 	private String texto;
+	
+	public String getFechaPublicacionFormat() {
+		return fechaPublicacion.getDayOfMonth() + " de " + Utils.getMonthName(fechaPublicacion.getMonthValue())  + " de " + fechaPublicacion.getYear();
+	}
+
 
 	
 }

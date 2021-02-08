@@ -69,5 +69,13 @@ public class Envio extends BaseEntity{
 	public List<String> getCodigoString() throws IOException {
 		return Files.readAllLines(Paths.get(codigoPath));
 	}
+	
+	public String getFechaFormat() {
+		String month = String.valueOf(fecha.getMonthValue());
+		if(month.length()==1) 
+			month = 0 + month;
+			
+		return fecha.getDayOfMonth()+"/"+month+"/"+fecha.getYear()+" "+fecha.getHour()+":"+fecha.getMinute();
+	}
 
 }
