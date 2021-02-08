@@ -61,6 +61,11 @@ public class EnvioController {
 	public String envioDetails(@PathVariable("id") int id, ModelMap model) throws IOException {
 		Optional<Envio> envio = envioService.findById(id);
 		if(envio.isPresent()) {
+			if(envio.get().getAlumno().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName()) || Utils.authLoggedIn().equals("tutor")) {
+				model.addAttribute("me",true);
+			}else {
+				model.addAttribute("me",false);
+			}
 			model.addAttribute("comentarioNuevo", new Comentario());
 			model.addAttribute("comentarios", envio.get().getListaComentarios());
 			model.addAttribute("envio",envio.get());
