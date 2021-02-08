@@ -121,7 +121,7 @@ public class ArticuloControllerTests {
 			
 	}
 	
-	
+	//HU-6 Ver Comunidad de Programación Competitiva
 	@WithMockUser(value = "spring", authorities = "tutor")
 	@Test
 	void testcomprobarUrls() throws Exception {
@@ -131,21 +131,27 @@ public class ArticuloControllerTests {
 		mockMvc.perform(get("/articulos/"+TEST_ARTICULO_ID+"/edit")).andExpect(status().isOk());
 		mockMvc.perform(get("/articulos/"+TEST_ARTICULO_ID+"/delete")).andExpect(status().isOk());
 	}
-	
-	
+	//HU-6 Ver Comunidad de Programación Competitiva
+	@WithMockUser(value = "spring", authorities = "alumno")
+	@Test
+	void testcomprobarUrls2() throws Exception {
+		mockMvc.perform(get("/articulos")).andExpect(status().isOk());
+		mockMvc.perform(get("/articulos/"+TEST_ARTICULO_ID)).andExpect(status().isOk());
+	}
+	//HU-4 Crear Artículos para la web 
 	@WithMockUser(value = "spring", authorities = "tutor")
 	@Test
 	void testInitCreateFormSuccess() throws Exception{
 		mockMvc.perform(get("/articulos/new")).andExpect(status().isOk())
 		.andExpect(view().name("articulos/createOrUpdateArticuloForm"));
 	}
-	
+	//Caso negativo HU-4 Crear Artículos para la web 
 	@WithMockUser(value = "spring", authorities = {"alumno", "creador", "administrador"})
 	@Test
 	void testInitCreateFormFailure() throws Exception{
 		mockMvc.perform(get("/articulos/new")).andExpect(status().is4xxClientError());
 	}
-	
+	//Caso positivo HU-4 Crear Artículos para la web 
 	@WithMockUser(value = "spring", authorities = "tutor")
 	@Test
 	void testProcessCreationFormSuccess()throws Exception{
@@ -161,6 +167,7 @@ public class ArticuloControllerTests {
 		.andExpect(status().is3xxRedirection())
 		.andExpect(view().name("redirect:/articulos"));
 	}
+	//Caso negativo HU-4 Crear Artículos para la web 
 	@WithMockUser(value = "spring", authorities = "tutor")
 	@Test
 	void testProcessCreationFormFailure()throws Exception{
@@ -175,7 +182,7 @@ public class ArticuloControllerTests {
 		.andExpect(view().name("articulos/createOrUpdateArticuloForm"));
 	}
 	
-	
+	//Caso positivo HU-5 Editar Artículos de la web
 	@WithMockUser(username = "vicgragil@us.es", authorities = "tutor")
 	@Test
 	void testEditArticuloSucces()throws Exception{
@@ -187,14 +194,15 @@ public class ArticuloControllerTests {
 				.param("autores", "4")
 				.param("autores", "5")
 				.param("_autores", "on")
-				.param("name", "Articulo sobre DBGames")
-				.param("texto", "Esto es un texto de prueba"))
+				.param("name", "Artículo sobre árboles")
+				.param("texto","Texto de prueba" ))
 		.andExpect(status().isOk())
 		.andExpect(model().attribute("message", "El artículo se ha actualizado con éxito"));
-	}
+	}	
+	//Caso negativo HU-5 Editar Artículos de la web
 	@WithMockUser(authorities = {"alumno","administrador","creador"})
 	@Test
-	void testEditArticuloFailure()throws Exception{
+	void testEditArticuloFailureAuth()throws Exception{
 		byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };
 		mockMvc.perform(MockMvcRequestBuilders.multipart("/articulos/"+TEST_ARTICULO_ID+"/edit")
 				.file(new MockMultipartFile("image","file.jpg", "text/plain", somebytes))
@@ -206,18 +214,20 @@ public class ArticuloControllerTests {
 				.andExpect(status().is4xxClientError());
 
 	}
+	//Caso positivo HU-33 Borrado de Artículos
 	@WithMockUser(username = "vicgragil@us.es", authorities = "tutor")
 	@Test
 	void testDeleteArticuloSucces()throws Exception{
 		mockMvc.perform(get("/articulos/"+TEST_ARTICULO_ID+"/delete")).andExpect(status().isOk())
 		.andExpect(view().name("/articulos/articulosList"));;
 	}
+	//Caso negativo HU-33 Borrado de Artículos
 	@WithMockUser(authorities = {"alumno","administrador","creador"})
 	@Test
 	void testDeleteArticuloFailure()throws Exception{
 		mockMvc.perform(get("/articulos/"+TEST_ARTICULO_ID+"/delete")).andExpect(status().is4xxClientError());
 		
-
+	//Caso negativo HU-33 Borrado de Artículos
 	}
 	@WithMockUser(authorities = "tutor")
 	@Test
