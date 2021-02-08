@@ -47,7 +47,7 @@ public class Noticia extends NamedEntity{
 	
 	private String imagen;
 	
-	public String getFechaPublicacion() {
+	public String getFechaPublicacionFormat() {
 		return fechaPublicacion.getDayOfMonth() + " de " + Utils.getMonthName(fechaPublicacion.getMonthValue())  + " de " + fechaPublicacion.getYear();
 	}
 

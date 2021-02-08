@@ -70,7 +70,7 @@ public class Envio extends BaseEntity{
 		return Files.readAllLines(Paths.get(codigoPath));
 	}
 	
-	public String getFecha() {
+	public String getFechaFormat() {
 		String month = String.valueOf(fecha.getMonthValue());
 		if(month.length()==1) 
 			month = 0 + month;
