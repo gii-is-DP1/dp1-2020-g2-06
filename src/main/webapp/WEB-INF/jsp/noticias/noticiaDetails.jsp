@@ -11,7 +11,7 @@
             <tr>
                 <th>                    
                    <h2><c:out value="${noticia.name}"/></h2> 
-                   <p><c:out value="${noticia.fechaPublicacion}"/></p>
+                   <p><c:out value="${noticia.fechaPublicacionFormat}"/></p>
                 </th>
                 <sec:authorize access="hasAuthority('tutor')"> 
 	                <th>

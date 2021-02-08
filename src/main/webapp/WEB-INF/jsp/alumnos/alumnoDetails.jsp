@@ -157,7 +157,7 @@
 	    
 	    for(var i = 0; i < enviospag.length; i++){
 	    	
-	    $("#envios").append('<tr><td><a href="/envios/'+enviospag[i]["id"]+'">'+enviospag[i]["id"]+'</a></td><td><a href="/envios/'+enviospag[i]["problema"]["id"]+'">'+enviospag[i]["problema"]["name"]+'</a></td><td>'+enviospag[i]["fecha"]+'</td><td>'+enviospag[i]["resolucion"]+'</td></tr>');
+	    $("#envios").append('<tr><td><a href="/envios/'+enviospag[i]["id"]+'">'+enviospag[i]["id"]+'</a></td><td><a href="/envios/'+enviospag[i]["problema"]["id"]+'">'+enviospag[i]["problema"]["name"]+'</a></td><td>'+enviospag[i]["fechaFormat"]+'</td><td>'+enviospag[i]["resolucion"]+'</td></tr>');
 	    	
 	    }
 	    console.log(enviospag);
