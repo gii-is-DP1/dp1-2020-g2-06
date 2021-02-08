@@ -111,6 +111,7 @@ public class PreguntaTutorControllerTests {
 	given(tutorController.tutorDetails(Mockito.anyInt(), Mockito.any(ModelMap.class))).willReturn("/tutores/tutorDetails");
 	}
 	
+	//HU-14 +E14
 	@WithMockUser(username = "daniel@us.es", authorities = "alumno")
 	@Test
 	void testProcessCreationFormSuccessAsAlumno() throws Exception{
@@ -123,6 +124,7 @@ public class PreguntaTutorControllerTests {
 		.andExpect(view().name("/problemas/problemaDetails"));
 	}
 	
+	//HU-14 -E14 
 	@WithMockUser(username = "daniel@us.es", authorities = "alumno")
 	@Test
 	void testProcessCreationFormFailureAsAlumno() throws Exception{
@@ -135,6 +137,7 @@ public class PreguntaTutorControllerTests {
 		.andExpect(model().hasErrors());
 	}
 	
+	//HU-15 -E15
 	@WithMockUser(value="spring", authorities = "tutor")
 	@Test
 	void testProcessCreationFormFailureAsTutor() throws Exception{
@@ -146,7 +149,7 @@ public class PreguntaTutorControllerTests {
 		.andExpect(status().is4xxClientError());
 	}
 	
-	//Historia de usuario 15 caso positivo
+	//HU-15 +E15
 	@WithMockUser(username="alebarled@us.es", authorities = "tutor")
 	@Test
 	void testProcessResponseFormSuccessAsTutor() throws Exception{
@@ -161,7 +164,7 @@ public class PreguntaTutorControllerTests {
 		.andExpect(view().name("/tutores/tutorDetails"));
 	}
 	
-	//Historia de usuario 15 caso negativo
+	//HU-15 -E15
 		@WithMockUser(username="alebarled@us.es", authorities = "tutor")
 		@Test
 		void testProcessCreationFormFailuresAsTutor() throws Exception{
@@ -176,6 +179,7 @@ public class PreguntaTutorControllerTests {
 			.andExpect(view().name("/tutores/tutorDetails"));
 		}
 	
+	//HU-15 -E15
 	@WithMockUser(value="spring", authorities = "alumno")
 	@Test
 	void testProcessResponseFormFailureAsAlumno() throws Exception{
