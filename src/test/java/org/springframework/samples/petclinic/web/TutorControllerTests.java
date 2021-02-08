@@ -130,6 +130,7 @@ public class TutorControllerTests {
 	
 	}
 	
+	//HU-27
 	@WithMockUser(value = "spring", authorities= {"administrador"})
 	@Test
 	void testInitCreationForm() throws Exception {
@@ -146,6 +147,7 @@ public class TutorControllerTests {
 		mockMvc.perform(get("/tutores/"+TEST_TUTOR_ID+"/edit")).andExpect(status().isOk());
 	}
 	
+	//HU-27
 	@WithMockUser(value = "spring", authorities= "administrador")
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
@@ -163,6 +165,7 @@ public class TutorControllerTests {
 		.andExpect(view().name("/tutores/tutoresList"));
 	}
 	
+	//HU-27
 	@WithMockUser(value = "spring", authorities = "administrador")
 	@Test
 	void testProcessCreationFormFailure() throws Exception {
@@ -178,6 +181,7 @@ public class TutorControllerTests {
 		.andExpect(view().name("tutores/createOrUpdateTutorForm"));
 	}
 	
+	//HU-1 -E1
 	@WithMockUser(username = "juanito@us.es", authorities= "administrador")
 	@Test
 	void testProcessUpdateFormFailure() throws Exception {
@@ -193,6 +197,8 @@ public class TutorControllerTests {
 		.andExpect(view().name("tutores/createOrUpdateTutorForm"));
 	}
 	
+	
+	//HU1 +E1
 	@WithMockUser(username = "alebarled@alum.us.es", authorities= "tutor")
 	@Test
 	void testProcessUpdateFormSuccess() throws Exception {

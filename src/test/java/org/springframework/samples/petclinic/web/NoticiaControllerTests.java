@@ -107,6 +107,7 @@ public class NoticiaControllerTests {
 		mockMvc.perform(get("/noticias/"+TEST_NOTICIA_ID+"/delete")).andExpect(status().isOk());
 	}
 	
+	//HU-36 +E36
 	@WithMockUser(value = "spring", authorities = "tutor")
 	@Test
 	void testInitCreateFormSuccess() throws Exception{
@@ -130,6 +131,7 @@ public class NoticiaControllerTests {
 		.andExpect(model().attribute("message", "No podemos encontrar la noticia"));
 	}
 	
+	//HU-36 -E36
 	@WithMockUser(value = "spring", authorities = {"alumno", "creador"})
 	@Test
 	void testInitCreateFormFailure() throws Exception{
@@ -138,6 +140,7 @@ public class NoticiaControllerTests {
 		
 	}
 	
+	//HU-36 +E36
 	@WithMockUser(username = "jesus@us.es", authorities = "tutor")
 	@Test
 	void testProcessCreationFormSuccess()throws Exception{
@@ -153,6 +156,7 @@ public class NoticiaControllerTests {
 		.andExpect(view().name("redirect:/noticias/"));
 	}
 	
+	//HU-34 +E34
 	@WithMockUser(username = "jesus@us.es", authorities = "tutor")
 	@Test
 	void testProcessUpdateFormSucces()throws Exception{
@@ -170,6 +174,7 @@ public class NoticiaControllerTests {
 		.andExpect(view().name("/noticias/noticiasList"));
 	}
 	
+	//HU-34 -E34
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessUpdateFormFailure()throws Exception{
@@ -186,6 +191,7 @@ public class NoticiaControllerTests {
 		.andExpect(status().is4xxClientError());
 	}
 	
+	//HU-36 -E36
 	@WithMockUser(value = "spring", authorities = "tutor")
 	@Test
 	void testProcessCreationFormFailure()throws Exception{
@@ -198,12 +204,14 @@ public class NoticiaControllerTests {
 		.andExpect(view().name("noticias/createOrUpdateNoticiaForm"));
 	}
 	
+	//HU-35 +E35
 	@WithMockUser(username = "davbrincan@alum.us.es", authorities = "tutor")
 	@Test
 	void testProcessDeleteFormSuccess()throws Exception{
 		mockMvc.perform(get("/noticias/11/delete")).andExpect(status().isOk()).andExpect(view().name("/noticias/noticiasList"));
 	}
 	
+	//HU-35 -E35
 	@WithMockUser(value = "davbrincan@alum.us.es")
 	@Test
 	void testProcessDeleteFormFailure()throws Exception{
