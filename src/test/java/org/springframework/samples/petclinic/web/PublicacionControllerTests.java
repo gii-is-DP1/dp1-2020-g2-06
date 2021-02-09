@@ -67,7 +67,8 @@ public class PublicacionControllerTests {
 		publicacion.setFecha(LocalDateTime.of(2021, 2, 1, 16, 39));
 		publicacion.setTexto("Nueva publicación test");
 	}
-	
+
+	//Historia de usuario 13 caso positivo
 	@WithMockUser(username="daniel@us.es",authorities="alumno")
     @Test
     void testProcessCreationFormSuccess() throws Exception {
@@ -77,7 +78,8 @@ public class PublicacionControllerTests {
 						.param("texto", "Que tal chicos?? :)"))
 			.andExpect(status().isOk());
 	}
-	
+
+	//Historia de usuario 13 caso negativo
 	@WithMockUser(username="daniel@us.es",authorities="alumno")
     @Test
     void testProcessCreationFormFail() throws Exception {
