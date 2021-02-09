@@ -122,7 +122,7 @@ public class ApiRestControllerTests {
 		
 		mockMvc.perform(get("/api/PageablePublicaciones"))
 		.andExpect(status().isOk())
-		.andExpect(content().string(containsString("Daniel")));
+		.andExpect(content().string(containsString("Maria Jesus")));
 
     }
 	
