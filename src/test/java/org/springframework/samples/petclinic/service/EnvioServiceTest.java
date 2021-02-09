@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -11,6 +12,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.util.Pair;
+import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Envio;
 import org.springframework.samples.petclinic.model.Temporada;
 import org.springframework.stereotype.Service;
@@ -37,7 +43,7 @@ public class EnvioServiceTest {
 	public void shouldFindById() {
 		Envio e = envioService.findById(0).get();
 		assertThat(e.getIdJudge()).isEqualTo(0);
-		assertThat(e.getFecha().toString()).isEqualTo("21/08/2020 11:13");
+		assertThat(e.getFecha().toString()).isEqualTo("2020-08-21T11:13:13.274");
 		assertThat(e.getCodigoPath()).isEqualTo("codes/202119235052330851200.java");
 		assertThat(e.getResolucion()).isEqualTo("AC");
 		assertThat(e.getAlumno().getId()).isEqualTo(1);
@@ -63,6 +69,28 @@ public class EnvioServiceTest {
 		assertThat(envios).isEqualTo(0);
 	}
 	
+	
+	
+	@Test
+	public void shouldFindAllByAlumnoPage() {
+		Pageable pageableA = PageRequest.of(0, 5, Sort.by("id").descending());
+		int envios = envioService.findAllByAlumnoPage(pageableA, 0).getSize();
+		assertThat(envios).isEqualTo(5);
+	}
+	
+	@Test
+	public void shouldFindAllByProblema() {
+		assertThat(envioService.findAllByProblema(0).size()).isEqualTo(5);
+	}
+	
+	
+	@Test
+	public void shouldFindAllByProblemaPage() {
+		Pageable pageableA = PageRequest.of(0, 5, Sort.by("id").descending());
+		int envios = envioService.findAllByProblemaPage(pageableA, 0).getSize();
+		assertThat(envios).isEqualTo(5);
+	}
+	
 	@Test
 	public void shouldFindResolucionProblema() {
 		Map<String, Long> mapa = new HashMap<>();
@@ -71,7 +99,6 @@ public class EnvioServiceTest {
 		assertThat(envioService.resolucionProblema(0)).isEqualTo(mapa);
 	}
 	
-	//INSERT INTO envios(id,id_judge,fecha,codigo_path,resolucion,id_alumno,id_problema,id_season,season_year) VALUES (10,10,'2019-05-22T11:13:13.274','codes/prueba.java','AC',1,3,1,2019);
 	@Test
 	public void shouldSave() {
 		Envio e = new Envio();
@@ -94,5 +121,27 @@ public class EnvioServiceTest {
 		int size2 = envioService.findAll().size();
 		assertThat(size2).isEqualTo(size+1);
 	}
+	
+	
+	@Test
+	public void shouldFindAllByAlumnoAc() {
+		int size = envioService.findAllByAlumnoAc(0).size();
+		assertThat(size).isEqualTo(2);
+	}
+	
+	
+	@Test
+	public void shouldFindAllByAlumnoWa() {
+		int size = envioService.findAllByAlumnoWa(0).size();
+		assertThat(size).isEqualTo(1);
+	}
+	
+	@Test
+	public void shouldFindAlumnosAC() {
+		int n = envioService.alumnosAC(0);
+		assertThat(n).isEqualTo(2);
+	}
+	
+	
 
 }
