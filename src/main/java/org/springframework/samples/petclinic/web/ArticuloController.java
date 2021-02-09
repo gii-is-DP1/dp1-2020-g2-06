@@ -54,12 +54,12 @@ public class ArticuloController {
 	@Autowired
 	private FileService fileService;
 	
+
 	@GetMapping("")
 	public String listArticulos(ModelMap model) {
 		model.addAttribute("articulos", articuloService.findAll());
 		return "/articulos/articulosList";
 	}
-
 	@GetMapping("/{id}")
 	public String articuloDetails(@PathVariable("id") int id, ModelMap model) {
 		Optional<Articulo> articulo = articuloService.findById(id);

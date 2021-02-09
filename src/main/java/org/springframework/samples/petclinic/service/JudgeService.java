@@ -1,7 +1,6 @@
 package org.springframework.samples.petclinic.service;
 
 import java.io.File;
-import java.nio.charset.Charset;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -9,7 +8,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.samples.petclinic.domjudge.Judgement;
 import org.springframework.samples.petclinic.domjudge.ProblemResponse;
-import org.springframework.samples.petclinic.domjudge.Run;
 import org.springframework.samples.petclinic.repository.JudgeRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;

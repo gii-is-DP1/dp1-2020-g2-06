@@ -45,16 +45,17 @@ public class AdministradorControllerTests {
           .build();
     }
 	
+	//Caso positivo de HU-26 Registro de Creadores y caso positivo HU-27 Registro de Tutores
 	@WithMockUser(value = "spring",authorities="administrador")
     @Test
-    void testProcessCreationFormSuccessAsTutor() throws Exception {
+    void testPanelAdminViewAsAdministrador() throws Exception {
 		mockMvc.perform(get("/administradores")
 						.with(csrf()))
 			.andExpect(status().isOk())
 			.andExpect(view().name("/administradores/panelAdmin"));
 	}
 	
-	
+	//Caso negativo de HU-26 Registro de Creadores y caso negativo HU-27 Registro de Tutores
 	@WithMockUser(value = "spring")
     @Test
     void testProcessCreationFormClientErrorNotAuthenticatedAsAdministrador() throws Exception {
