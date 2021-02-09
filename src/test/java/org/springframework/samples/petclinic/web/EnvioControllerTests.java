@@ -79,7 +79,9 @@ public class EnvioControllerTests {
 		envio.setFecha(LocalDateTime.now());
 		envio.setCodigoPath("codes/prueba.java");
 		envio.setResolucion("AC");
-		envio.setAlumno(new Alumno());
+		Alumno alumno = new Alumno();
+		alumno.setEmail("alebarled@alum.us.es");
+		envio.setAlumno(alumno);
 		envio.setProblema(new Problema());
 		envio.setSeason(new Temporada());
 		envio.setSeasonYear(2020);
@@ -120,7 +122,7 @@ public class EnvioControllerTests {
  
 	}
  
-	@WithMockUser(authorities="alumno")
+	@WithMockUser(username="alebarled@alum.us.es" ,authorities="alumno")
 	@Test
 	void testShowEnvioDetails() throws Exception {
 		
