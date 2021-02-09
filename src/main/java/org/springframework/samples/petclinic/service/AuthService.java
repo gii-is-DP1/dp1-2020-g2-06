@@ -24,6 +24,7 @@ import org.springframework.samples.petclinic.model.Administrador;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Auth;
 import org.springframework.samples.petclinic.model.Creador;
+import org.springframework.samples.petclinic.model.NormaWeb;
 import org.springframework.samples.petclinic.model.Tutor;
 import org.springframework.samples.petclinic.repository.AuthRepository;
 import org.springframework.stereotype.Service;
@@ -52,6 +53,15 @@ public class AuthService {
 		this.creadorService = creadorService;
 		this.administradorService = administradorService;
 	}
+	
+	@Transactional
+	public int authCount() {
+		return (int) authRepository.count();
+	}
+	
+	public Optional<Auth> findById(int id){
+		return authRepository.findById(id);
+	}
 
 	@Transactional
 	public void saveAuth(Auth auth) throws DataAccessException {
@@ -65,10 +75,10 @@ public class AuthService {
 		if(alumno.isPresent()) {
 			auth.setAlumno(alumno.get());
 			auth.setAuthority(role);
-			//user.get().getAuthorities().add(authority);
 			authRepository.save(auth);
-		}else
+		}else {
 			throw new DataAccessException("Email '"+email+"' not found!") {};
+		}
 	}
 	
 	@Transactional
@@ -78,10 +88,10 @@ public class AuthService {
 		if(tutor.isPresent()) {
 			auth.setTutor(tutor.get());
 			auth.setAuthority(role);
-			//user.get().getAuthorities().add(authority);
 			authRepository.save(auth);
-		}else
+		}else {
 			throw new DataAccessException("Email '"+email+"' not found!") {};
+		}
 	}
 	
 	@Transactional
@@ -91,10 +101,10 @@ public class AuthService {
 		if(creador.isPresent()) {
 			auth.setCreador(creador.get());
 			auth.setAuthority(role);
-			//user.get().getAuthorities().add(authority);
 			authRepository.save(auth);
-		}else
+		}else {
 			throw new DataAccessException("Email '"+email+"' not found!") {};
+		}
 	}
 	
 	@Transactional
@@ -104,10 +114,10 @@ public class AuthService {
 		if(administrador.isPresent()) {
 			auth.setAdministrador(administrador.get());
 			auth.setAuthority(role);
-			//user.get().getAuthorities().add(authority);
 			authRepository.save(auth);
-		}else
+		}else {
 			throw new DataAccessException("Email '"+email+"' not found!") {};
+		}
 	}
 
 
