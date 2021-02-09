@@ -13,7 +13,7 @@
     <table class="table table-striped">
     	<tr>
             <th>Fecha de envío</th>
-            <td><c:out value="${envio.fecha}"/></td>
+            <td><c:out value="${envio.fechaFormat}"/></td>
         </tr>
         <tr>
             <th>Alumno</th>
