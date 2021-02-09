@@ -7,7 +7,7 @@
 <petclinic:layout pageName="creador">
 
 	<h2>
-    <img src="/<c:out value="${creador.imagen}"/>" id="Imagen" width="100px" style="border-radius:100%"/>&nbsp;
+    <img src="/<c:out value="${creador.imagen}"/>" id="Imagen" width="200" style="border-radius:100%"/>&nbsp;
 	<c:out value="${creador.nombre}"/>&nbsp;<c:out value="${creador.apellidos}"/>
 	</h2>
 
@@ -24,4 +24,20 @@
     	<a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar Creador</a>
 	</c:if>
 
+
+	<br> <br>	
+	<br> <br>	
+	<h2>Problemas Creados</h2>
+	<div>
+    <table class="table table-striped" >
+    	<c:forEach items="${problemasCreador}" var="problemaCreado">
+    	<tr>
+    		<td>
+    		
+   				<a href="/problemas/${problemaCreado.id}"><c:out value="${problemaCreado.name}"></c:out></a>
+    		</td>
+    	</tr>
+   	</c:forEach>
+    </table>
+    </div>
 </petclinic:layout>

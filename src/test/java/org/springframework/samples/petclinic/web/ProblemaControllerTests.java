@@ -124,6 +124,9 @@ public class ProblemaControllerTests {
 	@WithMockUser(authorities="alumno")
 	@Test
 	void testShowProblemas() throws Exception {
+		
+		//HU-8+E1 Listado de problemas
+		
 		mockMvc.perform(get("/problemas")).andExpect(status().isOk())
 		.andExpect(view().name("problemas/problemasList"));
 	}
@@ -131,6 +134,9 @@ public class ProblemaControllerTests {
 	@WithMockUser(username = "jesus@us.es", authorities="alumno")
 	@Test
 	void testShowProblemaDetails() throws Exception {
+		
+		//HU-10+E1 Visualización del envío realizado número 10 
+		
 		mockMvc.perform(get("/problemas/6")).andExpect(status().isOk())
 		.andExpect(view().name("problemas/problemaDetails"));
 	}
@@ -138,6 +144,9 @@ public class ProblemaControllerTests {
 	@WithMockUser(authorities="alumno")
 	@Test
 	void testDoNotShowNoExistingProblemaDetails() throws Exception {
+		
+		//HU-10-E1 Intentar ver problema que no existe (por id) 
+		
 		mockMvc.perform(get("/problemas/1")).andExpect(status().isOk())
 		.andExpect(view().name("problemas/problemasList"));
 	}
@@ -145,6 +154,9 @@ public class ProblemaControllerTests {
 	@WithMockUser(authorities="creador")
 	@Test
 	void testShowProblemaInitForm() throws Exception {
+		
+		//HU-7+E1 Alta del problema la piscina olimpica
+		
 		mockMvc.perform(get("/problemas/new")).andExpect(status().isOk())
 		.andExpect(view().name("problemas/createOrUpdateProblemaForm"));
 	}
@@ -152,12 +164,17 @@ public class ProblemaControllerTests {
 	@WithMockUser(authorities="alumno")
 	@Test
 	void testDoNotShowProblemaInitForm() throws Exception {
+		
+		// Comprobar restriccion solo los creadores pueden crear problemas
+		
 		mockMvc.perform(get("/problemas/new")).andExpect(status().is4xxClientError());
 	}
 	
 	@WithMockUser(username = "davbrican@us.es", authorities="creador")
 	@Test
 	void testShowProblemaUpdateForm() throws Exception {
+		//HU-7+E1 Alta del problema la piscina olimpica
+		
 		mockMvc.perform(get("/problemas/6/edit")).andExpect(status().isOk())
 		.andExpect(view().name("problemas/createOrUpdateProblemaForm"));
 	}
@@ -166,6 +183,9 @@ public class ProblemaControllerTests {
 	@WithMockUser(username = "jesus@us.es", authorities= "creador")
 	@Test
 	void testProblemaCreate() throws Exception {
+		
+		//HU-7+E1 Alta del problema la piscina olimpica
+		
 		byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };
 		mockMvc.perform(MockMvcRequestBuilders.multipart("/problemas/new")
 							.file(new MockMultipartFile("image","file.jpg", "image/jpeg", somebytes))
@@ -188,6 +208,9 @@ public class ProblemaControllerTests {
 	@WithMockUser(username = "jesus@us.es", authorities= "creador")
 	@Test
 	void testProblemaNotCreateBecauseTitle() throws Exception {
+		
+		//HU-7-E1 Alta de problema sin nombre
+		
 		byte[] somebytes = { 1, 5, 5, 0, 1, 0, 5 };
 		mockMvc.perform(MockMvcRequestBuilders.multipart("/problemas/new")
 							.file(new MockMultipartFile("image","file.jpg", "image/jpeg", somebytes))
@@ -210,6 +233,9 @@ public class ProblemaControllerTests {
 	@WithMockUser(username = "jesus@us.es", authorities= "creador")
 	@Test
 	void testProblemaNotCreateBecauseFileSize() throws Exception {
+		
+		//HU7-E2 Alta de un problema con un zip muy grande 
+		
 		byte[] somebytes = new byte[200000000];
 		mockMvc.perform(MockMvcRequestBuilders.multipart("/problemas/new")
 							.file(new MockMultipartFile("image","file.jpg", "image/jpeg", somebytes))
@@ -218,7 +244,7 @@ public class ProblemaControllerTests {
 							.param("name", "La piscina olímpica")
 							.param("puntuacion", "5")
 							.param("dificultad", "4")
-							.param("descripcion", "Una piscina olimica tiene 50 metros de largo...")
+							.param("descripcion", "Una piscina olimpica tiene 50 metros de largo...")
 							.param("casos_prueba", "50 2 1")
 							.param("salida_esperada", "SI")
 							.param("season", "2")
@@ -234,6 +260,9 @@ public class ProblemaControllerTests {
 	@WithMockUser(authorities="creador")
 	@Test
 	void testProblemaUpdate() throws Exception {
+		
+		//HU-32 Caso positivo
+		
 		byte[] somebytes = {1,2,4,5};
 		mockMvc.perform(MockMvcRequestBuilders.multipart("/problemas/6/edit")
 							.file(new MockMultipartFile("image","file.jpg", "image/jpeg", somebytes))

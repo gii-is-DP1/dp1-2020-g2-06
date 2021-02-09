@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.samples.petclinic.model.Aclaracion;
 
 public interface AclaracionRepository extends Repository<Aclaracion, String>{
-	
+	/*Los siguientes 3 métodos son implementados con la extensión Repository, y las 2 últimas, son consultas SQL creadas por mí para obtener lo que necesitaba*/
 	Collection<Aclaracion> findAll() throws DataAccessException;
 	
 	Optional<Aclaracion> findById(int id) throws DataAccessException;
