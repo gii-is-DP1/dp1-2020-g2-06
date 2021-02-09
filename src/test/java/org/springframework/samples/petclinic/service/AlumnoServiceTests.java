@@ -137,6 +137,13 @@ public class AlumnoServiceTests {
 			
 		}
 		
+		@Test
+		public void shouldFindByToken() {
+			Alumno alumno = alumnoService.findByToken("JHNuaWEkbnQkMnJhcm1vbjEw").get();
+			assertThat(alumno.getEmail()).isEqualTo("rarmon@alum.us.es");
+			
+		}
+		
 		/// La funcion de enviar correo electronico no es posible testearla ya que devuelve void
 		/// y para poder comprobarla tendría que certificarse que se ha recibido un correo en el destinatario
 		
