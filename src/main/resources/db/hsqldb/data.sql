@@ -41,17 +41,16 @@ INSERT INTO noticias(id,name,autor_id,fecha_publicacion,texto,imagen) VALUES (10
 INSERT INTO noticias(id,name,autor_id,fecha_publicacion,texto,imagen) VALUES (11,'Jornadas de TwinCode',0,DATE'2020-11-10','Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?','resources/images/noticias/2020020717841918000000.jpg');
 
 
-INSERT INTO normas_web(id,name,descripcion) VALUES (0,'Respeta', 'Se debe respetar a todos los alumnos que participen en la página');
-INSERT INTO normas_web(id,name,descripcion) VALUES (1,'Tratar bien', 'Se deben tratar bien a los demás alumnos');
-INSERT INTO normas_web(id,name,descripcion) VALUES (2,'Disfruta', 'Lo importante es pasarselo bien');
-INSERT INTO normas_web(id,name,descripcion) VALUES (3,'Lenguaje ofensivo', 'Se debe hablar con un lenguaje no hiriente y sin insultos');
-INSERT INTO normas_web(id,name,descripcion) VALUES (4,'Copias', 'Se podrán tomar medidas en caso de plagio en los códigos de los envíos');
-INSERT INTO normas_web(id,name,descripcion) VALUES (5,'Puntuación de los envios', 'Todos aquellos problemas descatalogados no será considerado para la puntuación del alumno');
+INSERT INTO normas_web(id,name,descripcion) VALUES (0,'Respeta', 'Usa un lenguaje correcto y respeta a compañeros y tutores. Cualquier comportamiento obsceno puede considerarse motivo de expulsión.');
+INSERT INTO normas_web(id,name,descripcion) VALUES (1,'Rankings', 'En cada ranking se puntúa sólo con problemas vigentes, aunque se trate de intervalos de tiempo, sólo puntuarás con problemas que estén vigentes en el momento del envío.');
+
+INSERT INTO normas_web(id,name,descripcion) VALUES (2,'Disfruta', 'Lo importante es pasarselo bien mientras aprendes a escribir scripts eficientes.');
+
+INSERT INTO normas_web(id,name,descripcion) VALUES (4,'Plagio', 'El envío de soluciones copiadas de otros alumnos puede ser motivo de expulsión temporal o permanente.');
 INSERT INTO normas_web(id,name,descripcion) VALUES (6,'Spam', 'Está prohibido llenar el foro de texto sin sentido');
-INSERT INTO normas_web(id,name,descripcion) VALUES (7,'Nombres reales', 'Está prohibido cambiar el nombre por uno falso');
+
 INSERT INTO normas_web(id,name,descripcion) VALUES (8,'Final de temporada', 'A final de cada temporada se resetearán los puntos de temporadas de todos los alumnos');
-INSERT INTO normas_web(id,name,descripcion) VALUES (9,'Spam', 'Está prohibido llenar el foro de texto sin sentido');
-INSERT INTO normas_web(id,name,descripcion) VALUES (10,'Spam', 'Está prohibido llenar el foro de texto sin sentido');
+
 
 
 INSERT INTO temporada(id,nombre) VALUES (0,'PRIMAVERA');
