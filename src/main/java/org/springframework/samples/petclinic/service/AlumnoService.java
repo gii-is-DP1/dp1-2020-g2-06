@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.service;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -140,7 +141,17 @@ public class AlumnoService {
 
 		String destinatario = alumno.getEmail();
 		//String clave = "fvop bsna sxrq nbno";
-		String token = alumno.getNombre().substring(0, 3) + alumno.getApellidos().substring(0, 3) + alumno.getEmail().substring(4, 7) + "CDU1";
+		String token = "";
+		
+		token = alumno.getPass().substring(6, 8)
+				+alumno.getNombre().substring(alumno.getNombre().length()/3, 2*alumno.getNombre().length()/3) 
+				+ alumno.getPass().substring(2, 4)
+				+ alumno.getApellidos().substring(alumno.getApellidos().length()/3, 2*alumno.getApellidos().length()/3)
+				+ alumno.getPass().substring(0, 2)
+				+ alumno.getEmail().substring((alumno.getEmail().length()/2)-2, (alumno.getEmail().length()/2)-2)
+				+ alumno.getPass().substring(4, 6);
+		
+		token = Base64.getEncoder().encodeToString(token.getBytes());
 
 		alumno.setConfirmation_token(token);
 		

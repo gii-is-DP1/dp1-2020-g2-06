@@ -22,12 +22,13 @@ public class ComentarioServiceTests {
 		@Autowired
 		EnvioService envioService;
 		
-		
+		/*Haciendo una llamada a la funcion findAll() de ComentarioService, y compruebo que haya comentarios, para lo cual hago un assertThat, que compruebe que el tamaño sea mayor que 0*/
 		@Test
 		public void shouldFindAll() {
 			assertThat(comentarioService.findAll().size()).isGreaterThan(0);
 		}
 		
+		/*Haciendo una llamada a la funcion findAll() de ComentarioService, tomo el tamaño de la lista, y tras hacer uso de la llamada save, compruebo que haya cambiado el tamaño*/
 		@Test
 		public void shouldInsertComentario() {
 			Collection<Comentario> comentarios = this.comentarioService.findAll();
@@ -45,7 +46,8 @@ public class ComentarioServiceTests {
 			
 			assertThat(comentarios.size()).isEqualTo(found +1);
 		}
-		//INSERT INTO comentarios(id,id_envio,id_alumno,texto) VALUES (0,10,0,'Muy buena resolución del ejercicio, muy simple y muy claro.');
+
+		/*Haciendo uso de la funcion getById del servicio, tomo un comentario, y compruebo que sus parámetros sean los correctos*/
 		@Test
 		public void shouldFindById() {
 			Comentario c = comentarioService.findById(0).get();
@@ -54,11 +56,13 @@ public class ComentarioServiceTests {
 			assertThat(c.getTexto()).isEqualTo("Muy buena resolución del ejercicio, muy simple y muy claro.");
 		}
 		
+		/*Haciendo una llamada a la funcion findAllByEnvio() de ComentarioService, compruebo que haya la cantidad de comentarios adecuadas para ese envio*/
 		@Test
 		public void shouldFindAllByEnvio() {
 			assertThat(comentarioService.findAllByEnvio(10).size()).isEqualTo(2);
 		}
 		
+		/*Haciendo una llamada a la funcion findAllByEnvio() de ComentarioService, compruebo que haya la cantidad de comentarios adecuadas para ese alumno*/	
 		@Test
 		public void shouldFindAllByAlumno() {
 			assertThat(comentarioService.findAllByAlumno(2).size()).isEqualTo(2);
