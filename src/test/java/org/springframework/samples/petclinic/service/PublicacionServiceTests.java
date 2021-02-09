@@ -34,8 +34,8 @@ public class PublicacionServiceTests {
 	public void shouldFindPublicacionById() {
 		Publicacion p = publicacionService.findById(0).get();
 		assertThat(p.getAlumno()).isEqualTo(alumnoService.findById(0).get());
-		assertThat(p.getFecha()).isEqualTo(LocalDateTime.of(2018, 11, 21, 11, 13, 13, 274000000));
-		assertThat(p.getTexto()).isEqualTo("Estais listos para el Ada Byron?! Nos van a machacar!!!");
+		assertThat(p.getFecha()).isEqualTo(LocalDateTime.of(2011, 01, 12, 11, 13, 13, 274000000));
+		assertThat(p.getTexto()).isEqualTo("Me gusta Java");
 	}
 	
 	@Test

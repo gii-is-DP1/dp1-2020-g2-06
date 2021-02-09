@@ -83,7 +83,7 @@
 			<form:form action="/aclaraciones/new" modelAttribute="aclaracion" class="form-horizontal" id="add-owner-form">
 				<petclinic:textArea label="Aclaracion" name="texto" rows="6" />
 				<input type="hidden" name="idProblema" value="${problema.id}" />
-				<button class="btn btn-default" type="submit">AÃ±adir AclaraciÃ³n</button>
+				<button class="btn btn-default" type="submit">Añadir Aclaración</button>
 			</form:form>
 		</div>
 	</sec:authorize>
@@ -149,11 +149,11 @@
 	</sec:authorize>
 
 
-	<h2>Últimos envíos</h2>
+	<h2>Ultimos envios</h2>
 	<table class="table table-striped" id="envios">
 
 		<tr>
-			<th>Envío</th>
+			<th>Envio</th>
 			<th>Alumno</th>
 			<th>Fecha y hora</th>
 			<th>Veredicto</th>

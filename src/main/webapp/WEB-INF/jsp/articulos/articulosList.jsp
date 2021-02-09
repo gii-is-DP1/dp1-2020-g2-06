@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
 <%@ page session="false" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -6,8 +8,8 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>  
 
 <petclinic:layout pageName="articulos">
-    <h2>Artículos</h2>
-   <p><b>Aquí tienes todos los artículos que nuestros <a href="/tutores/">tutores</a> escriben para que aprendas cosas nuevas y saques todo el partido a los problemas que te propongas ;)</b> </p>
+    <h2>ArtÃ­culos</h2>
+   <p><b>AquÃ­ tienes todos los artÃ­culos que nuestros <a href="/tutores/">tutores</a> escriben para que aprendas cosas nuevas y saques todo el partido a los problemas que te propongas ;)</b> </p>
    <br>
     <div>
     <table class="table table-striped" id="articuloss">
