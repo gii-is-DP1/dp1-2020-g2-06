@@ -1,7 +1,6 @@
 package org.springframework.samples.petclinic.web;
 
 import java.io.IOException;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -14,8 +13,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,7 +30,9 @@ public class AclaracionController {
 	@Autowired
 	private AclaracionService aclaracionService;
 
-	
+	/*Para crear una aclaración se accede desde el formulario de problemaDetails. Por ello, invocamos a un método post /aclaraciones/new con el cual 
+	 * comprobamos si el Binding realizado en el formulario corresponde con los datos a insertar, o si tiene errores, y en caso contrario
+	 * se crea una aclaración con los datos de entrada recurriendo a los servicios necesarios*/
 	@PostMapping("/new")
 	public String processCreationForm(@Valid Aclaracion aclaracion, BindingResult result, ModelMap model, @RequestParam("idProblema") Integer idProblema) throws IOException {
 		if(result.hasErrors()) {

@@ -6,10 +6,7 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.model.Aclaracion;
 import org.springframework.samples.petclinic.model.Comentario;
 import org.springframework.samples.petclinic.model.Envio;
 import org.springframework.samples.petclinic.model.Problema;
@@ -61,6 +58,11 @@ public class EnvioController {
 	public String envioDetails(@PathVariable("id") int id, ModelMap model) throws IOException {
 		Optional<Envio> envio = envioService.findById(id);
 		if(envio.isPresent()) {
+			if(envio.get().getAlumno().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName()) || Utils.authLoggedIn().equals("tutor")) {
+				model.addAttribute("me",true);
+			}else {
+				model.addAttribute("me",false);
+			}
 			model.addAttribute("comentarioNuevo", new Comentario());
 			model.addAttribute("comentarios", envio.get().getListaComentarios());
 			model.addAttribute("envio",envio.get());

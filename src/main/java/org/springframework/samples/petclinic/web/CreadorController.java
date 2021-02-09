@@ -4,6 +4,7 @@ package org.springframework.samples.petclinic.web;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -16,11 +17,13 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Creador;
+import org.springframework.samples.petclinic.model.Problema;
 import org.springframework.samples.petclinic.service.AdministradorService;
 import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.AuthService;
 import org.springframework.samples.petclinic.service.CreadorService;
 import org.springframework.samples.petclinic.service.FileService;
+import org.springframework.samples.petclinic.service.ProblemaService;
 import org.springframework.samples.petclinic.service.TutorService;
 import org.springframework.samples.petclinic.util.Utils;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -60,6 +63,9 @@ public class CreadorController {
 	
 	@Autowired
 	AuthService authService;
+	
+	@Autowired
+	ProblemaService problemaService;
 	
 	@GetMapping("")
 	public String listCreadores(ModelMap model) {
@@ -119,6 +125,8 @@ public class CreadorController {
 			}else {
 				model.addAttribute("me",false);
 			}
+			Collection<Problema> problemasCreador = problemaService.findAllByCreador(creador.get().getId());
+			model.addAttribute("problemasCreador", problemasCreador);
 			model.addAttribute("creador", creador.get());
 			return "creadores/creadorDetails";
 		}else {

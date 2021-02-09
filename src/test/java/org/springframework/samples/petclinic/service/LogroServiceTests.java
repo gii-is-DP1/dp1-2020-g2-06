@@ -25,6 +25,7 @@ public class LogroServiceTests {
 	@Autowired
 	AlumnoService alumnoService;
 	
+	
 	@Test
 	public void shouldFindAll() {
 		assertThat(logroService.findAll().size()).isGreaterThan(0);
@@ -43,7 +44,13 @@ public class LogroServiceTests {
 			Logro logro = logroService.findById(99).get();
 		});
 		
-		
+	}
+	
+	@Test
+	public void shouldObtenerLogros() {
+		Alumno alumno = alumnoService.findById(1).get();
+		Collection<Logro> logros = logroService.obtenerLogros(alumno);
+		assertThat(logros.size()).isEqualTo(1);
 	}
 	
 
