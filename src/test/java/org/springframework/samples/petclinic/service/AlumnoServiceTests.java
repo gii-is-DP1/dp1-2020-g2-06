@@ -3,6 +3,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -11,6 +12,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.util.Pair;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Envio;
 import org.springframework.samples.petclinic.model.Problema;
@@ -101,6 +106,45 @@ public class AlumnoServiceTests {
 			assertThat(problemas.size()).isEqualTo(0);
 		}
 		
-
+		@Test
+		public void shouldGetRankingTotal() {
+			
+			List<Pair<Alumno, Integer>> rankingTotal =alumnoService.rankingTotal();
+			assertThat(rankingTotal.size()).isEqualTo(10);
+			
+		}
+		
+		@Test
+		public void shouldGetRankingTemporada() {
+			
+			List<Pair<Alumno, Integer>> rankingTemporada =alumnoService.rankingTemporada();
+			assertThat(rankingTemporada.size()).isEqualTo(10);
+			
+		}
+		
+		@Test
+		public void shouldGetRankingAnual() {
+			
+			List<Pair<Alumno, Integer>> rankingAnual =alumnoService.rankingAnual();
+			assertThat(rankingAnual.size()).isEqualTo(10);
+			
+		}
+		
+		@Test
+		public void shouldFindAllPage() {
+			Pageable pageableA = PageRequest.of(0, 5, Sort.by("id").descending());
+			assertThat(alumnoService.findAllPage(pageableA).getSize()).isEqualTo(5);
+			
+		}
+		
+		@Test
+		public void shouldFindByToken() {
+			Alumno alumno = alumnoService.findByToken("JHNuaWEkbnQkMnJhcm1vbjEw").get();
+			assertThat(alumno.getEmail()).isEqualTo("rarmon@alum.us.es");
+			
+		}
+		
+		/// La funcion de enviar correo electronico no es posible testearla ya que devuelve void
+		/// y para poder comprobarla tendría que certificarse que se ha recibido un correo en el destinatario
 		
 }
