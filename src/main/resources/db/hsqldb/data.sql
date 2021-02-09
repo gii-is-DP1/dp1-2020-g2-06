@@ -194,34 +194,34 @@ INSERT INTO ARTICULOS_AUTORES(ARTICULO_ID,AUTORES_ID) VALUES (13,0);
 
 
 
-INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir) VALUES (0,true,'Daniel','Montes','rarmon@alum.us.es','resources/images/alumnos/20201223154714879157200.jpg','$2a$10$saNfL08X/Pnekubb3jgRYudKJWuudOc07VCu5iV9u80aqq5vrx0vW',true);
+INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir,confirmation_token) VALUES (0,true,'Daniel','Montes','rarmon@alum.us.es','resources/images/alumnos/20201223154714879157200.jpg','$2a$10$saNfL08X/Pnekubb3jgRYudKJWuudOc07VCu5iV9u80aqq5vrx0vW',true, 'JHNuaWEkbnQkMnJhcm1vbjEw');
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (7,0,null,null,null,'alumno');
 
-INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir) VALUES (1,true,'Marina','Moya','marmozam@alum.us.es','resources/images/alumnos/20201223155839395152900.jpg','$2a$10$d.yXv5TvwE0cJBiBJSph/.G1dkUPRD3tOxGsk5ova6W0GI7xfeBYy',false);
+INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir,confirmation_token) VALUES (1,true,'Marina','Moya','marmozam@alum.us.es','resources/images/alumnos/20201223155839395152900.jpg','$2a$10$d.yXv5TvwE0cJBiBJSph/.G1dkUPRD3tOxGsk5ova6W0GI7xfeBYy',false, 'JGRyaWEkbyQybWFybW96YW0xMA==');
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (8,1,null,null,null,'alumno');
 
-INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir) VALUES (2,true,'Alexis','Balboa','alexisbalbo@alum.us.es','resources/images/alumnos/20201223155630996653000.jpeg','$2a$10$H86UgOI2vQSDWKohZGu8dutlkZMIGJUQ9rZ7PBUGcg7YSKNL21Pmi',true);
+INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir,confirmation_token) VALUES (2,true,'Alexis','Balboa','alexisbalbo@alum.us.es','resources/images/alumnos/20201223155630996653000.jpeg','$2a$10$H86UgOI2vQSDWKohZGu8dutlkZMIGJUQ9rZ7PBUGcg7YSKNL21Pmi',true, 'JEhleGEkbGIkMmFsZXhpc2JhbGJvMTA=');
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (9,2,null,null,null,'alumno');
 
-INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir) VALUES (3,true,'Amador','Duran','amadordur@alum.us.es','resources/images/alumnos/20201223155630996654000.jpg','$2a$10$H86UgOI2vQSDWKohZGu8dutlkZMIGJUQ9rZ7PBUGcg7YSKNL21Pmi',true);
+INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir,confirmation_token) VALUES (3,true,'Amador','Duran','amadordur@alum.us.es','resources/images/alumnos/20201223155630996654000.jpg','$2a$10$H86UgOI2vQSDWKohZGu8dutlkZMIGJUQ9rZ7PBUGcg7YSKNL21Pmi',true, 'JEhhZGEkdXIkMmFtYWRvcmR1cjEw');
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (10,3,null,null,null,'alumno');
 
-INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir) VALUES (4,true,'Benito','Perez','benitper@alum.us.es','resources/images/alumnos/20201223155630996655000.jpg','$2a$10$H86UgOI2vQSDWKohZGu8dutlkZMIGJUQ9rZ7PBUGcg7YSKNL21Pmi',true);
+INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir,confirmation_token) VALUES (4,true,'Benito','Perez','benitper@alum.us.es','resources/images/alumnos/20201223155630996655000.jpg','$2a$10$H86UgOI2vQSDWKohZGu8dutlkZMIGJUQ9rZ7PBUGcg7YSKNL21Pmi',true, 'JEhuaWEkZXIkMmJlbml0cGVyMTA=');
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (11,4,null,null,null,'alumno');
 
-INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir) VALUES (5,true,'Lucia','Peña','lucype@alum.us.es','resources/images/alumnos/20201223155630996656000.jpg','$2a$10$H86UgOI2vQSDWKohZGu8dutlkZMIGJUQ9rZ7PBUGcg7YSKNL21Pmi',true);
+INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir,confirmation_token) VALUES (5,true,'Lucia','Peña','lucype@alum.us.es','resources/images/alumnos/20201223155630996656000.jpg','$2a$10$H86UgOI2vQSDWKohZGu8dutlkZMIGJUQ9rZ7PBUGcg7YSKNL21Pmi',true, 'JEh1Y2EkZSQybHVjeXBlMTA=');
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (12,5,null,null,null,'alumno');
 
-INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir) VALUES (6,true,'Maria','Moya','marmoya@alum.us.es','resources/images/alumnos/20201223155630996657000.jpg','$2a$10$H86UgOI2vQSDWKohZGu8dutlkZMIGJUQ9rZ7PBUGcg7YSKNL21Pmi',true);
+INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir,confirmation_token) VALUES (6,true,'Maria','Moya','marmoya@alum.us.es','resources/images/alumnos/20201223155630996657000.jpg','$2a$10$H86UgOI2vQSDWKohZGu8dutlkZMIGJUQ9rZ7PBUGcg7YSKNL21Pmi',true, 'JEhhcmEkbyQybWFybW95YTEw');
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (13,6,null,null,null,'alumno');
 
-INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir) VALUES (7,true,'Paulino','Castells','paucasgar@alum.us.es','resources/images/alumnos/20201224184210193000001.jpg','$2a$10$H86UgOI2vQSDWKohZGu8dutlkZMIGJUQ9rZ7PBUGcg7YSKNL21Pmi',true);
+INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir,confirmation_token) VALUES (7,true,'Paulino','Castells','paucasgar@alum.us.es','resources/images/alumnos/20201224184210193000001.jpg','$2a$10$H86UgOI2vQSDWKohZGu8dutlkZMIGJUQ9rZ7PBUGcg7YSKNL21Pmi',true, 'JEh1bGEkc3RlJDJwYXVjYXNnYXIxMA==');
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (14,7,null,null,null,'alumno');
 
-INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir) VALUES (8,true,'Rosario','Mellado','rosmedmar@alum.us.es','resources/images/alumnos/2020122317841918000000.jpg','$2a$10$H86UgOI2vQSDWKohZGu8dutlkZMIGJUQ9rZ7PBUGcg7YSKNL21Pmi',true);
+INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir,confirmation_token) VALUES (8,true,'Rosario','Mellado','rosmedmar@alum.us.es','resources/images/alumnos/2020122317841918000000.jpg','$2a$10$H86UgOI2vQSDWKohZGu8dutlkZMIGJUQ9rZ7PBUGcg7YSKNL21Pmi',true, 'JEhzYWEkbGwkMnJvc21lZG1hcjEw');
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (15,8,null,null,null,'alumno');
 
-INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir) VALUES (9,true,'Maria Jesus','Tejera','frajestej@alum.us.es','resources/images/alumnos/20201224184210193000000.jpg','$2a$10$H86UgOI2vQSDWKohZGu8dutlkZMIGJUQ9rZ7PBUGcg7YSKNL21Pmi',true);
+INSERT INTO alumnos(id,enabled,nombre,apellidos,email,imagen,pass,compartir,confirmation_token) VALUES (9,true,'Maria Jesus','Tejera','frajestej@alum.us.es','resources/images/alumnos/20201224184210193000000.jpg','$2a$10$H86UgOI2vQSDWKohZGu8dutlkZMIGJUQ9rZ7PBUGcg7YSKNL21Pmi',true, 'JEhpYSBKYSRqZSQyZnJhamVzdGVqMTA=');
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (16,9,null,null,null,'alumno');
 
 

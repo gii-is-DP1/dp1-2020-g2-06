@@ -14,13 +14,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.FilterType;
-import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
-import org.springframework.samples.petclinic.model.Aclaracion;
 import org.springframework.samples.petclinic.model.Alumno;
 import org.springframework.samples.petclinic.model.Comentario;
 import org.springframework.samples.petclinic.model.Envio;
@@ -28,10 +23,7 @@ import org.springframework.samples.petclinic.model.Problema;
 import org.springframework.samples.petclinic.model.Temporada;
 import org.springframework.samples.petclinic.service.AlumnoService;
 import org.springframework.samples.petclinic.service.AuthService;
-import org.springframework.samples.petclinic.service.ComentarioService;
 import org.springframework.samples.petclinic.service.EnvioService;
-import org.springframework.samples.petclinic.service.ProblemaService;
-import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
@@ -102,8 +94,6 @@ public class ComentarioControllerTests {
 			envio.setSeason(aux);
 			envio.setSeasonYear(2020);
 			
-			
-	
 	}
 	
 	//Historia de usuario 19 caso positivo
@@ -134,7 +124,8 @@ public class ComentarioControllerTests {
 				.andExpect(view().name("/envios/0"));
 		}
 	
-	@WithMockUser(value = "spring",authorities={"tutor", "creador", "administrador"})
+	//Historia de usuario 19 caso negativo
+	@WithMockUser(value = "spring",authorities={"tutor"})
     @Test
     void testProcessCreationFormNotAsAlumno() throws Exception {
 		given(envioService.findById(TEST_ALUMNO_ID)).willReturn(Optional.of(envio));

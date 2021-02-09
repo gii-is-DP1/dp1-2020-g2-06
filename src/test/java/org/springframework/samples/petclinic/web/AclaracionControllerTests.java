@@ -92,6 +92,7 @@ public class AclaracionControllerTests {
 	
 	}
 	
+	//Caso positivo de HU-16+E1 Aclaraciones en Problemas
 	@WithMockUser(username="jesus@us.es",authorities="tutor")
     @Test
     void testProcessCreationFormSuccessAsTutor() throws Exception {
@@ -103,6 +104,7 @@ public class AclaracionControllerTests {
 			.andExpect(view().name("redirect:/problemas/0"));
 	}
 	
+	//Caso negativo de HU-16-E1 Aclaraciones en Problemas
 	@WithMockUser(username = "jesus@us.es",authorities="tutor")
     @Test
     void testProcessCreationFormFailWithTextAttributeEmptyAsTutor() throws Exception {
@@ -113,7 +115,7 @@ public class AclaracionControllerTests {
 			.andExpect(model().hasErrors());
 	}
 	
-	
+	//Caso negativo de HU-16-E2 Aclaraciones en Problemas
 	@WithMockUser(value = "spring",authorities="creador")
     @Test
     void testProcessCreationFormClientErrorAsCreador() throws Exception {

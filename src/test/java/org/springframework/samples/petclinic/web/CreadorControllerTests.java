@@ -3,31 +3,19 @@ package org.springframework.samples.petclinic.web;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import java.awt.print.Pageable;
-import java.util.ArrayList;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.FilterType;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.SliceImpl;
-import org.springframework.data.domain.Sort;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
-import org.springframework.samples.petclinic.model.Articulo;
 import org.springframework.samples.petclinic.model.Creador;
 import org.springframework.samples.petclinic.service.AdministradorService;
 import org.springframework.samples.petclinic.service.AlumnoService;
@@ -35,7 +23,6 @@ import org.springframework.samples.petclinic.service.AuthService;
 import org.springframework.samples.petclinic.service.CreadorService;
 import org.springframework.samples.petclinic.service.FileService;
 import org.springframework.samples.petclinic.service.TutorService;
-import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
 import org.springframework.test.annotation.DirtiesContext;
@@ -98,6 +85,7 @@ public class CreadorControllerTests {
 			given(this.creadorService.findById(TEST_CREADOR_ID)).willReturn(c);
 		}
 	
+	//Historia de usuario 26 caso positivo
 	@WithMockUser(value = "spring", authorities= {"administrador"})
 	@Test
 	void testInitCreationForm() throws Exception {
@@ -105,6 +93,7 @@ public class CreadorControllerTests {
 		.andExpect(view().name("creadores/createOrUpdateCreadorForm"));
 	}
 	
+	//Historia de usuario 26 y 28 casos positivos
 	@WithMockUser(value = "spring", authorities= {"creador", "administrador"})
 	@Test
 	void testcomprobarUrls() throws Exception {
@@ -114,6 +103,7 @@ public class CreadorControllerTests {
 		mockMvc.perform(get("/creadores/"+TEST_CREADOR_ID+"/edit")).andExpect(status().isOk());
 	}
 	
+	//Historia de usuario 26 caso positivo
 	@WithMockUser(username = "DBGames@us.es", authorities= {"creador", "administrador"})
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
@@ -130,6 +120,7 @@ public class CreadorControllerTests {
 		
 	}
 	
+	//Historia de usuario 28 y 1 caso positivo
 	@WithMockUser(username = "DBGames@us.es", authorities= {"creador", "administrador"})
 	@Test
 	void testProcessUpdateCreadorFormSuccess() throws Exception {
@@ -145,6 +136,7 @@ public class CreadorControllerTests {
 				.andExpect(status().isOk());
 	}
 	
+	//Historia de usuario 26 caso negativo
 	@WithMockUser(username = "DBGames@us.es", authorities= {"creador", "administrador"})
 	@Test
 	void testProcessCreationFormFailure() throws Exception {
@@ -157,7 +149,8 @@ public class CreadorControllerTests {
 				.andExpect(status().isOk())
 				.andExpect(view().name("creadores/createOrUpdateCreadorForm"));
 	}
-	
+
+	//Historia de usuario 1, 26 y 28 caso negativo
     @WithMockUser(authorities = {"alumno", "tutor"})
 	@Test
 	void testProcessCreateAndUpdateCreadorFormAuthErrors() throws Exception {

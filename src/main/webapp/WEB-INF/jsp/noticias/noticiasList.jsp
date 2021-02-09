@@ -159,7 +159,7 @@
 	    for(var i = 0; i < noticiaspag.length; i++){
 	    	
 	    	$("#noticias").append("<table class='table table-striped'> <tr> <td> <h3> <a href='/noticias/"+noticiaspag[i]['id']+"'>"+ noticiaspag[i]['name'] + 
-	    			 "</h3></a> "+noticiaspag[i]['fechaPublicacion'] +"</td> </tr> <tr> <td> <p style='text-align:center'> <img src='/"+noticiaspag[i]['imagen']+"'width='400px'> </p> </td> </tr> <tr><td>"+ noticiaspag[i]['texto'].substring(0,500) +"... <a href='/noticias/"+noticiaspag[i]['id']+"'> Seguir leyendo </a> </td></tr></table>");
+	    			 "</h3></a> "+noticiaspag[i]['fechaPublicacionFormat'] +"</td> </tr> <tr> <td> <p style='text-align:center'> <img src='/"+noticiaspag[i]['imagen']+"'width='400px'> </p> </td> </tr> <tr><td>"+ noticiaspag[i]['texto'].substring(0,500) +"... <a href='/noticias/"+noticiaspag[i]['id']+"'> Seguir leyendo </a> </td></tr></table>");
 	    	
 	    }
 	    console.log(noticias);

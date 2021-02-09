@@ -41,7 +41,7 @@ public class Articulo extends NamedEntity{
 	@NotEmpty(message= "El campo 'Texto' no puede estar vacío")
 	private String texto;
 	
-	public String getFechaPublicacion() {
+	public String getFechaPublicacionFormat() {
 		return fechaPublicacion.getDayOfMonth() + " de " + Utils.getMonthName(fechaPublicacion.getMonthValue())  + " de " + fechaPublicacion.getYear();
 	}
 
