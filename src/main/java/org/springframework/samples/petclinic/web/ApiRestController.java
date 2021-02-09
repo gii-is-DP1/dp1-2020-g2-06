@@ -41,7 +41,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api")
 public class ApiRestController {
 	
-	final int pagsize = 10;
+	final int pagsize = 7;
 	
 	@Autowired
 	TutorService tutorService;
