@@ -261,8 +261,32 @@ INSERT INTO administradores(id,email,pass,enabled) VALUES (2, 'administrador3@us
 INSERT INTO auths(id,id_alumno,id_tutor,id_creador,id_administrador,authority) VALUES (25,null,null,null,2,'administrador');
 
 
-INSERT INTO publicaciones(id,id_alumno,fecha,texto) VALUES (0,0,'2018-11-21T11:13:13.274','Estais listos para el Ada Byron?! Nos van a machacar!!!');
-INSERT INTO publicaciones(id,id_alumno,fecha,texto) VALUES (1,1,'2018-11-22T11:13:13.274','A alguien le da TLE también el de Rarmon? No veo cómo hacerlo.');
+INSERT INTO publicaciones(id,id_alumno,fecha,texto) VALUES (0,0,'2011-01-12T11:13:13.274','Me gusta Java');
+INSERT INTO publicaciones(id,id_alumno,fecha,texto) VALUES (1,1,'2012-01-12T11:13:13.274','Me gusta Java');
+INSERT INTO publicaciones(id,id_alumno,fecha,texto) VALUES (2,2,'2013-01-12T11:13:13.274','Me gusta Java');
+INSERT INTO publicaciones(id,id_alumno,fecha,texto) VALUES (3,3,'2014-01-12T11:13:13.274','Me gusta Java');
+INSERT INTO publicaciones(id,id_alumno,fecha,texto) VALUES (4,4,'2015-01-12T11:13:13.274','Me gusta Java');
+INSERT INTO publicaciones(id,id_alumno,fecha,texto) VALUES (5,5,'2016-01-12T11:13:13.274','Me gusta Java');
+INSERT INTO publicaciones(id,id_alumno,fecha,texto) VALUES (6,6,'2017-01-12T11:13:13.274','Me gusta Java');
+INSERT INTO publicaciones(id,id_alumno,fecha,texto) VALUES (7,9,'2021-01-12T11:13:13.274','Viva CodeUS');
+INSERT INTO publicaciones(id,id_alumno,fecha,texto) VALUES (8,0,'2021-01-12T11:13:13.274','Viva CodeUS');
+INSERT INTO publicaciones(id,id_alumno,fecha,texto) VALUES (9,2,'2021-01-12T11:13:13.274','Viva CodeUS');
+INSERT INTO publicaciones(id,id_alumno,fecha,texto) VALUES (10,3,'2021-01-12T11:13:13.274','Viva CodeUS');
+INSERT INTO publicaciones(id,id_alumno,fecha,texto) VALUES (11,5,'2021-01-12T11:13:13.274','Viva CodeUS');
+INSERT INTO publicaciones(id,id_alumno,fecha,texto) VALUES (12,4,'2021-01-12T11:13:13.274','Viva CodeUS');
+INSERT INTO publicaciones(id,id_alumno,fecha,texto) VALUES (13,2,'2021-01-12T11:13:13.274','Viva CodeUS');
+INSERT INTO publicaciones(id,id_alumno,fecha,texto) VALUES (14,8,'2021-01-12T11:13:13.274','Viva CodeUS');
+INSERT INTO publicaciones(id,id_alumno,fecha,texto) VALUES (15,0,'2020-11-21T11:13:13.274','Chicos checkead esta pagina!! Es GENIAL! https://www.geeksforgeeks.org/');
+INSERT INTO publicaciones(id,id_alumno,fecha,texto) VALUES (16,1,'2020-11-22T12:00:13.274','Miguel Toro ha colgado en su github unos ejemplos de arboles muy útiles, echadles un vistazo. https://github.com/migueltoro/adda2021.git');
+INSERT INTO publicaciones(id,id_alumno,fecha,texto) VALUES (17,4,'2020-12-27T18:10:13.274','Aaaaa no consigo sacar el problema 7, alguien me echa una mano? Sin darme la solución :)');
+INSERT INTO publicaciones(id,id_alumno,fecha,texto) VALUES (18,6,'2020-12-27T19:13:13.274','Muy bueno el problema de Pánico en el tunel intentad hacerlo!');
+INSERT INTO publicaciones(id,id_alumno,fecha,texto) VALUES (19,5,'2020-12-29T11:13:13.274','Marina te veo muy bien en el ranking!!');
+INSERT INTO publicaciones(id,id_alumno,fecha,texto) VALUES (20,5,'2020-11-22T11:13:13.274','Super interesante el artículo "James Gosling, y su gran aportación" leerselo si teneis tiempo, os lo recomiendo.');
+INSERT INTO publicaciones(id,id_alumno,fecha,texto) VALUES (21,9,'2021-01-12T11:13:13.274','Me encantan los problemas de esta temporada, que chulos!');
+INSERT INTO publicaciones(id,id_alumno,fecha,texto) VALUES (22,8,'2021-01-14T11:13:13.274','Hola soy nueva, algun consejo?');
+INSERT INTO publicaciones(id,id_alumno,fecha,texto) VALUES (23,1,'2021-01-14T14:13:13.274','Mirate las normas, ahí está más o menos todo explicado');
+INSERT INTO publicaciones(id,id_alumno,fecha,texto) VALUES (24,5,'2021-01-15T11:13:13.274','Me encanta Python!');
+INSERT INTO publicaciones(id,id_alumno,fecha,texto) VALUES (25,9,'2021-01-16T11:13:13.274','Yo prefiero Java :/');
 
 INSERT INTO pregunta(id,id_tutor,id_alumno,id_problema, pregunta, respuesta) VALUES (0,null,0,0,'¿La moneda es de euro?', null);
 INSERT INTO pregunta(id,id_tutor,id_alumno,id_problema, pregunta, respuesta) VALUES (1,null,1,0,'¿La moneda es de 2 euros?', null);
