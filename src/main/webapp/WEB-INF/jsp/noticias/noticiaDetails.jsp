@@ -41,7 +41,9 @@
              <c:forEach items="${noticia.autores}" var="autor">
              	<tr>
              		<td>
+             			<a href="/tutores/${autor.id}/">
              			<c:out value="${autor.nombre}"/>&nbsp;<c:out value="${autor.apellidos}"/>
+             			</a>
              		</td>             
              	</tr>
              </c:forEach>

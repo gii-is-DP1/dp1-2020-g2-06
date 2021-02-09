@@ -5,6 +5,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+
+import javax.imageio.ImageIO;
+
+import java.awt.image.BufferedImage;
 import java.io.File;
 
 import org.junit.jupiter.api.Test;
@@ -69,6 +73,22 @@ public class FileServiceTests {
 			}
 			assertThat(content).isEqualTo(content2);
 			this.fileService.saveFile(fichero, Paths.get("TestTxt"), "testDelete.txt");
+		}
+		
+		@Test
+		public void shouldCropImage() throws IOException {
+
+			// imagen que no es cuadrada (width != height)
+			fileService.imageCrop("resources/images/kdfjaodf6dlasd7prueba.png", fileService);
+			
+			File imageFile2 = new File("src/main/resources/static/resources/images/kdfjaodf6dlasd7prueba.png");
+			BufferedImage init2 = ImageIO.read(imageFile2);
+			
+			// comprobamos que despues de aplicar imageCrop si lo es
+			
+			boolean res = init2.getHeight() == init2.getWidth();
+			assertThat(res).isEqualTo(true);
+			
 		}
 		
 }

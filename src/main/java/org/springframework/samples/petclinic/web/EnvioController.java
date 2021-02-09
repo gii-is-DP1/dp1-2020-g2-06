@@ -6,10 +6,7 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.model.Aclaracion;
 import org.springframework.samples.petclinic.model.Comentario;
 import org.springframework.samples.petclinic.model.Envio;
 import org.springframework.samples.petclinic.model.Problema;

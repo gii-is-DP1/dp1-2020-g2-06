@@ -127,9 +127,10 @@ public class AlumnoService {
 		return alumnoRepository.findByEmail(email);
 	}
 
-	public Collection<Alumno> sortedByPunctuation() {
-		return alumnoRepository.findAll();
-	}
+//	public Collection<Alumno> sortedByPunctuation() {
+//		return alumnoRepository.findAll();
+//	}
+	
 	public Slice<Alumno> findAllPage(Pageable pageable){
 		return alumnoRepository.findAllPageable(pageable);
 	}

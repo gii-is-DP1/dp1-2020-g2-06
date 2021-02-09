@@ -11,6 +11,9 @@
     <h2>Foro</h2>
           <p><b>¡Comparte con tus compañeros tus inquietudes en el foro! Lee las <a href="/normasWeb">normas de la web</a> antes de hacer cualquier publicación. ¡Respeta y disfruta!</b></p>
 		<br>
+		 <div id="ListaPublicaciones">
+    	
+    </div>
 	<sec:authorize access="hasAuthority('alumno')">
 		<h2>Escribe tu mensaje</h2>
 		<form:form action="/foro/new" modelAttribute="publicacion" class="form-horizontal" id="add-owner-form">
@@ -28,9 +31,7 @@
     
     
     
-    <div id="ListaPublicaciones">
-    	
-    </div>
+   
     
     <div style="text-align: center;" id="paginas">
     	<img id="izquierda-publicacion" width="11px" style="cursor:pointer;"></img> <span id="numero-publicacion"></span> <img id="derecha-publicacion" width="11px" style="cursor:pointer;"></img>
