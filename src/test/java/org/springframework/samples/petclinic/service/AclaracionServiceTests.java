@@ -13,7 +13,6 @@ import org.springframework.samples.petclinic.model.Aclaracion;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
-@ExtendWith (MockitoExtension.class)
 public class AclaracionServiceTests {
 				
 		@Autowired
