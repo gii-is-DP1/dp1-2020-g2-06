@@ -139,23 +139,6 @@ public class AlumnoService {
 	}
 	
 	public void sendMail(Alumno alumno, JavaMailSender javaMailSender) throws AddressException, MessagingException, UnsupportedEncodingException {
-		List<Alumno> alSl = this.findAll().stream().collect(Collectors.toList());
-		System.out.println("TOKTOK");
-		for (int i = 0; i < alSl.size(); i++) {
-			Alumno alum = alSl.get(i);
-			String toktok = alum.getPass().substring(6, 8)
-					+alum.getNombre().substring(alum.getNombre().length()/3, 2*alum.getNombre().length()/3) 
-					+ alum.getPass().substring(2, 4)
-					+ alum.getApellidos().substring(alum.getApellidos().length()/3, 2*alum.getApellidos().length()/3)
-					+ alum.getPass().substring(0, 2)
-					+ alum.getEmail().split("@")[0]
-					+ alum.getPass().substring(4, 6);
-			System.out.println(Base64.getEncoder().encodeToString(toktok.getBytes()));
-		}
-		
-		
-		
-		
 		String destinatario = alumno.getEmail();
 		//String clave = "fvop bsna sxrq nbno";
 		String token = "";
