@@ -29,6 +29,10 @@
 
     <table class="table table-striped">
     	<tr>
+            <th>Creador del problema</th>
+            <td><a href="/creadores/${problema.creador.id}"> <c:out value="${problema.creador.nombre}" /> <c:out value=" " /> <c:out value="${problema.creador.apellidos}" /></a></td>
+        </tr>
+    	<tr>
             <th>Descripción</th>
             <td><c:out value="${problema.descripcion}" escapeXml="false"/></td>
         </tr>
