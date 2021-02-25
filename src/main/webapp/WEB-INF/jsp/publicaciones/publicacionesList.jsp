@@ -14,7 +14,12 @@
 		 <div id="ListaPublicaciones">
     	
     </div>
-	<sec:authorize access="hasAuthority('alumno')">
+    
+    <div style="text-align: center;" id="paginas">
+    	<img id="izquierda-publicacion" width="11px" style="cursor:pointer;"></img> <span id="numero-publicacion"></span> <img id="derecha-publicacion" width="11px" style="cursor:pointer;"></img>
+    </div>
+    
+    <sec:authorize access="hasAuthority('alumno')">
 		<h2>Escribe tu mensaje</h2>
 		<form:form action="/foro/new" modelAttribute="publicacion" class="form-horizontal" id="add-owner-form">
 	        <div class="form-group has-feedback">
@@ -28,21 +33,14 @@
 	    </form:form>
 	 </sec:authorize>
     
-    
-    
-    
-   
-    
-    <div style="text-align: center;" id="paginas">
-    	<img id="izquierda-publicacion" width="11px" style="cursor:pointer;"></img> <span id="numero-publicacion"></span> <img id="derecha-publicacion" width="11px" style="cursor:pointer;"></img>
-    </div>
-    
     <script>
 //////////////////////////////////
     
 	///// paginacion publicaciones 
 	
+	
     function publicacionespaginable(page){
+    	scroll(0,0);
     	var publicacionespag = paginate(page,'/api/PageablePublicaciones?page=');
     	var nextpublicacionpag = paginate(page+1,'/api/PageablePublicaciones?page=');
     	if(!(page==1 && nextpublicacionpag.length==0))
